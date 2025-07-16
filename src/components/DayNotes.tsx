@@ -37,7 +37,7 @@ export const DayNotes: React.FC<DayNotesProps> = ({ dayId, notes, onSaveNotes })
       </div>
 
       {isEditing ? (
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <textarea
             className="w-full p-8 border border-gray-300 rounded-3xl resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
             rows={6}
@@ -45,7 +45,7 @@ export const DayNotes: React.FC<DayNotesProps> = ({ dayId, notes, onSaveNotes })
             value={currentNotes}
             onChange={(e) => setCurrentNotes(e.target.value)}
           />
-          <div className="flex flex-col sm:flex-row gap-6">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
             <button
               className="flex-1 px-8 py-4 bg-green-500 text-white font-semibold rounded-3xl hover:bg-green-600 transition-colors"
               onClick={handleSave}
@@ -61,7 +61,7 @@ export const DayNotes: React.FC<DayNotesProps> = ({ dayId, notes, onSaveNotes })
           </div>
         </div>
       ) : (
-        <div className="min-h-[8rem] p-8 bg-white rounded-3xl border border-gray-200">
+        <div className="min-h-[8rem] p-6 sm:p-8 bg-white rounded-3xl border border-gray-200">
           {notes ? (
             <p className="text-gray-700 whitespace-pre-wrap text-base leading-relaxed">{notes}</p>
           ) : (
