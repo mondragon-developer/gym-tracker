@@ -21,7 +21,7 @@ export const ExerciseInput: React.FC<ExerciseInputProps> = ({ exercise, onProgre
 
   return (
     <div className="exercise-inputs">
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
         <div className="input-group">
           <label className="text-sm font-semibold text-gray-700 block mb-4">
             Effective Sets

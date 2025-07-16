@@ -39,9 +39,9 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
   return (
     <div className="day-accordion rounded-3xl shadow-lg overflow-hidden border border-gray-200 bg-white">
       <div
-        className={`day-header cursor-pointer flex justify-between items-center p-10 text-white transition-all duration-300 ${
-          isOpen 
-            ? 'bg-green-500 rounded-t-3xl' 
+        className={`day-header cursor-pointer flex justify-between items-center p-6 sm:p-10 text-white transition-all duration-300 ${
+          isOpen
+            ? 'bg-green-500 rounded-t-3xl'
             : 'bg-gray-700 hover:bg-gray-600 rounded-3xl'
         }`}
         onClick={() => onToggle(day.id)}
@@ -53,13 +53,13 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
       </div>
       
       <div className={`day-content transition-all duration-600 overflow-hidden ${isOpen ? 'active' : ''}`}>
-        <div className="p-10 space-y-10">
+        <div className="p-6 sm:p-10 space-y-8 sm:space-y-10">
           {exercises.length === 0 ? (
             <div className="text-center py-20">
               <div className="bg-gray-50 rounded-3xl p-16 border border-gray-200">
                 <h3 className="text-xl font-semibold text-gray-600 mb-10">No exercises for today</h3>
                 <p className="text-gray-500 mb-12">This day is currently empty. You can:</p>
-                <div className="flex flex-col sm:flex-row gap-10 justify-center">
+                <div className="flex flex-col sm:flex-row gap-6 sm:gap-10 justify-center">
                   <button 
                     className="px-12 py-6 bg-blue-500 text-white font-semibold rounded-3xl shadow-lg hover:bg-blue-600 transition-colors"
                     onClick={() => onRestoreDefaultExercises(day.id)}
@@ -101,7 +101,7 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
               </div>
 
               {/* Exercise List */}
-              <div className="space-y-10">
+              <div className="space-y-8 sm:space-y-10">
                 {exercises.map(exercise => (
                   <ExerciseItem
                     key={exercise.id}

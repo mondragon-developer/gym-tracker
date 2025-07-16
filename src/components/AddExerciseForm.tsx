@@ -78,8 +78,8 @@ export const AddExerciseForm: React.FC<AddExerciseFormProps> = ({
   if (!isVisible) return null;
 
   return (
-    <div className={`custom-exercise-form bg-gray-50 rounded-3xl shadow-lg border border-gray-200 p-8 mb-8 ${isVisible ? 'active' : ''}`}>
-      <div className="space-y-6">
+    <div className={`custom-exercise-form bg-gray-50 rounded-3xl shadow-lg border border-gray-200 p-6 sm:p-8 mb-8 ${isVisible ? 'active' : ''}`}>
+      <div className="space-y-6 sm:space-y-8">
         <div className="text-center">
           <h3 className="text-lg font-bold text-gray-700 mb-2">✨ Add New Exercise</h3>
           <p className="text-sm text-gray-600">Choose from our database or create a custom exercise</p>
@@ -117,7 +117,7 @@ export const AddExerciseForm: React.FC<AddExerciseFormProps> = ({
         
         {/* Manual Input Fields */}
         {(isCustom || exerciseOptions.length === 0) && (
-          <div className="mobile-grid gap-6">
+          <div className="mobile-grid gap-6 sm:gap-8">
             <div>
               <label className="text-sm font-medium text-gray-700 block mb-3">🏋️ Exercise Name</label>
               <input

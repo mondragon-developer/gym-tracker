@@ -156,10 +156,10 @@ export const GymTracker: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen p-16 bg-gray-100">
-      <div className="container max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gray-100 p-6 sm:p-10 lg:p-16">
+      <div className="container max-w-4xl mx-auto space-y-12">
         {/* Header */}
-        <div className="bg-white rounded-3xl shadow-md p-16 mb-16">
+        <div className="bg-white rounded-3xl shadow-md p-8 sm:p-12 lg:p-16 mb-12 sm:mb-16">
           <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
             6-Day Gym Training Program
           </h1>
@@ -169,7 +169,7 @@ export const GymTracker: React.FC = () => {
         </div>
 
         {/* Progress Bar */}
-        <div className="mb-16">
+        <div className="mb-12 sm:mb-16">
           <ProgressBar
             progress={state.weeklyProgress}
             onReset={handleResetProgress}
@@ -177,7 +177,7 @@ export const GymTracker: React.FC = () => {
         </div>
 
         {/* Days Container */}
-        <div className="days-container space-y-12">
+        <div className="days-container space-y-8 sm:space-y-12">
           {state.days.map(day => (
             <DayAccordion
               key={day.id}
