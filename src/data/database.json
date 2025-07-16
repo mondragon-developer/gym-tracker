@@ -1,0 +1,586 @@
+{
+  "exercises": {
+    "chest": [
+      {
+        "name": "Barbell Bench Press",
+        "sets": "4 sets × 8-10 reps",
+        "videoUrl": "https://www.youtube.com/embed/8M1rNIdkKAM5",
+        "muscle": "Chest",
+        "equipment": "Barbell, Bench"
+      },
+      {
+        "name": "Dumbbell Press",
+        "sets": "4 sets × 8-10 reps",
+        "videoUrl": "https://www.youtube.com/embed/8M1rNIdkKAM6",
+        "muscle": "Chest",
+        "equipment": "Dumbbells, Bench"
+      },
+      {
+        "name": "Push-Ups",
+        "sets": "3 sets × 15-20 reps",
+        "videoUrl": "https://www.youtube.com/embed/8M1rNIdkKAM7",
+        "muscle": "Chest",
+        "equipment": "Bodyweight"
+      },
+      {
+        "name": "Machine Chest Press",
+        "sets": "3 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/8M1rNIdkKAM8",
+        "muscle": "Chest",
+        "equipment": "Machine"
+      },
+      {
+        "name": "Dumbbell Flyes",
+        "sets": "3 sets × 12-15 reps",
+        "videoUrl": "https://www.youtube.com/embed/8M1rNIdkKAM9",
+        "muscle": "Chest",
+        "equipment": "Dumbbells, Bench"
+      },
+      {
+        "name": "Cable Crossovers",
+        "sets": "3 sets × 12-15 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_10",
+        "muscle": "Chest",
+        "equipment": "Cable Machine"
+      },
+      {
+        "name": "Pec Deck Machine",
+        "sets": "3 sets × 12-15 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_11",
+        "muscle": "Chest",
+        "equipment": "Machine"
+      },
+      {
+        "name": "Floor Press",
+        "sets": "3 sets × 8-10 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_12",
+        "muscle": "Chest",
+        "equipment": "Barbell or Dumbbells"
+      }
+    ],
+    "back": [
+      {
+        "name": "Lat Pulldowns",
+        "sets": "4 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_13",
+        "muscle": "Back",
+        "equipment": "Cable Machine"
+      },
+      {
+        "name": "Bent-Over Barbell Rows",
+        "sets": "4 sets × 8-10 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_14",
+        "muscle": "Back",
+        "equipment": "Barbell"
+      },
+      {
+        "name": "Seated Cable Rows",
+        "sets": "4 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_15",
+        "muscle": "Back",
+        "equipment": "Cable Machine"
+      },
+      {
+        "name": "Single-Arm Dumbbell Rows",
+        "sets": "3 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_16",
+        "muscle": "Back",
+        "equipment": "Dumbbell, Bench"
+      },
+      {
+        "name": "T-Bar Rows",
+        "sets": "3 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_17",
+        "muscle": "Back",
+        "equipment": "T-Bar Row Machine or Barbell"
+      },
+      {
+        "name": "Pull-Ups",
+        "sets": "3 sets × 8-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_18",
+        "muscle": "Back",
+        "equipment": "Pull-up Bar"
+      },
+      {
+        "name": "Face Pulls",
+        "sets": "3 sets × 15-20 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_19",
+        "muscle": "Back",
+        "equipment": "Cable Machine"
+      },
+      {
+        "name": "Straight-Arm Pulldowns",
+        "sets": "3 sets × 12-15 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_20",
+        "muscle": "Back",
+        "equipment": "Cable Machine"
+      },
+      {
+        "name": "Deadlifts",
+        "sets": "4 sets × 6-8 reps",
+        "videoUrl": "https://www.youtube.com/embed/aAggnpPyR6A3",
+        "muscle": "Back",
+        "equipment": "Barbell"
+      }
+    ],
+    "shoulders": [
+      {
+        "name": "Overhead Press",
+        "sets": "4 sets × 8-10 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_21",
+        "muscle": "Shoulders",
+        "equipment": "Barbell or Dumbbells"
+      },
+      {
+        "name": "Arnold Press",
+        "sets": "3 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_22",
+        "muscle": "Shoulders",
+        "equipment": "Dumbbells"
+      },
+      {
+        "name": "Lateral Raises",
+        "sets": "3 sets × 12-15 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_23",
+        "muscle": "Shoulders",
+        "equipment": "Dumbbells or Cable"
+      },
+      {
+        "name": "Front Raises",
+        "sets": "3 sets × 12-15 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_24",
+        "muscle": "Shoulders",
+        "equipment": "Dumbbells or Plate"
+      },
+      {
+        "name": "Upright Rows",
+        "sets": "3 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_25",
+        "muscle": "Shoulders",
+        "equipment": "Barbell or Dumbbells"
+      },
+      {
+        "name": "Reverse Pec Deck Flyes",
+        "sets": "3 sets × 15-20 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_26",
+        "muscle": "Shoulders",
+        "equipment": "Machine"
+      },
+      {
+        "name": "Push Press",
+        "sets": "4 sets × 6-8 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_27",
+        "muscle": "Shoulders",
+        "equipment": "Barbell"
+      }
+    ],
+    "trapezius": [
+      {
+        "name": "Barbell Shrugs",
+        "sets": "4 sets × 8-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_28",
+        "muscle": "Trapezius",
+        "equipment": "Barbell"
+      },
+      {
+        "name": "Dumbbell Shrugs",
+        "sets": "4 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_29",
+        "muscle": "Trapezius",
+        "equipment": "Dumbbells"
+      },
+      {
+        "name": "Farmer's Walk",
+        "sets": "3 sets × 30-60 sec",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_30",
+        "muscle": "Trapezius",
+        "equipment": "Dumbbells or Kettlebells"
+      },
+      {
+        "name": "Rack Pulls",
+        "sets": "4 sets × 6-8 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_31",
+        "muscle": "Trapezius",
+        "equipment": "Barbell, Squat Rack"
+      },
+      {
+        "name": "Cable Shrugs",
+        "sets": "3 sets × 12-15 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_32",
+        "muscle": "Trapezius",
+        "equipment": "Cable Machine"
+      },
+      {
+        "name": "Trap Bar Shrugs",
+        "sets": "4 sets × 8-10 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_33",
+        "muscle": "Trapezius",
+        "equipment": "Trap Bar"
+      }
+    ],
+    "triceps": [
+      {
+        "name": "Triceps Pushdowns",
+        "sets": "4 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_34",
+        "muscle": "Triceps",
+        "equipment": "Cable Machine"
+      },
+      {
+        "name": "Close-Grip Bench Press",
+        "sets": "4 sets × 8-10 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_35",
+        "muscle": "Triceps",
+        "equipment": "Barbell, Bench"
+      },
+      {
+        "name": "Overhead Dumbbell Extension",
+        "sets": "3 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_36",
+        "muscle": "Triceps",
+        "equipment": "Dumbbell"
+      },
+      {
+        "name": "Skullcrushers",
+        "sets": "3 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_37",
+        "muscle": "Triceps",
+        "equipment": "EZ-Bar or Dumbbells, Bench"
+      },
+      {
+        "name": "Dips",
+        "sets": "3 sets × 8-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_38",
+        "muscle": "Triceps",
+        "equipment": "Dip Station"
+      },
+      {
+        "name": "Bench Dips",
+        "sets": "3 sets × 12-15 reps",
+        "videoUrl": "https://www.youtube.com/embed/your_video_id_39",
+        "muscle": "Triceps",
+        "equipment": "Bench"
+      },
+      {
+        "name": "Tate Press",
+        "sets": "3 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/gRVjAtPip0Y0",
+        "muscle": "Triceps",
+        "equipment": "Dumbbells, Bench"
+      },
+      {
+        "name": "Cable Kickbacks",
+        "sets": "3 sets × 12-15 reps",
+        "videoUrl": "https://www.youtube.com/embed/gRVjAtPip0Y1",
+        "muscle": "Triceps",
+        "equipment": "Cable Machine"
+      }
+    ],
+    "biceps": [
+      {
+        "name": "Barbell Curls",
+        "sets": "4 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/gRVjAtPip0Y2",
+        "muscle": "Biceps",
+        "equipment": "Barbell"
+      },
+      {
+        "name": "Dumbbell Curls",
+        "sets": "3 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/gRVjAtPip0Y3",
+        "muscle": "Biceps",
+        "equipment": "Dumbbells"
+      },
+      {
+        "name": "Hammer Curls",
+        "sets": "3 sets × 12-15 reps",
+        "videoUrl": "https://www.youtube.com/embed/gRVjAtPip0Y4",
+        "muscle": "Biceps",
+        "equipment": "Dumbbells"
+      },
+      {
+        "name": "Preacher Curls",
+        "sets": "3 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/gRVjAtPip0Y5",
+        "muscle": "Biceps",
+        "equipment": "Preacher Bench, Barbell or Dumbbell"
+      },
+      {
+        "name": "EZ-Bar Curls",
+        "sets": "3 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/gRVjAtPip0Y6",
+        "muscle": "Biceps",
+        "equipment": "EZ-Bar"
+      },
+      {
+        "name": "Concentration Curls",
+        "sets": "3 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/gRVjAtPip0Y7",
+        "muscle": "Biceps",
+        "equipment": "Dumbbell, Bench"
+      },
+      {
+        "name": "Incline Dumbbell Curls",
+        "sets": "3 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/gRVjAtPip0Y8",
+        "muscle": "Biceps",
+        "equipment": "Dumbbells, Incline Bench"
+      },
+      {
+        "name": "Cable Curls",
+        "sets": "3 sets × 12-15 reps",
+        "videoUrl": "https://www.youtube.com/embed/gRVjAtPip0Y9",
+        "muscle": "Biceps",
+        "equipment": "Cable Machine"
+      }
+    ],
+    "forearms": [
+      {
+        "name": "Wrist Curls",
+        "sets": "3 sets × 15-20 reps",
+        "videoUrl": "https://www.youtube.com/embed/v_c67Om_x5I0",
+        "muscle": "Forearms",
+        "equipment": "Dumbbell or Barbell, Bench"
+      },
+      {
+        "name": "Reverse Wrist Curls",
+        "sets": "3 sets × 15-20 reps",
+        "videoUrl": "https://www.youtube.com/embed/v_c67Om_x5I1",
+        "muscle": "Forearms",
+        "equipment": "Dumbbell or Barbell, Bench"
+      },
+      {
+        "name": "Plate Pinches",
+        "sets": "3 sets × 30-60 sec",
+        "videoUrl": "https://www.youtube.com/embed/v_c67Om_x5I2",
+        "muscle": "Forearms",
+        "equipment": "Weight Plates"
+      },
+      {
+        "name": "Towel Pull-Ups",
+        "sets": "3 sets × 6-10 reps",
+        "videoUrl": "https://www.youtube.com/embed/v_c67Om_x5I3",
+        "muscle": "Forearms",
+        "equipment": "Pull-up Bar, Towel"
+      },
+      {
+        "name": "Reverse Barbell Curls",
+        "sets": "3 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/v_c67Om_x5I4",
+        "muscle": "Forearms",
+        "equipment": "Barbell"
+      },
+      {
+        "name": "Wrist Roller",
+        "sets": "3 sets × 5-8 rolls",
+        "videoUrl": "https://www.youtube.com/embed/v_c67Om_x5I5",
+        "muscle": "Forearms",
+        "equipment": "Wrist Roller"
+      }
+    ],
+    "glutes": [
+      {
+        "name": "Barbell Hip Thrusts",
+        "sets": "4 sets × 8-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/v_c67Om_x5I6",
+        "muscle": "Glutes",
+        "equipment": "Barbell, Bench"
+      },
+      {
+        "name": "Glute Bridges",
+        "sets": "3 sets × 15-20 reps",
+        "videoUrl": "https://www.youtube.com/embed/v_c67Om_x5I7",
+        "muscle": "Glutes",
+        "equipment": "Bodyweight or Barbell"
+      },
+      {
+        "name": "Squats (Wide Stance)",
+        "sets": "4 sets × 8-10 reps",
+        "videoUrl": "https://www.youtube.com/embed/v_c67Om_x5I8",
+        "muscle": "Glutes",
+        "equipment": "Barbell"
+      },
+      {
+        "name": "Lunges",
+        "sets": "3 sets × 12-15 reps per leg",
+        "videoUrl": "https://www.youtube.com/embed/v_c67Om_x5I9",
+        "muscle": "Glutes",
+        "equipment": "Bodyweight or Dumbbells"
+      },
+      {
+        "name": "Step-Ups",
+        "sets": "3 sets × 12-15 reps per leg",
+        "videoUrl": "https://www.youtube.com/embed/aAggnpPyR6A0",
+        "muscle": "Glutes",
+        "equipment": "Bench or Box, Dumbbells"
+      },
+      {
+        "name": "Cable Kickbacks",
+        "sets": "3 sets × 12-15 reps per leg",
+        "videoUrl": "https://www.youtube.com/embed/aAggnpPyR6A1",
+        "muscle": "Glutes",
+        "equipment": "Cable Machine"
+      },
+      {
+        "name": "Bulgarian Split Squats",
+        "sets": "3 sets × 10-12 reps per leg",
+        "videoUrl": "https://www.youtube.com/embed/aAggnpPyR6A2",
+        "muscle": "Glutes",
+        "equipment": "Dumbbells, Bench"
+      }
+    ],
+    "quadriceps": [
+      {
+        "name": "Barbell Back Squats",
+        "sets": "4 sets × 8-10 reps",
+        "videoUrl": "https://www.youtube.com/embed/aAggnpPyR6A4",
+        "muscle": "Quadriceps",
+        "equipment": "Barbell, Squat Rack"
+      },
+      {
+        "name": "Leg Press",
+        "sets": "4 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/aAggnpPyR6A5",
+        "muscle": "Quadriceps",
+        "equipment": "Leg Press Machine"
+      },
+      {
+        "name": "Leg Extensions",
+        "sets": "3 sets × 12-15 reps",
+        "videoUrl": "https://www.youtube.com/embed/aAggnpPyR6A6",
+        "muscle": "Quadriceps",
+        "equipment": "Leg Extension Machine"
+      },
+      {
+        "name": "Front Squats",
+        "sets": "4 sets × 8-10 reps",
+        "videoUrl": "https://www.youtube.com/embed/aAggnpPyR6A7",
+        "muscle": "Quadriceps",
+        "equipment": "Barbell, Squat Rack"
+      },
+      {
+        "name": "Hack Squats",
+        "sets": "3 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/aAggnpPyR6A8",
+        "muscle": "Quadriceps",
+        "equipment": "Hack Squat Machine"
+      },
+      {
+        "name": "Sissy Squats",
+        "sets": "3 sets × 10-15 reps",
+        "videoUrl": "https://www.youtube.com/embed/aAggnpPyR6A9",
+        "muscle": "Quadriceps",
+        "equipment": "Bodyweight or Sissy Squat Bench"
+      }
+    ],
+    "hamstrings": [
+      {
+        "name": "Romanian Deadlifts (RDLs)",
+        "sets": "4 sets × 8-10 reps",
+        "videoUrl": "https://www.youtube.com/embed/2yjwXTZQDDI0",
+        "muscle": "Hamstrings",
+        "equipment": "Barbell or Dumbbells"
+      },
+      {
+        "name": "Lying Leg Curls",
+        "sets": "3 sets × 12-15 reps",
+        "videoUrl": "https://www.youtube.com/embed/2yjwXTZQDDI1",
+        "muscle": "Hamstrings",
+        "equipment": "Leg Curl Machine"
+      },
+      {
+        "name": "Seated Leg Curls",
+        "sets": "3 sets × 12-15 reps",
+        "videoUrl": "https://www.youtube.com/embed/2yjwXTZQDDI2",
+        "muscle": "Hamstrings",
+        "equipment": "Leg Curl Machine"
+      },
+      {
+        "name": "Good Mornings",
+        "sets": "3 sets × 10-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/2yjwXTZQDDI3",
+        "muscle": "Hamstrings",
+        "equipment": "Barbell"
+      },
+      {
+        "name": "Glute-Ham Raises (GHR)",
+        "sets": "3 sets × 8-12 reps",
+        "videoUrl": "https://www.youtube.com/embed/2yjwXTZQDDI4",
+        "muscle": "Hamstrings",
+        "equipment": "GHR Machine"
+      },
+      {
+        "name": "Single-Leg Deadlifts",
+        "sets": "3 sets × 10-12 reps per leg",
+        "videoUrl": "https://www.youtube.com/embed/2yjwXTZQDDI5",
+        "muscle": "Hamstrings",
+        "equipment": "Dumbbell or Kettlebell"
+      },
+      {
+        "name": "Nordic Ham Curls",
+        "sets": "3 sets × 5-8 reps",
+        "videoUrl": "https://www.youtube.com/embed/2yjwXTZQDDI6",
+        "muscle": "Hamstrings",
+        "equipment": "Partner or Bench"
+      },
+      {
+        "name": "Kettlebell Swings",
+        "sets": "3 sets × 15-20 reps",
+        "videoUrl": "https://www.youtube.com/embed/2yjwXTZQDDI7",
+        "muscle": "Hamstrings",
+        "equipment": "Kettlebell"
+      }
+    ],
+    "calves": [
+      {
+        "name": "Standing Calf Raises",
+        "sets": "4 sets × 15-20 reps",
+        "videoUrl": "https://www.youtube.com/embed/2yjwXTZQDDI8",
+        "muscle": "Calves",
+        "equipment": "Bodyweight or Machine"
+      },
+      {
+        "name": "Seated Calf Raises",
+        "sets": "4 sets × 15-20 reps",
+        "videoUrl": "https://www.youtube.com/embed/2yjwXTZQDDI9",
+        "muscle": "Calves",
+        "equipment": "Machine"
+      },
+      {
+        "name": "Donkey Calf Raises",
+        "sets": "3 sets × 15-20 reps",
+        "videoUrl": "https://www.youtube.com/shorts/esQi6V4k4iQ0",
+        "muscle": "Calves",
+        "equipment": "Machine or Partner"
+      },
+      {
+        "name": "Calf Press on Leg Machine",
+        "sets": "3 sets × 15-20 reps",
+        "videoUrl": "https://www.youtube.com/shorts/esQi6V4k4iQ1",
+        "muscle": "Calves",
+        "equipment": "Leg Press Machine"
+      },
+      {
+        "name": "Jump Rope",
+        "sets": "3 sets × 1-2 minutes",
+        "videoUrl": "https://www.youtube.com/shorts/esQi6V4k4iQ2",
+        "muscle": "Calves",
+        "equipment": "Jump Rope"
+      },
+      {
+        "name": "Box Jumps",
+        "sets": "3 sets × 10-15 reps",
+        "videoUrl": "https://www.youtube.com/shorts/esQi6V4k4iQ3",
+        "muscle": "Calves",
+        "equipment": "Box"
+      },
+      {
+        "name": "Single-Leg Calf Raises",
+        "sets": "3 sets × 12-15 reps per leg",
+        "videoUrl": "https://www.youtube.com/shorts/esQi6V4k4iQ4",
+        "muscle": "Calves",
+        "equipment": "Bodyweight"
+      }
+    ]
+  }
+}

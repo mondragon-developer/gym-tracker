@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #fff7ed 0%, #eff6ff 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  /* Improve touch targets for mobile */
+  button, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Better focus styles for accessibility */
+  *:focus {
+    outline: 2px solid #f97316;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .day-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .day-content.active {
+    max-height: 8000px;
+  }
+
+  .arrow {
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .day-header.active .arrow {
+    transform: rotate(180deg);
+  }
+
+  .day-header.active {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  }
+
+  .progress-fill {
+    transition: width 0.6s ease-in-out;
+    background: linear-gradient(90deg, #f97316 0%, #fb923c 100%);
+  }
+
+  .modal {
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+  }
+
+  .custom-exercise-form {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.6s ease-in-out;
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  .custom-exercise-form.active {
+    max-height: 600px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Mobile-specific improvements */
+  @media (max-width: 768px) {
+    .day-content.active {
+      max-height: 10000px;
+    }
+    
+    .custom-exercise-form.active {
+      max-height: 800px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  /* Card hover effects */
+  .exercise-card {
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .exercise-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(249, 115, 22, 0.15);
+  }
+
+  /* Button styles */
+  .btn-primary {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+  }
+
+  .btn-secondary {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    transition: all 0.3s ease;
+  }
+
+  .btn-secondary:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  }
+
+  .btn-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    transition: all 0.3s ease;
+  }
+
+  .btn-success:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+  }
+
+  .btn-danger {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    transition: all 0.3s ease;
+  }
+
+  .btn-danger:hover {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+  }
+
+  /* Glass morphism effect */
+  .glass {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Responsive grid improvements */
+  .mobile-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .mobile-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .mobile-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}

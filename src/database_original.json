@@ -1,0 +1,562 @@
+[
+  {
+    "id": 1,
+    "name": "Barbell Bench Press",
+    "muscleGroup": "Chest",
+    "equipment": "Barbell, Bench",
+    "videoUrl": "https://www.youtube.com/watch?v=8M1rNIdkKAM5"
+  },
+  {
+    "id": 2,
+    "name": "Dumbbell Press",
+    "muscleGroup": "Chest",
+    "equipment": "Dumbbells, Bench",
+    "videoUrl": "https://www.youtube.com/watch?v=8M1rNIdkKAM6"
+  },
+  {
+    "id": 3,
+    "name": "Push-Ups",
+    "muscleGroup": "Chest",
+    "equipment": "Bodyweight",
+    "videoUrl": "https://www.youtube.com/watch?v=8M1rNIdkKAM7"
+  },
+  {
+    "id": 4,
+    "name": "Machine Chest Press",
+    "muscleGroup": "Chest",
+    "equipment": "Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=8M1rNIdkKAM8"
+  },
+  {
+    "id": 5,
+    "name": "Dumbbell Flyes",
+    "muscleGroup": "Chest",
+    "equipment": "Dumbbells, Bench",
+    "videoUrl": "https://www.youtube.com/watch?v=8M1rNIdkKAM9"
+  },
+  {
+    "id": 6,
+    "name": "Cable Crossovers",
+    "muscleGroup": "Chest",
+    "equipment": "Cable Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_10"
+  },
+  {
+    "id": 7,
+    "name": "Pec Deck Machine",
+    "muscleGroup": "Chest",
+    "equipment": "Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_11"
+  },
+  {
+    "id": 8,
+    "name": "Floor Press",
+    "muscleGroup": "Chest",
+    "equipment": "Barbell or Dumbbells",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_12"
+  },
+  {
+    "id": 9,
+    "name": "Lat Pulldowns",
+    "muscleGroup": "Back",
+    "equipment": "Cable Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_13"
+  },
+  {
+    "id": 10,
+    "name": "Bent-Over Barbell Rows",
+    "muscleGroup": "Back",
+    "equipment": "Barbell",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_14"
+  },
+  {
+    "id": 11,
+    "name": "Seated Cable Rows",
+    "muscleGroup": "Back",
+    "equipment": "Cable Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_15"
+  },
+  {
+    "id": 12,
+    "name": "Single-Arm Dumbbell Rows",
+    "muscleGroup": "Back",
+    "equipment": "Dumbbell, Bench",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_16"
+  },
+  {
+    "id": 13,
+    "name": "T-Bar Rows",
+    "muscleGroup": "Back",
+    "equipment": "T-Bar Row Machine or Barbell",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_17"
+  },
+  {
+    "id": 14,
+    "name": "Pull-Ups",
+    "muscleGroup": "Back",
+    "equipment": "Pull-up Bar",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_18"
+  },
+  {
+    "id": 15,
+    "name": "Face Pulls",
+    "muscleGroup": "Back",
+    "equipment": "Cable Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_19"
+  },
+  {
+    "id": 16,
+    "name": "Straight-Arm Pulldowns",
+    "muscleGroup": "Back",
+    "equipment": "Cable Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_20"
+  },
+  {
+    "id": 17,
+    "name": "Overhead Press",
+    "muscleGroup": "Shoulders",
+    "equipment": "Barbell or Dumbbells",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_21"
+  },
+  {
+    "id": 18,
+    "name": "Arnold Press",
+    "muscleGroup": "Shoulders",
+    "equipment": "Dumbbells",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_22"
+  },
+  {
+    "id": 19,
+    "name": "Lateral Raises",
+    "muscleGroup": "Shoulders",
+    "equipment": "Dumbbells or Cable",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_23"
+  },
+  {
+    "id": 20,
+    "name": "Front Raises",
+    "muscleGroup": "Shoulders",
+    "equipment": "Dumbbells or Plate",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_24"
+  },
+  {
+    "id": 21,
+    "name": "Upright Rows",
+    "muscleGroup": "Shoulders",
+    "equipment": "Barbell or Dumbbells",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_25"
+  },
+  {
+    "id": 22,
+    "name": "Reverse Pec Deck Flyes",
+    "muscleGroup": "Shoulders",
+    "equipment": "Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_26"
+  },
+  {
+    "id": 23,
+    "name": "Push Press",
+    "muscleGroup": "Shoulders",
+    "equipment": "Barbell",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_27"
+  },
+  {
+    "id": 24,
+    "name": "Barbell Shrugs",
+    "muscleGroup": "Trapezius",
+    "equipment": "Barbell",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_28"
+  },
+  {
+    "id": 25,
+    "name": "Dumbbell Shrugs",
+    "muscleGroup": "Trapezius",
+    "equipment": "Dumbbells",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_29"
+  },
+  {
+    "id": 26,
+    "name": "Farmer's Walk",
+    "muscleGroup": "Trapezius",
+    "equipment": "Dumbbells or Kettlebells",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_30"
+  },
+  {
+    "id": 27,
+    "name": "Rack Pulls",
+    "muscleGroup": "Trapezius",
+    "equipment": "Barbell, Squat Rack",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_31"
+  },
+  {
+    "id": 28,
+    "name": "Cable Shrugs",
+    "muscleGroup": "Trapezius",
+    "equipment": "Cable Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_32"
+  },
+  {
+    "id": 29,
+    "name": "Trap Bar Shrugs",
+    "muscleGroup": "Trapezius",
+    "equipment": "Trap Bar",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_33"
+  },
+  {
+    "id": 30,
+    "name": "Triceps Pushdowns",
+    "muscleGroup": "Triceps",
+    "equipment": "Cable Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_34"
+  },
+  {
+    "id": 31,
+    "name": "Close-Grip Bench Press",
+    "muscleGroup": "Triceps",
+    "equipment": "Barbell, Bench",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_35"
+  },
+  {
+    "id": 32,
+    "name": "Overhead Dumbbell Extension",
+    "muscleGroup": "Triceps",
+    "equipment": "Dumbbell",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_36"
+  },
+  {
+    "id": 33,
+    "name": "Skullcrushers",
+    "muscleGroup": "Triceps",
+    "equipment": "EZ-Bar or Dumbbells, Bench",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_37"
+  },
+  {
+    "id": 34,
+    "name": "Dips",
+    "muscleGroup": "Triceps",
+    "equipment": "Dip Station",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_38"
+  },
+  {
+    "id": 35,
+    "name": "Bench Dips",
+    "muscleGroup": "Triceps",
+    "equipment": "Bench",
+    "videoUrl": "https://www.youtube.com/watch?v=your_video_id_39"
+  },
+  {
+    "id": 36,
+    "name": "Tate Press",
+    "muscleGroup": "Triceps",
+    "equipment": "Dumbbells, Bench",
+    "videoUrl": "https://www.youtube.com/watch?v=gRVjAtPip0Y0"
+  },
+  {
+    "id": 37,
+    "name": "Cable Kickbacks",
+    "muscleGroup": "Triceps",
+    "equipment": "Cable Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=gRVjAtPip0Y1"
+  },
+  {
+    "id": 38,
+    "name": "Barbell Curls",
+    "muscleGroup": "Biceps",
+    "equipment": "Barbell",
+    "videoUrl": "https://www.youtube.com/watch?v=gRVjAtPip0Y2"
+  },
+  {
+    "id": 39,
+    "name": "Dumbbell Curls",
+    "muscleGroup": "Biceps",
+    "equipment": "Dumbbells",
+    "videoUrl": "https://www.youtube.com/watch?v=gRVjAtPip0Y3"
+  },
+  {
+    "id": 40,
+    "name": "Hammer Curls",
+    "muscleGroup": "Biceps",
+    "equipment": "Dumbbells",
+    "videoUrl": "https://www.youtube.com/watch?v=gRVjAtPip0Y4"
+  },
+  {
+    "id": 41,
+    "name": "Preacher Curls",
+    "muscleGroup": "Biceps",
+    "equipment": "Preacher Bench, Barbell or Dumbbell",
+    "videoUrl": "https://www.youtube.com/watch?v=gRVjAtPip0Y5"
+  },
+  {
+    "id": 42,
+    "name": "EZ-Bar Curls",
+    "muscleGroup": "Biceps",
+    "equipment": "EZ-Bar",
+    "videoUrl": "https://www.youtube.com/watch?v=gRVjAtPip0Y6"
+  },
+  {
+    "id": 43,
+    "name": "Concentration Curls",
+    "muscleGroup": "Biceps",
+    "equipment": "Dumbbell, Bench",
+    "videoUrl": "https://www.youtube.com/watch?v=gRVjAtPip0Y7"
+  },
+  {
+    "id": 44,
+    "name": "Incline Dumbbell Curls",
+    "muscleGroup": "Biceps",
+    "equipment": "Dumbbells, Incline Bench",
+    "videoUrl": "https://www.youtube.com/watch?v=gRVjAtPip0Y8"
+  },
+  {
+    "id": 45,
+    "name": "Cable Curls",
+    "muscleGroup": "Biceps",
+    "equipment": "Cable Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=gRVjAtPip0Y9"
+  },
+  {
+    "id": 46,
+    "name": "Wrist Curls",
+    "muscleGroup": "Forearms",
+    "equipment": "Dumbbell or Barbell, Bench",
+    "videoUrl": "https://www.youtube.com/watch?v=v_c67Om_x5I0"
+  },
+  {
+    "id": 47,
+    "name": "Reverse Wrist Curls",
+    "muscleGroup": "Forearms",
+    "equipment": "Dumbbell or Barbell, Bench",
+    "videoUrl": "https://www.youtube.com/watch?v=v_c67Om_x5I1"
+  },
+  {
+    "id": 48,
+    "name": "Plate Pinches",
+    "muscleGroup": "Forearms",
+    "equipment": "Weight Plates",
+    "videoUrl": "https://www.youtube.com/watch?v=v_c67Om_x5I2"
+  },
+  {
+    "id": 49,
+    "name": "Towel Pull-Ups",
+    "muscleGroup": "Forearms",
+    "equipment": "Pull-up Bar, Towel",
+    "videoUrl": "https://www.youtube.com/watch?v=v_c67Om_x5I3"
+  },
+  {
+    "id": 50,
+    "name": "Reverse Barbell Curls",
+    "muscleGroup": "Forearms",
+    "equipment": "Barbell",
+    "videoUrl": "https://www.youtube.com/watch?v=v_c67Om_x5I4"
+  },
+  {
+    "id": 51,
+    "name": "Wrist Roller",
+    "muscleGroup": "Forearms",
+    "equipment": "Wrist Roller",
+    "videoUrl": "https://www.youtube.com/watch?v=v_c67Om_x5I5"
+  },
+  {
+    "id": 52,
+    "name": "Barbell Hip Thrusts",
+    "muscleGroup": "Glutes",
+    "equipment": "Barbell, Bench",
+    "videoUrl": "https://www.youtube.com/watch?v=v_c67Om_x5I6"
+  },
+  {
+    "id": 53,
+    "name": "Glute Bridges",
+    "muscleGroup": "Glutes",
+    "equipment": "Bodyweight or Barbell",
+    "videoUrl": "https://www.youtube.com/watch?v=v_c67Om_x5I7"
+  },
+  {
+    "id": 54,
+    "name": "Squats (Wide Stance)",
+    "muscleGroup": "Glutes",
+    "equipment": "Barbell",
+    "videoUrl": "https://www.youtube.com/watch?v=v_c67Om_x5I8"
+  },
+  {
+    "id": 55,
+    "name": "Lunges",
+    "muscleGroup": "Glutes",
+    "equipment": "Bodyweight or Dumbbells",
+    "videoUrl": "https://www.youtube.com/watch?v=v_c67Om_x5I9"
+  },
+  {
+    "id": 56,
+    "name": "Step-Ups",
+    "muscleGroup": "Glutes",
+    "equipment": "Bench or Box, Dumbbells",
+    "videoUrl": "https://www.youtube.com/watch?v=aAggnpPyR6A0"
+  },
+  {
+    "id": 57,
+    "name": "Cable Kickbacks",
+    "muscleGroup": "Glutes",
+    "equipment": "Cable Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=aAggnpPyR6A1"
+  },
+  {
+    "id": 58,
+    "name": "Bulgarian Split Squats",
+    "muscleGroup": "Glutes",
+    "equipment": "Dumbbells, Bench",
+    "videoUrl": "https://www.youtube.com/watch?v=aAggnpPyR6A2"
+  },
+  {
+    "id": 59,
+    "name": "Deadlifts",
+    "muscleGroup": "Glutes",
+    "equipment": "Barbell",
+    "videoUrl": "https://www.youtube.com/watch?v=aAggnpPyR6A3"
+  },
+  {
+    "id": 60,
+    "name": "Barbell Back Squats",
+    "muscleGroup": "Quadriceps",
+    "equipment": "Barbell, Squat Rack",
+    "videoUrl": "https://www.youtube.com/watch?v=aAggnpPyR6A4"
+  },
+  {
+    "id": 61,
+    "name": "Leg Press",
+    "muscleGroup": "Quadriceps",
+    "equipment": "Leg Press Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=aAggnpPyR6A5"
+  },
+  {
+    "id": 62,
+    "name": "Leg Extensions",
+    "muscleGroup": "Quadriceps",
+    "equipment": "Leg Extension Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=aAggnpPyR6A6"
+  },
+  {
+    "id": 63,
+    "name": "Front Squats",
+    "muscleGroup": "Quadriceps",
+    "equipment": "Barbell, Squat Rack",
+    "videoUrl": "https://www.youtube.com/watch?v=aAggnpPyR6A7"
+  },
+  {
+    "id": 64,
+    "name": "Hack Squats",
+    "muscleGroup": "Quadriceps",
+    "equipment": "Hack Squat Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=aAggnpPyR6A8"
+  },
+  {
+    "id": 65,
+    "name": "Sissy Squats",
+    "muscleGroup": "Quadriceps",
+    "equipment": "Bodyweight or Sissy Squat Bench",
+    "videoUrl": "https://www.youtube.com/watch?v=aAggnpPyR6A9"
+  },
+  {
+    "id": 66,
+    "name": "Romanian Deadlifts (RDLs)",
+    "muscleGroup": "Hamstrings",
+    "equipment": "Barbell or Dumbbells",
+    "videoUrl": "https://www.youtube.com/watch?v=2yjwXTZQDDI0"
+  },
+  {
+    "id": 67,
+    "name": "Lying Leg Curls",
+    "muscleGroup": "Hamstrings",
+    "equipment": "Leg Curl Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=2yjwXTZQDDI1"
+  },
+  {
+    "id": 68,
+    "name": "Seated Leg Curls",
+    "muscleGroup": "Hamstrings",
+    "equipment": "Leg Curl Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=2yjwXTZQDDI2"
+  },
+  {
+    "id": 69,
+    "name": "Good Mornings",
+    "muscleGroup": "Hamstrings",
+    "equipment": "Barbell",
+    "videoUrl": "https://www.youtube.com/watch?v=2yjwXTZQDDI3"
+  },
+  {
+    "id": 70,
+    "name": "Glute-Ham Raises (GHR)",
+    "muscleGroup": "Hamstrings",
+    "equipment": "GHR Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=2yjwXTZQDDI4"
+  },
+  {
+    "id": 71,
+    "name": "Single-Leg Deadlifts",
+    "muscleGroup": "Hamstrings",
+    "equipment": "Dumbbell or Kettlebell",
+    "videoUrl": "https://www.youtube.com/watch?v=2yjwXTZQDDI5"
+  },
+  {
+    "id": 72,
+    "name": "Nordic Ham Curls",
+    "muscleGroup": "Hamstrings",
+    "equipment": "Partner or Bench",
+    "videoUrl": "https://www.youtube.com/watch?v=2yjwXTZQDDI6"
+  },
+  {
+    "id": 73,
+    "name": "Kettlebell Swings",
+    "muscleGroup": "Hamstrings",
+    "equipment": "Kettlebell",
+    "videoUrl": "https://www.youtube.com/watch?v=2yjwXTZQDDI7"
+  },
+  {
+    "id": 74,
+    "name": "Standing Calf Raises",
+    "muscleGroup": "Calves",
+    "equipment": "Bodyweight or Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=2yjwXTZQDDI8"
+  },
+  {
+    "id": 75,
+    "name": "Seated Calf Raises",
+    "muscleGroup": "Calves",
+    "equipment": "Machine",
+    "videoUrl": "https://www.youtube.com/watch?v=2yjwXTZQDDI9"
+  },
+  {
+    "id": 76,
+    "name": "Donkey Calf Raises",
+    "muscleGroup": "Calves",
+    "equipment": "Machine or Partner",
+    "videoUrl": "https://www.youtube.com/shorts/esQi6V4k4iQ0"
+  },
+  {
+    "id": 77,
+    "name": "Calf Press on Leg Machine",
+    "muscleGroup": "Calves",
+    "equipment": "Leg Press Machine",
+    "videoUrl": "https://www.youtube.com/shorts/esQi6V4k4iQ1"
+  },
+  {
+    "id": 78,
+    "name": "Jump Rope",
+    "muscleGroup": "Calves",
+    "equipment": "Jump Rope",
+    "videoUrl": "https://www.youtube.com/shorts/esQi6V4k4iQ2"
+  },
+  {
+    "id": 79,
+    "name": "Box Jumps",
+    "muscleGroup": "Calves",
+    "equipment": "Box",
+    "videoUrl": "https://www.youtube.com/shorts/esQi6V4k4iQ3"
+  },
+  {
+    "id": 80,
+    "name": "Single-Leg Calf Raises",
+    "muscleGroup": "Calves",
+    "equipment": "Bodyweight",
+    "videoUrl": "https://www.youtube.com/shorts/esQi6V4k4iQ4"
+  }
+]
