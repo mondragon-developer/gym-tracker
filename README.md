@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🏋️‍♂️ Gym Tracker App
 
 A modern, responsive React-based gym workout tracking application that helps you plan, track, and manage your weekly fitness routine.
@@ -209,3 +210,6 @@ This project is open source and available under the [MIT License](LICENSE).
 ---
 
 Built with ❤️ using React, Vite, and Tailwind CSS
+=======
+# gym-tracker
+>>>>>>> f3641c76a773efd06046a2005b093c42ac60db0a
