@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom CSS for improved mobile experience */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fca122;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+#root {
+  min-width: 320px;
+  max-width: 640px;
+  width: 100%;
+   
+   }
+
+/* Focus styles for accessibility */
+button:focus-visible,
+input:focus-visible {
+  outline: 1px solid #3b82f6;
+  outline-offset: 0.5px;
+}
+
+/* Animation for smooth transitions */
+.accordion-content {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Responsive typography */
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+}
