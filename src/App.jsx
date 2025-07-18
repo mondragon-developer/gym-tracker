@@ -1,132 +1,83 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
-import workoutService from './services/workoutService';
+/**
+ * Main Application Component
+ * Refactored to follow SOLID principles with proper separation of concerns
+ */
+
+import React, { useState, useRef } from 'react';
+import useWorkoutPlan from './hooks/useWorkoutPlan.js';
+import useModal from './hooks/useModal.js';
 import ProgressBar from './components/ProgressBar';
 import DayAccordion from './components/DayAccordion';
-import CustomModal from './components/CustomModal';
 import AddExerciseModal from './components/AddExerciseModal';
+import Modal from './components/ui/Modal.jsx';
+import Button, { ButtonVariant } from './components/ui/Button.jsx';
 import { getToday } from './utils/dateHelper';
-import { DAYS_OF_WEEK } from './constants/index.js';
+import { DAYS_OF_WEEK } from './constants/AppConstants.js';
+import mdLogo from './assets/mdlogo.jpeg';
 
 /**
- * The main application component.
- * It manages the overall state and orchestrates the child components.
- * @returns {React.ReactElement}
+ * Main Application Component
+ * Focuses solely on UI orchestration, delegating business logic to services and hooks
+ * @returns {React.ReactElement} The main app component
  */
 export default function App() {
-    const [workoutPlan, setWorkoutPlan] = useState(null);
+    // Custom hooks for state management (Single Responsibility)
+    const {
+        workoutPlan,
+        isLoading,
+        error,
+        addExercise,
+        resetDay,
+        resetWeek,
+        updateDay
+    } = useWorkoutPlan();
+    
+    const resetModal = useModal();
+    const addExerciseModal = useModal();
+    
+    // UI state
     const [activeDay, setActiveDay] = useState(getToday());
-    const [isResetModalOpen, setIsResetModalOpen] = useState(false);
-    const [isAddExerciseModalOpen, setIsAddExerciseModalOpen] = useState(false);
-    const [selectedDay, setSelectedDay] = useState(null);
     const activeDayRef = useRef(null);
 
-    // --- State Initialization ---
-    // On initial render, load the workout plan from our service (localStorage).
-    useEffect(() => {
-        setWorkoutPlan(workoutService.getPlan());
-    }, []);
-
-    // --- Data Persistence ---
-    // This effect runs whenever the workoutPlan state changes, saving it to localStorage.
-    useEffect(() => {
-        if (workoutPlan) {
-            workoutService.savePlan(workoutPlan);
-        }
-    }, [workoutPlan]);
-    
-    // --- UI Effects ---
-    // This effect scrolls the active day into view when it changes.
-    useEffect(() => {
+    // Scroll active day into view when it changes
+    React.useEffect(() => {
         if (activeDayRef.current) {
             activeDayRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
     }, [activeDay]);
 
     /**
-     * Toggles the visibility of a day's accordion.
-     * @param {string} day - The day to toggle.
+     * Event handlers - focused only on UI coordination
      */
     const handleToggleDay = (day) => {
         setActiveDay(activeDay === day ? null : day);
     };
 
-    /**
-     * Updates the data for a specific day in the workout plan.
-     * @param {string} day - The day to update.
-     * @param {DayPlan} data - The new data for the day.
-     */
-    const handleUpdateDay = (day, data) => {
-        const newPlan = { ...workoutPlan, [day]: data };
-        setWorkoutPlan(newPlan);
-    };
-    
-    /**
-     * Resets a single day to its default state from the initial plan.
-     * @param {string} day - The day to reset.
-     */
     const handleResetDay = (day) => {
         if (window.confirm("Are you sure you want to reset this day's exercises?")) {
-            const originalDayData = workoutService.getInitialPlan()[day];
-            const newPlan = { ...workoutPlan, [day]: originalDayData };
-            setWorkoutPlan(newPlan);
+            resetDay(day);
         }
-    }
+    };
 
-    /**
-     * Resets the entire week to the default plan.
-     */
     const handleResetWeek = () => {
-        setWorkoutPlan(workoutService.getInitialPlan());
-        setIsResetModalOpen(false);
+        resetWeek();
+        resetModal.close();
         setActiveDay(getToday());
     };
 
-    /**
-     * Opens the add exercise modal for a specific day.
-     */
     const handleOpenAddExercise = (day) => {
-        setSelectedDay(day);
-        setIsAddExerciseModalOpen(true);
+        addExerciseModal.open(day);
     };
 
-    /**
-     * Closes the add exercise modal.
-     */
-    const handleCloseAddExercise = () => {
-        setIsAddExerciseModalOpen(false);
-        setSelectedDay(null);
+    const handleAddExercise = (exerciseData) => {
+        if (addExerciseModal.data) {
+            addExercise(addExerciseModal.data, exerciseData);
+            addExerciseModal.close();
+        }
     };
 
-    /**
-     * Adds an exercise to the selected day.
-     */
-    const handleAddExercise = (newExercise) => {
-        if (!selectedDay || !workoutPlan) return;
-        
-        const exerciseToAdd = {
-            ...newExercise,
-            id: `ex_${Date.now()}`,
-            weight: "",
-            effectiveSets: "",
-            status: "incomplete",
-        };
-        
-        const updatedExercises = [...workoutPlan[selectedDay].exercises, exerciseToAdd];
-        const updatedPlan = {
-            ...workoutPlan,
-            [selectedDay]: {
-                ...workoutPlan[selectedDay],
-                exercises: updatedExercises
-            }
-        };
-        
-        setWorkoutPlan(updatedPlan);
-        handleCloseAddExercise();
-    };
-
-    // Render a loading state until the plan is loaded from localStorage.
-    if (!workoutPlan) {
+    // Handle loading and error states
+    if (isLoading) {
         return (
             <div style={{
                 minHeight: '100vh',
@@ -140,6 +91,37 @@ export default function App() {
         );
     }
 
+    if (error) {
+        return (
+            <div style={{
+                minHeight: '100vh',
+                backgroundColor: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                gap: '16px'
+            }}>
+                <div style={{ fontSize: '24px', color: '#ef4444' }}>Error: {error}</div>
+                <Button onClick={() => window.location.reload()}>Reload App</Button>
+            </div>
+        );
+    }
+
+    if (!workoutPlan) {
+        return (
+            <div style={{
+                minHeight: '100vh',
+                backgroundColor: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
+                <div style={{ fontSize: '24px', color: '#6b7280' }}>No workout plan available</div>
+            </div>
+        );
+    }
+
     return (
         <div style={{
             minHeight: '100vh',
@@ -149,47 +131,64 @@ export default function App() {
         }}>
             <div style={{
                 maxWidth: '1200px',
-                margin: '0 auto',
-                backgroundColor: 'white',
-                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                border: '2px solid #a855f7',
-                margin: '32px auto'
+                margin: '32px auto',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
             }}>
                 {/* Header */}
                 <div style={{
-                    padding: '32px',
-                    background: 'linear-gradient(90deg, #8b5cf6 0%, #3b82f6 50%, #6366f1 100%)',
+                    padding: '40px 32px',
+                    background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 20%, #0e7490 40%, #155e75 60%, #164e63 80%, #0f172a 100%)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '20px'
                 }}>
-                    <h1 style={{
-                        fontSize: '40px',
-                        fontWeight: 'bold',
-                        textAlign: 'center',
-                        color: 'white',
-                        textTransform: 'uppercase',
-                        letterSpacing: '2px',
-                        marginBottom: '8px',
-                        margin: '0'
-                    }}>
-                        💪 GYM TRACKER
-                    </h1>
-                    <p style={{
-                        textAlign: 'center',
-                        color: '#e0e7ff',
-                        fontSize: '16px',
-                        margin: '0'
-                    }}>
-                        Track your weekly fitness progress
-                    </p>
+                    <img 
+                        src={mdLogo} 
+                        alt="MD Logo" 
+                        style={{
+                            width: '150px',
+                            height: '150px',
+                            objectFit: 'cover',
+                            borderRadius: '50%',
+                            border: '5px solid rgba(255, 255, 255, 0.4)',
+                            boxShadow: '0 8px 25px rgba(0, 0, 0, 0.4), 0 0 30px rgba(6, 182, 212, 0.3)'
+                        }}
+                    />
+                    <div style={{ textAlign: 'center' }}>
+                        <p style={{
+                            color: 'white',
+                            fontSize: '16px',
+                            margin: '0 0 4px 0',
+                            fontWeight: '500'
+                        }}>
+                            Track your weekly fitness progress
+                        </p>
+                        <p style={{
+                            color: 'rgba(255, 255, 255, 0.8)',
+                            fontSize: '14px',
+                            margin: '0',
+                            fontWeight: '400'
+                        }}>
+                            By Jose Mondragon
+                        </p>
+                    </div>
                 </div>
 
                 {/* Progress Section */}
-                <div style={{ padding: '32px' }}>
+                <div style={{ 
+                    padding: '24px 32px 20px 32px',
+                    backgroundColor: 'white'
+                }}>
                     <ProgressBar workoutPlan={workoutPlan} />
                 </div>
 
                 {/* Days Container */}
-                <div style={{ padding: '0 32px 32px' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ 
+                    padding: '0 32px 24px',
+                    backgroundColor: 'white'
+                }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                         {DAYS_OF_WEEK.map(day => (
                             <DayAccordion
                                 key={day}
@@ -197,7 +196,7 @@ export default function App() {
                                 data={workoutPlan[day]}
                                 isOpen={activeDay === day}
                                 onToggle={handleToggleDay}
-                                onUpdateDay={handleUpdateDay}
+                                onUpdateDay={updateDay}
                                 onResetDay={handleResetDay}
                                 onOpenAddExercise={handleOpenAddExercise}
                                 activeDayRef={activeDayRef}
@@ -206,108 +205,63 @@ export default function App() {
                     </div>
 
                     {/* Action Button */}
-                    <div style={{ marginTop: '32px', textAlign: 'center' }}>
-                        <button
-                            style={{
-                                width: '100%',
-                                maxWidth: '320px',
-                                padding: '16px 32px',
-                                background: 'linear-gradient(90deg, #ec4899 0%, #ef4444 50%, #f97316 100%)',
-                                color: 'white',
-                                fontWeight: '600',
-                                borderRadius: '12px',
-                                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
-                                border: 'none',
-                                cursor: 'pointer',
-                                fontSize: '16px',
-                                transition: 'all 0.3s ease'
-                            }}
-                            onClick={() => setIsResetModalOpen(true)}
-                            onMouseOver={(e) => {
-                                e.target.style.transform = 'scale(1.05)';
-                                e.target.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.2)';
-                            }}
-                            onMouseOut={(e) => {
-                                e.target.style.transform = 'scale(1)';
-                                e.target.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.15)';
-                            }}
+                    <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                        <Button
+                            variant={ButtonVariant.DANGER}
+                            onClick={resetModal.open}
+                            fullWidth
+                            style={{ maxWidth: '320px' }}
                         >
                             🔄 Start New Week
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>
 
             {/* Reset Modal */}
-            {createPortal(
-                <CustomModal
-                    isOpen={isResetModalOpen}
-                    onClose={() => setIsResetModalOpen(false)}
-                    title="🔄 Confirm Reset"
-                >
-                    <div style={{ backgroundColor: 'white', padding: '16px', borderRadius: '8px' }}>
-                        <p style={{ 
-                            marginBottom: '24px', 
-                            color: '#6b7280', 
-                            fontSize: '16px',
-                            lineHeight: '1.6',
-                            margin: '0 0 24px 0'
-                        }}>
-                            Are you sure you want to start a new week? This will reset all exercises and progress to the default plan.
-                        </p>
-                        <div style={{ 
-                            display: 'flex', 
-                            flexDirection: 'column',
-                            gap: '12px'
-                        }}>
-                            <button 
-                                onClick={() => setIsResetModalOpen(false)} 
-                                style={{
-                                    padding: '12px 24px',
-                                    background: 'linear-gradient(90deg, #e5e7eb 0%, #d1d5db 100%)',
-                                    color: '#374151',
-                                    borderRadius: '8px',
-                                    fontWeight: '500',
-                                    border: 'none',
-                                    cursor: 'pointer',
-                                    fontSize: '14px',
-                                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                                }}
-                            >
-                                Cancel
-                            </button>
-                            <button 
-                                onClick={handleResetWeek} 
-                                style={{
-                                    padding: '12px 24px',
-                                    background: 'linear-gradient(90deg, #ef4444 0%, #ec4899 100%)',
-                                    color: 'white',
-                                    borderRadius: '8px',
-                                    fontWeight: '500',
-                                    border: 'none',
-                                    cursor: 'pointer',
-                                    fontSize: '14px',
-                                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)'
-                                }}
-                            >
-                                Reset Week
-                            </button>
-                        </div>
-                    </div>
-                </CustomModal>,
-                document.body
-            )}
+            <Modal
+                isOpen={resetModal.isOpen}
+                onClose={resetModal.close}
+                title="🔄 Confirm Reset"
+            >
+                <p style={{ 
+                    marginBottom: '24px', 
+                    color: '#6b7280', 
+                    fontSize: '16px',
+                    lineHeight: '1.6',
+                    margin: '0 0 24px 0'
+                }}>
+                    Are you sure you want to start a new week? This will reset all exercises and progress to the default plan.
+                </p>
+                <div style={{ 
+                    display: 'flex', 
+                    flexDirection: 'column',
+                    gap: '12px'
+                }}>
+                    <Button 
+                        variant={ButtonVariant.SECONDARY}
+                        onClick={resetModal.close}
+                        fullWidth
+                    >
+                        Cancel
+                    </Button>
+                    <Button 
+                        variant={ButtonVariant.DANGER}
+                        onClick={handleResetWeek}
+                        fullWidth
+                    >
+                        Reset Week
+                    </Button>
+                </div>
+            </Modal>
 
             {/* Add Exercise Modal */}
-            {createPortal(
-                <AddExerciseModal
-                    isOpen={isAddExerciseModalOpen}
-                    onClose={handleCloseAddExercise}
-                    onAddExercise={handleAddExercise}
-                    muscleGroup={selectedDay && workoutPlan ? workoutPlan[selectedDay].name.split(' & ')[0] : ''}
-                />,
-                document.body
-            )}
+            <AddExerciseModal
+                isOpen={addExerciseModal.isOpen}
+                onClose={addExerciseModal.close}
+                onAddExercise={handleAddExercise}
+                muscleGroup={addExerciseModal.data && workoutPlan ? workoutPlan[addExerciseModal.data].name.split(' & ')[0] : ''}
+            />
         </div>
     );
 }

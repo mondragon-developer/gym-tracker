@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import { ChevronDown, Plus } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ChevronDown, Plus, Edit3 } from 'lucide-react';
 import ExerciseItem from './ExerciseItem.jsx';
+import { INDIVIDUAL_MUSCLE_GROUPS } from '../constants/AppConstants.js';
 
 /**
  * An accordion component for a single day's workout plan.
  */
 const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, onOpenAddExercise, activeDayRef }) => {
     const [draggedItem, setDraggedItem] = useState(null);
+    const [showMuscleGroupDropdown, setShowMuscleGroupDropdown] = useState(false);
 
     const handleUpdateExercise = (exerciseId, updatedExercise) => {
         const updatedExercises = data.exercises.map(ex => ex.id === exerciseId ? updatedExercise : ex);
@@ -17,6 +19,56 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
         const updatedExercises = data.exercises.filter(ex => ex.id !== exerciseId);
         onUpdateDay(day, { ...data, exercises: updatedExercises });
     };
+    
+    const parseSelectedMuscleGroups = (nameString) => {
+        if (nameString === 'Rest') return ['Rest'];
+        return nameString.split(' & ').filter(group => group.length > 0);
+    };
+    
+    const formatMuscleGroupsName = (selectedGroups) => {
+        if (selectedGroups.length === 0) return 'Rest';
+        if (selectedGroups.includes('Rest')) return 'Rest';
+        return selectedGroups.join(' & ');
+    };
+    
+    const handleMuscleGroupToggle = (muscleGroup) => {
+        const currentGroups = parseSelectedMuscleGroups(data.name);
+        
+        if (muscleGroup === 'Rest') {
+            onUpdateDay(day, { ...data, name: 'Rest' });
+            setShowMuscleGroupDropdown(false);
+            return;
+        }
+        
+        if (currentGroups.includes('Rest')) {
+            onUpdateDay(day, { ...data, name: muscleGroup });
+            return;
+        }
+        
+        let newGroups;
+        if (currentGroups.includes(muscleGroup)) {
+            newGroups = currentGroups.filter(group => group !== muscleGroup);
+        } else {
+            if (currentGroups.length >= 3) {
+                return;
+            }
+            newGroups = [...currentGroups, muscleGroup];
+        }
+        
+        const newName = formatMuscleGroupsName(newGroups);
+        onUpdateDay(day, { ...data, name: newName });
+    };
+    
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (showMuscleGroupDropdown && !event.target.closest('.muscle-group-dropdown')) {
+                setShowMuscleGroupDropdown(false);
+            }
+        };
+        
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [showMuscleGroupDropdown]);
     
     const onDragStart = (e, index) => {
         setDraggedItem(data.exercises[index]);
@@ -108,7 +160,155 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                             </span>
                         )}
                     </div>
-                    <span style={{ fontSize: '14px', opacity: 0.95, fontWeight: '500' }}>{data.name}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', position: 'relative' }} className="muscle-group-dropdown">
+                        <span style={{ fontSize: '14px', opacity: 0.95, fontWeight: '500' }}>{data.name}</span>
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowMuscleGroupDropdown(!showMuscleGroupDropdown);
+                            }}
+                            style={{
+                                background: 'rgba(255, 255, 255, 0.25)',
+                                border: 'none',
+                                borderRadius: '6px',
+                                padding: '4px',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                color: 'white',
+                                transition: 'all 0.2s ease'
+                            }}
+                            title="Change muscle group"
+                        >
+                            <Edit3 size={14} />
+                        </button>
+                        {showMuscleGroupDropdown && (
+                            <div style={{
+                                position: 'absolute',
+                                top: '100%',
+                                left: '20px',
+                                right: '20px',
+                                background: 'white',
+                                border: '2px solid #3b82f6',
+                                borderRadius: '12px',
+                                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
+                                zIndex: 1000,
+                                maxHeight: '200px',
+                                overflowY: 'auto',
+                                marginTop: '8px'
+                            }}>
+                                <div style={{
+                                    padding: '12px 16px 8px 16px',
+                                    borderBottom: '1px solid #e5e7eb',
+                                    marginBottom: '8px'
+                                }}>
+                                    <div style={{
+                                        fontSize: '12px',
+                                        fontWeight: '600',
+                                        color: '#6b7280',
+                                        marginBottom: '4px'
+                                    }}>
+                                        Select up to 3 muscle groups:
+                                    </div>
+                                    <div style={{
+                                        fontSize: '11px',
+                                        color: '#9ca3af'
+                                    }}>
+                                        {parseSelectedMuscleGroups(data.name).filter(g => g !== 'Rest').length}/3 selected
+                                    </div>
+                                </div>
+                                {INDIVIDUAL_MUSCLE_GROUPS.map((option) => {
+                                    const selectedGroups = parseSelectedMuscleGroups(data.name);
+                                    const isSelected = selectedGroups.includes(option);
+                                    const isRest = option === 'Rest';
+                                    const isRestSelected = selectedGroups.includes('Rest');
+                                    const maxReached = selectedGroups.filter(g => g !== 'Rest').length >= 3;
+                                    const isDisabled = !isSelected && !isRest && (maxReached || isRestSelected);
+                                    
+                                    return (
+                                        <button
+                                            key={option}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                if (!isDisabled) {
+                                                    handleMuscleGroupToggle(option);
+                                                }
+                                            }}
+                                            style={{
+                                                width: '100%',
+                                                padding: '12px 16px',
+                                                border: 'none',
+                                                background: isSelected ? '#dbeafe' : 'transparent',
+                                                textAlign: 'left',
+                                                cursor: isDisabled ? 'not-allowed' : 'pointer',
+                                                fontSize: '14px',
+                                                fontWeight: isSelected ? '600' : '500',
+                                                color: isDisabled ? '#9ca3af' : isSelected ? '#3b82f6' : '#374151',
+                                                transition: 'all 0.2s ease',
+                                                borderRadius: '8px',
+                                                margin: '4px 8px',
+                                                opacity: isDisabled ? 0.5 : 1,
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'space-between'
+                                            }}
+                                            onMouseOver={(e) => {
+                                                if (!isDisabled && !isSelected) {
+                                                    e.target.style.background = '#f9fafb';
+                                                }
+                                            }}
+                                            onMouseOut={(e) => {
+                                                if (!isDisabled && !isSelected) {
+                                                    e.target.style.background = 'transparent';
+                                                }
+                                            }}
+                                        >
+                                            <span>{option}</span>
+                                            {isSelected && (
+                                                <span style={{
+                                                    color: '#10b981',
+                                                    fontSize: '16px',
+                                                    fontWeight: 'bold'
+                                                }}>✓</span>
+                                            )}
+                                        </button>
+                                    );
+                                })}
+                                <div style={{
+                                    padding: '12px 16px',
+                                    borderTop: '1px solid #e5e7eb',
+                                    marginTop: '8px'
+                                }}>
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setShowMuscleGroupDropdown(false);
+                                        }}
+                                        style={{
+                                            width: '100%',
+                                            padding: '8px 16px',
+                                            background: '#3b82f6',
+                                            color: 'white',
+                                            border: 'none',
+                                            borderRadius: '8px',
+                                            cursor: 'pointer',
+                                            fontSize: '14px',
+                                            fontWeight: '600',
+                                            transition: 'all 0.2s ease'
+                                        }}
+                                        onMouseOver={(e) => {
+                                            e.target.style.background = '#2563eb';
+                                        }}
+                                        onMouseOut={(e) => {
+                                            e.target.style.background = '#3b82f6';
+                                        }}
+                                    >
+                                        Done
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
                 <ChevronDown 
                     style={{
@@ -121,13 +321,13 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
             
             {isOpen && (
                 <div style={{
-                    padding: '32px',
+                    padding: '20px',
                     background: 'linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%)'
                 }}>
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '24px',
+                        gap: '16px',
                         maxHeight: '400px',
                         overflowY: 'auto'
                     }}>
@@ -163,10 +363,10 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '16px',
-                        paddingTop: '32px',
+                        gap: '12px',
+                        paddingTop: '20px',
                         borderTop: '2px solid #e5e7eb',
-                        marginTop: '24px'
+                        marginTop: '16px'
                     }}>
                         <button 
                             onClick={() => onOpenAddExercise(day)} 
