@@ -14,18 +14,54 @@ const NewModal = ({ isOpen, onClose, title, children }) => {
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
-                <div className="flex-shrink-0 p-4 border-b border-gray-200 flex justify-between items-center bg-gradient-to-r from-blue-500 to-purple-500 rounded-t-xl">
-                    <h2 className="text-lg font-bold text-white">{title}</h2>
+                <div style={{
+                    flexShrink: 0,
+                    padding: '16px',
+                    borderBottom: '1px solid #e5e7eb',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    backgroundColor: 'white',
+                    borderTopLeftRadius: '12px',
+                    borderTopRightRadius: '12px'
+                }}>
+                    <h2 style={{
+                        fontSize: '18px',
+                        fontWeight: 'bold',
+                        color: '#1f2937',
+                        margin: 0
+                    }}>{title}</h2>
                     <button 
                         onClick={onClose} 
-                        className="p-2 text-white hover:bg-white hover:bg-opacity-20 rounded-lg transition-all"
+                        style={{
+                            padding: '8px',
+                            color: '#6b7280',
+                            backgroundColor: 'transparent',
+                            border: 'none',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease'
+                        }}
+                        onMouseOver={(e) => {
+                            e.target.style.backgroundColor = '#f3f4f6';
+                        }}
+                        onMouseOut={(e) => {
+                            e.target.style.backgroundColor = 'transparent';
+                        }}
                     >
                         <X size={20} />
                     </button>
                 </div>
                 
                 {/* Content */}
-                <div className="flex-1 p-4 overflow-y-auto bg-white">
+                <div style={{
+                    flex: 1,
+                    padding: '16px',
+                    overflowY: 'auto',
+                    backgroundColor: 'white',
+                    borderBottomLeftRadius: '12px',
+                    borderBottomRightRadius: '12px'
+                }}>
                     {children}
                 </div>
             </div>
