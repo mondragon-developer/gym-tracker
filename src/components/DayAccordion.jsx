@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { ChevronDown, Plus, Edit3 } from 'lucide-react';
 import ExerciseItem from './ExerciseItem.jsx';
 import { INDIVIDUAL_MUSCLE_GROUPS } from '../constants/AppConstants.js';
+import { t } from '../translations/ui';
+import { translateExercise, translateMuscleGroup } from '../translations/exercises';
 
 /**
  * An accordion component for a single day's workout plan.
  */
-const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, onOpenAddExercise, activeDayRef }) => {
+const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, onOpenAddExercise, activeDayRef, language = 'en' }) => {
     const [draggedItem, setDraggedItem] = useState(null);
     const [showMuscleGroupDropdown, setShowMuscleGroupDropdown] = useState(false);
 
@@ -146,7 +148,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
             >
                 <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
-                        <span style={{ fontWeight: 'bold', fontSize: '20px' }}>{day}</span>
+                        <span style={{ fontWeight: 'bold', fontSize: '20px' }}>{t(day, language)}</span>
                         {exerciseCount > 0 && (
                             <span style={{
                                 backgroundColor: 'rgba(255, 255, 255, 0.25)',
@@ -161,7 +163,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                         )}
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', position: 'relative' }} className="muscle-group-dropdown">
-                        <span style={{ fontSize: '14px', opacity: 0.95, fontWeight: '500' }}>{data.name}</span>
+                        <span style={{ fontSize: '14px', opacity: 0.95, fontWeight: '500' }}>{translateMuscleGroup(data.name, language)}</span>
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
@@ -208,22 +210,21 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                         color: '#6b7280',
                                         marginBottom: '4px'
                                     }}>
-                                        Select up to 3 muscle groups:
+                                        {t("Select up to 3 muscle groups:", language)}
                                     </div>
                                     <div style={{
                                         fontSize: '11px',
                                         color: '#9ca3af'
                                     }}>
-                                        {parseSelectedMuscleGroups(data.name).filter(g => g !== 'Rest').length}/3 selected
+                                        {parseSelectedMuscleGroups(data.name).filter(g => g !== 'Rest').length}/3 {t("selected", language)}
                                     </div>
                                 </div>
                                 {INDIVIDUAL_MUSCLE_GROUPS.map((option) => {
                                     const selectedGroups = parseSelectedMuscleGroups(data.name);
                                     const isSelected = selectedGroups.includes(option);
                                     const isRest = option === 'Rest';
-                                    const isRestSelected = selectedGroups.includes('Rest');
                                     const maxReached = selectedGroups.filter(g => g !== 'Rest').length >= 3;
-                                    const isDisabled = !isSelected && !isRest && (maxReached || isRestSelected);
+                                    const isDisabled = !isSelected && !isRest && maxReached;
                                     
                                     return (
                                         <button
@@ -263,7 +264,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                                 }
                                             }}
                                         >
-                                            <span>{option}</span>
+                                            <span>{translateExercise(option, language)}</span>
                                             {isSelected && (
                                                 <span style={{
                                                     color: '#10b981',
@@ -303,7 +304,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                             e.target.style.background = '#3b82f6';
                                         }}
                                     >
-                                        Done
+                                        {t("Done", language)}
                                     </button>
                                 </div>
                             </div>
@@ -342,7 +343,8 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                     onDragStart={onDragStart} 
                                     onDragOver={onDragOver} 
                                     onDrop={onDrop} 
-                                    onDragEnd={onDragEnd} 
+                                    onDragEnd={onDragEnd}
+                                    language={language}
                                 />
                             ))
                         ) : (
@@ -354,8 +356,8 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                 border: '2px dashed #60a5fa'
                             }}>
                                 <div style={{ fontSize: '48px', marginBottom: '12px' }}>💤</div>
-                                <p style={{ color: '#2563eb', fontWeight: '600', marginBottom: '8px', margin: '0 0 8px 0' }}>No exercises for today</p>
-                                <p style={{ fontSize: '14px', color: '#60a5fa', margin: '0' }}>Add an exercise to get started!</p>
+                                <p style={{ color: '#2563eb', fontWeight: '600', marginBottom: '8px', margin: '0 0 8px 0' }}>{t("No exercises for today", language)}</p>
+                                <p style={{ fontSize: '14px', color: '#60a5fa', margin: '0' }}>{t("Add an exercise to get started!", language)}</p>
                             </div>
                         )}
                     </div>
@@ -395,7 +397,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                 e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
                             }}
                         >
-                            <Plus size={20} /> Add Exercise
+                            <Plus size={20} /> {t("Add Exercise", language)}
                         </button>
                         <button 
                             onClick={() => onResetDay(day)} 
@@ -424,7 +426,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                 e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
                             }}
                         >
-                            🔄 Reset Day
+                            🔄 {t("Reset Day", language)}
                         </button>
                     </div>
                 </div>

@@ -1,9 +1,10 @@
 import React from 'react';
+import { t } from '../translations/ui';
 
 /**
  * Displays the user's weekly workout progress.
  */
-const ProgressBar = ({ workoutPlan }) => {
+const ProgressBar = ({ workoutPlan, language = 'en' }) => {
     const [total, completed] = React.useMemo(() => {
         let totalExercises = 0;
         let completedOrSkipped = 0;
@@ -39,7 +40,7 @@ const ProgressBar = ({ workoutPlan }) => {
                     marginBottom: '8px',
                     margin: '0 0 8px 0'
                 }}>
-                    📊 Weekly Progress
+                    📊 {t("Weekly Progress", language)}
                 </h2>
                 <p style={{
                     fontSize: '16px',
@@ -47,7 +48,7 @@ const ProgressBar = ({ workoutPlan }) => {
                     fontWeight: '500',
                     margin: '0'
                 }}>
-                    {completed} of {total} exercises completed
+                    {completed} {t("of", language)} {total} {t("exercises", language)} {t("completed", language)}
                 </p>
             </div>
             
@@ -108,7 +109,7 @@ const ProgressBar = ({ workoutPlan }) => {
                         boxShadow: '0 4px 12px rgba(251, 191, 36, 0.3)',
                         animation: 'pulse 2s infinite'
                     }}>
-                        🎉 Week Complete! 🎉
+                        🎉 {t("Week Complete!", language)} 🎉
                     </span>
                 </div>
             )}
@@ -126,7 +127,7 @@ const ProgressBar = ({ workoutPlan }) => {
                         color: 'white',
                         boxShadow: '0 2px 8px rgba(96, 165, 250, 0.3)'
                     }}>
-                        🔥 Almost there!
+                        🔥 {t("Almost there!", language)}
                     </span>
                 </div>
             )}

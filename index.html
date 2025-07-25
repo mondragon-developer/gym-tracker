@@ -3,12 +3,76 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gym Tracker</title>
+    
+    <!-- Custom styles for Chatbase chatbot bubble -->
+    <style>
+      /* Make only the chatbot bubble button larger, not the chat window */
+      #chatbase-bubble-button,
+      .chatbase-bubble-button,
+      [data-chatbase="bubble"] {
+        width: 70px !important;
+        height: 70px !important;
+        font-size: 28px !important;
+        min-width: 70px !important;
+        min-height: 70px !important;
+      }
+      
+      /* Target the bubble icon specifically */
+      #chatbase-bubble-button svg,
+      .chatbase-bubble-button svg {
+        width: 32px !important;
+        height: 32px !important;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Chatbase AI Chatbot Integration -->
+    <!-- This script loads the Chatbase chatbot widget for user support and assistance -->
+    <!-- Chatbot ID: RZAeW82nDUzmI2uMyEEL5 -->
+    <script>
+    (function(){
+      // Check if chatbase is already initialized to prevent double loading
+      if(!window.chatbase||window.chatbase("getState")!=="initialized"){
+        // Create chatbase function queue for commands before the script loads
+        window.chatbase=(...arguments)=>{
+          if(!window.chatbase.q){
+            window.chatbase.q=[]
+          }
+          window.chatbase.q.push(arguments)
+        };
+        
+        // Create a proxy to handle method calls before initialization
+        window.chatbase=new Proxy(window.chatbase,{
+          get(target,prop){
+            if(prop==="q"){
+              return target.q
+            }
+            return(...args)=>target(prop,...args)
+          }
+        })
+      }
+      
+      // Function to load the chatbase script
+      const onLoad=function(){
+        const script=document.createElement("script");
+        script.src="https://www.chatbase.co/embed.min.js";
+        script.id="RZAeW82nDUzmI2uMyEEL5"; // Unique chatbot identifier
+        script.domain="www.chatbase.co";
+        document.body.appendChild(script)
+      };
+      
+      // Load the script after page is ready
+      if(document.readyState==="complete"){
+        onLoad()
+      }else{
+        window.addEventListener("load",onLoad)
+      }
+    })();
+    </script>
   </body>
 </html>

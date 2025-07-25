@@ -9,18 +9,23 @@ import useModal from './hooks/useModal.js';
 import ProgressBar from './components/ProgressBar';
 import DayAccordion from './components/DayAccordion';
 import AddExerciseModal from './components/AddExerciseModal';
+import FeedbackModal from './components/FeedbackModal';
+import LanguageToggle from './components/LanguageToggle';
 import Modal from './components/ui/Modal.jsx';
 import Button, { ButtonVariant } from './components/ui/Button.jsx';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
+import { t } from './translations/ui';
 import { getToday } from './utils/dateHelper';
 import { DAYS_OF_WEEK } from './constants/AppConstants.js';
 import mdLogo from './assets/mdlogo.jpeg';
 
 /**
- * Main Application Component
+ * Main Application Component Content
  * Focuses solely on UI orchestration, delegating business logic to services and hooks
  * @returns {React.ReactElement} The main app component
  */
-export default function App() {
+function AppContent() {
+    const { language } = useLanguage();
     // Custom hooks for state management (Single Responsibility)
     const {
         workoutPlan,
@@ -34,6 +39,7 @@ export default function App() {
     
     const resetModal = useModal();
     const addExerciseModal = useModal();
+    const feedbackModal = useModal();
     
     // UI state
     const [activeDay, setActiveDay] = useState(getToday());
@@ -46,6 +52,16 @@ export default function App() {
         }
     }, [activeDay]);
 
+    // Development helper - expose reset function to console
+    React.useEffect(() => {
+        if (process.env.NODE_ENV === 'development') {
+            window.resetWorkoutPlan = () => {
+                resetWeek();
+                console.log('Workout plan reset to default Push/Pull/Leg split');
+            };
+        }
+    }, [resetWeek]);
+
     /**
      * Event handlers - focused only on UI coordination
      */
@@ -54,7 +70,7 @@ export default function App() {
     };
 
     const handleResetDay = (day) => {
-        if (window.confirm("Are you sure you want to reset this day's exercises?")) {
+        if (window.confirm(t("Are you sure you want to reset this day's exercises?", language))) {
             resetDay(day);
         }
     };
@@ -141,7 +157,8 @@ export default function App() {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    gap: '20px'
+                    gap: '20px',
+                    position: 'relative'
                 }}>
                     <img 
                         src={mdLogo} 
@@ -162,16 +179,17 @@ export default function App() {
                             margin: '0 0 4px 0',
                             fontWeight: '500'
                         }}>
-                            Track your weekly fitness progress
+                            {t("Track your weekly fitness progress", language)}
                         </p>
                         <p style={{
                             color: 'rgba(255, 255, 255, 0.8)',
                             fontSize: '14px',
-                            margin: '0',
+                            margin: '0 0 16px 0',
                             fontWeight: '400'
                         }}>
-                            By Jose Mondragon
+                            {t("By Jose Mondragon", language)}
                         </p>
+                        <LanguageToggle />
                     </div>
                 </div>
 
@@ -180,7 +198,7 @@ export default function App() {
                     padding: '24px 32px 20px 32px',
                     backgroundColor: 'white'
                 }}>
-                    <ProgressBar workoutPlan={workoutPlan} />
+                    <ProgressBar workoutPlan={workoutPlan} language={language} />
                 </div>
 
                 {/* Days Container */}
@@ -200,20 +218,93 @@ export default function App() {
                                 onResetDay={handleResetDay}
                                 onOpenAddExercise={handleOpenAddExercise}
                                 activeDayRef={activeDayRef}
+                                language={language}
                             />
                         ))}
                     </div>
 
-                    {/* Action Button */}
-                    <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                    {/* Action Buttons */}
+                    <div style={{ 
+                        marginTop: '20px', 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        alignItems: 'center',
+                        gap: '12px'
+                    }}>
                         <Button
                             variant={ButtonVariant.DANGER}
                             onClick={resetModal.open}
                             fullWidth
                             style={{ maxWidth: '320px' }}
                         >
-                            🔄 Start New Week
+                            🔄 {t("Start New Week", language)}
                         </Button>
+                        
+                        {/* Feedback Button */}
+                        <button
+                            onClick={feedbackModal.open}
+                            style={{
+                                width: '100%',
+                                maxWidth: '320px',
+                                padding: '14px 28px',
+                                background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                                border: 'none',
+                                borderRadius: '12px',
+                                color: 'white',
+                                fontSize: '16px',
+                                fontWeight: '600',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '10px',
+                                transition: 'all 0.3s ease',
+                                boxShadow: '0 4px 14px rgba(139, 92, 246, 0.25)',
+                                position: 'relative',
+                                overflow: 'hidden'
+                            }}
+                            onMouseOver={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-2px)';
+                                e.currentTarget.style.boxShadow = '0 8px 20px rgba(139, 92, 246, 0.35)';
+                                e.currentTarget.style.background = 'linear-gradient(135deg, #9333ea 0%, #8b5cf6 100%)';
+                            }}
+                            onMouseOut={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.boxShadow = '0 4px 14px rgba(139, 92, 246, 0.25)';
+                                e.currentTarget.style.background = 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)';
+                            }}
+                        >
+                            <svg 
+                                width="20" 
+                                height="20" 
+                                viewBox="0 0 24 24" 
+                                fill="none" 
+                                style={{ marginBottom: '1px' }}
+                            >
+                                <path 
+                                    d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" 
+                                    stroke="currentColor" 
+                                    strokeWidth="2" 
+                                    strokeLinecap="round" 
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+                            <span>{t("Share Your Feedback", language)}</span>
+                            <span style={{
+                                position: 'absolute',
+                                top: '8px',
+                                right: '12px',
+                                background: 'rgba(255, 255, 255, 0.2)',
+                                color: 'white',
+                                fontSize: '10px',
+                                padding: '2px 8px',
+                                borderRadius: '10px',
+                                fontWeight: '700',
+                                letterSpacing: '0.5px'
+                            }}>
+                                BETA
+                            </span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -222,7 +313,7 @@ export default function App() {
             <Modal
                 isOpen={resetModal.isOpen}
                 onClose={resetModal.close}
-                title="🔄 Confirm Reset"
+                title={`🔄 ${t("Confirm Reset", language)}`}
             >
                 <p style={{ 
                     marginBottom: '24px', 
@@ -231,7 +322,7 @@ export default function App() {
                     lineHeight: '1.6',
                     margin: '0 0 24px 0'
                 }}>
-                    Are you sure you want to start a new week? This will reset all exercises and progress to the default plan.
+                    {t("Are you sure you want to start a new week? This will reset all exercises and progress to the default plan.", language)}
                 </p>
                 <div style={{ 
                     display: 'flex', 
@@ -243,14 +334,14 @@ export default function App() {
                         onClick={resetModal.close}
                         fullWidth
                     >
-                        Cancel
+                        {t("Cancel", language)}
                     </Button>
                     <Button 
                         variant={ButtonVariant.DANGER}
                         onClick={handleResetWeek}
                         fullWidth
                     >
-                        Reset Week
+                        {t("Reset Week", language)}
                     </Button>
                 </div>
             </Modal>
@@ -261,7 +352,27 @@ export default function App() {
                 onClose={addExerciseModal.close}
                 onAddExercise={handleAddExercise}
                 muscleGroup={addExerciseModal.data && workoutPlan ? workoutPlan[addExerciseModal.data].name.split(' & ')[0] : ''}
+                language={language}
+            />
+
+            {/* Feedback Modal */}
+            <FeedbackModal
+                isOpen={feedbackModal.isOpen}
+                onClose={feedbackModal.close}
+                language={language}
             />
         </div>
+    );
+}
+
+/**
+ * Main App Component with Language Provider
+ * Wraps the AppContent with the LanguageProvider context
+ */
+export default function App() {
+    return (
+        <LanguageProvider>
+            <AppContent />
+        </LanguageProvider>
     );
 }
