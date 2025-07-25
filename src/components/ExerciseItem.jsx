@@ -1,11 +1,13 @@
 import React from 'react';
 import { Check, X, Trash2, GripVertical } from 'lucide-react';
 import { EXERCISE_DATABASE } from '../constants/index.js';
+import { t } from '../translations/ui';
+import { translateExercise } from '../translations/exercises';
 
 /**
  * Displays a single exercise item, allowing for edits, status changes, and deletion.
  */
-const ExerciseItem = ({ exercise, onUpdate, onDelete, onDragStart, onDragOver, onDragEnd, onDrop, index }) => {
+const ExerciseItem = ({ exercise, onUpdate, onDelete, onDragStart, onDragOver, onDragEnd, onDrop, index, language = 'en' }) => {
     // Check if this is a cardio exercise
     const isCardio = () => {
         if (exercise.dbId) {
@@ -157,7 +159,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, onDragStart, onDragOver, o
                         wordBreak: 'break-word',
                         hyphens: 'auto'
                     }}>
-                        {exercise.name}
+                        {translateExercise(exercise.name, language)}
                     </h3>
                     <div style={{ 
                         fontSize: '13px', 
@@ -169,8 +171,8 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, onDragStart, onDragOver, o
                         display: 'inline-block'
                     }}>
                         {isCardio() ? 
-                            `Target: ${exercise.sets || '30'} minutes` : 
-                            `Target: ${exercise.sets} sets × ${exercise.reps} reps`
+                            `${t("Target Duration (minutes)", language)}: ${exercise.sets || '30'}` : 
+                            `${t("Target Sets", language)}: ${exercise.sets} × ${exercise.reps} ${t("reps", language)}`
                         }
                     </div>
                 </div>
@@ -186,7 +188,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, onDragStart, onDragOver, o
                         // Cardio-specific fields
                         <>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                                <label style={{ fontSize: '12px', fontWeight: '600', color: '#f59e0b' }}>Duration (min)</label>
+                                <label style={{ fontSize: '12px', fontWeight: '600', color: '#f59e0b' }}>{t("Duration", language)} (min)</label>
                                 <select 
                                     value={exercise.sets || '30'} 
                                     onChange={e => handleUpdate('sets', e.target.value)} 
@@ -218,7 +220,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, onDragStart, onDragOver, o
                                 </select>
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                                <label style={{ fontSize: '12px', fontWeight: '600', color: '#10b981' }}>Completed</label>
+                                <label style={{ fontSize: '12px', fontWeight: '600', color: '#10b981' }}>{t("Effective", language)}</label>
                                 <input 
                                     type="number" 
                                     value={exercise.effectiveSets || ''} 
@@ -253,7 +255,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, onDragStart, onDragOver, o
                         // Regular exercise fields
                         <>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                                <label style={{ fontSize: '12px', fontWeight: '600', color: '#8b5cf6' }}>Sets</label>
+                                <label style={{ fontSize: '12px', fontWeight: '600', color: '#8b5cf6' }}>{t("Sets", language)}</label>
                                 <input 
                                     type="text" 
                                     value={exercise.sets} 
@@ -282,7 +284,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, onDragStart, onDragOver, o
                                 />
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                                <label style={{ fontSize: '12px', fontWeight: '600', color: '#3b82f6' }}>Reps</label>
+                                <label style={{ fontSize: '12px', fontWeight: '600', color: '#3b82f6' }}>{t("Reps", language)}</label>
                                 <input 
                                     type="text" 
                                     value={exercise.reps} 
@@ -315,7 +317,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, onDragStart, onDragOver, o
                     {!isCardio() && (
                         <>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                                <label style={{ fontSize: '12px', fontWeight: '600', color: '#6366f1' }}>Weight</label>
+                                <label style={{ fontSize: '12px', fontWeight: '600', color: '#6366f1' }}>{t("Weight", language)}</label>
                                 <input 
                                     type="text" 
                                     value={exercise.weight} 
@@ -344,7 +346,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, onDragStart, onDragOver, o
                                 />
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                                <label style={{ fontSize: '12px', fontWeight: '600', color: '#10b981' }}>Done</label>
+                                <label style={{ fontSize: '12px', fontWeight: '600', color: '#10b981' }}>{t("Effective", language)}</label>
                                 <input 
                                     type="number" 
                                     value={exercise.effectiveSets} 

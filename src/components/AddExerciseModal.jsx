@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { EXERCISE_DATABASE } from '../constants/index.js';
 import { INDIVIDUAL_MUSCLE_GROUPS } from '../constants/AppConstants.js';
 import Modal from './ui/Modal.jsx';
+import { t } from '../translations/ui';
+import { translateExercise } from '../translations/exercises';
 
 // Helper function to get muscle group colors
 const getMuscleGroupColor = (muscleGroup) => {
@@ -19,7 +21,7 @@ const getMuscleGroupColor = (muscleGroup) => {
     return colors[muscleGroup] || { bg: '#f3f4f6', text: '#6b7280' };
 };
 
-const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup }) => {
+const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, language = 'en' }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedMuscleGroup, setSelectedMuscleGroup] = useState('All');
     const [isCustom, setIsCustom] = useState(false);
@@ -105,7 +107,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup }) => {
     if (!isOpen) return null;
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose} title="💪 Add Exercise">
+        <Modal isOpen={isOpen} onClose={onClose} title={`💪 ${t("Add New Exercise", language)}`}>
             <div style={{ backgroundColor: 'white', padding: '16px', borderRadius: '8px' }}>
                 {/* Tab Navigation */}
                 <div style={{ display: 'flex', backgroundColor: '#f3f4f6', borderRadius: '8px', padding: '8px', marginBottom: '16px' }}>
@@ -123,7 +125,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup }) => {
                             color: !isCustom ? 'white' : '#4b5563'
                         }}
                     >
-                        📚 From Library
+                        📚 {t("Popular", language)}
                     </button>
                     <button 
                         onClick={() => setIsCustom(true)} 
@@ -139,7 +141,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup }) => {
                             color: isCustom ? 'white' : '#4b5563'
                         }}
                     >
-                        ✏️ Custom
+                        ✏️ {t("Custom Exercise", language)}
                     </button>
                 </div>
 
@@ -147,7 +149,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup }) => {
                     // Custom Exercise Form
                     <div style={{ backgroundColor: '#f9fafb', padding: '16px', borderRadius: '8px', border: '1px solid #d1d5db' }}>
                         <div style={{ marginBottom: '16px' }}>
-                            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>Exercise Name</label>
+                            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>{t("Exercise name", language)}</label>
                             <input 
                                 type="text" 
                                 value={customName} 
@@ -167,7 +169,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup }) => {
                         
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
                             <div>
-                                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>Sets</label>
+                                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>{t("Target Sets", language)}</label>
                                 <input 
                                     type="text" 
                                     value={customSets} 
@@ -185,7 +187,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup }) => {
                                 />
                             </div>
                             <div>
-                                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>Reps</label>
+                                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>{t("Target Reps", language)}</label>
                                 <input 
                                     type="text" 
                                     value={customReps} 
@@ -218,7 +220,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup }) => {
                                 fontSize: '14px'
                             }}
                         >
-                            ➕ Add Custom Exercise
+                            ➕ {t("Add to Workout", language)}
                         </button>
                     </div>
                 ) : (
@@ -228,7 +230,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup }) => {
                         <div style={{ marginBottom: '12px' }}>
                             <input
                                 type="text"
-                                placeholder="🔍 Search exercises by name..."
+                                placeholder={`🔍 ${t("Search exercises...", language)}`}
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 style={{
@@ -261,7 +263,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup }) => {
                                 }}
                             >
                                 {allMuscleGroups.map(group => (
-                                    <option key={group} value={group}>{group}</option>
+                                    <option key={group} value={group}>{translateExercise(group, language)}</option>
                                 ))}
                             </select>
                         </div>
@@ -437,19 +439,19 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup }) => {
                                                 }}>
                                                     {searchTerm && ex.name.toLowerCase().includes(searchTerm.toLowerCase()) ? (
                                                         <span dangerouslySetInnerHTML={{
-                                                            __html: ex.name.replace(
+                                                            __html: translateExercise(ex.name, language).replace(
                                                                 new RegExp(`(${searchTerm})`, 'gi'),
                                                                 '<mark style="background-color: #fef3c7; padding: 1px 2px; border-radius: 2px;">$1</mark>'
                                                             )
                                                         }} />
                                                     ) : (
-                                                        ex.name
+                                                        translateExercise(ex.name, language)
                                                     )}
                                                 </div>
                                                 <div style={{ fontSize: '12px', color: '#6b7280' }}>
                                                     {ex.muscleGroup === 'Cardio' ? 
-                                                        `Target: ${defaultSets} minutes` : 
-                                                        `Target: ${defaultSets} sets × ${defaultRepsMin === defaultRepsMax ? defaultRepsMin : `${defaultRepsMin}-${defaultRepsMax}`} reps`
+                                                        `${t("Target Duration (minutes)", language)}: ${defaultSets}` : 
+                                                        `${t("Target Sets", language)}: ${defaultSets} × ${defaultRepsMin === defaultRepsMax ? defaultRepsMin : `${defaultRepsMin}-${defaultRepsMax}`} ${t("reps", language)}`
                                                     }
                                                 </div>
                                             </div>
@@ -462,7 +464,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup }) => {
                                                     borderRadius: '12px',
                                                     fontWeight: '600'
                                                 }}>
-                                                    {ex.muscleGroup}
+                                                    {translateExercise(ex.muscleGroup, language)}
                                                 </span>
                                                 <span style={{
                                                     fontSize: '18px',
