@@ -1,18 +1,3 @@
-export const DAYS_OF_WEEK = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
-export const INDIVIDUAL_MUSCLE_GROUPS = [
-  "Rest",
-  "Chest",
-  "Back",
-  "Shoulders",
-  "Biceps",
-  "Triceps",
-  "Forearms",
-  "Legs",
-  "Abs",
-  "Cardio"
-];
-
 export const EXERCISE_DATABASE = [
   { "id": 1, "name": "Barbell Bench Press", "muscleGroup": "Chest" },
   { "id": 2, "name": "Incline Dumbbell Press", "muscleGroup": "Chest" },

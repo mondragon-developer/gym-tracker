@@ -1,8 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Custom CSS for improved mobile experience */
+/* Global CSS — Tailwind removed; styling is inline per-component. */
 
 * {
   box-sizing: border-box;
@@ -25,15 +21,16 @@ body {
 
 #root {
   min-width: 320px;
-  max-width: 640px;
+  max-width: 1200px;
   width: 100%;
 }
 
 /* Focus styles for accessibility */
 button:focus-visible,
-input:focus-visible {
-  outline: 1px solid #3b82f6;
-  outline-offset: 0.5px;
+input:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
 }
 
 /* Animation for smooth transitions */

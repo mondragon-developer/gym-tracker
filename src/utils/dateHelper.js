@@ -1,4 +1,4 @@
-import { DAYS_OF_WEEK } from '../constants/index.js';
+import { DAYS_OF_WEEK } from '../constants/AppConstants.js';
 
 /**
  * Gets the string name of the current day of the week.
