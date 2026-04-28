@@ -25,10 +25,10 @@ class ExerciseTypeStrategy {
 
   /**
    * Validates exercise data for this type
-   * @param {Object} exerciseData - Exercise data to validate
+   * @param {Object} _exerciseData - Exercise data to validate
    * @returns {{isValid: boolean, errors: string[]}} Validation result
    */
-  validate(exerciseData) {
+  validate(_exerciseData) {
     throw new Error('validate must be implemented');
   }
 
@@ -58,10 +58,10 @@ class ExerciseTypeStrategy {
 
   /**
    * Formats display text for the exercise
-   * @param {Object} exercise - Exercise data
+   * @param {Object} _exercise - Exercise data
    * @returns {string} Formatted display text
    */
-  formatDisplay(exercise) {
+  formatDisplay(_exercise) {
     throw new Error('formatDisplay must be implemented');
   }
 }

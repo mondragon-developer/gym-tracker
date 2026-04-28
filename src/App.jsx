@@ -3,17 +3,20 @@
  * Refactored to follow SOLID principles with proper separation of concerns
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, Suspense } from 'react';
 import useWorkoutPlan from './hooks/useWorkoutPlan.js';
 import useModal from './hooks/useModal.js';
 import ProgressBar from './components/ProgressBar';
 import DayAccordion from './components/DayAccordion';
 import AddExerciseModal from './components/AddExerciseModal';
-import FeedbackModal from './components/FeedbackModal';
+// Lazy: pulls in emailjs (~80 kB) only when the user actually opens the modal.
+const FeedbackModal = React.lazy(() => import('./components/FeedbackModal'));
 import LanguageToggle from './components/LanguageToggle';
 import Modal from './components/ui/Modal.jsx';
-import Button, { ButtonVariant } from './components/ui/Button.jsx';
-import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
+import Button from './components/ui/Button.jsx';
+import { ButtonVariant } from './components/ui/Button.constants.js';
+import { LanguageProvider } from './contexts/LanguageContext';
+import { useLanguage } from './hooks/useLanguage.js';
 import { t } from './translations/ui';
 import { getToday } from './utils/dateHelper';
 import { DAYS_OF_WEEK } from './constants/AppConstants.js';
@@ -38,6 +41,7 @@ function AppContent() {
     } = useWorkoutPlan();
     
     const resetModal = useModal();
+    const resetDayModal = useModal();
     const addExerciseModal = useModal();
     const feedbackModal = useModal();
     
@@ -54,7 +58,7 @@ function AppContent() {
 
     // Development helper - expose reset function to console
     React.useEffect(() => {
-        if (process.env.NODE_ENV === 'development') {
+        if (import.meta.env.DEV) {
             window.resetWorkoutPlan = () => {
                 resetWeek();
                 console.log('Workout plan reset to default Push/Pull/Leg split');
@@ -70,9 +74,14 @@ function AppContent() {
     };
 
     const handleResetDay = (day) => {
-        if (window.confirm(t("Are you sure you want to reset this day's exercises?", language))) {
-            resetDay(day);
+        resetDayModal.open(day);
+    };
+
+    const handleConfirmResetDay = () => {
+        if (resetDayModal.data) {
+            resetDay(resetDayModal.data);
         }
+        resetDayModal.close();
     };
 
     const handleResetWeek = () => {
@@ -346,6 +355,43 @@ function AppContent() {
                 </div>
             </Modal>
 
+            {/* Reset Day Modal */}
+            <Modal
+                isOpen={resetDayModal.isOpen}
+                onClose={resetDayModal.close}
+                title={`🔄 ${t("Reset Day", language)}`}
+            >
+                <p style={{
+                    marginBottom: '24px',
+                    color: '#6b7280',
+                    fontSize: '16px',
+                    lineHeight: '1.6',
+                    margin: '0 0 24px 0'
+                }}>
+                    {t("Are you sure you want to reset this day's exercises?", language)}
+                </p>
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '12px'
+                }}>
+                    <Button
+                        variant={ButtonVariant.SECONDARY}
+                        onClick={resetDayModal.close}
+                        fullWidth
+                    >
+                        {t("Cancel", language)}
+                    </Button>
+                    <Button
+                        variant={ButtonVariant.DANGER}
+                        onClick={handleConfirmResetDay}
+                        fullWidth
+                    >
+                        {t("Reset Day", language)}
+                    </Button>
+                </div>
+            </Modal>
+
             {/* Add Exercise Modal */}
             <AddExerciseModal
                 isOpen={addExerciseModal.isOpen}
@@ -355,12 +401,16 @@ function AppContent() {
                 language={language}
             />
 
-            {/* Feedback Modal */}
-            <FeedbackModal
-                isOpen={feedbackModal.isOpen}
-                onClose={feedbackModal.close}
-                language={language}
-            />
+            {/* Feedback Modal — code-split, mounted only while open */}
+            {feedbackModal.isOpen && (
+                <Suspense fallback={null}>
+                    <FeedbackModal
+                        isOpen={feedbackModal.isOpen}
+                        onClose={feedbackModal.close}
+                        language={language}
+                    />
+                </Suspense>
+            )}
         </div>
     );
 }

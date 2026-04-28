@@ -97,7 +97,42 @@ class WorkoutService {
      */
     getPlan() {
         const savedPlan = this.storage.getWorkoutPlan(STORAGE_KEY);
-        return savedPlan || this.getInitialPlan();
+        
+        // If no saved plan exists, return initial plan
+        if (!savedPlan) {
+            return this.getInitialPlan();
+        }
+        
+        // Merge saved plan with initial plan to handle missing days/structure changes
+        return this.migrateWorkoutPlan(savedPlan);
+    }
+
+    /**
+     * Migrates and merges saved workout plan with current schema
+     * Ensures all days exist and preserves user progress
+     * @param {WorkoutPlan} savedPlan - The saved workout plan from storage
+     * @returns {WorkoutPlan} Merged workout plan with all days
+     */
+    migrateWorkoutPlan(savedPlan) {
+        const initialPlan = this.getInitialPlan();
+        const migratedPlan = {};
+        
+        // For each day in the initial plan, check if saved data exists
+        Object.keys(initialPlan).forEach(day => {
+            if (savedPlan[day]) {
+                // Day exists in saved plan - keep user's data
+                migratedPlan[day] = savedPlan[day];
+            } else {
+                // Day missing from saved plan - use initial data
+                migratedPlan[day] = initialPlan[day];
+                console.log(`Added missing day: ${day}`);
+            }
+        });
+        
+        // Save the migrated plan to ensure future loads are consistent
+        this.savePlan(migratedPlan);
+        
+        return migratedPlan;
     }
 
     /**
@@ -109,11 +144,14 @@ class WorkoutService {
     }
 
     /**
-     * Returns the initial workout plan
+     * Returns a fresh copy of the initial workout plan.
+     * Deep-cloned so callers can mutate without corrupting the module-level default.
      * @returns {WorkoutPlan} Default workout plan
      */
     getInitialPlan() {
-        return INITIAL_WORKOUT_PLAN;
+        return typeof structuredClone === 'function'
+            ? structuredClone(INITIAL_WORKOUT_PLAN)
+            : JSON.parse(JSON.stringify(INITIAL_WORKOUT_PLAN));
     }
 
     /**

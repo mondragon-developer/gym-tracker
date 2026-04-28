@@ -48,6 +48,7 @@ export const uiTranslations = {
         "Mark as incomplete": "Mark as incomplete",
         "Edit exercise": "Edit exercise",
         "Delete exercise": "Delete exercise",
+        "Reorder exercise": "Reorder exercise",
         "Save": "Save",
         "Cancel": "Cancel",
         
@@ -62,6 +63,7 @@ export const uiTranslations = {
         "Target Reps": "Target Reps",
         "Target Duration (minutes)": "Target Duration (minutes)",
         "Add to Workout": "Add to Workout",
+        "Please enter an exercise name.": "Please enter an exercise name.",
         
         // Reset Modal
         "Confirm Reset": "Confirm Reset",
@@ -138,6 +140,7 @@ export const uiTranslations = {
         "Mark as incomplete": "Marcar como incompleto",
         "Edit exercise": "Editar ejercicio",
         "Delete exercise": "Eliminar ejercicio",
+        "Reorder exercise": "Reordenar ejercicio",
         "Save": "Guardar",
         "Cancel": "Cancelar",
         
@@ -152,6 +155,7 @@ export const uiTranslations = {
         "Target Reps": "Reps Objetivo",
         "Target Duration (minutes)": "Duración Objetivo (minutos)",
         "Add to Workout": "Agregar al Entrenamiento",
+        "Please enter an exercise name.": "Por favor ingresa un nombre de ejercicio.",
         
         // Reset Modal
         "Confirm Reset": "Confirmar Reinicio",

@@ -1,22 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-
-/**
- * Language Context for managing app-wide language settings
- * Supports English (en) and Spanish (es)
- */
-const LanguageContext = createContext();
-
-/**
- * Custom hook to use the Language Context
- * @returns {Object} Language context value
- */
-export const useLanguage = () => {
-    const context = useContext(LanguageContext);
-    if (!context) {
-        throw new Error('useLanguage must be used within a LanguageProvider');
-    }
-    return context;
-};
+import React, { useState, useEffect } from 'react';
+import { LanguageContext } from './languageContextDef.js';
 
 /**
  * Language Provider component
@@ -29,9 +12,12 @@ export const LanguageProvider = ({ children }) => {
         return savedLanguage || 'en';
     });
 
-    // Save language preference to localStorage when it changes
+    // Persist preference and keep <html lang> in sync for screen readers
     useEffect(() => {
         localStorage.setItem('gym-tracker-language', language);
+        if (typeof document !== 'undefined') {
+            document.documentElement.lang = language;
+        }
     }, [language]);
 
     // Toggle between English and Spanish

@@ -4,24 +4,7 @@
  */
 
 import React from 'react';
-
-/**
- * Input variant types
- */
-export const InputVariant = {
-  DEFAULT: 'default',
-  SUCCESS: 'success',
-  ERROR: 'error'
-};
-
-/**
- * Input size types
- */
-export const InputSize = {
-  SMALL: 'small',
-  MEDIUM: 'medium',
-  LARGE: 'large'
-};
+import { InputVariant, InputSize } from './Input.constants.js';
 
 /**
  * Base input styles

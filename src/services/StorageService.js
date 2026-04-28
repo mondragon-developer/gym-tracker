@@ -8,25 +8,25 @@
  */
 class StorageInterface {
   /**
-   * @param {string} key - Storage key
+   * @param {string} _key - Storage key
    * @returns {*} Stored value
    */
-  get(key) {
+  get(_key) {
     throw new Error('get method must be implemented');
   }
 
   /**
-   * @param {string} key - Storage key
-   * @param {*} value - Value to store
+   * @param {string} _key - Storage key
+   * @param {*} _value - Value to store
    */
-  set(key, value) {
+  set(_key, _value) {
     throw new Error('set method must be implemented');
   }
 
   /**
-   * @param {string} key - Storage key to remove
+   * @param {string} _key - Storage key to remove
    */
-  remove(key) {
+  remove(_key) {
     throw new Error('remove method must be implemented');
   }
 

@@ -79,8 +79,11 @@ class ExerciseService {
    * @returns {Exercise} New exercise object
    */
   static createExercise({ name, dbId = null, sets, reps = '' }) {
+    const id = typeof crypto !== 'undefined' && crypto.randomUUID
+      ? `ex_${crypto.randomUUID()}`
+      : `ex_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
     return {
-      id: `ex_${Date.now()}`,
+      id,
       dbId,
       name,
       sets,

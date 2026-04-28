@@ -4,25 +4,7 @@
  */
 
 import React from 'react';
-
-/**
- * Button variant types
- */
-export const ButtonVariant = {
-  PRIMARY: 'primary',
-  SECONDARY: 'secondary',
-  DANGER: 'danger',
-  SUCCESS: 'success'
-};
-
-/**
- * Button size types
- */
-export const ButtonSize = {
-  SMALL: 'small',
-  MEDIUM: 'medium',
-  LARGE: 'large'
-};
+import { ButtonVariant, ButtonSize } from './Button.constants.js';
 
 /**
  * Base button styles

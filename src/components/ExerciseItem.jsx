@@ -1,21 +1,19 @@
 import React from 'react';
 import { Check, X, Trash2, GripVertical } from 'lucide-react';
-import { EXERCISE_DATABASE } from '../constants/index.js';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import ExerciseService from '../services/ExerciseService.js';
 import { t } from '../translations/ui';
 import { translateExercise } from '../translations/exercises';
 
 /**
  * Displays a single exercise item, allowing for edits, status changes, and deletion.
  */
-const ExerciseItem = ({ exercise, onUpdate, onDelete, onDragStart, onDragOver, onDragEnd, onDrop, index, language = 'en' }) => {
-    // Check if this is a cardio exercise
-    const isCardio = () => {
-        if (exercise.dbId) {
-            const dbExercise = EXERCISE_DATABASE.find(ex => ex.id === exercise.dbId);
-            return dbExercise?.muscleGroup === 'Cardio';
-        }
-        return false;
-    };
+const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en' }) => {
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+        id: exercise.id,
+    });
+    const isCardio = () => ExerciseService.isCardioExercise(exercise);
     const handleUpdate = (field, value) => {
         onUpdate(exercise.id, { ...exercise, [field]: value });
     };
@@ -60,20 +58,22 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, onDragStart, onDragOver, o
 
     const statusStyles = getStatusStyles();
 
+    const sortableStyle = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: isDragging ? 0.5 : 1,
+        zIndex: isDragging ? 10 : 'auto',
+    };
+
     return (
         <div
-            draggable
-            onDragStart={(e) => onDragStart(e, index)}
-            onDragOver={onDragOver}
-            onDrop={(e) => onDrop(e, index)}
-            onDragEnd={onDragEnd}
+            ref={setNodeRef}
             style={{
                 padding: '16px',
                 borderRadius: '16px',
                 position: 'relative',
-                transition: 'all 0.3s ease',
-                cursor: 'grab',
-                ...statusStyles
+                ...statusStyles,
+                ...sortableStyle,
             }}
         >
             {/* Mobile-first layout */}
@@ -81,7 +81,25 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, onDragStart, onDragOver, o
                 {/* Header with drag handle, status icon and action buttons */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <GripVertical style={{ color: '#6b7280' }} size={18} />
+                        <button
+                            type="button"
+                            {...attributes}
+                            {...listeners}
+                            aria-label={t("Reorder exercise", language)}
+                            title={t("Reorder exercise", language)}
+                            style={{
+                                background: 'transparent',
+                                border: 'none',
+                                padding: 0,
+                                color: '#6b7280',
+                                cursor: 'grab',
+                                touchAction: 'none',
+                                display: 'flex',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <GripVertical size={18} />
+                        </button>
                         <span style={{ fontSize: '18px' }}>{getStatusIcon()}</span>
                     </div>
                     
@@ -101,12 +119,13 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, onDragStart, onDragOver, o
                                     : 'linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 100%)',
                                 color: exercise.status === 'completed' ? 'white' : '#10b981'
                             }}
-                            title="Mark as completed"
+                            title={t("Mark as completed", language)}
+                            aria-label={t("Mark as completed", language)}
                         >
                             <Check size={18} />
                         </button>
-                        <button 
-                            onClick={() => handleStatusChange('skipped')} 
+                        <button
+                            onClick={() => handleStatusChange('skipped')}
                             style={{
                                 padding: '10px',
                                 borderRadius: '12px',
@@ -120,11 +139,12 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, onDragStart, onDragOver, o
                                 color: exercise.status === 'skipped' ? 'white' : '#ef4444'
                             }}
                             title="Mark as skipped"
+                            aria-label="Mark as skipped"
                         >
                             <X size={18} />
                         </button>
-                        <button 
-                            onClick={() => onDelete(exercise.id)} 
+                        <button
+                            onClick={() => onDelete(exercise.id)}
                             style={{
                                 padding: '10px',
                                 borderRadius: '12px',
@@ -135,7 +155,8 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, onDragStart, onDragOver, o
                                 border: 'none',
                                 cursor: 'pointer'
                             }}
-                            title="Delete exercise"
+                            title={t("Delete exercise", language)}
+                            aria-label={t("Delete exercise", language)}
                             onMouseOver={(e) => {
                                 e.target.style.background = 'linear-gradient(90deg, #fee2e2 0%, #fecaca 100%)';
                             }}

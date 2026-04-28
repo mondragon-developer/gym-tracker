@@ -5,7 +5,8 @@
 
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import Button, { ButtonVariant, ButtonSize } from './Button.jsx';
+import Button from './Button.jsx';
+import { ButtonVariant, ButtonSize } from './Button.constants.js';
 
 /**
  * Base modal styles

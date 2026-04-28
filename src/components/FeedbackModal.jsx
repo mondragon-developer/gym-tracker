@@ -1,21 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import Modal from './ui/Modal';
-import Button, { ButtonVariant } from './ui/Button';
+import Button from './ui/Button';
+import { ButtonVariant } from './ui/Button.constants.js';
 import Input from './ui/Input';
+import { t } from '../translations/ui';
+
+// Anti-spam: bots fill every field; humans skip the hidden one. We also
+// require at least 3s on the form before allowing submit.
+const MIN_TIME_TO_SUBMIT_MS = 3000;
 
 /**
  * Feedback Modal Component
  * Allows users to send feedback about the app via EmailJS
  */
-const FeedbackModal = ({ isOpen, onClose }) => {
+const FeedbackModal = ({ isOpen, onClose, language = 'en' }) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         message: ''
     });
+    const [honeypot, setHoneypot] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
+    const openedAtRef = useRef(0);
+
+    useEffect(() => {
+        if (isOpen) openedAtRef.current = Date.now();
+    }, [isOpen]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -27,14 +39,25 @@ const FeedbackModal = ({ isOpen, onClose }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Silently drop bot submissions: honeypot filled, or submitted too fast.
+        const elapsed = Date.now() - openedAtRef.current;
+        if (honeypot || elapsed < MIN_TIME_TO_SUBMIT_MS) {
+            setSubmitStatus('success');
+            setTimeout(() => {
+                setFormData({ name: '', email: '', message: '' });
+                setSubmitStatus(null);
+                onClose();
+            }, 2000);
+            return;
+        }
+
         setIsSubmitting(true);
         setSubmitStatus(null);
 
         try {
-            // Initialize EmailJS with public key
             emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
 
-            // Send email
             await emailjs.send(
                 import.meta.env.VITE_EMAILJS_SERVICE_ID,
                 import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
@@ -42,12 +65,11 @@ const FeedbackModal = ({ isOpen, onClose }) => {
                     from_name: formData.name,
                     from_email: formData.email,
                     message: formData.message,
-                    to_email: import.meta.env.VITE_FEEDBACK_EMAIL || 'your-email@example.com', // Configure in .env
+                    to_email: import.meta.env.VITE_FEEDBACK_EMAIL || 'your-email@example.com',
                 }
             );
 
             setSubmitStatus('success');
-            // Clear form after success
             setTimeout(() => {
                 setFormData({ name: '', email: '', message: '' });
                 setSubmitStatus(null);
@@ -65,39 +87,56 @@ const FeedbackModal = ({ isOpen, onClose }) => {
         <Modal
             isOpen={isOpen}
             onClose={onClose}
-            title="💬 Send Feedback"
+            title={`💬 ${t("Send Feedback", language)}`}
         >
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {/* Honeypot — invisible to users, irresistible to bots */}
+                <div
+                    aria-hidden="true"
+                    style={{ position: 'absolute', left: '-10000px', width: '1px', height: '1px', overflow: 'hidden' }}
+                >
+                    <label>
+                        Website
+                        <input
+                            type="text"
+                            name="website"
+                            tabIndex={-1}
+                            autoComplete="off"
+                            value={honeypot}
+                            onChange={(e) => setHoneypot(e.target.value)}
+                        />
+                    </label>
+                </div>
                 <div>
-                    <label style={{ 
-                        display: 'block', 
-                        marginBottom: '4px', 
-                        fontSize: '14px', 
+                    <label style={{
+                        display: 'block',
+                        marginBottom: '4px',
+                        fontSize: '14px',
                         fontWeight: '500',
                         color: '#374151'
                     }}>
-                        Name
+                        {t("Name", language)}
                     </label>
                     <Input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        placeholder="Your name"
+                        placeholder={t("Your name", language)}
                         required
                         disabled={isSubmitting}
                     />
                 </div>
 
                 <div>
-                    <label style={{ 
-                        display: 'block', 
-                        marginBottom: '4px', 
-                        fontSize: '14px', 
+                    <label style={{
+                        display: 'block',
+                        marginBottom: '4px',
+                        fontSize: '14px',
                         fontWeight: '500',
                         color: '#374151'
                     }}>
-                        Email
+                        {t("Email", language)}
                     </label>
                     <Input
                         type="email"
@@ -111,20 +150,20 @@ const FeedbackModal = ({ isOpen, onClose }) => {
                 </div>
 
                 <div>
-                    <label style={{ 
-                        display: 'block', 
-                        marginBottom: '4px', 
-                        fontSize: '14px', 
+                    <label style={{
+                        display: 'block',
+                        marginBottom: '4px',
+                        fontSize: '14px',
                         fontWeight: '500',
                         color: '#374151'
                     }}>
-                        Message
+                        {t("Message", language)}
                     </label>
                     <textarea
                         name="message"
                         value={formData.message}
                         onChange={handleChange}
-                        placeholder="Your feedback about the app..."
+                        placeholder={t("Your feedback about the app...", language)}
                         required
                         disabled={isSubmitting}
                         rows={5}
@@ -161,7 +200,7 @@ const FeedbackModal = ({ isOpen, onClose }) => {
                         textAlign: 'center',
                         fontWeight: '500'
                     }}>
-                        ✅ Feedback sent successfully! Thank you!
+                        ✅ {t("Feedback sent successfully! Thank you!", language)}
                     </div>
                 )}
 
@@ -174,12 +213,12 @@ const FeedbackModal = ({ isOpen, onClose }) => {
                         textAlign: 'center',
                         fontWeight: '500'
                     }}>
-                        ❌ Failed to send feedback. Please try again.
+                        ❌ {t("Failed to send feedback. Please try again.", language)}
                     </div>
                 )}
 
-                <div style={{ 
-                    display: 'flex', 
+                <div style={{
+                    display: 'flex',
                     flexDirection: 'column',
                     gap: '12px',
                     marginTop: '8px'
@@ -190,7 +229,7 @@ const FeedbackModal = ({ isOpen, onClose }) => {
                         fullWidth
                         disabled={isSubmitting}
                     >
-                        {isSubmitting ? 'Sending...' : 'Send Feedback'}
+                        {isSubmitting ? t("Sending...", language) : t("Send Feedback", language)}
                     </Button>
                     <Button
                         type="button"
@@ -199,7 +238,7 @@ const FeedbackModal = ({ isOpen, onClose }) => {
                         fullWidth
                         disabled={isSubmitting}
                     >
-                        Cancel
+                        {t("Cancel", language)}
                     </Button>
                 </div>
             </form>

@@ -5,6 +5,8 @@ import Modal from './ui/Modal.jsx';
 import { t } from '../translations/ui';
 import { translateExercise } from '../translations/exercises';
 
+const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 // Helper function to get muscle group colors
 const getMuscleGroupColor = (muscleGroup) => {
     const colors = {
@@ -23,7 +25,11 @@ const getMuscleGroupColor = (muscleGroup) => {
 
 const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, language = 'en' }) => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedMuscleGroup, setSelectedMuscleGroup] = useState('All');
+    // Preselect the day's muscle group as the filter when a known group is supplied.
+    const initialFilter = EXERCISE_DATABASE.some(ex => ex.muscleGroup === muscleGroup)
+        ? muscleGroup
+        : 'All';
+    const [selectedMuscleGroup, setSelectedMuscleGroup] = useState(initialFilter);
     const [isCustom, setIsCustom] = useState(false);
     const [customName, setCustomName] = useState('');
     const [customSets, setCustomSets] = useState('3');
@@ -31,6 +37,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
     const [defaultSets, setDefaultSets] = useState('3');
     const [defaultRepsMin, setDefaultRepsMin] = useState('8');
     const [defaultRepsMax, setDefaultRepsMax] = useState('12');
+    const [customError, setCustomError] = useState('');
 
     // Get unique muscle groups from the database
     const allMuscleGroups = ['All', ...new Set(EXERCISE_DATABASE.map(ex => ex.muscleGroup))];
@@ -71,14 +78,15 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
     // Handle adding custom exercise
     const handleAddCustom = () => {
         if (!customName.trim()) {
-            alert("Please enter an exercise name.");
+            setCustomError(t("Please enter an exercise name.", language));
             return;
         }
-        onAddExercise({ 
-            dbId: null, 
-            name: customName.trim(), 
-            sets: customSets, 
-            reps: customReps 
+        setCustomError('');
+        onAddExercise({
+            dbId: null,
+            name: customName.trim(),
+            sets: customSets,
+            reps: customReps
         });
         onClose();
         resetForm();
@@ -95,14 +103,19 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
         setDefaultSets('3');
         setDefaultRepsMin('8');
         setDefaultRepsMax('12');
+        setCustomError('');
     };
 
-    // Reset form when modal is opened/closed
+    // Reset form when modal is opened/closed; preselect the day's muscle
+    // group as the filter every time the modal opens (per-day default).
     useEffect(() => {
         if (!isOpen) {
             resetForm();
+        } else {
+            setSelectedMuscleGroup(initialFilter);
         }
-    }, [isOpen]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOpen, muscleGroup]);
 
     if (!isOpen) return null;
 
@@ -150,11 +163,14 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                     <div style={{ backgroundColor: '#f9fafb', padding: '16px', borderRadius: '8px', border: '1px solid #d1d5db' }}>
                         <div style={{ marginBottom: '16px' }}>
                             <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>{t("Exercise name", language)}</label>
-                            <input 
-                                type="text" 
-                                value={customName} 
-                                onChange={(e) => setCustomName(e.target.value)} 
-                                placeholder="e.g., Bench Press" 
+                            <input
+                                type="text"
+                                value={customName}
+                                onChange={(e) => {
+                                    setCustomName(e.target.value);
+                                    if (customError) setCustomError('');
+                                }}
+                                placeholder="e.g., Bench Press"
                                 style={{
                                     width: '100%',
                                     padding: '12px',
@@ -206,8 +222,25 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                             </div>
                         </div>
                         
-                        <button 
-                            onClick={handleAddCustom} 
+                        {customError && (
+                            <div
+                                role="alert"
+                                style={{
+                                    padding: '10px 12px',
+                                    marginBottom: '12px',
+                                    backgroundColor: '#fee2e2',
+                                    color: '#991b1b',
+                                    borderRadius: '8px',
+                                    border: '1px solid #fecaca',
+                                    fontSize: '13px',
+                                    fontWeight: '500'
+                                }}
+                            >
+                                ⚠️ {customError}
+                            </div>
+                        )}
+                        <button
+                            onClick={handleAddCustom}
                             style={{
                                 width: '100%',
                                 backgroundColor: '#10b981',
@@ -440,7 +473,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                                     {searchTerm && ex.name.toLowerCase().includes(searchTerm.toLowerCase()) ? (
                                                         <span dangerouslySetInnerHTML={{
                                                             __html: translateExercise(ex.name, language).replace(
-                                                                new RegExp(`(${searchTerm})`, 'gi'),
+                                                                new RegExp(`(${escapeRegExp(searchTerm)})`, 'gi'),
                                                                 '<mark style="background-color: #fef3c7; padding: 1px 2px; border-radius: 2px;">$1</mark>'
                                                             )
                                                         }} />

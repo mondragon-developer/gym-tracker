@@ -1,5 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, Plus, Edit3 } from 'lucide-react';
+import {
+    DndContext,
+    PointerSensor,
+    TouchSensor,
+    KeyboardSensor,
+    useSensor,
+    useSensors,
+    closestCenter,
+} from '@dnd-kit/core';
+import {
+    SortableContext,
+    verticalListSortingStrategy,
+    arrayMove,
+    sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
 import ExerciseItem from './ExerciseItem.jsx';
 import { INDIVIDUAL_MUSCLE_GROUPS } from '../constants/AppConstants.js';
 import { t } from '../translations/ui';
@@ -9,8 +24,23 @@ import { translateExercise, translateMuscleGroup } from '../translations/exercis
  * An accordion component for a single day's workout plan.
  */
 const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, onOpenAddExercise, activeDayRef, language = 'en' }) => {
-    const [draggedItem, setDraggedItem] = useState(null);
     const [showMuscleGroupDropdown, setShowMuscleGroupDropdown] = useState(false);
+
+    // Touch sensor with delay so finger drag doesn't fight scroll on mobile.
+    const sensors = useSensors(
+        useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+        useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+        useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    );
+
+    const handleDragEnd = (event) => {
+        const { active, over } = event;
+        if (!over || active.id === over.id) return;
+        const oldIndex = data.exercises.findIndex(ex => ex.id === active.id);
+        const newIndex = data.exercises.findIndex(ex => ex.id === over.id);
+        if (oldIndex === -1 || newIndex === -1) return;
+        onUpdateDay(day, { ...data, exercises: arrayMove(data.exercises, oldIndex, newIndex) });
+    };
 
     const handleUpdateExercise = (exerciseId, updatedExercise) => {
         const updatedExercises = data.exercises.map(ex => ex.id === exerciseId ? updatedExercise : ex);
@@ -72,27 +102,6 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
         return () => document.removeEventListener('click', handleClickOutside);
     }, [showMuscleGroupDropdown]);
     
-    const onDragStart = (e, index) => {
-        setDraggedItem(data.exercises[index]);
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/html', e.target);
-    };
-
-    const onDragOver = (e) => {
-        e.preventDefault();
-    };
-
-    const onDrop = (e, index) => {
-        const newExercises = [...data.exercises];
-        const draggedItemIndex = newExercises.findIndex(ex => ex.id === draggedItem.id);
-        newExercises.splice(draggedItemIndex, 1);
-        newExercises.splice(index, 0, draggedItem);
-        onUpdateDay(day, { ...data, exercises: newExercises });
-        setDraggedItem(null);
-    };
-
-    const onDragEnd = () => setDraggedItem(null);
-
     const getHeaderColors = () => {
         if (isOpen) {
             return {
@@ -134,7 +143,16 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                 transition: 'all 0.3s ease'
             }}
         >
+            {/*
+              Header uses role=button (not <button>) because the muscle-group editor
+              renders nested interactive children, and <button> inside <button> is
+              invalid HTML. Keyboard handler + aria-expanded keep it accessible.
+            */}
             <div
+                role="button"
+                tabIndex={0}
+                aria-expanded={isOpen}
+                aria-controls={`day-panel-${day}`}
                 style={{
                     padding: '20px',
                     cursor: 'pointer',
@@ -145,6 +163,12 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                     ...headerStyle
                 }}
                 onClick={() => onToggle(day)}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        onToggle(day);
+                    }
+                }}
             >
                 <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
@@ -321,7 +345,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
             </div>
             
             {isOpen && (
-                <div style={{
+                <div id={`day-panel-${day}`} style={{
                     padding: '20px',
                     background: 'linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%)'
                 }}>
@@ -333,20 +357,26 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                         overflowY: 'auto'
                     }}>
                         {data.exercises.length > 0 ? (
-                            data.exercises.map((ex, index) => (
-                                <ExerciseItem 
-                                    key={ex.id} 
-                                    exercise={ex} 
-                                    index={index} 
-                                    onUpdate={handleUpdateExercise} 
-                                    onDelete={handleDeleteExercise} 
-                                    onDragStart={onDragStart} 
-                                    onDragOver={onDragOver} 
-                                    onDrop={onDrop} 
-                                    onDragEnd={onDragEnd}
-                                    language={language}
-                                />
-                            ))
+                            <DndContext
+                                sensors={sensors}
+                                collisionDetection={closestCenter}
+                                onDragEnd={handleDragEnd}
+                            >
+                                <SortableContext
+                                    items={data.exercises.map(e => e.id)}
+                                    strategy={verticalListSortingStrategy}
+                                >
+                                    {data.exercises.map((ex) => (
+                                        <ExerciseItem
+                                            key={ex.id}
+                                            exercise={ex}
+                                            onUpdate={handleUpdateExercise}
+                                            onDelete={handleDeleteExercise}
+                                            language={language}
+                                        />
+                                    ))}
+                                </SortableContext>
+                            </DndContext>
                         ) : (
                             <div style={{
                                 textAlign: 'center',
