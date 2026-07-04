@@ -9,9 +9,11 @@ export class ProgressService implements IProgressService {
     private progressRepository: IProgressRepository
   ) {}
 
-  getWeeklyProgress(): WeeklyProgress {
-    const allExercises = this.exerciseRepository.getAll();
-    const currentProgress = this.progressRepository.getCurrentProgress();
+  async getWeeklyProgress(): Promise<WeeklyProgress> {
+    const [allExercises, currentProgress] = await Promise.all([
+      this.exerciseRepository.getAll(),
+      this.progressRepository.getCurrentProgress()
+    ]);
 
     const totalExercises = allExercises.length;
     let completedExercises = 0;
@@ -23,7 +25,8 @@ export class ProgressService implements IProgressService {
       }
     });
 
-    const percentage = totalExercises > 0 ? Math.round((completedExercises / totalExercises) * 100) : 0;
+    const percentage =
+      totalExercises > 0 ? Math.round((completedExercises / totalExercises) * 100) : 0;
 
     return {
       completedExercises,
@@ -32,7 +35,7 @@ export class ProgressService implements IProgressService {
     };
   }
 
-  resetWeeklyProgress(): void {
-    this.progressRepository.resetProgress();
+  async resetWeeklyProgress(): Promise<void> {
+    await this.progressRepository.resetProgress();
   }
 }

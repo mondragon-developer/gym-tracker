@@ -10,10 +10,13 @@ export class ExerciseService implements IExerciseService {
     private progressRepository: IProgressRepository
   ) {}
 
-  getAllExercises(): ExerciseWithProgress[] {
-    const exercises = this.exerciseRepository.getAll();
-    const currentProgress = this.progressRepository.getCurrentProgress();
-    const previousProgress = this.progressRepository.getPreviousProgress();
+  async getAllExercises(): Promise<ExerciseWithProgress[]> {
+    // Fetch exercises + both progress maps in parallel to minimise round-trips.
+    const [exercises, currentProgress, previousProgress] = await Promise.all([
+      this.exerciseRepository.getAll(),
+      this.progressRepository.getCurrentProgress(),
+      this.progressRepository.getPreviousProgress()
+    ]);
 
     return exercises.map(exercise => ({
       ...exercise,
@@ -22,10 +25,12 @@ export class ExerciseService implements IExerciseService {
     }));
   }
 
-  getExercisesByMuscleGroup(muscleGroupId: string): ExerciseWithProgress[] {
-    const exercises = this.exerciseRepository.getByMuscleGroup(muscleGroupId);
-    const currentProgress = this.progressRepository.getCurrentProgress();
-    const previousProgress = this.progressRepository.getPreviousProgress();
+  async getExercisesByMuscleGroup(muscleGroupId: string): Promise<ExerciseWithProgress[]> {
+    const [exercises, currentProgress, previousProgress] = await Promise.all([
+      this.exerciseRepository.getByMuscleGroup(muscleGroupId),
+      this.progressRepository.getCurrentProgress(),
+      this.progressRepository.getPreviousProgress()
+    ]);
 
     return exercises.map(exercise => ({
       ...exercise,
@@ -34,25 +39,25 @@ export class ExerciseService implements IExerciseService {
     }));
   }
 
-  addCustomExercise(exercise: NewExercise): Exercise {
+  async addCustomExercise(exercise: NewExercise): Promise<Exercise> {
     return this.exerciseRepository.add(exercise);
   }
 
-  deleteExercise(id: string): void {
-    const exercise = this.exerciseRepository.getById(id);
+  async deleteExercise(id: string): Promise<void> {
+    const exercise = await this.exerciseRepository.getById(id);
     if (exercise && exercise.isCustom) {
-      this.exerciseRepository.remove(id);
+      await this.exerciseRepository.remove(id);
     }
   }
 
-  updateExerciseProgress(
+  async updateExerciseProgress(
     exerciseId: string,
     completed: boolean,
     skipped: boolean,
     effectiveSets: number,
     reps: number,
     weight: number
-  ): void {
+  ): Promise<void> {
     const progress: ExerciseProgress = {
       exerciseId,
       completed,
@@ -62,9 +67,10 @@ export class ExerciseService implements IExerciseService {
       weight
     };
 
-    this.progressRepository.updateExerciseProgress(exerciseId, progress);
+    await this.progressRepository.updateExerciseProgress(exerciseId, progress);
   }
 
+  /** Default exercises come from the static catalog, not the DB. */
   getDefaultExercisesForDay(dayId: string): Exercise[] {
     return DEFAULT_EXERCISES.filter(exercise => exercise.day === dayId);
   }

@@ -1,10 +1,17 @@
 import { Exercise, NewExercise } from '../../types/Exercise';
 
+/**
+ * Persistence contract for exercises.
+ *
+ * All methods are async (return Promises) because an implementation may talk to
+ * a remote database over the network. Synchronous implementations (e.g. the
+ * localStorage fallback) simply return already-resolved Promises.
+ */
 export interface IExerciseRepository {
-  getAll(): Exercise[];
-  getByMuscleGroup(muscleGroupId: string): Exercise[];
-  getById(id: string): Exercise | null;
-  add(exercise: NewExercise): Exercise;
-  remove(id: string): void;
-  getCustomExercises(): Exercise[];
+  getAll(): Promise<Exercise[]>;
+  getByMuscleGroup(muscleGroupId: string): Promise<Exercise[]>;
+  getById(id: string): Promise<Exercise | null>;
+  add(exercise: NewExercise): Promise<Exercise>;
+  remove(id: string): Promise<void>;
+  getCustomExercises(): Promise<Exercise[]>;
 }

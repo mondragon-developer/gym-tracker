@@ -32,37 +32,37 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({
 
 
   return (
-    <div className="exercise-card bg-white border border-gray-200 rounded-3xl p-6 sm:p-10 shadow-sm">
-      <div className="flex items-start justify-between mb-8 sm:mb-10">
-        <div className="flex-1">
-          <div className="flex items-center gap-6 sm:gap-8 mb-8">
-            <ExerciseCheckbox
-              exercise={exercise}
-              onStatusChange={onStatusChange}
-            />
-            <button
-              className="text-red-500 hover:text-red-700 text-lg p-4 hover:bg-red-50 rounded-full transition-colors"
-              onClick={() => onDelete(exercise.id)}
-              title="Delete Exercise"
-            >
-              ✕
-            </button>
-          </div>
-          <div className="flex items-center gap-4 sm:gap-5 mb-6">
-            <h4 className={`font-semibold text-xl ${isCompleted || isSkipped ? 'line-through text-gray-500' : 'text-gray-900'}`}>
-              {exercise.name}
-            </h4>
-            <button
-              className="text-blue-500 hover:text-blue-700 text-sm px-5 py-3 bg-blue-50 rounded-full hover:bg-blue-100 transition-colors"
-              onClick={() => onOpenTutorial(exercise.name)}
-              title="Watch Tutorial"
-            >
-              [Video]
-            </button>
-          </div>
-          <p className="text-sm text-gray-600 mb-8 sm:mb-10 bg-gray-50 px-5 py-4 rounded-2xl inline-block">{exercise.setsReps}</p>
+    <div className="exercise-card bg-white border border-gray-300 p-4">
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <ExerciseCheckbox
+            exercise={exercise}
+            onStatusChange={onStatusChange}
+          />
+          <button
+            className="text-red-500 hover:text-red-700 text-sm"
+            onClick={() => onDelete(exercise.id)}
+            title="Delete Exercise"
+          >
+            ✕
+          </button>
         </div>
       </div>
+      
+      <div className="flex items-center gap-2 mb-3">
+        <h4 className={`font-medium text-base ${isCompleted || isSkipped ? 'line-through text-gray-500' : 'text-gray-900'}`}>
+          {exercise.name}
+        </h4>
+        <button
+          className="text-blue-500 hover:text-blue-700 text-sm"
+          onClick={() => onOpenTutorial(exercise.name)}
+          title="Watch Tutorial"
+        >
+          [Video]
+        </button>
+      </div>
+      
+      <p className="text-sm text-gray-600 mb-3">{exercise.setsReps}</p>
 
       <ExerciseInput exercise={exercise} onProgressChange={onProgressChange} />
     </div>

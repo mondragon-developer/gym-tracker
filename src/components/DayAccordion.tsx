@@ -1,97 +1,109 @@
-import React from 'react';
-import { Day } from '../types/Day';
-import { ExerciseWithProgress, NewExercise } from '../types/Exercise';
-import { ExerciseItem } from './ExerciseItem';
-import { DayNotes } from './DayNotes';
+/* src/components/DayAccordion.tsx */
+import React from "react";
+import { Day } from "../types/Day";
+import { ExerciseWithProgress, NewExercise } from "../types/Exercise";
+import { ExerciseItem } from "./ExerciseItem";
 
 interface DayAccordionProps {
   day: Day;
   exercises: ExerciseWithProgress[];
   isOpen: boolean;
-  dayNotes: string;
   onToggle: (dayId: string) => void;
   onAddExercise: (exercise: NewExercise) => void;
   onDeleteExercise: (exerciseId: string) => void;
-  onStatusChange: (exerciseId: string, completed: boolean, skipped: boolean) => void;
-  onProgressChange: (exerciseId: string, effectiveSets: number, reps: number, weight: number) => void;
+  onStatusChange: (
+    exerciseId: string,
+    completed: boolean,
+    skipped: boolean
+  ) => void;
+  onProgressChange: (
+    exerciseId: string,
+    effectiveSets: number,
+    reps: number,
+    weight: number
+  ) => void;
   onOpenTutorial: (exerciseName: string) => void;
-  onSaveNotes: (dayId: string, notes: string) => void;
   onRestoreDefaultExercises: (dayId: string) => void;
   onMarkAsRestDay: (dayId: string) => void;
+  bgColor: string; // Prop for background color
 }
 
 export const DayAccordion: React.FC<DayAccordionProps> = ({
   day,
   exercises,
   isOpen,
-  dayNotes,
   onToggle,
   onAddExercise,
   onDeleteExercise,
   onStatusChange,
   onProgressChange,
   onOpenTutorial,
-  onSaveNotes,
   onRestoreDefaultExercises,
-  onMarkAsRestDay
+  onMarkAsRestDay,
+  bgColor, // Receive the color
 }) => {
-
   return (
-    <div className="day-accordion rounded-3xl shadow-lg overflow-hidden border border-gray-200 bg-white">
+    <div className="day-accordion overflow-hidden bg-white">
       <div
-        className={`day-header cursor-pointer flex justify-between items-center p-6 sm:p-10 text-white transition-all duration-300 ${
+        className={`day-header cursor-pointer flex justify-between items-center p-4 text-white transition-all duration-300 ${
           isOpen
-            ? 'bg-green-500 rounded-t-3xl'
-            : 'bg-gray-700 hover:bg-gray-600 rounded-3xl'
+            ? "bg-green-500" // Active state is green
+            : `${bgColor} hover:brightness-110` // Use passed color for inactive state
         }`}
         onClick={() => onToggle(day.id)}
       >
-        <span className="font-bold text-xl">{day.name}</span>
-        <span className={`arrow text-2xl transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
-          {isOpen ? '▼' : '▲'}
+        <span className="font-bold text-lg">{day.name}</span>
+        <span
+          className={`arrow text-xl transition-transform duration-300 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        >
+          ▲
         </span>
       </div>
-      
-      <div className={`day-content transition-all duration-600 overflow-hidden ${isOpen ? 'active' : ''}`}>
-        <div className="p-6 sm:p-10 space-y-8 sm:space-y-10">
+
+      <div
+        className={`day-content transition-all duration-600 overflow-hidden ${
+          isOpen ? "active" : ""
+        }`}
+      >
+        <div className="p-4 bg-gray-50">
           {exercises.length === 0 ? (
-            <div className="text-center py-20">
-              <div className="bg-gray-50 rounded-3xl p-16 border border-gray-200">
-                <h3 className="text-xl font-semibold text-gray-600 mb-10">No exercises for today</h3>
-                <p className="text-gray-500 mb-12">This day is currently empty. You can:</p>
-                <div className="flex flex-col sm:flex-row gap-6 sm:gap-10 justify-center">
-                  <button 
-                    className="px-12 py-6 bg-blue-500 text-white font-semibold rounded-3xl shadow-lg hover:bg-blue-600 transition-colors"
-                    onClick={() => onRestoreDefaultExercises(day.id)}
-                  >
-                    🔄 Restore Default Exercises
-                  </button>
-                  <button 
-                    className="px-12 py-6 bg-gray-500 text-white font-semibold rounded-3xl shadow-lg hover:bg-gray-600 transition-colors"
-                    onClick={() => onMarkAsRestDay(day.id)}
-                  >
-                    😴 Mark as Rest Day
-                  </button>
-                </div>
+            <div className="text-center py-8">
+              <p className="text-gray-500 mb-4">No exercises for today</p>
+              <div className="flex flex-col gap-2">
+                <button
+                  className="px-4 py-2 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition-colors"
+                  onClick={() => onRestoreDefaultExercises(day.id)}
+                >
+                  Restore Default Exercises
+                </button>
+                <button
+                  className="px-4 py-2 bg-gray-500 text-white text-sm rounded hover:bg-gray-600 transition-colors"
+                  onClick={() => onMarkAsRestDay(day.id)}
+                >
+                  Mark as Rest Day
+                </button>
               </div>
             </div>
           ) : (
             <>
               {/* Muscle Group Header with Add Exercise Button */}
-              <div className="flex justify-between items-center mb-10 py-6">
-                <h3 className="text-xl font-semibold text-gray-700 uppercase tracking-wide">
-                  {day.muscleGroups.length > 0 ? day.muscleGroups[0].name : 'EXERCISES'}
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-sm font-semibold text-gray-700 uppercase">
+                  {day.muscleGroups.length > 0
+                    ? day.muscleGroups[0].name
+                    : "EXERCISES"}
                 </h3>
                 <button
-                  className="px-10 py-5 bg-blue-500 text-white text-sm font-semibold rounded-3xl shadow-lg hover:bg-blue-600 transition-colors"
+                  className="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition-colors"
                   onClick={() => {
-                    // For now, create a simple exercise - we'll need to handle the muscle group assignment
                     const exercise: NewExercise = {
-                      name: 'New Exercise',
+                      name: "New Exercise",
                       sets: 3,
-                      reps: '8-12',
+                      reps: "8-12",
                       day: day.id,
-                      muscleGroup: day.muscleGroups[0]?.id || 'default'
+                      muscleGroup: day.muscleGroups[0]?.id || "default",
                     };
                     onAddExercise(exercise);
                   }}
@@ -101,8 +113,8 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
               </div>
 
               {/* Exercise List */}
-              <div className="space-y-8 sm:space-y-10">
-                {exercises.map(exercise => (
+              <div className="space-y-4">
+                {exercises.map((exercise) => (
                   <ExerciseItem
                     key={exercise.id}
                     exercise={exercise}
@@ -115,12 +127,6 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
               </div>
             </>
           )}
-
-          <DayNotes
-            dayId={day.id}
-            notes={dayNotes}
-            onSaveNotes={onSaveNotes}
-          />
         </div>
       </div>
     </div>

@@ -1,11 +1,15 @@
 import type { ExerciseProgress, ProgressData } from '../types/Exercise';
 import { IProgressRepository } from './interfaces/IProgressRepository';
 
+/**
+ * Offline fallback for progress, backed by localStorage. Async only to satisfy
+ * the IProgressRepository interface.
+ */
 export class LocalStorageProgressRepository implements IProgressRepository {
   private readonly CURRENT_PROGRESS_KEY = 'currentGymProgress';
   private readonly PREVIOUS_PROGRESS_KEY = 'previousGymProgress';
 
-  getCurrentProgress(): ProgressData {
+  async getCurrentProgress(): Promise<ProgressData> {
     try {
       const stored = localStorage.getItem(this.CURRENT_PROGRESS_KEY);
       return stored ? JSON.parse(stored) : {};
@@ -15,7 +19,7 @@ export class LocalStorageProgressRepository implements IProgressRepository {
     }
   }
 
-  getPreviousProgress(): ProgressData {
+  async getPreviousProgress(): Promise<ProgressData> {
     try {
       const stored = localStorage.getItem(this.PREVIOUS_PROGRESS_KEY);
       return stored ? JSON.parse(stored) : {};
@@ -25,7 +29,7 @@ export class LocalStorageProgressRepository implements IProgressRepository {
     }
   }
 
-  saveProgress(progress: ProgressData): void {
+  async saveProgress(progress: ProgressData): Promise<void> {
     try {
       localStorage.setItem(this.CURRENT_PROGRESS_KEY, JSON.stringify(progress));
     } catch (error) {
@@ -33,27 +37,28 @@ export class LocalStorageProgressRepository implements IProgressRepository {
     }
   }
 
-  getExerciseProgress(exerciseId: string): ExerciseProgress | null {
-    const progress = this.getCurrentProgress();
+  async getExerciseProgress(exerciseId: string): Promise<ExerciseProgress | null> {
+    const progress = await this.getCurrentProgress();
     return progress[exerciseId] || null;
   }
 
-  updateExerciseProgress(exerciseId: string, exerciseProgress: ExerciseProgress): void {
-    const progress = this.getCurrentProgress();
+  async updateExerciseProgress(
+    exerciseId: string,
+    exerciseProgress: ExerciseProgress
+  ): Promise<void> {
+    const progress = await this.getCurrentProgress();
     progress[exerciseId] = exerciseProgress;
-    this.saveProgress(progress);
+    await this.saveProgress(progress);
   }
 
-  resetProgress(): void {
+  async resetProgress(): Promise<void> {
     try {
-      const currentProgress = this.getCurrentProgress();
-      
-      // Save current progress as previous
+      const currentProgress = await this.getCurrentProgress();
+
       if (Object.keys(currentProgress).length > 0) {
         localStorage.setItem(this.PREVIOUS_PROGRESS_KEY, JSON.stringify(currentProgress));
       }
-      
-      // Clear current progress
+
       localStorage.removeItem(this.CURRENT_PROGRESS_KEY);
     } catch (error) {
       console.error('Error resetting progress:', error);

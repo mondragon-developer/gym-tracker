@@ -1,10 +1,11 @@
-import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
-import { ExerciseWithProgress, NewExercise, DayNotes } from '../types/Exercise';
+import React, { createContext, useContext, useReducer, useEffect, useMemo, ReactNode } from 'react';
+import { ExerciseWithProgress, DayNotes } from '../types/Exercise';
 import { WeeklyProgress } from '../types/Progress';
 import { Day, DAYS } from '../types/Day';
-import { LocalStorageExerciseRepository } from '../repositories/LocalStorageExerciseRepository';
-import { LocalStorageProgressRepository } from '../repositories/LocalStorageProgressRepository';
-import { LocalStorageDayNotesRepository } from '../repositories/LocalStorageDayNotesRepository';
+import { SupabaseExerciseRepository } from '../repositories/SupabaseExerciseRepository';
+import { SupabaseProgressRepository } from '../repositories/SupabaseProgressRepository';
+import { SupabaseDayNotesRepository } from '../repositories/SupabaseDayNotesRepository';
+import { IDayNotesRepository } from '../repositories/interfaces/IDayNotesRepository';
 import { ExerciseService } from '../services/ExerciseService';
 import { ProgressService } from '../services/ProgressService';
 
@@ -58,25 +59,25 @@ const gymReducer = (state: GymState, action: GymAction): GymState => {
   switch (action.type) {
     case 'SET_EXERCISES':
       return { ...state, exercises: action.payload };
-    
+
     case 'SET_WEEKLY_PROGRESS':
       return { ...state, weeklyProgress: action.payload };
-    
+
     case 'TOGGLE_DAY':
       return {
         ...state,
         currentOpenDay: state.currentOpenDay === action.payload ? null : action.payload
       };
-    
+
     case 'ADD_EXERCISE':
       return { ...state, exercises: [...state.exercises, action.payload] };
-    
+
     case 'DELETE_EXERCISE':
       return {
         ...state,
         exercises: state.exercises.filter(ex => ex.id !== action.payload)
       };
-    
+
     case 'UPDATE_EXERCISE_STATUS':
       return {
         ...state,
@@ -97,7 +98,7 @@ const gymReducer = (state: GymState, action: GymAction): GymState => {
             : ex
         )
       };
-    
+
     case 'UPDATE_EXERCISE_PROGRESS':
       return {
         ...state,
@@ -118,7 +119,7 @@ const gymReducer = (state: GymState, action: GymAction): GymState => {
             : ex
         )
       };
-    
+
     case 'OPEN_VIDEO_MODAL':
       return {
         ...state,
@@ -126,7 +127,7 @@ const gymReducer = (state: GymState, action: GymAction): GymState => {
         videoExerciseName: action.payload.name,
         videoExerciseUrl: action.payload.url || ''
       };
-    
+
     case 'CLOSE_VIDEO_MODAL':
       return {
         ...state,
@@ -134,7 +135,7 @@ const gymReducer = (state: GymState, action: GymAction): GymState => {
         videoExerciseName: '',
         videoExerciseUrl: ''
       };
-    
+
     case 'SHOW_CONFIRM_MODAL':
       return {
         ...state,
@@ -142,7 +143,7 @@ const gymReducer = (state: GymState, action: GymAction): GymState => {
         confirmMessage: action.payload.message,
         confirmAction: action.payload.action
       };
-    
+
     case 'HIDE_CONFIRM_MODAL':
       return {
         ...state,
@@ -150,7 +151,7 @@ const gymReducer = (state: GymState, action: GymAction): GymState => {
         confirmMessage: '',
         confirmAction: null
       };
-    
+
     case 'RESET_PROGRESS':
       return {
         ...state,
@@ -159,7 +160,7 @@ const gymReducer = (state: GymState, action: GymAction): GymState => {
           progress: undefined
         }))
       };
-    
+
     case 'SAVE_DAY_NOTES':
       return {
         ...state,
@@ -168,16 +169,16 @@ const gymReducer = (state: GymState, action: GymAction): GymState => {
           [action.payload.dayId]: action.payload.notes
         }
       };
-    
+
     case 'LOAD_DAY_NOTES':
       return {
         ...state,
         dayNotes: action.payload
       };
-    
+
     case 'RESTORE_DEFAULT_EXERCISES':
       return state; // Will be handled by service call
-    
+
     case 'MARK_AS_REST_DAY':
       return {
         ...state,
@@ -186,7 +187,7 @@ const gymReducer = (state: GymState, action: GymAction): GymState => {
           [action.payload]: state.dayNotes[action.payload] ? `${state.dayNotes[action.payload]}\n🛌 Rest Day` : '🛌 Rest Day'
         }
       };
-    
+
     default:
       return state;
   }
@@ -198,7 +199,7 @@ interface GymContextType {
   services: {
     exerciseService: ExerciseService;
     progressService: ProgressService;
-    notesRepository: LocalStorageDayNotesRepository;
+    notesRepository: IDayNotesRepository;
   };
 }
 
@@ -219,43 +220,65 @@ interface GymProviderProps {
 export const GymProvider: React.FC<GymProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(gymReducer, initialState);
 
-  // Initialize repositories and services
-  const exerciseRepository = new LocalStorageExerciseRepository();
-  const progressRepository = new LocalStorageProgressRepository();
-  const notesRepository = new LocalStorageDayNotesRepository();
-  const exerciseService = new ExerciseService(exerciseRepository, progressRepository);
-  const progressService = new ProgressService(exerciseRepository, progressRepository);
-
-  const services = {
-    exerciseService,
-    progressService,
-    notesRepository
-  };
-
-  // Load initial data
-  useEffect(() => {
-    const exercises = exerciseService.getAllExercises();
-    const progress = progressService.getWeeklyProgress();
-    const notes = notesRepository.getNotes();
-    
-    dispatch({ type: 'SET_EXERCISES', payload: exercises });
-    dispatch({ type: 'SET_WEEKLY_PROGRESS', payload: progress });
-    dispatch({ type: 'LOAD_DAY_NOTES', payload: notes });
-
-    // Open today's workout by default
-    const today = new Date();
-    const dayIndex = (today.getDay() + 6) % 7; // Convert to Monday=0, Tuesday=1, etc.
-    const dayIds = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-    const todayId = dayIds[dayIndex] || 'monday';
-    
-    dispatch({ type: 'TOGGLE_DAY', payload: todayId });
+  // Initialize repositories and services once. useMemo keeps a single instance
+  // for the lifetime of the provider (which is remounted per user via `key`).
+  const services = useMemo(() => {
+    const exerciseRepository = new SupabaseExerciseRepository();
+    const progressRepository = new SupabaseProgressRepository();
+    const notesRepository: IDayNotesRepository = new SupabaseDayNotesRepository();
+    const exerciseService = new ExerciseService(exerciseRepository, progressRepository);
+    const progressService = new ProgressService(exerciseRepository, progressRepository);
+    return { exerciseService, progressService, notesRepository };
   }, []);
 
-  // Update progress whenever exercises change
+  const { exerciseService, progressService, notesRepository } = services;
+
+  // Load initial data from the database (async).
   useEffect(() => {
-    const progress = progressService.getWeeklyProgress();
-    dispatch({ type: 'SET_WEEKLY_PROGRESS', payload: progress });
-  }, [state.exercises]);
+    let cancelled = false;
+
+    const load = async () => {
+      const [exercises, progress, notes] = await Promise.all([
+        exerciseService.getAllExercises(),
+        progressService.getWeeklyProgress(),
+        notesRepository.getNotes()
+      ]);
+
+      if (cancelled) return;
+
+      dispatch({ type: 'SET_EXERCISES', payload: exercises });
+      dispatch({ type: 'SET_WEEKLY_PROGRESS', payload: progress });
+      dispatch({ type: 'LOAD_DAY_NOTES', payload: notes });
+
+      // Open today's workout by default
+      const today = new Date();
+      const dayIndex = (today.getDay() + 6) % 7; // Convert to Monday=0, Tuesday=1, etc.
+      const dayIds = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+      const todayId = dayIds[dayIndex] || 'monday';
+
+      dispatch({ type: 'TOGGLE_DAY', payload: todayId });
+    };
+
+    load().catch(err => console.error('Failed to load gym data:', err));
+
+    return () => {
+      cancelled = true;
+    };
+  }, [exerciseService, progressService, notesRepository]);
+
+  // Recompute progress whenever exercises change (async).
+  useEffect(() => {
+    let cancelled = false;
+    progressService
+      .getWeeklyProgress()
+      .then(progress => {
+        if (!cancelled) dispatch({ type: 'SET_WEEKLY_PROGRESS', payload: progress });
+      })
+      .catch(err => console.error('Failed to compute weekly progress:', err));
+    return () => {
+      cancelled = true;
+    };
+  }, [state.exercises, progressService]);
 
   return (
     <GymContext.Provider value={{ state, dispatch, services }}>

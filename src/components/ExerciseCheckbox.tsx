@@ -19,24 +19,24 @@ export const ExerciseCheckbox: React.FC<ExerciseCheckboxProps> = ({ exercise, on
   const isSkipped = exercise.progress?.skipped || false;
 
   return (
-    <div className="checkbox-container flex items-center gap-8">
-      <div className="flex items-center gap-3">
+    <div className="checkbox-container flex items-center gap-4">
+      <div className="flex items-center gap-1">
         <input
           type="checkbox"
-          className="h-6 w-6 text-green-500 focus:ring-green-400 border-gray-300 rounded"
+          className="h-4 w-4 text-green-500 focus:ring-green-400 border-gray-300 rounded"
           checked={isCompleted}
           onChange={(e) => handleCheckboxChange('completed', e.target.checked)}
         />
-        <label className="text-base text-gray-700 font-medium">Done</label>
+        <label className="text-sm text-gray-700">Done</label>
       </div>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1">
         <input
           type="checkbox"
-          className="h-6 w-6 text-orange-500 focus:ring-orange-400 border-gray-300 rounded"
+          className="h-4 w-4 text-orange-500 focus:ring-orange-400 border-gray-300 rounded"
           checked={isSkipped}
           onChange={(e) => handleCheckboxChange('skipped', e.target.checked)}
         />
-        <label className="text-base text-gray-700 font-medium">Skip</label>
+        <label className="text-sm text-gray-700">Skip</label>
       </div>
     </div>
   );

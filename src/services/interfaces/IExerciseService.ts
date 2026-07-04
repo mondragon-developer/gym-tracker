@@ -1,9 +1,16 @@
 import { Exercise, NewExercise, ExerciseWithProgress } from '../../types/Exercise';
 
 export interface IExerciseService {
-  getAllExercises(): ExerciseWithProgress[];
-  getExercisesByMuscleGroup(muscleGroupId: string): ExerciseWithProgress[];
-  addCustomExercise(exercise: NewExercise): Exercise;
-  deleteExercise(id: string): void;
-  updateExerciseProgress(exerciseId: string, completed: boolean, skipped: boolean, effectiveSets: number, reps: number, weight: number): void;
+  getAllExercises(): Promise<ExerciseWithProgress[]>;
+  getExercisesByMuscleGroup(muscleGroupId: string): Promise<ExerciseWithProgress[]>;
+  addCustomExercise(exercise: NewExercise): Promise<Exercise>;
+  deleteExercise(id: string): Promise<void>;
+  updateExerciseProgress(
+    exerciseId: string,
+    completed: boolean,
+    skipped: boolean,
+    effectiveSets: number,
+    reps: number,
+    weight: number
+  ): Promise<void>;
 }

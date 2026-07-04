@@ -1,6 +1,6 @@
 import { WeeklyProgress } from '../../types/Progress';
 
 export interface IProgressService {
-  getWeeklyProgress(): WeeklyProgress;
-  resetWeeklyProgress(): void;
+  getWeeklyProgress(): Promise<WeeklyProgress>;
+  resetWeeklyProgress(): Promise<void>;
 }

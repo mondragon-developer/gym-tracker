@@ -1,16 +1,14 @@
 import { DayNotes } from '../types/Exercise';
+import { IDayNotesRepository } from './interfaces/IDayNotesRepository';
 
-export interface IDayNotesRepository {
-  getNotes(): DayNotes;
-  saveNotes(notes: DayNotes): void;
-  getDayNotes(dayId: string): string;
-  saveDayNotes(dayId: string, notes: string): void;
-}
-
+/**
+ * Offline fallback for day notes, backed by localStorage. Async only to satisfy
+ * the IDayNotesRepository interface.
+ */
 export class LocalStorageDayNotesRepository implements IDayNotesRepository {
   private readonly STORAGE_KEY = 'dayNotes';
 
-  getNotes(): DayNotes {
+  async getNotes(): Promise<DayNotes> {
     try {
       const stored = localStorage.getItem(this.STORAGE_KEY);
       return stored ? JSON.parse(stored) : {};
@@ -20,7 +18,7 @@ export class LocalStorageDayNotesRepository implements IDayNotesRepository {
     }
   }
 
-  saveNotes(notes: DayNotes): void {
+  async saveNotes(notes: DayNotes): Promise<void> {
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(notes));
     } catch (error) {
@@ -28,14 +26,14 @@ export class LocalStorageDayNotesRepository implements IDayNotesRepository {
     }
   }
 
-  getDayNotes(dayId: string): string {
-    const allNotes = this.getNotes();
+  async getDayNotes(dayId: string): Promise<string> {
+    const allNotes = await this.getNotes();
     return allNotes[dayId] || '';
   }
 
-  saveDayNotes(dayId: string, notes: string): void {
-    const allNotes = this.getNotes();
+  async saveDayNotes(dayId: string, notes: string): Promise<void> {
+    const allNotes = await this.getNotes();
     allNotes[dayId] = notes;
-    this.saveNotes(allNotes);
+    await this.saveNotes(allNotes);
   }
 }
