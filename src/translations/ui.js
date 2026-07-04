@@ -93,7 +93,34 @@ export const uiTranslations = {
         "Loading...": "Loading...",
         "Error": "Error",
         "Reload App": "Reload App",
-        "No workout plan available": "No workout plan available"
+        "No workout plan available": "No workout plan available",
+
+        // Authentication
+        "Welcome Back": "Welcome Back",
+        "Sign in to track your progress": "Sign in to track your progress",
+        "Password": "Password",
+        "Enter your email": "Enter your email",
+        "Enter your password": "Enter your password",
+        "Sign In": "Sign In",
+        "Signing in...": "Signing in...",
+        "Don't have an account?": "Don't have an account?",
+        "Sign Up": "Sign Up",
+        "Create Account": "Create Account",
+        "Start tracking your fitness journey": "Start tracking your fitness journey",
+        "Enter your name": "Enter your name",
+        "At least 6 characters": "At least 6 characters",
+        "Confirm Password": "Confirm Password",
+        "Re-enter your password": "Re-enter your password",
+        "Creating account...": "Creating account...",
+        "Already have an account?": "Already have an account?",
+        "Please fill in all fields": "Please fill in all fields",
+        "Password must be at least 6 characters": "Password must be at least 6 characters",
+        "Passwords do not match": "Passwords do not match",
+        "Check Your Email": "Check Your Email",
+        "We sent a confirmation link to": "We sent a confirmation link to",
+        "Please check your email and click the link to verify your account": "Please check your email and click the link to verify your account",
+        "Back to Sign In": "Back to Sign In",
+        "Sign Out": "Sign Out"
     },
     es: {
         // Header
@@ -185,7 +212,34 @@ export const uiTranslations = {
         "Loading...": "Cargando...",
         "Error": "Error",
         "Reload App": "Recargar App",
-        "No workout plan available": "No hay plan de entrenamiento disponible"
+        "No workout plan available": "No hay plan de entrenamiento disponible",
+
+        // Authentication
+        "Welcome Back": "Bienvenido de Nuevo",
+        "Sign in to track your progress": "Inicia sesión para registrar tu progreso",
+        "Password": "Contraseña",
+        "Enter your email": "Ingresa tu correo",
+        "Enter your password": "Ingresa tu contraseña",
+        "Sign In": "Iniciar Sesión",
+        "Signing in...": "Iniciando sesión...",
+        "Don't have an account?": "¿No tienes cuenta?",
+        "Sign Up": "Registrarse",
+        "Create Account": "Crear Cuenta",
+        "Start tracking your fitness journey": "Comienza a registrar tu viaje fitness",
+        "Enter your name": "Ingresa tu nombre",
+        "At least 6 characters": "Al menos 6 caracteres",
+        "Confirm Password": "Confirmar Contraseña",
+        "Re-enter your password": "Vuelve a ingresar tu contraseña",
+        "Creating account...": "Creando cuenta...",
+        "Already have an account?": "¿Ya tienes cuenta?",
+        "Please fill in all fields": "Por favor completa todos los campos",
+        "Password must be at least 6 characters": "La contraseña debe tener al menos 6 caracteres",
+        "Passwords do not match": "Las contraseñas no coinciden",
+        "Check Your Email": "Revisa tu Correo",
+        "We sent a confirmation link to": "Enviamos un enlace de confirmación a",
+        "Please check your email and click the link to verify your account": "Por favor revisa tu correo y haz clic en el enlace para verificar tu cuenta",
+        "Back to Sign In": "Volver a Iniciar Sesión",
+        "Sign Out": "Cerrar Sesión"
     }
 };
 

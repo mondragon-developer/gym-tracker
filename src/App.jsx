@@ -12,11 +12,14 @@ import AddExerciseModal from './components/AddExerciseModal';
 // Lazy: pulls in emailjs (~80 kB) only when the user actually opens the modal.
 const FeedbackModal = React.lazy(() => import('./components/FeedbackModal'));
 import LanguageToggle from './components/LanguageToggle';
+import UserProfile from './components/UserProfile';
+import AuthWrapper from './components/AuthWrapper';
 import Modal from './components/ui/Modal.jsx';
 import Button from './components/ui/Button.jsx';
 import { ButtonVariant } from './components/ui/Button.constants.js';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { useLanguage } from './hooks/useLanguage.js';
+import { AuthProvider } from './contexts/AuthContext';
 import { t } from './translations/ui';
 import { getToday } from './utils/dateHelper';
 import { DAYS_OF_WEEK } from './constants/AppConstants.js';
@@ -181,7 +184,10 @@ function AppContent() {
                             boxShadow: '0 8px 25px rgba(0, 0, 0, 0.4), 0 0 30px rgba(6, 182, 212, 0.3)'
                         }}
                     />
-                    <div style={{ textAlign: 'center' }}>
+                    <div style={{
+                        textAlign: 'center',
+                        width: '100%'
+                    }}>
                         <p style={{
                             color: 'white',
                             fontSize: '16px',
@@ -198,7 +204,16 @@ function AppContent() {
                         }}>
                             {t("By Jose Mondragon", language)}
                         </p>
-                        <LanguageToggle />
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '12px',
+                            flexWrap: 'wrap'
+                        }}>
+                            <LanguageToggle />
+                            <UserProfile />
+                        </div>
                     </div>
                 </div>
 
@@ -416,13 +431,18 @@ function AppContent() {
 }
 
 /**
- * Main App Component with Language Provider
- * Wraps the AppContent with the LanguageProvider context
+ * Main App Component with Providers
+ * Wraps the AppContent with all necessary context providers
+ * Order: LanguageProvider -> AuthProvider -> AuthWrapper -> AppContent
  */
 export default function App() {
     return (
         <LanguageProvider>
-            <AppContent />
+            <AuthProvider>
+                <AuthWrapper>
+                    <AppContent />
+                </AuthWrapper>
+            </AuthProvider>
         </LanguageProvider>
     );
 }
