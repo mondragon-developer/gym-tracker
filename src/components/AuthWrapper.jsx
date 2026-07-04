@@ -9,14 +9,12 @@ import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth.js';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
+import ForgotPassword from '../pages/ForgotPassword';
+import UpdatePassword from '../pages/UpdatePassword';
 
 export default function AuthWrapper({ children }) {
-  const { user, loading } = useAuth();
-  const [showSignUp, setShowSignUp] = useState(false);
-
-  const toggleMode = () => {
-    setShowSignUp(!showSignUp);
-  };
+  const { user, loading, isPasswordRecovery } = useAuth();
+  const [mode, setMode] = useState('signin'); // 'signin' | 'signup' | 'forgot'
 
   // Show loading state while checking authentication
   if (loading) {
@@ -48,12 +46,25 @@ export default function AuthWrapper({ children }) {
     );
   }
 
-  // Show sign in/sign up if not authenticated
+  // A reset-email link signs the user in with a recovery session; force them
+  // to choose a new password before showing the app.
+  if (isPasswordRecovery) {
+    return <UpdatePassword />;
+  }
+
+  // Show sign in / sign up / forgot password if not authenticated
   if (!user) {
-    return showSignUp ? (
-      <SignUp onToggleMode={toggleMode} />
-    ) : (
-      <SignIn onToggleMode={toggleMode} />
+    if (mode === 'signup') {
+      return <SignUp onToggleMode={() => setMode('signin')} />;
+    }
+    if (mode === 'forgot') {
+      return <ForgotPassword onBackToSignIn={() => setMode('signin')} />;
+    }
+    return (
+      <SignIn
+        onToggleMode={() => setMode('signup')}
+        onForgotPassword={() => setMode('forgot')}
+      />
     );
   }
 

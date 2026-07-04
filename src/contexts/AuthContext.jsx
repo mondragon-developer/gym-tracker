@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
 
   useEffect(() => {
     // Check active sessions and sets the user
@@ -19,9 +20,15 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     });
 
-    // Listen for changes on auth state (sign in, sign out, etc.)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    // Listen for changes on auth state (sign in, sign out, etc.).
+    // PASSWORD_RECOVERY fires when the user arrives via a reset-email link:
+    // Supabase signs them in from the link's token, and we must show a
+    // "set new password" screen before letting them into the app.
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null);
+      if (event === 'PASSWORD_RECOVERY') {
+        setIsPasswordRecovery(true);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -96,14 +103,31 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Reset password
+  // Send a password-reset email. The link redirects to the site root: this
+  // SPA has no routes, so the PASSWORD_RECOVERY auth event (not a URL) is
+  // what switches the UI to the update-password screen.
   const resetPassword = async (email) => {
     try {
       const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`,
+        redirectTo: window.location.origin,
       });
 
       if (error) throw error;
+      return { data, error: null };
+    } catch (error) {
+      return { data: null, error };
+    }
+  };
+
+  // Set a new password for the signed-in user (recovery-link session)
+  const updatePassword = async (newPassword) => {
+    try {
+      const { data, error } = await supabase.auth.updateUser({
+        password: newPassword
+      });
+
+      if (error) throw error;
+      setIsPasswordRecovery(false);
       return { data, error: null };
     } catch (error) {
       return { data: null, error };
@@ -128,10 +152,12 @@ export const AuthProvider = ({ children }) => {
     user,
     loading,
     isAdmin,
+    isPasswordRecovery,
     signUp,
     signIn,
     signOut,
     resetPassword,
+    updatePassword,
     updateProfile
   };
 

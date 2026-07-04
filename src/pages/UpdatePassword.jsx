@@ -1,6 +1,8 @@
 /**
- * Sign In Page Component
- * Allows users to sign in to their account
+ * Update Password Page Component
+ * Shown after the user arrives via a password-reset email link
+ * (Supabase PASSWORD_RECOVERY event). Sets the new password, then
+ * the normal app takes over since the recovery session is already active.
  */
 
 import React, { useState } from 'react';
@@ -12,30 +14,40 @@ import { ButtonVariant } from '../components/ui/Button.constants.js';
 import Input from '../components/ui/Input';
 import mdLogo from '../assets/mdlogo.jpeg';
 
-export default function SignIn({ onToggleMode, onForgotPassword }) {
-  const { signIn } = useAuth();
+export default function UpdatePassword() {
+  const { updatePassword } = useAuth();
   const { language } = useLanguage();
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setLoading(true);
 
-    // Basic validation
-    if (!email || !password) {
+    if (!password || !confirmPassword) {
       setError(t('Please fill in all fields', language));
-      setLoading(false);
       return;
     }
 
-    const { error: signInError } = await signIn(email, password);
+    if (password.length < 6) {
+      setError(t('Password must be at least 6 characters', language));
+      return;
+    }
 
-    if (signInError) {
-      setError(signInError.message);
+    if (password !== confirmPassword) {
+      setError(t('Passwords do not match', language));
+      return;
+    }
+
+    setLoading(true);
+    const { error: updateError } = await updatePassword(password);
+
+    // On success the AuthProvider clears the recovery flag and the app
+    // renders normally, so this component only handles the failure case.
+    if (updateError) {
+      setError(updateError.message);
       setLoading(false);
     }
   };
@@ -85,14 +97,14 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
               margin: '0 0 8px 0',
               fontWeight: '700'
             }}>
-              {t('Welcome Back', language)}
+              {t('Set New Password', language)}
             </h1>
             <p style={{
               color: 'rgba(255, 255, 255, 0.8)',
               fontSize: '14px',
               margin: '0'
             }}>
-              {t('Sign in to track your progress', language)}
+              {t('Choose a new password for your account', language)}
             </p>
           </div>
         </div>
@@ -121,13 +133,13 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
                 fontWeight: '600',
                 color: '#374151'
               }}>
-                {t('Email', language)}
+                {t('New Password', language)}
               </label>
               <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder={t('Enter your email', language)}
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder={t('At least 6 characters', language)}
                 disabled={loading}
                 required
               />
@@ -141,34 +153,16 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
                 fontWeight: '600',
                 color: '#374151'
               }}>
-                {t('Password', language)}
+                {t('Confirm New Password', language)}
               </label>
               <Input
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder={t('Enter your password', language)}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder={t('Re-enter your password', language)}
                 disabled={loading}
                 required
               />
-              <div style={{ textAlign: 'right', marginTop: '8px' }}>
-                <button
-                  type="button"
-                  onClick={onForgotPassword}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    color: '#06b6d4',
-                    fontSize: '13px',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    textDecoration: 'underline',
-                    padding: '0'
-                  }}
-                >
-                  {t('Forgot password?', language)}
-                </button>
-              </div>
             </div>
 
             <Button
@@ -177,32 +171,8 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
               disabled={loading}
               fullWidth
             >
-              {loading ? t('Signing in...', language) : t('Sign In', language)}
+              {loading ? t('Updating...', language) : t('Update Password', language)}
             </Button>
-
-            <div style={{
-              textAlign: 'center',
-              fontSize: '14px',
-              color: '#6b7280',
-              marginTop: '8px'
-            }}>
-              {t("Don't have an account?", language)}{' '}
-              <button
-                type="button"
-                onClick={onToggleMode}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#06b6d4',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  textDecoration: 'underline',
-                  padding: '0'
-                }}
-              >
-                {t('Sign Up', language)}
-              </button>
-            </div>
           </div>
         </form>
       </div>

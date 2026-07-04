@@ -120,7 +120,18 @@ export const uiTranslations = {
         "We sent a confirmation link to": "We sent a confirmation link to",
         "Please check your email and click the link to verify your account": "Please check your email and click the link to verify your account",
         "Back to Sign In": "Back to Sign In",
-        "Sign Out": "Sign Out"
+        "Sign Out": "Sign Out",
+        "Forgot password?": "Forgot password?",
+        "Reset Password": "Reset Password",
+        "Enter your email and we'll send you a reset link": "Enter your email and we'll send you a reset link",
+        "Send Reset Link": "Send Reset Link",
+        "We sent a password reset link to": "We sent a password reset link to",
+        "Set New Password": "Set New Password",
+        "Choose a new password for your account": "Choose a new password for your account",
+        "New Password": "New Password",
+        "Confirm New Password": "Confirm New Password",
+        "Update Password": "Update Password",
+        "Updating...": "Updating..."
     },
     es: {
         // Header
@@ -239,7 +250,18 @@ export const uiTranslations = {
         "We sent a confirmation link to": "Enviamos un enlace de confirmación a",
         "Please check your email and click the link to verify your account": "Por favor revisa tu correo y haz clic en el enlace para verificar tu cuenta",
         "Back to Sign In": "Volver a Iniciar Sesión",
-        "Sign Out": "Cerrar Sesión"
+        "Sign Out": "Cerrar Sesión",
+        "Forgot password?": "¿Olvidaste tu contraseña?",
+        "Reset Password": "Restablecer Contraseña",
+        "Enter your email and we'll send you a reset link": "Ingresa tu correo y te enviaremos un enlace de restablecimiento",
+        "Send Reset Link": "Enviar Enlace",
+        "We sent a password reset link to": "Enviamos un enlace de restablecimiento a",
+        "Set New Password": "Establecer Nueva Contraseña",
+        "Choose a new password for your account": "Elige una nueva contraseña para tu cuenta",
+        "New Password": "Nueva Contraseña",
+        "Confirm New Password": "Confirmar Nueva Contraseña",
+        "Update Password": "Actualizar Contraseña",
+        "Updating...": "Actualizando..."
     }
 };
 
