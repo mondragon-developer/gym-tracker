@@ -73,13 +73,25 @@ $$;
 -- ---------------------------------------------------------------------------
 alter table public.profiles enable row level security;
 
+-- Drop any legacy self-service policies that may exist from an earlier draft
+-- of this table. A permissive UPDATE policy with no WITH CHECK on profiles is a
+-- privilege-escalation hole: it lets a user set their own role = 'admin'. The
+-- "profiles - *" policies below are the only ones that should exist here.
+drop policy if exists "users read own profile"   on public.profiles;
+drop policy if exists "users insert own profile" on public.profiles;
+drop policy if exists "users update own profile" on public.profiles;
+
 drop policy if exists "profiles - read own or admin" on public.profiles;
 create policy "profiles - read own or admin" on public.profiles
   for select using (id = auth.uid() or public.is_admin());
 
+-- The `role = 'user'` clause is defense-in-depth: the SECURITY DEFINER signup
+-- trigger already creates every profile row, so the client never legitimately
+-- inserts here. Constraining role blocks self-promotion to admin even if that
+-- trigger is ever changed or disabled.
 drop policy if exists "profiles - self insert" on public.profiles;
 create policy "profiles - self insert" on public.profiles
-  for insert with check (id = auth.uid());
+  for insert with check (id = auth.uid() and role = 'user');
 
 -- Only admins may change roles (or edit any profile).
 drop policy if exists "profiles - admin update" on public.profiles;
