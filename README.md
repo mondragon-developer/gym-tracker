@@ -1,6 +1,8 @@
 # 🏋️‍♂️ Gym Tracker App
 
-A modern, responsive React-based gym workout tracking application that helps you plan, track, and manage your weekly fitness routine with a complete Push/Pull/Leg split workout system.
+A modern, responsive React-based gym workout tracking application that helps you plan, track, and manage your weekly fitness routine with a complete Push/Pull/Leg split workout system. Sign in to sync your workouts across devices, or use it offline — it works either way.
+
+🔗 **Live app:** [gymworkoutjm.vercel.app](https://gymworkoutjm.vercel.app)
 
 ## Features
 
@@ -21,7 +23,17 @@ A modern, responsive React-based gym workout tracking application that helps you
   - Live editing of sets, reps, weight, and completion status
   - Drag and drop exercise reordering
 - **Intelligent Exercise Display**: Context-aware UI that adapts to exercise type
-- **Persistent Storage**: All workout data saved locally with automatic sync
+- **Persistent Storage**: Workout data saved automatically — to the cloud when signed in, to local storage otherwise
+
+### Accounts & Cloud Sync
+- **Email/Password Authentication**: Secure sign up and sign in powered by Supabase
+- **Cross-Device Sync**: Signed-in workouts are stored in the cloud and follow you to any device
+- **Offline Fallback**: Not signed in? Everything still works and saves to local storage, then migrates to the cloud on your first sign-in
+- **Password Recovery**: Full "forgot password" flow with an emailed reset link
+- **Admin Dashboard**: Admins can list users, manage roles, and view or edit any user's workout plan (access enforced server-side by Postgres Row Level Security)
+
+### Bilingual Interface
+- **English / Spanish**: Full UI translation with an in-app language toggle
 
 ### Modern Design & UX
 - **Professional Branding**: Custom logo integration with vibrant teal gradient design
@@ -41,15 +53,16 @@ A modern, responsive React-based gym workout tracking application that helps you
 
 ### Prerequisites
 
-- Node.js (version 16 or higher)
-- npm or yarn package manager
+- Node.js (version 18 or higher)
+- npm package manager
+- A [Supabase](https://supabase.com) project (free tier is fine) for auth and cloud sync — optional for offline-only local development
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd gym-tracker-app-v2/gym-tracker
+   cd gym-tracker-react
    ```
 
 2. **Install dependencies**
@@ -57,12 +70,28 @@ A modern, responsive React-based gym workout tracking application that helps you
    npm install
    ```
 
-3. **Start the development server**
+3. **Configure environment variables**
+
+   Copy `.env.example` to `.env` and fill in your Supabase credentials (Supabase dashboard → Settings → API):
+   ```bash
+   cp .env.example .env
+   ```
+   ```
+   VITE_SUPABASE_URL=https://your-project-ref.supabase.co
+   VITE_SUPABASE_ANON_KEY=your-anon-public-key
+   ```
+   The `anon` key is the public key and is safe to ship in the client — access is enforced by Row Level Security. Without these, auth and cloud sync are disabled but the app still runs offline against local storage.
+
+4. **Set up the database**
+
+   In the Supabase SQL editor, run `supabase/schema.sql`, then `supabase/admin.sql`. See [`SUPABASE_SETUP.md`](SUPABASE_SETUP.md) for the full walkthrough, including how to promote your account to admin.
+
+5. **Start the development server**
    ```bash
    npm run dev
    ```
 
-4. **Open your browser** and navigate to `http://localhost:5173`
+6. **Open your browser** and navigate to `http://localhost:5173`
 
 ### Build for Production
 
@@ -77,24 +106,53 @@ The built files will be available in the `dist/` directory.
 ```
 src/
 ├── components/          # React components
-│   ├── AddExerciseModal.jsx    # Enhanced modal with search & filtering
-│   ├── CustomModal.jsx         # Reusable modal with white background
+│   ├── AddExerciseModal.jsx    # Exercise picker with search & filtering
+│   ├── AdminDashboard.jsx      # Admin: user list, roles, edit any plan (lazy-loaded)
+│   ├── AuthWrapper.jsx         # Gates the app on auth; routes sign-in/up/forgot
 │   ├── DayAccordion.jsx        # Day workout with muscle group selection
 │   ├── ExerciseItem.jsx        # Smart exercise item (cardio/strength)
-│   ├── NewModal.jsx            # Updated modal component
-│   └── ProgressBar.jsx         # Weekly progress visualization
-├── constants/          # Application constants
-│   └── index.js        # 200+ exercises, muscle groups, days
+│   ├── FeedbackModal.jsx       # Feedback form (lazy-loaded)
+│   ├── LanguageToggle.jsx      # English/Spanish switch
+│   ├── ProgressBar.jsx         # Weekly progress visualization
+│   ├── UserProfile.jsx         # Header account dropdown + sign out
+│   └── ui/                     # Reusable Button, Input, Modal primitives
+├── pages/              # Full-screen auth pages
+│   ├── SignIn.jsx / SignUp.jsx
+│   ├── ForgotPassword.jsx      # Sends the reset email
+│   └── UpdatePassword.jsx      # Set a new password after the reset link
+├── contexts/           # React context providers (auth, language)
+├── hooks/              # useAuth, useLanguage, useModal, useWorkoutPlan
 ├── services/           # Business logic
-│   └── workoutService.js       # Complete Push/Pull/Leg workout data
-├── utils/             # Utility functions
-│   └── dateHelper.js   # Date-related helper functions
-├── assets/            # Static assets
-│   └── mdlogo.jpeg    # Custom logo file
-├── App.jsx            # Main application with logo integration
-├── main.jsx           # Application entry point
-├── App.css            # Component styles
-└── index.css          # Global styles
+│   ├── workoutService.js       # Push/Pull/Leg plan data & operations
+│   ├── ExerciseService.js      # Exercise creation, search, stats
+│   ├── ExerciseTypeStrategies.js  # Strategy pattern for cardio vs strength
+│   ├── StorageService.js       # Local storage adapter
+│   ├── SupabaseStorageService.js  # Cloud storage adapter
+│   └── AdminService.js         # Cross-user admin operations
+├── lib/
+│   └── supabase.js             # Shared Supabase client
+├── translations/       # English/Spanish UI and exercise strings
+├── constants/          # 200+ exercises, muscle groups, days
+├── utils/              # dateHelper and other helpers
+├── test/               # Vitest setup
+├── App.jsx             # Main application + provider tree
+├── main.jsx            # Application entry point
+└── index.css           # Global styles
+
+supabase/
+├── schema.sql          # Tables (workout_plans, user_preferences) + RLS
+└── admin.sql           # profiles, roles, is_admin(), admin policies
+```
+
+### Available Scripts
+
+```bash
+npm run dev       # Start the dev server
+npm run build     # Production build to dist/
+npm run preview   # Preview the production build locally
+npm run lint      # Run ESLint
+npm test          # Run the Vitest suite in watch mode
+npm run test:run  # Run the Vitest suite once (76 tests)
 ```
 
 ## Usage Guide
@@ -161,9 +219,12 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 
 - **React 19**: Modern React with hooks and latest features
 - **Vite**: Lightning-fast build tool and development server
+- **Supabase**: Authentication and Postgres cloud database with Row Level Security
+- **@dnd-kit**: Accessible, touch-friendly drag-and-drop for exercise reordering
+- **vite-plugin-pwa**: Installable, offline-capable Progressive Web App
+- **Vitest + Testing Library**: 76-test suite across services, hooks, and components
 - **Inline Styles**: Component-scoped styling for better maintainability
 - **Lucide React**: Beautiful, consistent icon library
-- **Local Storage**: Browser-based data persistence
 - **Modern JavaScript**: ES6+ features and best practices
 
 ### Key Improvements
@@ -246,12 +307,14 @@ The application is fully responsive and includes:
    - GitHub Pages
    - Any static hosting service
 
+The production app is deployed on **Vercel** at [gymworkoutjm.vercel.app](https://gymworkoutjm.vercel.app). Remember that Vite bakes environment variables in at build time, so set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in your hosting provider's environment settings and redeploy after any change.
+
 ### Environment Considerations
 
-- **Client-side only**: No backend server required
-- **Local storage**: Data persisted in browser storage
-- **Device-specific**: Data doesn't sync across devices
-- **Offline capable**: Works without internet connection
+- **Serverless backend**: Supabase provides auth and the Postgres database — no server to run yourself
+- **Cloud sync**: Signed-in workouts sync across devices; access is scoped per-user by Row Level Security
+- **Offline capable**: Works without an account or connection, saving to local storage and migrating to the cloud on sign-in
+- **Installable PWA**: Can be added to a home screen and launched like a native app
 
 ## Contributing
 
@@ -265,10 +328,16 @@ The application is fully responsive and includes:
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## Future Enhancements
+## Roadmap
+
+### Recently Shipped
+- [x] **Cloud synchronization**: Sign in to sync workouts across devices (Supabase)
+- [x] **User accounts & auth**: Email/password sign up, sign in, and password recovery
+- [x] **Admin dashboard**: User and role management with server-side RLS enforcement
+- [x] **Bilingual UI**: Full English/Spanish translation with a language toggle
+- [x] **PWA support**: Offline functionality and home-screen installation
 
 ### Planned Features
-- [ ] **Cloud synchronization**: Sync workouts across devices
 - [ ] **Workout analytics**: Progress charts and performance metrics
 - [ ] **Exercise videos**: Integrated exercise demonstrations
 - [ ] **Social features**: Share workouts and progress
@@ -279,7 +348,6 @@ This project is open source and available under the [MIT License](LICENSE).
 - [ ] **Achievement system**: Workout milestones and badges
 
 ### Technical Improvements
-- [ ] **PWA support**: Offline functionality and app installation
 - [ ] **Data export/import**: Backup and restore functionality
 - [ ] **Theme customization**: Dark mode and color themes
 - [ ] **Advanced search**: Exercise filtering by equipment, difficulty
