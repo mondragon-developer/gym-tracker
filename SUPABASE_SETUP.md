@@ -29,76 +29,21 @@ This guide will walk you through setting up Supabase authentication and database
 
 ## 🗄️ Step 3: Create Database Tables
 
+The SQL lives in this repo so it stays in sync with the code:
+
+- `supabase/schema.sql` — `workout_plans` + `user_preferences` tables with per-user Row Level Security
+- `supabase/admin.sql` — `profiles` table, signup trigger, `is_admin()` helper, and admin full-access policies (run AFTER schema.sql)
+
+Both scripts are idempotent — safe to re-run any time.
+
 1. In your Supabase dashboard, click **SQL Editor** in the sidebar
-2. Click **"New Query"**
-3. Copy and paste the following SQL:
+2. Click **"New Query"**, paste the contents of `supabase/schema.sql`, and **Run**
+3. Repeat with `supabase/admin.sql`
+4. After you have signed up in the app, promote yourself to admin (run once):
 
 ```sql
--- Create workout_plans table
-CREATE TABLE workout_plans (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
-  data JSONB NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  UNIQUE(user_id)
-);
-
--- Create user_preferences table
-CREATE TABLE user_preferences (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
-  preferences JSONB NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  UNIQUE(user_id)
-);
-
--- Enable Row Level Security (RLS)
-ALTER TABLE workout_plans ENABLE ROW LEVEL SECURITY;
-ALTER TABLE user_preferences ENABLE ROW LEVEL SECURITY;
-
--- Create policies for workout_plans
-CREATE POLICY "Users can view their own workout plans"
-  ON workout_plans FOR SELECT
-  USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can insert their own workout plans"
-  ON workout_plans FOR INSERT
-  WITH CHECK (auth.uid() = user_id);
-
-CREATE POLICY "Users can update their own workout plans"
-  ON workout_plans FOR UPDATE
-  USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can delete their own workout plans"
-  ON workout_plans FOR DELETE
-  USING (auth.uid() = user_id);
-
--- Create policies for user_preferences
-CREATE POLICY "Users can view their own preferences"
-  ON user_preferences FOR SELECT
-  USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can insert their own preferences"
-  ON user_preferences FOR INSERT
-  WITH CHECK (auth.uid() = user_id);
-
-CREATE POLICY "Users can update their own preferences"
-  ON user_preferences FOR UPDATE
-  USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can delete their own preferences"
-  ON user_preferences FOR DELETE
-  USING (auth.uid() = user_id);
-
--- Create indexes for better performance
-CREATE INDEX workout_plans_user_id_idx ON workout_plans(user_id);
-CREATE INDEX user_preferences_user_id_idx ON user_preferences(user_id);
+update public.profiles set role = 'admin' where email = 'you@example.com';
 ```
-
-4. Click **"Run"** to execute the SQL
-5. You should see a success message
 
 ## ✉️ Step 4: Configure Email Authentication
 

@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth.js';
 import { useLanguage } from '../hooks/useLanguage.js';
 import { t } from '../translations/ui';
 import Button from './ui/Button';

@@ -3,22 +3,14 @@
  * Manages user authentication state and provides auth methods throughout the app
  */
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-
-const AuthContext = createContext({});
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+import { AuthContext } from './authContextDef.js';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     // Check active sessions and sets the user
@@ -34,6 +26,31 @@ export const AuthProvider = ({ children }) => {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  // Role lives in public.profiles (auto-created by a signup trigger); RLS lets
+  // every user read their own row, so this is safe to run for non-admins too.
+  useEffect(() => {
+    if (!user) {
+      setIsAdmin(false);
+      return;
+    }
+
+    let cancelled = false;
+    supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle()
+      .then(({ data, error }) => {
+        if (!cancelled) {
+          setIsAdmin(!error && data?.role === 'admin');
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
 
   // Sign up with email and password
   const signUp = async (email, password, metadata = {}) => {
@@ -110,6 +127,7 @@ export const AuthProvider = ({ children }) => {
   const value = {
     user,
     loading,
+    isAdmin,
     signUp,
     signIn,
     signOut,

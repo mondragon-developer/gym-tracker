@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth.js';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 

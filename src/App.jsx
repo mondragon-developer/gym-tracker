@@ -11,6 +11,8 @@ import DayAccordion from './components/DayAccordion';
 import AddExerciseModal from './components/AddExerciseModal';
 // Lazy: pulls in emailjs (~80 kB) only when the user actually opens the modal.
 const FeedbackModal = React.lazy(() => import('./components/FeedbackModal'));
+// Lazy: admin-only surface, kept out of the bundle regular users download.
+const AdminDashboard = React.lazy(() => import('./components/AdminDashboard'));
 import LanguageToggle from './components/LanguageToggle';
 import UserProfile from './components/UserProfile';
 import AuthWrapper from './components/AuthWrapper';
@@ -20,6 +22,7 @@ import { ButtonVariant } from './components/ui/Button.constants.js';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { useLanguage } from './hooks/useLanguage.js';
 import { AuthProvider } from './contexts/AuthContext';
+import { useAuth } from './hooks/useAuth.js';
 import { t } from './translations/ui';
 import { getToday } from './utils/dateHelper';
 import { DAYS_OF_WEEK } from './constants/AppConstants.js';
@@ -32,6 +35,8 @@ import mdLogo from './assets/mdlogo.jpeg';
  */
 function AppContent() {
     const { language } = useLanguage();
+    const { isAdmin } = useAuth();
+    const [showAdmin, setShowAdmin] = useState(false);
     // Custom hooks for state management (Single Responsibility)
     const {
         workoutPlan,
@@ -103,6 +108,15 @@ function AppContent() {
             addExerciseModal.close();
         }
     };
+
+    // Admin panel replaces the tracker view; it loads its own data.
+    if (showAdmin && isAdmin) {
+        return (
+            <Suspense fallback={null}>
+                <AdminDashboard onBack={() => setShowAdmin(false)} />
+            </Suspense>
+        );
+    }
 
     // Handle loading and error states
     if (isLoading) {
@@ -213,6 +227,23 @@ function AppContent() {
                         }}>
                             <LanguageToggle />
                             <UserProfile />
+                            {isAdmin && (
+                                <button
+                                    onClick={() => setShowAdmin(true)}
+                                    style={{
+                                        padding: '8px 12px',
+                                        backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                                        border: '1px solid rgba(255, 255, 255, 0.3)',
+                                        borderRadius: '8px',
+                                        color: 'white',
+                                        fontSize: '14px',
+                                        fontWeight: '500',
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    🛡️ Admin
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
