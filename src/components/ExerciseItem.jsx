@@ -9,7 +9,7 @@ import { translateExercise } from '../translations/exercises';
 /**
  * Displays a single exercise item, allowing for edits, status changes, and deletion.
  */
-const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en' }) => {
+const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en', readOnly = false }) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
         id: exercise.id,
     });
@@ -81,29 +81,32 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en' }) => {
                 {/* Header with drag handle, status icon and action buttons */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <button
-                            type="button"
-                            {...attributes}
-                            {...listeners}
-                            aria-label={t("Reorder exercise", language)}
-                            title={t("Reorder exercise", language)}
-                            style={{
-                                background: 'transparent',
-                                border: 'none',
-                                padding: 0,
-                                color: '#6b7280',
-                                cursor: 'grab',
-                                touchAction: 'none',
-                                display: 'flex',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <GripVertical size={18} />
-                        </button>
+                        {!readOnly && (
+                            <button
+                                type="button"
+                                {...attributes}
+                                {...listeners}
+                                aria-label={t("Reorder exercise", language)}
+                                title={t("Reorder exercise", language)}
+                                style={{
+                                    background: 'transparent',
+                                    border: 'none',
+                                    padding: 0,
+                                    color: '#6b7280',
+                                    cursor: 'grab',
+                                    touchAction: 'none',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <GripVertical size={18} />
+                            </button>
+                        )}
                         <span style={{ fontSize: '18px' }}>{getStatusIcon()}</span>
                     </div>
-                    
-                    {/* Action buttons */}
+
+                    {/* Action buttons — hidden when viewing a past (read-only) week */}
+                    {!readOnly && (
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
                         <button 
                             onClick={() => handleStatusChange('completed')} 
@@ -167,8 +170,9 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en' }) => {
                             <Trash2 size={18} />
                         </button>
                     </div>
+                    )}
                 </div>
-                
+
                 {/* Exercise name and target - moved down for better visual hierarchy */}
                 <div style={{ paddingLeft: '34px', marginTop: '-2px' }}>
                     <h3 style={{
@@ -198,7 +202,10 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en' }) => {
                     </div>
                 </div>
 
-                {/* Input fields - responsive grid */}
+                {/* Input fields - responsive grid.
+                    A disabled <fieldset> makes every control inside read-only in
+                    one shot when viewing a past week. */}
+                <fieldset disabled={readOnly} style={{ border: 'none', margin: 0, padding: 0, minWidth: 0 }}>
                 <div style={{
                     display: 'grid',
                     gridTemplateColumns: isCardio() ? '1fr 1fr' : 'repeat(2, 1fr)',
@@ -399,6 +406,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en' }) => {
                         </>
                     )}
                 </div>
+                </fieldset>
             </div>
         </div>
     );

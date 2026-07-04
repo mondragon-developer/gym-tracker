@@ -23,7 +23,7 @@ import { translateExercise, translateMuscleGroup } from '../translations/exercis
 /**
  * An accordion component for a single day's workout plan.
  */
-const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, onOpenAddExercise, activeDayRef, language = 'en' }) => {
+const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, onOpenAddExercise, activeDayRef, language = 'en', readOnly = false, date }) => {
     const [showMuscleGroupDropdown, setShowMuscleGroupDropdown] = useState(false);
 
     // Touch sensor with delay so finger drag doesn't fight scroll on mobile.
@@ -34,6 +34,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
     );
 
     const handleDragEnd = (event) => {
+        if (readOnly) return;
         const { active, over } = event;
         if (!over || active.id === over.id) return;
         const oldIndex = data.exercises.findIndex(ex => ex.id === active.id);
@@ -173,6 +174,9 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                 <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
                         <span style={{ fontWeight: 'bold', fontSize: '20px' }}>{t(day, language)}</span>
+                        {date && (
+                            <span style={{ fontSize: '13px', opacity: 0.85, fontWeight: 500 }}>{date}</span>
+                        )}
                         {exerciseCount > 0 && (
                             <span style={{
                                 backgroundColor: 'rgba(255, 255, 255, 0.25)',
@@ -188,6 +192,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', position: 'relative' }} className="muscle-group-dropdown">
                         <span style={{ fontSize: '14px', opacity: 0.95, fontWeight: '500' }}>{translateMuscleGroup(data.name, language)}</span>
+                        {!readOnly && (
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
@@ -208,7 +213,8 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                         >
                             <Edit3 size={14} />
                         </button>
-                        {showMuscleGroupDropdown && (
+                        )}
+                        {!readOnly && showMuscleGroupDropdown && (
                             <div style={{
                                 position: 'absolute',
                                 top: '100%',
@@ -373,6 +379,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                             onUpdate={handleUpdateExercise}
                                             onDelete={handleDeleteExercise}
                                             language={language}
+                                            readOnly={readOnly}
                                         />
                                     ))}
                                 </SortableContext>
@@ -392,6 +399,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                         )}
                     </div>
                     
+                    {!readOnly && (
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -400,8 +408,8 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                         borderTop: '2px solid #e5e7eb',
                         marginTop: '16px'
                     }}>
-                        <button 
-                            onClick={() => onOpenAddExercise(day)} 
+                        <button
+                            onClick={() => onOpenAddExercise(day)}
                             style={{
                                 display: 'flex',
                                 alignItems: 'center',
@@ -459,6 +467,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                             🔄 {t("Reset Day", language)}
                         </button>
                     </div>
+                    )}
                 </div>
             )}
         </div>

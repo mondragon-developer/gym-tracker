@@ -131,7 +131,46 @@ export const uiTranslations = {
         "New Password": "New Password",
         "Confirm New Password": "Confirm New Password",
         "Update Password": "Update Password",
-        "Updating...": "Updating..."
+        "Updating...": "Updating...",
+
+        // Admin panel
+        "Admin panel": "Admin panel",
+        "Back to tracker": "Back to tracker",
+        "Set each user's default training values.": "Set each user's default training values.",
+        "You can't add exercises, change muscle groups, or set rest days.": "You can't add exercises, change muscle groups, or set rest days.",
+        "Users": "Users",
+        "Loading users...": "Loading users...",
+        "Failed to load users. Are you an admin?": "Failed to load users. Are you an admin?",
+        "admin": "admin",
+        "user": "user",
+        "you": "you",
+        "Demote": "Demote",
+        "Make admin": "Make admin",
+        "Confirm?": "Confirm?",
+        "Select a user to view their workout plan.": "Select a user to view their workout plan.",
+        "Loading plan for": "Loading plan for",
+        "Reset to default": "Reset to default",
+        "Confirm reset?": "Confirm reset?",
+        "Delete cloud data": "Delete cloud data",
+        "Confirm delete?": "Confirm delete?",
+        "Save changes": "Save changes",
+        "Saving...": "Saving...",
+        "Saved": "Saved",
+        "No cloud workout plan yet. \"Reset to default\" creates one you can save.": "No cloud workout plan yet. \"Reset to default\" creates one you can save.",
+        "No exercises.": "No exercises.",
+        "Exercise": "Exercise",
+        "Failed to load workout plan for": "Failed to load workout plan for",
+        "Failed to save workout plan for": "Failed to save workout plan for",
+        "Failed to change role for": "Failed to change role for",
+        "Failed to delete workout plan for": "Failed to delete workout plan for",
+
+        // Week navigator
+        "Week of": "Week of",
+        "Previous week": "Previous week",
+        "Next week": "Next week",
+        "Current week": "Current week",
+        "Viewing a past week — read only": "Viewing a past week — read only",
+        "Back to current week": "Back to current week"
     },
     es: {
         // Header
@@ -261,7 +300,46 @@ export const uiTranslations = {
         "New Password": "Nueva Contraseña",
         "Confirm New Password": "Confirmar Nueva Contraseña",
         "Update Password": "Actualizar Contraseña",
-        "Updating...": "Actualizando..."
+        "Updating...": "Actualizando...",
+
+        // Admin panel
+        "Admin panel": "Panel de Administrador",
+        "Back to tracker": "Volver al Registro",
+        "Set each user's default training values.": "Configura los valores de entrenamiento por defecto de cada usuario.",
+        "You can't add exercises, change muscle groups, or set rest days.": "No puedes agregar ejercicios, cambiar grupos musculares ni definir días de descanso.",
+        "Users": "Usuarios",
+        "Loading users...": "Cargando usuarios...",
+        "Failed to load users. Are you an admin?": "No se pudieron cargar los usuarios. ¿Eres administrador?",
+        "admin": "administrador",
+        "user": "usuario",
+        "you": "tú",
+        "Demote": "Degradar",
+        "Make admin": "Hacer Admin",
+        "Confirm?": "¿Confirmar?",
+        "Select a user to view their workout plan.": "Selecciona un usuario para ver su plan de entrenamiento.",
+        "Loading plan for": "Cargando el plan de",
+        "Reset to default": "Restablecer por Defecto",
+        "Confirm reset?": "¿Confirmar restablecer?",
+        "Delete cloud data": "Eliminar Datos en la Nube",
+        "Confirm delete?": "¿Confirmar eliminar?",
+        "Save changes": "Guardar Cambios",
+        "Saving...": "Guardando...",
+        "Saved": "Guardado",
+        "No cloud workout plan yet. \"Reset to default\" creates one you can save.": "Aún no hay un plan en la nube. \"Restablecer por Defecto\" crea uno que puedes guardar.",
+        "No exercises.": "Sin ejercicios.",
+        "Exercise": "Ejercicio",
+        "Failed to load workout plan for": "No se pudo cargar el plan de entrenamiento de",
+        "Failed to save workout plan for": "No se pudo guardar el plan de entrenamiento de",
+        "Failed to change role for": "No se pudo cambiar el rol de",
+        "Failed to delete workout plan for": "No se pudo eliminar el plan de entrenamiento de",
+
+        // Week navigator
+        "Week of": "Semana del",
+        "Previous week": "Semana anterior",
+        "Next week": "Semana siguiente",
+        "Current week": "Semana actual",
+        "Viewing a past week — read only": "Viendo una semana pasada — solo lectura",
+        "Back to current week": "Volver a la semana actual"
     }
 };
 

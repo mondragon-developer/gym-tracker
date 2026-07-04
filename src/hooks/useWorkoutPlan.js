@@ -1,21 +1,22 @@
 /**
  * Custom hook for workout plan management
- * Follows Single Responsibility Principle by handling only workout state logic
- * Now supports both localStorage and Supabase cloud storage
+ * Owns the user's weekly history (see WeekPlanService): loading, migration,
+ * per-week viewing/navigation, editing the current week, and persistence to
+ * cloud (when signed in) or local storage (offline fallback).
  */
 
 import { useState, useEffect } from 'react';
 import workoutService from '../services/workoutService.js';
+import WeekPlanService from '../services/WeekPlanService.js';
 import { supabaseStorageService } from '../services/SupabaseStorageService.js';
 import { storageService } from '../services/StorageService.js';
 import { supabase } from '../lib/supabase.js';
 
-/**
- * Custom hook for managing workout plan state
- * @returns {Object} Workout plan state and actions
- */
+const LOCAL_KEY = 'gymAppWorkoutPlan';
+
 const useWorkoutPlan = () => {
-  const [workoutPlan, setWorkoutPlan] = useState(null);
+  const [history, setHistory] = useState(null);
+  const [viewedWeekStart, setViewedWeekStart] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
@@ -33,64 +34,53 @@ const useWorkoutPlan = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Initialize workout plan from storage (cloud or local)
+  // Load and migrate the weekly history (cloud or local)
   useEffect(() => {
-    const loadWorkoutPlan = async () => {
+    const loadHistory = async () => {
       try {
         setIsLoading(true);
+        let raw = null;
 
         if (user) {
-          // User is authenticated - try to load from Supabase
-          const cloudPlan = await supabaseStorageService.getWorkoutPlan();
-
-          if (cloudPlan) {
-            // Cloud plans need the same schema migration as local ones,
-            // otherwise a plan saved before a default-day change breaks the UI.
-            setWorkoutPlan(workoutService.migrateWorkoutPlan(cloudPlan));
-          } else {
-            // No cloud plan yet - check localStorage for migration
-            const localPlan = storageService.getWorkoutPlan();
-
-            if (localPlan) {
-              // Migrate localStorage data to Supabase
-              await supabaseStorageService.saveWorkoutPlan(localPlan);
-              setWorkoutPlan(localPlan);
-            } else {
-              // No data anywhere - use initial plan
-              const initialPlan = workoutService.getInitialPlan();
-              setWorkoutPlan(initialPlan);
+          raw = await supabaseStorageService.getWorkoutPlan();
+          if (!raw) {
+            // No cloud data yet — migrate any local history up to the cloud.
+            const local = storageService.getWorkoutPlan(LOCAL_KEY);
+            if (local) {
+              raw = local;
+              await supabaseStorageService.saveWorkoutPlan(WeekPlanService.migrate(local));
             }
           }
         } else {
-          // Not authenticated - use localStorage
-          const plan = workoutService.getPlan();
-          setWorkoutPlan(plan);
+          raw = storageService.getWorkoutPlan(LOCAL_KEY);
         }
+
+        const migrated = WeekPlanService.migrate(raw);
+        setHistory(migrated);
+        setViewedWeekStart(migrated.currentWeekStart);
       } catch (err) {
         setError('Failed to load workout plan');
         console.error('Error loading workout plan:', err);
-        // Fallback to initial plan on error
-        const initialPlan = workoutService.getInitialPlan();
-        setWorkoutPlan(initialPlan);
+        const fallback = WeekPlanService.migrate(null);
+        setHistory(fallback);
+        setViewedWeekStart(fallback.currentWeekStart);
       } finally {
         setIsLoading(false);
       }
     };
 
-    loadWorkoutPlan();
+    loadHistory();
   }, [user]);
 
-  // Auto-save when workout plan changes
+  // Auto-save the whole history whenever it changes
   useEffect(() => {
-    const saveWorkoutPlan = async () => {
-      if (workoutPlan && !isLoading) {
+    const saveHistory = async () => {
+      if (history && !isLoading) {
         try {
           if (user) {
-            // Save to Supabase if authenticated
-            await supabaseStorageService.saveWorkoutPlan(workoutPlan);
+            await supabaseStorageService.saveWorkoutPlan(history);
           } else {
-            // Save to localStorage if not authenticated
-            workoutService.savePlan(workoutPlan);
+            storageService.saveWorkoutPlan(history, LOCAL_KEY);
           }
         } catch (err) {
           setError('Failed to save workout plan');
@@ -99,43 +89,59 @@ const useWorkoutPlan = () => {
       }
     };
 
-    saveWorkoutPlan();
-  }, [workoutPlan, isLoading, user]);
+    saveHistory();
+  }, [history, isLoading, user]);
 
-  /**
-   * Updates a specific day in the workout plan
-   * @param {string} day - Day to update
-   * @param {Object} dayData - New day data
-   */
+  const currentWeekStart = history?.currentWeekStart ?? null;
+  const weekStarts = history ? WeekPlanService.listWeekStarts(history) : [];
+  const workoutPlan = history && viewedWeekStart ? history.weeks[viewedWeekStart] ?? null : null;
+  const isViewingCurrent = viewedWeekStart === currentWeekStart;
+
+  const viewedIndex = weekStarts.indexOf(viewedWeekStart);
+  const hasOlderWeek = viewedIndex >= 0 && viewedIndex < weekStarts.length - 1;
+  const hasNewerWeek = viewedIndex > 0;
+
+  // Editing only ever touches the CURRENT week — past weeks are read-only history.
+  const editCurrentWeek = (updater) => {
+    if (!isViewingCurrent) return;
+    setHistory(prev => {
+      if (!prev) return prev;
+      const nextPlan = updater(prev.weeks[prev.currentWeekStart]);
+      return { ...prev, weeks: { ...prev.weeks, [prev.currentWeekStart]: nextPlan } };
+    });
+  };
+
   const updateDay = (day, dayData) => {
-    setWorkoutPlan(prev => ({ ...prev, [day]: dayData }));
+    editCurrentWeek(prev => ({ ...prev, [day]: dayData }));
   };
 
-  /**
-   * Adds an exercise to a specific day
-   * @param {string} day - Day to add exercise to
-   * @param {Object} exerciseData - Exercise data
-   */
   const addExercise = (day, exerciseData) => {
-    const updatedPlan = workoutService.addExerciseToDay(workoutPlan, day, exerciseData);
-    setWorkoutPlan(updatedPlan);
+    editCurrentWeek(prev => workoutService.addExerciseToDay(prev, day, exerciseData));
   };
 
-  /**
-   * Resets a specific day to its initial state
-   * @param {string} day - Day to reset
-   */
   const resetDay = (day) => {
-    const updatedPlan = workoutService.resetDay(workoutPlan, day);
-    setWorkoutPlan(updatedPlan);
+    editCurrentWeek(prev => workoutService.resetDay(prev, day));
   };
 
-  /**
-   * Resets the entire workout plan
-   */
+  // "Start New Week": archive the current week and carry the plan forward.
   const resetWeek = () => {
-    const initialPlan = workoutService.getInitialPlan();
-    setWorkoutPlan(initialPlan);
+    if (!history) return;
+    const next = WeekPlanService.startNewWeek(history);
+    setHistory(next);
+    setViewedWeekStart(next.currentWeekStart);
+  };
+
+  // Week navigation among existing weeks (newest-first list).
+  const goToOlderWeek = () => {
+    if (hasOlderWeek) setViewedWeekStart(weekStarts[viewedIndex + 1]);
+  };
+
+  const goToNewerWeek = () => {
+    if (hasNewerWeek) setViewedWeekStart(weekStarts[viewedIndex - 1]);
+  };
+
+  const goToCurrentWeek = () => {
+    if (currentWeekStart) setViewedWeekStart(currentWeekStart);
   };
 
   return {
@@ -145,7 +151,16 @@ const useWorkoutPlan = () => {
     updateDay,
     addExercise,
     resetDay,
-    resetWeek
+    resetWeek,
+    // Weekly view state
+    viewedWeekStart,
+    currentWeekStart,
+    isViewingCurrent,
+    hasOlderWeek,
+    hasNewerWeek,
+    goToOlderWeek,
+    goToNewerWeek,
+    goToCurrentWeek
   };
 };
 

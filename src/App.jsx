@@ -24,7 +24,7 @@ import { useLanguage } from './hooks/useLanguage.js';
 import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from './hooks/useAuth.js';
 import { t } from './translations/ui';
-import { getToday } from './utils/dateHelper';
+import { getToday, formatWeekRange, formatDayDate } from './utils/dateHelper';
 import { DAYS_OF_WEEK } from './constants/AppConstants.js';
 import mdLogo from './assets/mdlogo.jpeg';
 
@@ -45,7 +45,14 @@ function AppContent() {
         addExercise,
         resetDay,
         resetWeek,
-        updateDay
+        updateDay,
+        viewedWeekStart,
+        isViewingCurrent,
+        hasOlderWeek,
+        hasNewerWeek,
+        goToOlderWeek,
+        goToNewerWeek,
+        goToCurrentWeek
     } = useWorkoutPlan();
     
     const resetModal = useModal();
@@ -248,8 +255,70 @@ function AppContent() {
                     </div>
                 </div>
 
+                {/* Week navigator — shows the viewed week's dates and steps through history */}
+                <div style={{
+                    padding: '16px 32px 0 32px',
+                    backgroundColor: 'white',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '12px',
+                    flexWrap: 'wrap'
+                }}>
+                    <button
+                        onClick={goToOlderWeek}
+                        disabled={!hasOlderWeek}
+                        aria-label={t('Previous week', language)}
+                        title={t('Previous week', language)}
+                        style={{
+                            width: '36px', height: '36px', borderRadius: '10px',
+                            border: '1px solid #e5e7eb', backgroundColor: 'white',
+                            color: hasOlderWeek ? '#0e7490' : '#d1d5db',
+                            fontSize: '18px', cursor: hasOlderWeek ? 'pointer' : 'not-allowed'
+                        }}
+                    >
+                        ‹
+                    </button>
+                    <div style={{ textAlign: 'center', minWidth: '200px' }}>
+                        <div style={{ fontSize: '15px', fontWeight: 700, color: '#164e63' }}>
+                            {viewedWeekStart && `${t('Week of', language)} ${formatWeekRange(viewedWeekStart, language)}`}
+                        </div>
+                        <div style={{ fontSize: '12px', fontWeight: 600, color: isViewingCurrent ? '#059669' : '#b45309' }}>
+                            {isViewingCurrent
+                                ? t('Current week', language)
+                                : t('Viewing a past week — read only', language)}
+                        </div>
+                    </div>
+                    <button
+                        onClick={goToNewerWeek}
+                        disabled={!hasNewerWeek}
+                        aria-label={t('Next week', language)}
+                        title={t('Next week', language)}
+                        style={{
+                            width: '36px', height: '36px', borderRadius: '10px',
+                            border: '1px solid #e5e7eb', backgroundColor: 'white',
+                            color: hasNewerWeek ? '#0e7490' : '#d1d5db',
+                            fontSize: '18px', cursor: hasNewerWeek ? 'pointer' : 'not-allowed'
+                        }}
+                    >
+                        ›
+                    </button>
+                    {!isViewingCurrent && (
+                        <button
+                            onClick={goToCurrentWeek}
+                            style={{
+                                padding: '8px 14px', borderRadius: '10px', border: 'none',
+                                background: 'linear-gradient(90deg, #06b6d4 0%, #0e7490 100%)',
+                                color: 'white', fontSize: '13px', fontWeight: 600, cursor: 'pointer'
+                            }}
+                        >
+                            {t('Back to current week', language)}
+                        </button>
+                    )}
+                </div>
+
                 {/* Progress Section */}
-                <div style={{ 
+                <div style={{
                     padding: '24px 32px 20px 32px',
                     backgroundColor: 'white'
                 }}>
@@ -274,15 +343,18 @@ function AppContent() {
                                 onOpenAddExercise={handleOpenAddExercise}
                                 activeDayRef={activeDayRef}
                                 language={language}
+                                readOnly={!isViewingCurrent}
+                                date={viewedWeekStart ? formatDayDate(viewedWeekStart, day, language) : undefined}
                             />
                         ))}
                     </div>
 
-                    {/* Action Buttons */}
-                    <div style={{ 
-                        marginTop: '20px', 
-                        display: 'flex', 
-                        flexDirection: 'column', 
+                    {/* Action Buttons — editing actions only on the current week */}
+                    {isViewingCurrent && (
+                    <div style={{
+                        marginTop: '20px',
+                        display: 'flex',
+                        flexDirection: 'column',
                         alignItems: 'center',
                         gap: '12px'
                     }}>
@@ -361,6 +433,7 @@ function AppContent() {
                             </span>
                         </button>
                     </div>
+                    )}
                 </div>
             </div>
 
