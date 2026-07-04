@@ -136,8 +136,7 @@ export const uiTranslations = {
         // Admin panel
         "Admin panel": "Admin panel",
         "Back to tracker": "Back to tracker",
-        "Set each user's default training values.": "Set each user's default training values.",
-        "You can't add exercises, change muscle groups, or set rest days.": "You can't add exercises, change muscle groups, or set rest days.",
+        "Build and adjust each user's weekly training plan.": "Build and adjust each user's weekly training plan.",
         "Users": "Users",
         "Loading users...": "Loading users...",
         "Failed to load users. Are you an admin?": "Failed to load users. Are you an admin?",
@@ -305,8 +304,7 @@ export const uiTranslations = {
         // Admin panel
         "Admin panel": "Panel de Administrador",
         "Back to tracker": "Volver al Registro",
-        "Set each user's default training values.": "Configura los valores de entrenamiento por defecto de cada usuario.",
-        "You can't add exercises, change muscle groups, or set rest days.": "No puedes agregar ejercicios, cambiar grupos musculares ni definir días de descanso.",
+        "Build and adjust each user's weekly training plan.": "Crea y ajusta el plan de entrenamiento semanal de cada usuario.",
         "Users": "Usuarios",
         "Loading users...": "Cargando usuarios...",
         "Failed to load users. Are you an admin?": "No se pudieron cargar los usuarios. ¿Eres administrador?",

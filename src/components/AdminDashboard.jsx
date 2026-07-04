@@ -1,9 +1,10 @@
 /**
  * Admin Dashboard Component
- * Lets admins list users, manage roles, and set each user's DEFAULT TRAINING
- * VALUES (sets / reps / weight) for the fixed weekly split. Admins deliberately
- * cannot add exercises, change muscle groups, set rest days, or add custom
- * exercises here — the plan structure stays the standard Push/Pull/Leg split.
+ * Lets admins list users, manage roles, and build/adjust any user's weekly
+ * training plan. The plan editor reuses the tracker's own DayAccordion +
+ * AddExerciseModal, so an admin has the full set of controls (muscle groups,
+ * add/remove/reorder exercises, custom exercises, rest days, and values)
+ * applied to the selected user's CURRENT week.
  * All data access goes through AdminService; the database's admin RLS policies
  * are the real gatekeeper, so this UI failing open is not a security hole.
  */
@@ -11,30 +12,23 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../hooks/useAuth.js';
 import { useLanguage } from '../hooks/useLanguage.js';
+import useModal from '../hooks/useModal.js';
 import { t } from '../translations/ui';
-import { translateMuscleGroup, translateExercise } from '../translations/exercises';
 import { adminService } from '../services/AdminService';
 import workoutService from '../services/workoutService.js';
 import WeekPlanService from '../services/WeekPlanService.js';
-import { formatWeekRange } from '../utils/dateHelper.js';
+import { formatWeekRange, formatDayDate } from '../utils/dateHelper.js';
 import Button from './ui/Button.jsx';
 import { ButtonVariant } from './ui/Button.constants.js';
 import { DAYS_OF_WEEK } from '../constants/AppConstants.js';
+import DayAccordion from './DayAccordion.jsx';
+import AddExerciseModal from './AddExerciseModal.jsx';
 
 const cardStyle = {
   backgroundColor: 'white',
   borderRadius: '12px',
   border: '1px solid #e5e7eb',
   boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
-};
-
-const inputStyle = {
-  width: '100%',
-  padding: '6px 8px',
-  border: '1px solid #d1d5db',
-  borderRadius: '6px',
-  fontSize: '13px',
-  color: '#374151'
 };
 
 /**
@@ -77,11 +71,14 @@ export default function AdminDashboard({ onBack }) {
   const [error, setError] = useState('');
 
   const [selectedUser, setSelectedUser] = useState(null);
-  // The user's whole weekly history; admins edit only its CURRENT week.
+  // The user's whole weekly history; admins edit its CURRENT week.
   const [history, setHistory] = useState(null);
   const [planLoading, setPlanLoading] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
   const [saveState, setSaveState] = useState('idle'); // idle | saving | saved
+  const [activeDay, setActiveDay] = useState(null);
+
+  const addExerciseModal = useModal();
 
   const plan = history ? history.weeks[history.currentWeekStart] ?? null : null;
 
@@ -105,6 +102,7 @@ export default function AdminDashboard({ onBack }) {
   const selectUser = async (user) => {
     setSelectedUser(user);
     setHistory(null);
+    setActiveDay(null);
     setIsDirty(false);
     setSaveState('idle');
     try {
@@ -134,27 +132,26 @@ export default function AdminDashboard({ onBack }) {
     }
   };
 
-  // Admins edit only the numeric training targets (sets/reps/weight). The plan
-  // structure — which days, muscle groups, and exercises — is intentionally
-  // fixed, so there is no add/remove/muscle-group affordance here.
-  const updateExercise = (day, exerciseId, field, value) => {
+  // All plan edits mutate the CURRENT week within the user's history.
+  const editCurrentWeek = (updater) => {
     setHistory(prev => {
       if (!prev) return prev;
       const wk = prev.currentWeekStart;
-      const week = prev.weeks[wk];
-      const nextWeek = {
-        ...week,
-        [day]: {
-          ...week[day],
-          exercises: week[day].exercises.map(ex =>
-            ex.id === exerciseId ? { ...ex, [field]: value } : ex
-          )
-        }
-      };
-      return { ...prev, weeks: { ...prev.weeks, [wk]: nextWeek } };
+      return { ...prev, weeks: { ...prev.weeks, [wk]: updater(prev.weeks[wk]) } };
     });
     setIsDirty(true);
     setSaveState('idle');
+  };
+
+  const handleToggleDay = (day) => setActiveDay(prev => (prev === day ? null : day));
+  const updateDay = (day, dayData) => editCurrentWeek(p => ({ ...p, [day]: dayData }));
+  const resetDay = (day) => editCurrentWeek(p => workoutService.resetDay(p, day));
+
+  const handleAddExercise = (exerciseData) => {
+    const day = addExerciseModal.data;
+    if (!day) return;
+    editCurrentWeek(p => workoutService.addExerciseToDay(p, day, exerciseData));
+    addExerciseModal.close();
   };
 
   const savePlan = async () => {
@@ -223,8 +220,7 @@ export default function AdminDashboard({ onBack }) {
               🛡️ {t('Admin panel', language)}
             </h1>
             <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '13px', margin: 0 }}>
-              {t("Set each user's default training values.", language)}{' '}
-              {t("You can't add exercises, change muscle groups, or set rest days.", language)}
+              {t("Build and adjust each user's weekly training plan.", language)}
             </p>
           </div>
           <Button variant={ButtonVariant.SECONDARY} onClick={onBack} style={{ fontSize: '14px' }}>
@@ -311,7 +307,7 @@ export default function AdminDashboard({ onBack }) {
             )}
           </div>
 
-          {/* Plan editor — default training values only */}
+          {/* Plan editor — full tracker controls for the user's current week */}
           <div style={{ ...cardStyle, flex: '2 1 420px', padding: '16px' }}>
             {!selectedUser ? (
               <p style={{ margin: 0, color: '#6b7280' }}>
@@ -372,75 +368,37 @@ export default function AdminDashboard({ onBack }) {
                     {t('No cloud workout plan yet. "Reset to default" creates one you can save.', language)}
                   </p>
                 ) : (
-                  DAYS_OF_WEEK.map(day => {
-                    const dayPlan = plan[day];
-                    if (!dayPlan) return null;
-                    return (
-                      <div key={day} style={{ marginBottom: '16px' }}>
-                        <h3 style={{
-                          fontSize: '14px',
-                          margin: '0 0 8px 0',
-                          color: '#0e7490'
-                        }}>
-                          {t(day, language)} — {translateMuscleGroup(dayPlan.name, language)}
-                        </h3>
-                        {dayPlan.exercises.length === 0 ? (
-                          <p style={{ margin: 0, fontSize: '13px', color: '#9ca3af' }}>
-                            {t('No exercises.', language)}
-                          </p>
-                        ) : (
-                          <div style={{ overflowX: 'auto' }}>
-                            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
-                              <thead>
-                                <tr style={{ textAlign: 'left', color: '#6b7280' }}>
-                                  <th style={{ padding: '4px 8px 4px 0' }}>{t('Exercise', language)}</th>
-                                  <th style={{ padding: '4px 8px' }}>{t('Sets', language)}</th>
-                                  <th style={{ padding: '4px 8px' }}>{t('Reps', language)}</th>
-                                  <th style={{ padding: '4px 8px' }}>{t('Weight', language)}</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {dayPlan.exercises.map(ex => (
-                                  <tr key={ex.id} style={{ borderTop: '1px solid #f3f4f6' }}>
-                                    <td style={{ padding: '6px 8px 6px 0', color: '#111827' }}>
-                                      {translateExercise(ex.name, language)}
-                                    </td>
-                                    <td style={{ padding: '6px 8px', width: '64px' }}>
-                                      <input
-                                        style={inputStyle}
-                                        value={ex.sets ?? ''}
-                                        onChange={e => updateExercise(day, ex.id, 'sets', e.target.value)}
-                                      />
-                                    </td>
-                                    <td style={{ padding: '6px 8px', width: '80px' }}>
-                                      <input
-                                        style={inputStyle}
-                                        value={ex.reps ?? ''}
-                                        onChange={e => updateExercise(day, ex.id, 'reps', e.target.value)}
-                                      />
-                                    </td>
-                                    <td style={{ padding: '6px 8px', width: '80px' }}>
-                                      <input
-                                        style={inputStyle}
-                                        value={ex.weight ?? ''}
-                                        onChange={e => updateExercise(day, ex.id, 'weight', e.target.value)}
-                                      />
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    {DAYS_OF_WEEK.map(day => (
+                      <DayAccordion
+                        key={day}
+                        day={day}
+                        data={plan[day]}
+                        isOpen={activeDay === day}
+                        onToggle={handleToggleDay}
+                        onUpdateDay={updateDay}
+                        onResetDay={resetDay}
+                        onOpenAddExercise={(d) => addExerciseModal.open(d)}
+                        language={language}
+                        date={formatDayDate(history.currentWeekStart, day, language)}
+                      />
+                    ))}
+                  </div>
                 )}
               </>
             )}
           </div>
         </div>
       </div>
+
+      {/* Add Exercise Modal — shared with the tracker */}
+      <AddExerciseModal
+        isOpen={addExerciseModal.isOpen}
+        onClose={addExerciseModal.close}
+        onAddExercise={handleAddExercise}
+        muscleGroup={addExerciseModal.data && plan ? plan[addExerciseModal.data].name.split(' & ')[0] : ''}
+        language={language}
+      />
     </div>
   );
 }
