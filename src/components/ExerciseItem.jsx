@@ -1,8 +1,10 @@
-import React from 'react';
-import { Check, X, Trash2, GripVertical } from 'lucide-react';
+import React, { useState } from 'react';
+import { Check, X, Trash2, GripVertical, PlayCircle } from 'lucide-react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import ExerciseService from '../services/ExerciseService.js';
+import { hasExerciseMedia } from '../services/ExerciseMediaService.js';
+import ExerciseDemoModal from './ExerciseDemoModal.jsx';
 import { t } from '../translations/ui';
 import { translateExercise } from '../translations/exercises';
 
@@ -13,6 +15,8 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en', readOnly 
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
         id: exercise.id,
     });
+    const [showDemo, setShowDemo] = useState(false);
+    const hasDemo = hasExerciseMedia(exercise.dbId);
     const isCardio = () => ExerciseService.isCardioExercise(exercise);
     const handleUpdate = (field, value) => {
         onUpdate(exercise.id, { ...exercise, [field]: value });
@@ -103,6 +107,25 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en', readOnly 
                             </button>
                         )}
                         <span style={{ fontSize: '18px' }}>{getStatusIcon()}</span>
+                        {hasDemo && (
+                            <button
+                                type="button"
+                                onClick={() => setShowDemo(true)}
+                                title={t("How to do this exercise", language)}
+                                aria-label={t("How to do this exercise", language)}
+                                style={{
+                                    background: 'transparent',
+                                    border: 'none',
+                                    padding: 0,
+                                    color: '#0e7490',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                }}
+                            >
+                                <PlayCircle size={20} />
+                            </button>
+                        )}
                     </div>
 
                     {/* Action buttons — hidden when viewing a past (read-only) week */}
@@ -408,6 +431,14 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en', readOnly 
                 </div>
                 </fieldset>
             </div>
+
+            {showDemo && (
+                <ExerciseDemoModal
+                    exercise={exercise}
+                    onClose={() => setShowDemo(false)}
+                    language={language}
+                />
+            )}
         </div>
     );
 };

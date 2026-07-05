@@ -169,7 +169,12 @@ export const uiTranslations = {
         "Next week": "Next week",
         "Current week": "Current week",
         "Viewing a past week — read only": "Viewing a past week — read only",
-        "Back to current week": "Back to current week"
+        "Back to current week": "Back to current week",
+
+        // Exercise demo
+        "How to do this exercise": "How to do this exercise",
+        "Full range of motion — start to finish": "Full range of motion — start to finish",
+        "No demonstration available yet": "No demonstration available yet"
     },
     es: {
         // Header
@@ -337,7 +342,12 @@ export const uiTranslations = {
         "Next week": "Semana siguiente",
         "Current week": "Semana actual",
         "Viewing a past week — read only": "Viendo una semana pasada — solo lectura",
-        "Back to current week": "Volver a la semana actual"
+        "Back to current week": "Volver a la semana actual",
+
+        // Exercise demo
+        "How to do this exercise": "Cómo hacer este ejercicio",
+        "Full range of motion — start to finish": "Rango completo de movimiento — de inicio a fin",
+        "No demonstration available yet": "Aún no hay demostración disponible"
     }
 };
 
