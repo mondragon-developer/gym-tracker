@@ -4,6 +4,13 @@ A modern, responsive React-based gym workout tracking application that helps you
 
 🔗 **Live app:** [gymworkoutjm.vercel.app](https://gymworkoutjm.vercel.app)
 
+## Screenshots
+
+| Weekly dashboard | Day editor & demos | Exercise demonstration |
+|:---:|:---:|:---:|
+| ![Weekly dashboard with logo header, week navigator, progress bar and dated day accordions](src/assets/ss1.png) | ![Expanded day showing exercises with sets/reps/weight and per-exercise how-to buttons](src/assets/ss2.png) | ![Exercise demo modal showing the full range of motion for the bench press](src/assets/ss3.png) |
+| Dragon-logo header, EN/ES toggle, week navigator with dates, and the weekly progress bar. | Edit sets, reps, weight and completion; add, reorder, or reset exercises. | Tap ▶ on any exercise for a start-to-finish demonstration of the movement. |
+
 ## Features
 
 ### Core Functionality
@@ -31,6 +38,15 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Offline Fallback**: Not signed in? Everything still works and saves to local storage, then migrates to the cloud on your first sign-in
 - **Password Recovery**: Full "forgot password" flow with an emailed reset link
 - **Admin Dashboard**: Admins can list users, manage roles, and view or edit any user's workout plan (access enforced server-side by Postgres Row Level Security)
+
+### Weekly History & Dates
+- **Dated Weeks**: Every week is stamped with its date range and each day shows its calendar date
+- **Week Navigator**: Step back through past weeks; finished weeks are kept read-only
+- **Carry-Forward**: Starting a new week keeps your exercises and weights and resets completion, so progressive overload is one tap
+
+### Exercise Demonstrations
+- **How-To Guides**: Tap ▶ on an exercise for a start-to-finish demonstration of the movement's full range of motion
+- **122 Exercises Covered**: Self-hosted on Supabase Storage with a graceful fallback when a demo isn't available
 
 ### Bilingual Interface
 - **English / Spanish**: Full UI translation with an in-app language toggle
@@ -336,10 +352,12 @@ This project is open source and available under the [MIT License](LICENSE).
 - [x] **Admin dashboard**: User and role management with server-side RLS enforcement
 - [x] **Bilingual UI**: Full English/Spanish translation with a language toggle
 - [x] **PWA support**: Offline functionality and home-screen installation
+- [x] **Weekly history & dates**: Dated weeks with a navigator and carry-forward on a new week
+- [x] **Exercise demonstrations**: Start-to-finish how-to images for 122 exercises, self-hosted on Supabase
 
 ### Planned Features
 - [ ] **Workout analytics**: Progress charts and performance metrics
-- [ ] **Exercise videos**: Integrated exercise demonstrations
+- [ ] **Animated demos**: Upgrade the exercise how-tos from stills to looping video/GIF
 - [ ] **Social features**: Share workouts and progress
 - [ ] **Advanced templates**: More workout split options
 - [ ] **Timer integration**: Rest timers and workout timing
