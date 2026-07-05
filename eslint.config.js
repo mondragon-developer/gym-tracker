@@ -41,4 +41,12 @@ export default defineConfig([
       globals: { ...globals.browser, ...globals.node },
     },
   },
+  {
+    // Node tooling scripts run outside the app/build.
+    files: ['scripts/**/*.{js,mjs}'],
+    languageOptions: {
+      globals: { ...globals.node },
+      parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+    },
+  },
 ])

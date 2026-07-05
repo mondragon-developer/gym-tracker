@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "upload:media": "node --env-file=.env scripts/upload-exercise-media.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

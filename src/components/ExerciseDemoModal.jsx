@@ -42,6 +42,11 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
                 src={src}
                 alt=""
                 loading="lazy"
+                onError={(e) => {
+                  // Fall back to the source CDN if the self-hosted frame is missing.
+                  const fb = media.fallback?.[i];
+                  if (fb && e.currentTarget.src !== fb) e.currentTarget.src = fb;
+                }}
                 style={{
                   position: 'absolute',
                   inset: 0,
