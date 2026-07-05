@@ -14,6 +14,13 @@ describe('ExerciseMediaService', () => {
   it('reports availability via hasExerciseMedia', () => {
     expect(hasExerciseMedia(1)).toBe(true);
     expect(hasExerciseMedia(177)).toBe(true); // Plank
+    expect(hasExerciseMedia(92)).toBe(true);  // Face Pulls (expanded map)
+    expect(hasExerciseMedia(60)).toBe(true);  // Barbell Squats
+  });
+
+  it('leaves genuinely unmatched exercises unmapped (graceful fallback)', () => {
+    expect(hasExerciseMedia(199)).toBe(false); // Burpees — no correct demo
+    expect(hasExerciseMedia(201)).toBe(false); // Swimming
   });
 
   it('returns null / false for unmapped or custom exercises', () => {
