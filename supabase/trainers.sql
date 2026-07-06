@@ -140,20 +140,22 @@ $$;
 
 -- (Trigger on_auth_user_created from admin.sql already points here.)
 
--- Pre-signup validation for the sign-up form: returns the trainer's email for
--- a valid code, null otherwise. SECURITY DEFINER + callable by anon, which is
--- acceptable: codes are random and the only thing revealed is the email of a
--- trainer who handed the code out.
+-- Pre-signup validation for the sign-up form: returns true when the code
+-- belongs to an active trainer, false otherwise. SECURITY DEFINER + callable
+-- by anon, which is acceptable: only a true/false is revealed, never any
+-- trainer data.
 create or replace function public.lookup_trainer_code(code text)
-returns text
+returns boolean
 language sql
 security definer
 stable
 set search_path = public
 as $$
-  select email from public.profiles
-  where role = 'trainer'
-    and invite_code = upper(trim(coalesce(code, '')));
+  select exists (
+    select 1 from public.profiles
+    where role = 'trainer'
+      and invite_code = upper(trim(coalesce(code, '')))
+  );
 $$;
 
 -- ---------------------------------------------------------------------------

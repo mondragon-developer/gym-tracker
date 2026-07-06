@@ -66,8 +66,8 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
       // silently ignoring a typo would create an unassigned account.
       const code = trainerCode.trim().toUpperCase();
       if (code) {
-        const { trainerEmail } = await lookupTrainerCode(code);
-        if (!trainerEmail) {
+        const { valid } = await lookupTrainerCode(code);
+        if (!valid) {
           setError(t('Invalid trainer code', language));
           setLoading(false);
           return;

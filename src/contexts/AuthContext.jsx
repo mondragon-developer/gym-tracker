@@ -134,15 +134,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Resolve a trainer invite code to the trainer's email (used by the sign-up
-  // form to validate the optional code before creating the account).
+  // Check whether a trainer code is valid (used by the sign-up form to
+  // validate the optional code before creating the account).
   const lookupTrainerCode = async (code) => {
     try {
       const { data, error } = await supabase.rpc('lookup_trainer_code', { code });
       if (error) throw error;
-      return { trainerEmail: data ?? null, error: null };
+      return { valid: data === true, error: null };
     } catch (error) {
-      return { trainerEmail: null, error };
+      return { valid: false, error };
     }
   };
 
