@@ -10,13 +10,14 @@ import { supabase } from '../lib/supabase';
 
 class AdminService {
   /**
-   * Lists all registered users with their roles
-   * @returns {Promise<Array<{id: string, email: string, role: string, createdAt: string}>>}
+   * Lists the users visible to the caller: every profile for the super admin,
+   * or (via RLS) just their own profile + assigned users for a trainer.
+   * @returns {Promise<Array<{id: string, email: string, role: string, trainerId: string|null, inviteCode: string|null, createdAt: string}>>}
    */
   async listUsers() {
     const { data, error } = await supabase
       .from('profiles')
-      .select('id, email, role, created_at')
+      .select('id, email, role, trainer_id, invite_code, created_at')
       .order('created_at', { ascending: true });
 
     if (error) throw error;
@@ -24,19 +25,36 @@ class AdminService {
       id: row.id,
       email: row.email ?? '',
       role: row.role ?? 'user',
+      trainerId: row.trainer_id ?? null,
+      inviteCode: row.invite_code ?? null,
       createdAt: row.created_at
     }));
   }
 
   /**
-   * Changes a user's role
+   * Changes a user's role (super admin only, enforced by RLS).
+   * Promoting to trainer auto-generates their invite code server-side.
    * @param {string} userId - Target user
-   * @param {'user'|'admin'} role - New role
+   * @param {'user'|'trainer'|'admin'} role - New role
    */
   async setUserRole(userId, role) {
     const { error } = await supabase
       .from('profiles')
       .update({ role })
+      .eq('id', userId);
+    if (error) throw error;
+  }
+
+  /**
+   * Assigns a user to a trainer, or makes them individual again
+   * (super admin only, enforced by RLS)
+   * @param {string} userId - Target user
+   * @param {string|null} trainerId - Trainer's profile id, or null to unassign
+   */
+  async assignTrainer(userId, trainerId) {
+    const { error } = await supabase
+      .from('profiles')
+      .update({ trainer_id: trainerId })
       .eq('id', userId);
     if (error) throw error;
   }

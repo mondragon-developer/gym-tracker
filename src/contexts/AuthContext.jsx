@@ -10,7 +10,7 @@ import { AuthContext } from './authContextDef.js';
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [role, setRole] = useState('user');
   const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
   // every user read their own row, so this is safe to run for non-admins too.
   useEffect(() => {
     if (!user) {
-      setIsAdmin(false);
+      setRole('user');
       return;
     }
 
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
       .maybeSingle()
       .then(({ data, error }) => {
         if (!cancelled) {
-          setIsAdmin(!error && data?.role === 'admin');
+          setRole(!error && data?.role ? data.role : 'user');
         }
       });
 
@@ -134,6 +134,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Resolve a trainer invite code to the trainer's email (used by the sign-up
+  // form to validate the optional code before creating the account).
+  const lookupTrainerCode = async (code) => {
+    try {
+      const { data, error } = await supabase.rpc('lookup_trainer_code', { code });
+      if (error) throw error;
+      return { trainerEmail: data ?? null, error: null };
+    } catch (error) {
+      return { trainerEmail: null, error };
+    }
+  };
+
   // Update user profile
   const updateProfile = async (updates) => {
     try {
@@ -151,14 +163,17 @@ export const AuthProvider = ({ children }) => {
   const value = {
     user,
     loading,
-    isAdmin,
+    role,
+    isAdmin: role === 'admin',
+    isTrainer: role === 'trainer',
     isPasswordRecovery,
     signUp,
     signIn,
     signOut,
     resetPassword,
     updatePassword,
-    updateProfile
+    updateProfile,
+    lookupTrainerCode
   };
 
   return (

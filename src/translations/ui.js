@@ -134,6 +134,10 @@ export const uiTranslations = {
         "Updating...": "Updating...",
         "Show password": "Show password",
         "Hide password": "Hide password",
+        "Trainer code (optional)": "Trainer code (optional)",
+        "Enter your trainer's code": "Enter your trainer's code",
+        "Leave it empty if you train on your own.": "Leave it empty if you train on your own.",
+        "Invalid trainer code": "Invalid trainer code",
 
         // Admin panel
         "Admin panel": "Admin panel",
@@ -164,6 +168,18 @@ export const uiTranslations = {
         "Failed to save workout plan for": "Failed to save workout plan for",
         "Failed to change role for": "Failed to change role for",
         "Failed to delete workout plan for": "Failed to delete workout plan for",
+        "Trainer panel": "Trainer panel",
+        "Manage your clients' weekly training plans.": "Manage your clients' weekly training plans.",
+        "trainer": "trainer",
+        "Trainer": "Trainer",
+        "Clients": "Clients",
+        "Role": "Role",
+        "No trainer": "No trainer",
+        "Your invite code": "Your invite code",
+        "Copy": "Copy",
+        "Copied!": "Copied!",
+        "Share this code with your clients — accounts created with it are assigned to you.": "Share this code with your clients — accounts created with it are assigned to you.",
+        "Failed to assign trainer for": "Failed to assign trainer for",
 
         // Week navigator
         "Week of": "Week of",
@@ -309,6 +325,10 @@ export const uiTranslations = {
         "Updating...": "Actualizando...",
         "Show password": "Mostrar contraseña",
         "Hide password": "Ocultar contraseña",
+        "Trainer code (optional)": "Código de entrenador (opcional)",
+        "Enter your trainer's code": "Ingresa el código de tu entrenador",
+        "Leave it empty if you train on your own.": "Déjalo vacío si entrenas por tu cuenta.",
+        "Invalid trainer code": "Código de entrenador inválido",
 
         // Admin panel
         "Admin panel": "Panel de Administrador",
@@ -339,6 +359,18 @@ export const uiTranslations = {
         "Failed to save workout plan for": "No se pudo guardar el plan de entrenamiento de",
         "Failed to change role for": "No se pudo cambiar el rol de",
         "Failed to delete workout plan for": "No se pudo eliminar el plan de entrenamiento de",
+        "Trainer panel": "Panel de Entrenador",
+        "Manage your clients' weekly training plans.": "Gestiona los planes de entrenamiento semanales de tus clientes.",
+        "trainer": "entrenador",
+        "Trainer": "Entrenador",
+        "Clients": "Clientes",
+        "Role": "Rol",
+        "No trainer": "Sin entrenador",
+        "Your invite code": "Tu código de invitación",
+        "Copy": "Copiar",
+        "Copied!": "¡Copiado!",
+        "Share this code with your clients — accounts created with it are assigned to you.": "Comparte este código con tus clientes: las cuentas creadas con él quedan asignadas a ti.",
+        "Failed to assign trainer for": "No se pudo asignar el entrenador para",
 
         // Week navigator
         "Week of": "Semana del",

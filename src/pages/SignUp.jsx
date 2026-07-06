@@ -14,12 +14,13 @@ import PasswordInput from '../components/ui/PasswordInput';
 import mdLogo from '../assets/mdlogo.jpeg';
 
 export default function SignUp({ onToggleMode }) {
-  const { signUp } = useAuth();
+  const { signUp, lookupTrainerCode } = useAuth();
   const { language } = useLanguage();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
+  const [trainerCode, setTrainerCode] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -48,7 +49,20 @@ export default function SignUp({ onToggleMode }) {
       return;
     }
 
-    const { error: signUpError } = await signUp(email, password, { name });
+    // The trainer code is optional, but if one was typed it must be real —
+    // silently ignoring a typo would create an unassigned account.
+    const code = trainerCode.trim().toUpperCase();
+    if (code) {
+      const { trainerEmail } = await lookupTrainerCode(code);
+      if (!trainerEmail) {
+        setError(t('Invalid trainer code', language));
+        setLoading(false);
+        return;
+      }
+    }
+
+    const metadata = code ? { name, trainer_code: code } : { name };
+    const { error: signUpError } = await signUp(email, password, metadata);
 
     if (signUpError) {
       setError(signUpError.message);
@@ -285,6 +299,34 @@ export default function SignUp({ onToggleMode }) {
                 disabled={loading}
                 required
               />
+            </div>
+
+            <div>
+              <label style={{
+                display: 'block',
+                marginBottom: '8px',
+                fontSize: '14px',
+                fontWeight: '600',
+                color: '#374151'
+              }}>
+                {t('Trainer code (optional)', language)}
+              </label>
+              <Input
+                type="text"
+                value={trainerCode}
+                onChange={(e) => setTrainerCode(e.target.value)}
+                placeholder={t("Enter your trainer's code", language)}
+                disabled={loading}
+                maxLength={12}
+                style={{ textTransform: 'uppercase' }}
+              />
+              <p style={{
+                fontSize: '12px',
+                color: '#6b7280',
+                margin: '6px 0 0 0'
+              }}>
+                {t('Leave it empty if you train on your own.', language)}
+              </p>
             </div>
 
             <Button

@@ -35,7 +35,7 @@ import mdLogo from './assets/mdlogo.jpeg';
  */
 function AppContent() {
     const { language } = useLanguage();
-    const { isAdmin } = useAuth();
+    const { isAdmin, isTrainer } = useAuth();
     const [showAdmin, setShowAdmin] = useState(false);
     // Custom hooks for state management (Single Responsibility)
     const {
@@ -116,8 +116,8 @@ function AppContent() {
         }
     };
 
-    // Admin panel replaces the tracker view; it loads its own data.
-    if (showAdmin && isAdmin) {
+    // Admin/trainer panel replaces the tracker view; it loads its own data.
+    if (showAdmin && (isAdmin || isTrainer)) {
         return (
             <Suspense fallback={null}>
                 <AdminDashboard onBack={() => setShowAdmin(false)} />
@@ -234,7 +234,7 @@ function AppContent() {
                         }}>
                             <LanguageToggle />
                             <UserProfile />
-                            {isAdmin && (
+                            {(isAdmin || isTrainer) && (
                                 <button
                                     onClick={() => setShowAdmin(true)}
                                     style={{
@@ -248,7 +248,7 @@ function AppContent() {
                                         cursor: 'pointer'
                                     }}
                                 >
-                                    🛡️ Admin
+                                    {isAdmin ? '🛡️ Admin' : `🏋️ ${t('Trainer', language)}`}
                                 </button>
                             )}
                         </div>

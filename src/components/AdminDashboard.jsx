@@ -1,12 +1,15 @@
 /**
  * Admin Dashboard Component
- * Lets admins list users, manage roles, and build/adjust any user's weekly
- * training plan. The plan editor reuses the tracker's own DayAccordion +
- * AddExerciseModal, so an admin has the full set of controls (muscle groups,
- * add/remove/reorder exercises, custom exercises, rest days, and values)
- * applied to the selected user's CURRENT week.
- * All data access goes through AdminService; the database's admin RLS policies
- * are the real gatekeeper, so this UI failing open is not a security hole.
+ * Serves two roles with one surface:
+ *  - Super admin: lists every user, manages roles (user/trainer/admin) and
+ *    trainer assignments, and edits any user's current-week plan.
+ *  - Trainer: sees ONLY their assigned clients (RLS-filtered), shares their
+ *    invite code, and edits client plans — no role/assignment/delete controls.
+ * The plan editor reuses the tracker's own DayAccordion + AddExerciseModal,
+ * so the editor has the full set of controls applied to the selected user's
+ * CURRENT week.
+ * All data access goes through AdminService; the database's RLS policies are
+ * the real gatekeeper, so this UI failing open is not a security hole.
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -29,6 +32,17 @@ const cardStyle = {
   borderRadius: '12px',
   border: '1px solid #e5e7eb',
   boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+};
+
+const roleSelectStyle = {
+  fontSize: '12px',
+  padding: '4px 6px',
+  borderRadius: '6px',
+  border: '1px solid #e5e7eb',
+  backgroundColor: 'white',
+  color: '#374151',
+  maxWidth: '170px',
+  cursor: 'pointer'
 };
 
 /**
@@ -62,13 +76,16 @@ function ConfirmButton({ label, confirmLabel, onConfirm, variant = ButtonVariant
   );
 }
 
+const ROLES = ['user', 'trainer', 'admin'];
+
 export default function AdminDashboard({ onBack }) {
-  const { user: currentUser } = useAuth();
+  const { user: currentUser, isAdmin, isTrainer } = useAuth();
   const { language } = useLanguage();
 
   const [users, setUsers] = useState([]);
   const [usersLoading, setUsersLoading] = useState(true);
   const [error, setError] = useState('');
+  const [codeCopied, setCodeCopied] = useState(false);
 
   const [selectedUser, setSelectedUser] = useState(null);
   // The user's whole weekly history; admins edit its CURRENT week.
@@ -120,15 +137,45 @@ export default function AdminDashboard({ onBack }) {
     }
   };
 
-  const toggleRole = async (user) => {
-    const newRole = user.role === 'admin' ? 'user' : 'admin';
+  // Trainers see their own profile row through RLS; the client list should
+  // only show the people they coach. The super admin list shows everyone.
+  const visibleUsers = isTrainer ? users.filter(u => u.id !== currentUser?.id) : users;
+  const trainers = users.filter(u => u.role === 'trainer');
+  const myProfile = users.find(u => u.id === currentUser?.id);
+
+  const changeRole = async (user, newRole) => {
+    if (!ROLES.includes(newRole) || newRole === user.role) return;
     try {
       setError('');
       await adminService.setUserRole(user.id, newRole);
-      setUsers(prev => prev.map(u => (u.id === user.id ? { ...u, role: newRole } : u)));
+      // Reload instead of patching: promoting to trainer generates the
+      // invite code server-side, which the list needs to display.
+      await loadUsers();
     } catch (err) {
       console.error('Error changing role:', err);
       setError(`${t('Failed to change role for', language)} ${user.email}`);
+    }
+  };
+
+  const changeTrainer = async (user, trainerId) => {
+    try {
+      setError('');
+      await adminService.assignTrainer(user.id, trainerId || null);
+      setUsers(prev => prev.map(u => (u.id === user.id ? { ...u, trainerId: trainerId || null } : u)));
+    } catch (err) {
+      console.error('Error assigning trainer:', err);
+      setError(`${t('Failed to assign trainer for', language)} ${user.email}`);
+    }
+  };
+
+  const copyInviteCode = async () => {
+    if (!myProfile?.inviteCode) return;
+    try {
+      await navigator.clipboard.writeText(myProfile.inviteCode);
+      setCodeCopied(true);
+      setTimeout(() => setCodeCopied(false), 2000);
+    } catch {
+      // Clipboard unavailable (http/permissions) — the code is visible anyway.
     }
   };
 
@@ -217,16 +264,56 @@ export default function AdminDashboard({ onBack }) {
         }}>
           <div>
             <h1 style={{ color: 'white', fontSize: '22px', margin: '0 0 4px 0' }}>
-              🛡️ {t('Admin panel', language)}
+              {isTrainer ? `🏋️ ${t('Trainer panel', language)}` : `🛡️ ${t('Admin panel', language)}`}
             </h1>
             <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '13px', margin: 0 }}>
-              {t("Build and adjust each user's weekly training plan.", language)}
+              {isTrainer
+                ? t("Manage your clients' weekly training plans.", language)
+                : t("Build and adjust each user's weekly training plan.", language)}
             </p>
           </div>
           <Button variant={ButtonVariant.SECONDARY} onClick={onBack} style={{ fontSize: '14px' }}>
             ← {t('Back to tracker', language)}
           </Button>
         </div>
+
+        {/* Trainer invite code — how new clients get assigned at sign-up */}
+        {isTrainer && myProfile?.inviteCode && (
+          <div style={{
+            ...cardStyle,
+            padding: '14px 16px',
+            marginBottom: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            flexWrap: 'wrap'
+          }}>
+            <span style={{ fontSize: '14px', fontWeight: 600 }}>
+              {t('Your invite code', language)}:
+            </span>
+            <code style={{
+              fontSize: '18px',
+              fontWeight: 700,
+              letterSpacing: '2px',
+              color: '#0e7490',
+              backgroundColor: '#ecfeff',
+              padding: '4px 10px',
+              borderRadius: '8px'
+            }}>
+              {myProfile.inviteCode}
+            </code>
+            <Button
+              variant={ButtonVariant.SECONDARY}
+              onClick={copyInviteCode}
+              style={{ fontSize: '13px' }}
+            >
+              {codeCopied ? t('Copied!', language) : t('Copy', language)}
+            </Button>
+            <span style={{ fontSize: '12px', color: '#6b7280', flexBasis: '100%' }}>
+              {t('Share this code with your clients — accounts created with it are assigned to you.', language)}
+            </span>
+          </div>
+        )}
 
         {error && (
           <div style={{
@@ -246,14 +333,15 @@ export default function AdminDashboard({ onBack }) {
           {/* User list */}
           <div style={{ ...cardStyle, flex: '1 1 300px', maxWidth: '420px' }}>
             <div style={{ padding: '16px', borderBottom: '1px solid #e5e7eb', fontWeight: 600 }}>
-              {t('Users', language)} {usersLoading ? '' : `(${users.length})`}
+              {isTrainer ? t('Clients', language) : t('Users', language)}{' '}
+              {usersLoading ? '' : `(${visibleUsers.length})`}
             </div>
             {usersLoading ? (
               <p style={{ padding: '16px', margin: 0, color: '#6b7280' }}>
                 {t('Loading users...', language)}
               </p>
             ) : (
-              users.map(user => (
+              visibleUsers.map(user => (
                 <div
                   key={user.id}
                   style={{
@@ -289,18 +377,42 @@ export default function AdminDashboard({ onBack }) {
                       {user.email || user.id}
                     </span>
                     <span style={{ fontSize: '12px', color: '#6b7280' }}>
-                      {user.role === 'admin' ? `🛡️ ${t('admin', language)}` : t('user', language)}
+                      {user.role === 'admin'
+                        ? `🛡️ ${t('admin', language)}`
+                        : user.role === 'trainer'
+                          ? `🏋️ ${t('trainer', language)}`
+                          : t('user', language)}
                       {user.id === currentUser?.id ? ` · ${t('you', language)}` : ''}
                     </span>
                   </button>
-                  {/* Admins cannot demote themselves — prevents locking everyone out */}
-                  {user.id !== currentUser?.id && (
-                    <ConfirmButton
-                      label={user.role === 'admin' ? t('Demote', language) : t('Make admin', language)}
-                      confirmLabel={t('Confirm?', language)}
-                      variant={ButtonVariant.SECONDARY}
-                      onConfirm={() => toggleRole(user)}
-                    />
+                  {/* Role + trainer assignment are super-admin only; admins
+                      cannot demote themselves — prevents locking everyone out */}
+                  {isAdmin && user.id !== currentUser?.id && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'flex-end' }}>
+                      <select
+                        value={user.role}
+                        onChange={(e) => changeRole(user, e.target.value)}
+                        aria-label={`${t('Role', language)} — ${user.email}`}
+                        style={roleSelectStyle}
+                      >
+                        {ROLES.map(r => (
+                          <option key={r} value={r}>{t(r, language)}</option>
+                        ))}
+                      </select>
+                      {user.role === 'user' && trainers.length > 0 && (
+                        <select
+                          value={user.trainerId ?? ''}
+                          onChange={(e) => changeTrainer(user, e.target.value)}
+                          aria-label={`${t('Trainer', language)} — ${user.email}`}
+                          style={roleSelectStyle}
+                        >
+                          <option value="">{t('No trainer', language)}</option>
+                          {trainers.map(tr => (
+                            <option key={tr.id} value={tr.id}>{tr.email}</option>
+                          ))}
+                        </select>
+                      )}
+                    </div>
                   )}
                 </div>
               ))
@@ -342,7 +454,9 @@ export default function AdminDashboard({ onBack }) {
                       variant={ButtonVariant.SECONDARY}
                       onConfirm={resetPlanToDefault}
                     />
-                    {plan && (
+                    {/* Deleting a client's data is super-admin only (RLS
+                        gives trainers no delete anyway) */}
+                    {plan && isAdmin && (
                       <ConfirmButton
                         label={t('Delete cloud data', language)}
                         confirmLabel={t('Confirm delete?', language)}
