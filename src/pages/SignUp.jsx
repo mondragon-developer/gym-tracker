@@ -13,14 +13,14 @@ import Input from '../components/ui/Input';
 import PasswordInput from '../components/ui/PasswordInput';
 import mdLogo from '../assets/mdlogo.jpeg';
 
-export default function SignUp({ onToggleMode }) {
+export default function SignUp({ onToggleMode, initialTrainerCode = '' }) {
   const { signUp, lookupTrainerCode } = useAuth();
   const { language } = useLanguage();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
-  const [trainerCode, setTrainerCode] = useState('');
+  const [trainerCode, setTrainerCode] = useState(initialTrainerCode);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);

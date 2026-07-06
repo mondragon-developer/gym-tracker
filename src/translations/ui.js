@@ -178,7 +178,8 @@ export const uiTranslations = {
         "Your invite code": "Your invite code",
         "Copy": "Copy",
         "Copied!": "Copied!",
-        "Share this code with your clients — accounts created with it are assigned to you.": "Share this code with your clients — accounts created with it are assigned to you.",
+        "Copy invite link": "Copy invite link",
+        "Send the invite link to your clients — signing up through it assigns their account to you automatically.": "Send the invite link to your clients — signing up through it assigns their account to you automatically.",
         "Failed to assign trainer for": "Failed to assign trainer for",
 
         // Weekly summary
@@ -386,7 +387,8 @@ export const uiTranslations = {
         "Your invite code": "Tu código de invitación",
         "Copy": "Copiar",
         "Copied!": "¡Copiado!",
-        "Share this code with your clients — accounts created with it are assigned to you.": "Comparte este código con tus clientes: las cuentas creadas con él quedan asignadas a ti.",
+        "Copy invite link": "Copiar enlace de invitación",
+        "Send the invite link to your clients — signing up through it assigns their account to you automatically.": "Envía el enlace de invitación a tus clientes: al registrarse con él, su cuenta queda asignada a ti automáticamente.",
         "Failed to assign trainer for": "No se pudo asignar el entrenador para",
 
         // Weekly summary

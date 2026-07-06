@@ -12,9 +12,20 @@ import SignUp from '../pages/SignUp';
 import ForgotPassword from '../pages/ForgotPassword';
 import UpdatePassword from '../pages/UpdatePassword';
 
+// A trainer invite link (?trainer=CODE) should land visitors directly on the
+// sign-up form with the trainer's code pre-filled.
+const inviteCodeFromUrl = () => {
+  try {
+    return new URLSearchParams(window.location.search).get('trainer') || '';
+  } catch {
+    return '';
+  }
+};
+
 export default function AuthWrapper({ children }) {
   const { user, loading, isPasswordRecovery } = useAuth();
-  const [mode, setMode] = useState('signin'); // 'signin' | 'signup' | 'forgot'
+  const [inviteCode] = useState(inviteCodeFromUrl);
+  const [mode, setMode] = useState(inviteCode ? 'signup' : 'signin'); // 'signin' | 'signup' | 'forgot'
 
   // Show loading state while checking authentication
   if (loading) {
@@ -55,7 +66,7 @@ export default function AuthWrapper({ children }) {
   // Show sign in / sign up / forgot password if not authenticated
   if (!user) {
     if (mode === 'signup') {
-      return <SignUp onToggleMode={() => setMode('signin')} />;
+      return <SignUp onToggleMode={() => setMode('signin')} initialTrainerCode={inviteCode} />;
     }
     if (mode === 'forgot') {
       return <ForgotPassword onBackToSignIn={() => setMode('signin')} />;

@@ -85,7 +85,7 @@ export default function AdminDashboard({ onBack }) {
   const [users, setUsers] = useState([]);
   const [usersLoading, setUsersLoading] = useState(true);
   const [error, setError] = useState('');
-  const [codeCopied, setCodeCopied] = useState(false);
+  const [copiedItem, setCopiedItem] = useState(null); // 'code' | 'link'
 
   const [selectedUser, setSelectedUser] = useState(null);
   // The user's whole weekly history; admins edit its CURRENT week.
@@ -168,12 +168,19 @@ export default function AdminDashboard({ onBack }) {
     }
   };
 
-  const copyInviteCode = async () => {
-    if (!myProfile?.inviteCode) return;
+  // Opening the invite link lands the trainee on sign-up with the code
+  // pre-filled, so their account is assigned to this trainer automatically.
+  const inviteLink = myProfile?.inviteCode
+    ? `${window.location.origin}/?trainer=${myProfile.inviteCode}`
+    : '';
+
+  const copyInvite = async (which) => {
+    const text = which === 'link' ? inviteLink : myProfile?.inviteCode;
+    if (!text) return;
     try {
-      await navigator.clipboard.writeText(myProfile.inviteCode);
-      setCodeCopied(true);
-      setTimeout(() => setCodeCopied(false), 2000);
+      await navigator.clipboard.writeText(text);
+      setCopiedItem(which);
+      setTimeout(() => setCopiedItem(null), 2000);
     } catch {
       // Clipboard unavailable (http/permissions) — the code is visible anyway.
     }
@@ -304,13 +311,19 @@ export default function AdminDashboard({ onBack }) {
             </code>
             <Button
               variant={ButtonVariant.SECONDARY}
-              onClick={copyInviteCode}
+              onClick={() => copyInvite('code')}
               style={{ fontSize: '13px' }}
             >
-              {codeCopied ? t('Copied!', language) : t('Copy', language)}
+              {copiedItem === 'code' ? t('Copied!', language) : t('Copy', language)}
+            </Button>
+            <Button
+              onClick={() => copyInvite('link')}
+              style={{ fontSize: '13px' }}
+            >
+              🔗 {copiedItem === 'link' ? t('Copied!', language) : t('Copy invite link', language)}
             </Button>
             <span style={{ fontSize: '12px', color: '#6b7280', flexBasis: '100%' }}>
-              {t('Share this code with your clients — accounts created with it are assigned to you.', language)}
+              {t('Send the invite link to your clients — signing up through it assigns their account to you automatically.', language)}
             </span>
           </div>
         )}
