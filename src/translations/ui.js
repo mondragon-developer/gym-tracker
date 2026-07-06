@@ -181,6 +181,23 @@ export const uiTranslations = {
         "Share this code with your clients — accounts created with it are assigned to you.": "Share this code with your clients — accounts created with it are assigned to you.",
         "Failed to assign trainer for": "Failed to assign trainer for",
 
+        // Weekly summary
+        "Weekly Summary": "Weekly Summary",
+        "Download CSV": "Download CSV",
+        "Total exercises": "Total exercises",
+        "Completed": "Completed",
+        "Total sets": "Total sets",
+        "Sets done": "Sets done",
+        "Cardio (min)": "Cardio (min)",
+        "Cardio done (min)": "Cardio done (min)",
+        "Sets per muscle group": "Sets per muscle group",
+        "Muscle group": "Muscle group",
+        "Week detail": "Week detail",
+        "Day": "Day",
+        "Status": "Status",
+        "incomplete": "incomplete",
+        "skipped": "skipped",
+
         // Week navigator
         "Week of": "Week of",
         "Previous week": "Previous week",
@@ -371,6 +388,23 @@ export const uiTranslations = {
         "Copied!": "¡Copiado!",
         "Share this code with your clients — accounts created with it are assigned to you.": "Comparte este código con tus clientes: las cuentas creadas con él quedan asignadas a ti.",
         "Failed to assign trainer for": "No se pudo asignar el entrenador para",
+
+        // Weekly summary
+        "Weekly Summary": "Resumen Semanal",
+        "Download CSV": "Descargar CSV",
+        "Total exercises": "Ejercicios totales",
+        "Completed": "Completados",
+        "Total sets": "Series totales",
+        "Sets done": "Series hechas",
+        "Cardio (min)": "Cardio (min)",
+        "Cardio done (min)": "Cardio hecho (min)",
+        "Sets per muscle group": "Series por grupo muscular",
+        "Muscle group": "Grupo muscular",
+        "Week detail": "Detalle de la semana",
+        "Day": "Día",
+        "Status": "Estado",
+        "incomplete": "incompleto",
+        "skipped": "omitido",
 
         // Week navigator
         "Week of": "Semana del",

@@ -13,6 +13,8 @@ import AddExerciseModal from './components/AddExerciseModal';
 const FeedbackModal = React.lazy(() => import('./components/FeedbackModal'));
 // Lazy: admin-only surface, kept out of the bundle regular users download.
 const AdminDashboard = React.lazy(() => import('./components/AdminDashboard'));
+// Lazy: only loads when the user opens the weekly summary.
+const WeeklySummaryModal = React.lazy(() => import('./components/WeeklySummaryModal'));
 import LanguageToggle from './components/LanguageToggle';
 import UserProfile from './components/UserProfile';
 import AuthWrapper from './components/AuthWrapper';
@@ -59,6 +61,7 @@ function AppContent() {
     const resetDayModal = useModal();
     const addExerciseModal = useModal();
     const feedbackModal = useModal();
+    const summaryModal = useModal();
     
     // UI state
     const [activeDay, setActiveDay] = useState(getToday());
@@ -315,6 +318,19 @@ function AppContent() {
                             {t('Back to current week', language)}
                         </button>
                     )}
+                    {/* Summary works on the viewed week, so past weeks can be
+                        reviewed and exported too */}
+                    <button
+                        onClick={summaryModal.open}
+                        title={t('Weekly Summary', language)}
+                        style={{
+                            padding: '8px 14px', borderRadius: '10px',
+                            border: '1px solid #e5e7eb', backgroundColor: 'white',
+                            color: '#0e7490', fontSize: '13px', fontWeight: 600, cursor: 'pointer'
+                        }}
+                    >
+                        📊 {t('Weekly Summary', language)}
+                    </button>
                 </div>
 
                 {/* Progress Section */}
@@ -526,6 +542,19 @@ function AppContent() {
                     <FeedbackModal
                         isOpen={feedbackModal.isOpen}
                         onClose={feedbackModal.close}
+                        language={language}
+                    />
+                </Suspense>
+            )}
+
+            {/* Weekly Summary Modal — code-split, mounted only while open */}
+            {summaryModal.isOpen && (
+                <Suspense fallback={null}>
+                    <WeeklySummaryModal
+                        isOpen={summaryModal.isOpen}
+                        onClose={summaryModal.close}
+                        workoutPlan={workoutPlan}
+                        weekStart={viewedWeekStart}
                         language={language}
                     />
                 </Suspense>
