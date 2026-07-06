@@ -51,7 +51,7 @@ class WeekSummaryService {
     DAYS_OF_WEEK.forEach(day => {
       const dayPlan = workoutPlan?.[day];
       if (!dayPlan) return;
-      dayPlan.exercises.forEach(exercise => {
+      (dayPlan.exercises || []).forEach(exercise => {
         rows.push({
           day,
           focus: dayPlan.name || '',
@@ -98,7 +98,10 @@ class WeekSummaryService {
    * @returns {string} Escaped field
    */
   static csvEscape(value) {
-    const s = String(value ?? '');
+    let s = String(value ?? '');
+    // Neutralize spreadsheet formula injection: a leading =, +, -, @ makes
+    // Excel/Sheets execute the cell. Prefixing an apostrophe forces text.
+    if (/^[=+\-@]/.test(s)) s = `'${s}`;
     return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   }
 

@@ -86,6 +86,15 @@ describe('WeekSummaryService', () => {
       expect(summary.totals.totalSets).toBe(0);
       expect(summary.byMuscle).toEqual([]);
     });
+
+    it('tolerates a day missing its exercises array', () => {
+      const plan = emptyWeek();
+      plan.Wednesday = { name: 'Malformed day' };
+
+      const summary = WeekSummaryService.buildSummary(plan);
+      expect(summary.rows).toHaveLength(0);
+      expect(summary.totals.exercises).toBe(0);
+    });
   });
 
   describe('toCsv', () => {
@@ -104,6 +113,18 @@ describe('WeekSummaryService', () => {
       expect(WeekSummaryService.csvEscape('a,b')).toBe('"a,b"');
       expect(WeekSummaryService.csvEscape('say "hi"')).toBe('"say ""hi"""');
       expect(WeekSummaryService.csvEscape('plain')).toBe('plain');
+    });
+
+    it('neutralizes leading formula characters against spreadsheet injection', () => {
+      expect(WeekSummaryService.csvEscape('=1+1')).toBe("'=1+1");
+      expect(WeekSummaryService.csvEscape('+SUM(A1)')).toBe("'+SUM(A1)");
+      expect(WeekSummaryService.csvEscape('-2+3')).toBe("'-2+3");
+      expect(WeekSummaryService.csvEscape('@cmd')).toBe("'@cmd");
+      expect(WeekSummaryService.csvEscape('=HYPERLINK("http://evil","x")'))
+        .toBe('"\'=HYPERLINK(""http://evil"",""x"")"');
+      // Normal values stay untouched.
+      expect(WeekSummaryService.csvEscape('Barbell Squats')).toBe('Barbell Squats');
+      expect(WeekSummaryService.csvEscape(4)).toBe('4');
     });
 
     it('translates headers and names in Spanish', () => {
