@@ -246,7 +246,8 @@ class ExerciseTypeFactory {
    * @returns {ExerciseTypeStrategy} Strategy instance
    */
   static getStrategyByMuscleGroup(muscleGroup) {
-    if (muscleGroup === 'Cardio') {
+    // Combat work (bag rounds, sparring, drills) is time-based like cardio.
+    if (muscleGroup === 'Cardio' || muscleGroup === 'Combat') {
       return this.getStrategy('cardio');
     }
     if (muscleGroup === 'Flexibility') {

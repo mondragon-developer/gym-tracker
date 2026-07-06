@@ -145,5 +145,17 @@ export const EXERCISE_DATABASE = [
   { "id": 207, "name": "Sled Push", "muscleGroup": "Cardio" },
   { "id": 208, "name": "Sled Pull", "muscleGroup": "Cardio" },
   { "id": 209, "name": "Ski Erg", "muscleGroup": "Cardio" },
-  { "id": 210, "name": "Jump Rope HIIT", "muscleGroup": "Cardio" }
+  { "id": 210, "name": "Jump Rope HIIT", "muscleGroup": "Cardio" },
+  { "id": 211, "name": "Shadowboxing", "muscleGroup": "Combat" },
+  { "id": 212, "name": "Heavy Bag Rounds", "muscleGroup": "Combat" },
+  { "id": 213, "name": "Speed Bag", "muscleGroup": "Combat" },
+  { "id": 214, "name": "Double-End Bag", "muscleGroup": "Combat" },
+  { "id": 215, "name": "Pad Work (Mitts)", "muscleGroup": "Combat" },
+  { "id": 216, "name": "Sparring", "muscleGroup": "Combat" },
+  { "id": 217, "name": "Kickboxing Rounds", "muscleGroup": "Combat" },
+  { "id": 218, "name": "Kicking Drills", "muscleGroup": "Combat" },
+  { "id": 219, "name": "Boxing Footwork Drills", "muscleGroup": "Combat" },
+  { "id": 220, "name": "Defensive Drills (Slips & Rolls)", "muscleGroup": "Combat" },
+  { "id": 221, "name": "Grappling Drills", "muscleGroup": "Combat" },
+  { "id": 222, "name": "MMA Conditioning Circuit", "muscleGroup": "Combat" }
 ];

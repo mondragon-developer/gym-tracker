@@ -18,10 +18,14 @@ const getMuscleGroupColor = (muscleGroup) => {
         'Legs': { bg: '#ecfdf5', text: '#059669' },
         'Abs': { bg: '#fce7f3', text: '#e11d48' },
         'Cardio': { bg: '#f0f9ff', text: '#0284c7' },
+        'Combat': { bg: '#fff7ed', text: '#c2410c' },
         'Forearms': { bg: '#f5f3ff', text: '#7c3aed' }
     };
     return colors[muscleGroup] || { bg: '#f3f4f6', text: '#6b7280' };
 };
+
+// Groups whose exercises are time-based (minutes) instead of sets × reps
+const isDurationGroup = (muscleGroup) => muscleGroup === 'Cardio' || muscleGroup === 'Combat';
 
 const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, language = 'en' }) => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -51,7 +55,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
 
     // Handle adding exercise from library
     const handleAdd = (exercise) => {
-        const isCardio = exercise.muscleGroup === 'Cardio';
+        const isCardio = isDurationGroup(exercise.muscleGroup);
         
         if (isCardio) {
             onAddExercise({ 
@@ -311,8 +315,8 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                         }}>
                             <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: '#374151', marginBottom: '12px' }}>Default Configuration for Selected Exercises</label>
                             
-                            {selectedMuscleGroup === 'Cardio' ? (
-                                // Cardio configuration
+                            {isDurationGroup(selectedMuscleGroup) ? (
+                                // Cardio/combat configuration
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '12px' }}>
                                     <div>
                                         <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#6b7280', marginBottom: '6px' }}>Duration (minutes)</label>
@@ -482,8 +486,8 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                                     )}
                                                 </div>
                                                 <div style={{ fontSize: '12px', color: '#6b7280' }}>
-                                                    {ex.muscleGroup === 'Cardio' ? 
-                                                        `${t("Target Duration (minutes)", language)}: ${defaultSets}` : 
+                                                    {isDurationGroup(ex.muscleGroup) ?
+                                                        `${t("Target Duration (minutes)", language)}: ${defaultSets}` :
                                                         `${t("Target Sets", language)}: ${defaultSets} × ${defaultRepsMin === defaultRepsMax ? defaultRepsMin : `${defaultRepsMin}-${defaultRepsMax}`} ${t("reps", language)}`
                                                     }
                                                 </div>

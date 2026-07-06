@@ -2,9 +2,9 @@
 
 Every exercise available in the Gym Tracker app, grouped by muscle group. Source of truth: `src/constants/index.js` (`EXERCISE_DATABASE`). Spanish names come from `src/translations/exercises.js` (`—` where the app has no translation yet).
 
-**147 exercises across 10 categories.**
+**159 exercises across 11 categories.**
 
-> **Note on Yoga / flexibility / sports:** The app has **no yoga, stretching, or mobility exercises**. There is an `EXERCISE_TYPES.FLEXIBILITY` constant defined, but no exercises use it — the two exercise types actually in use are **strength** and **cardio**. Running, swimming, cycling, boxing, and CrossFit-style movements all live under the **Cardio** category (see the last table).
+> **Note on Yoga / flexibility / sports:** The app has **no yoga, stretching, or mobility exercises**. There is an `EXERCISE_TYPES.FLEXIBILITY` constant defined, but no exercises use it — the two exercise types actually in use are **strength** and **cardio**. Running, swimming, cycling, and CrossFit-style movements live under the **Cardio** category; boxing and martial-arts work lives under **Combat** (both are time-based). Neither has demo images — the free dataset the demos come from is gym-only.
 
 ---
 
@@ -201,3 +201,22 @@ This is where every non-strength movement lives. Tagged by discipline for clarit
 | Boxing | Boxeo | Sport |
 | Jumping Jacks | Saltos de Tijera | Bodyweight cardio |
 | High Knees | Rodillas Altas | Bodyweight cardio |
+
+## Combat — boxing & martial arts (12)
+
+Time-based like cardio: plan rounds/drills in minutes, log minutes completed. No demo images (the free exercise-image dataset has no combat content).
+
+| Exercise | Ejercicio (ES) | Type |
+|---|---|---|
+| Shadowboxing | Boxeo de Sombra | Boxing |
+| Heavy Bag Rounds | Rondas de Saco Pesado | Boxing |
+| Speed Bag | Pera de Velocidad | Boxing |
+| Double-End Bag | Pera de Doble Anclaje | Boxing |
+| Pad Work (Mitts) | Trabajo de Manoplas | Boxing |
+| Sparring | Sparring | Boxing / MMA |
+| Kickboxing Rounds | Rondas de Kickboxing | Kickboxing |
+| Kicking Drills | Ejercicios de Patadas | Kickboxing / Muay Thai |
+| Boxing Footwork Drills | Juego de Pies de Boxeo | Boxing |
+| Defensive Drills (Slips & Rolls) | Defensa (Esquivas y Giros) | Boxing |
+| Grappling Drills | Ejercicios de Grappling | MMA / BJJ |
+| MMA Conditioning Circuit | Circuito de Acondicionamiento MMA | MMA |

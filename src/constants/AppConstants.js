@@ -29,7 +29,8 @@ export const INDIVIDUAL_MUSCLE_GROUPS = [
   "Forearms",
   "Legs",
   "Abs",
-  "Cardio"
+  "Cardio",
+  "Combat"
 ];
 
 /**

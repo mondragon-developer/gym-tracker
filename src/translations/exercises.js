@@ -202,6 +202,20 @@ export const exerciseTranslations = {
     "HIIT Circuit": "Circuito HIIT",
     "Jogging": "Trotar",
 
+    // Combat / boxing & martial arts
+    "Shadowboxing": "Boxeo de Sombra",
+    "Heavy Bag Rounds": "Rondas de Saco Pesado",
+    "Speed Bag": "Pera de Velocidad",
+    "Double-End Bag": "Pera de Doble Anclaje",
+    "Pad Work (Mitts)": "Trabajo de Manoplas",
+    "Sparring": "Sparring",
+    "Kickboxing Rounds": "Rondas de Kickboxing",
+    "Kicking Drills": "Ejercicios de Patadas",
+    "Boxing Footwork Drills": "Juego de Pies de Boxeo",
+    "Defensive Drills (Slips & Rolls)": "Defensa (Esquivas y Giros)",
+    "Grappling Drills": "Ejercicios de Grappling",
+    "MMA Conditioning Circuit": "Circuito de Acondicionamiento MMA",
+
     // Common muscle groups and interface
     "All": "Todos",
     "Rest": "Descanso",
@@ -213,7 +227,8 @@ export const exerciseTranslations = {
     "Forearms": "Antebrazos",
     "Legs": "Piernas",
     "Abs": "Abdominales",
-    "Cardio": "Cardio"
+    "Cardio": "Cardio",
+    "Combat": "Combate"
 };
 
 /**
