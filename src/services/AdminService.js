@@ -60,6 +60,50 @@ class AdminService {
   }
 
   /**
+   * Creates a single-use trainer invitation (super admin only, RLS-enforced)
+   * @param {string} createdBy - The super admin's profile id
+   * @returns {Promise<string>} The generated invite code
+   */
+  async createTrainerInvite(createdBy) {
+    const code = (typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID().replace(/-/g, '')
+      : Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2)
+    ).slice(0, 10).toUpperCase();
+
+    const { error } = await supabase
+      .from('trainer_invites')
+      .insert({ code, created_by: createdBy });
+    if (error) throw error;
+    return code;
+  }
+
+  /**
+   * Lists pending (unused) trainer invitations, newest first
+   * @returns {Promise<Array<{code: string, createdAt: string}>>}
+   */
+  async listTrainerInvites() {
+    const { data, error } = await supabase
+      .from('trainer_invites')
+      .select('code, created_at')
+      .is('used_by', null)
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    return (data ?? []).map(row => ({ code: row.code, createdAt: row.created_at }));
+  }
+
+  /**
+   * Revokes a pending trainer invitation
+   * @param {string} code - Invite code to delete
+   */
+  async revokeTrainerInvite(code) {
+    const { error } = await supabase
+      .from('trainer_invites')
+      .delete()
+      .eq('code', code);
+    if (error) throw error;
+  }
+
+  /**
    * Gets a target user's workout plan
    * @param {string} userId - Target user
    * @returns {Promise<Object|null>} The plan blob, or null if none saved yet

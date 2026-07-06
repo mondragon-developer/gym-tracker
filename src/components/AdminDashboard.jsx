@@ -85,7 +85,8 @@ export default function AdminDashboard({ onBack }) {
   const [users, setUsers] = useState([]);
   const [usersLoading, setUsersLoading] = useState(true);
   const [error, setError] = useState('');
-  const [copiedItem, setCopiedItem] = useState(null); // 'code' | 'link'
+  const [copiedItem, setCopiedItem] = useState(null); // 'code' | 'link' | invite code
+  const [trainerInvites, setTrainerInvites] = useState([]);
 
   const [selectedUser, setSelectedUser] = useState(null);
   // The user's whole weekly history; admins edit its CURRENT week.
@@ -174,15 +175,54 @@ export default function AdminDashboard({ onBack }) {
     ? `${window.location.origin}/?trainer=${myProfile.inviteCode}`
     : '';
 
-  const copyInvite = async (which) => {
-    const text = which === 'link' ? inviteLink : myProfile?.inviteCode;
+  const copyText = async (text, key) => {
     if (!text) return;
     try {
       await navigator.clipboard.writeText(text);
-      setCopiedItem(which);
+      setCopiedItem(key);
       setTimeout(() => setCopiedItem(null), 2000);
     } catch {
       // Clipboard unavailable (http/permissions) — the code is visible anyway.
+    }
+  };
+
+  const copyInvite = (which) =>
+    copyText(which === 'link' ? inviteLink : myProfile?.inviteCode, which);
+
+  // --- Trainer invitations (super admin): create the link that lets someone
+  // sign up directly as a trainer. Single-use, revocable while pending. ---
+  const loadTrainerInvites = useCallback(async () => {
+    if (!isAdmin) return;
+    try {
+      setTrainerInvites(await adminService.listTrainerInvites());
+    } catch (err) {
+      console.error('Error loading trainer invites:', err);
+    }
+  }, [isAdmin]);
+
+  useEffect(() => {
+    loadTrainerInvites();
+  }, [loadTrainerInvites]);
+
+  const createTrainerInvite = async () => {
+    try {
+      setError('');
+      await adminService.createTrainerInvite(currentUser.id);
+      await loadTrainerInvites();
+    } catch (err) {
+      console.error('Error creating trainer invite:', err);
+      setError(t('Failed to create invitation', language));
+    }
+  };
+
+  const revokeTrainerInvite = async (code) => {
+    try {
+      setError('');
+      await adminService.revokeTrainerInvite(code);
+      setTrainerInvites(prev => prev.filter(inv => inv.code !== code));
+    } catch (err) {
+      console.error('Error revoking trainer invite:', err);
+      setError(t('Failed to revoke invitation', language));
     }
   };
 
@@ -325,6 +365,65 @@ export default function AdminDashboard({ onBack }) {
             <span style={{ fontSize: '12px', color: '#6b7280', flexBasis: '100%' }}>
               {t('Send the invite link to your clients — signing up through it assigns their account to you automatically.', language)}
             </span>
+          </div>
+        )}
+
+        {/* Trainer invitations — super admin creates links that let someone
+            sign up directly as a trainer */}
+        {isAdmin && (
+          <div style={{ ...cardStyle, padding: '14px 16px', marginBottom: '16px' }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: '8px'
+            }}>
+              <span style={{ fontSize: '14px', fontWeight: 600 }}>
+                🏋️ {t('Trainer invitations', language)}
+              </span>
+              <Button onClick={createTrainerInvite} style={{ fontSize: '13px' }}>
+                + {t('Invite a trainer', language)}
+              </Button>
+            </div>
+            <p style={{ fontSize: '12px', color: '#6b7280', margin: '8px 0 0 0' }}>
+              {t('Each link is single-use: whoever signs up through it becomes a trainer.', language)}
+            </p>
+            {trainerInvites.length > 0 && (
+              <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                {trainerInvites.map(inv => (
+                  <div
+                    key={inv.code}
+                    style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}
+                  >
+                    <code style={{
+                      fontSize: '14px',
+                      fontWeight: 700,
+                      letterSpacing: '1px',
+                      color: '#0e7490',
+                      backgroundColor: '#ecfeff',
+                      padding: '3px 8px',
+                      borderRadius: '6px'
+                    }}>
+                      {inv.code}
+                    </code>
+                    <Button
+                      variant={ButtonVariant.SECONDARY}
+                      onClick={() => copyText(`${window.location.origin}/?trainer-invite=${inv.code}`, inv.code)}
+                      style={{ fontSize: '12px' }}
+                    >
+                      🔗 {copiedItem === inv.code ? t('Copied!', language) : t('Copy invite link', language)}
+                    </Button>
+                    <ConfirmButton
+                      label={t('Revoke', language)}
+                      confirmLabel={t('Confirm?', language)}
+                      variant={ButtonVariant.SECONDARY}
+                      onConfirm={() => revokeTrainerInvite(inv.code)}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 

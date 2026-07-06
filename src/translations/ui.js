@@ -181,6 +181,15 @@ export const uiTranslations = {
         "Copy invite link": "Copy invite link",
         "Send the invite link to your clients — signing up through it assigns their account to you automatically.": "Send the invite link to your clients — signing up through it assigns their account to you automatically.",
         "Failed to assign trainer for": "Failed to assign trainer for",
+        "Trainer invitations": "Trainer invitations",
+        "Invite a trainer": "Invite a trainer",
+        "Each link is single-use: whoever signs up through it becomes a trainer.": "Each link is single-use: whoever signs up through it becomes a trainer.",
+        "Revoke": "Revoke",
+        "Failed to create invitation": "Failed to create invitation",
+        "Failed to revoke invitation": "Failed to revoke invitation",
+        "Trainer invitation": "Trainer invitation",
+        "This link creates a trainer account.": "This link creates a trainer account.",
+        "This trainer invitation is invalid or was already used": "This trainer invitation is invalid or was already used",
 
         // Weekly summary
         "Weekly Summary": "Weekly Summary",
@@ -391,6 +400,15 @@ export const uiTranslations = {
         "Copy invite link": "Copiar enlace de invitación",
         "Send the invite link to your clients — signing up through it assigns their account to you automatically.": "Envía el enlace de invitación a tus clientes: al registrarse con él, su cuenta queda asignada a ti automáticamente.",
         "Failed to assign trainer for": "No se pudo asignar el entrenador para",
+        "Trainer invitations": "Invitaciones de entrenador",
+        "Invite a trainer": "Invitar a un entrenador",
+        "Each link is single-use: whoever signs up through it becomes a trainer.": "Cada enlace es de un solo uso: quien se registre con él se convierte en entrenador.",
+        "Revoke": "Revocar",
+        "Failed to create invitation": "No se pudo crear la invitación",
+        "Failed to revoke invitation": "No se pudo revocar la invitación",
+        "Trainer invitation": "Invitación de entrenador",
+        "This link creates a trainer account.": "Este enlace crea una cuenta de entrenador.",
+        "This trainer invitation is invalid or was already used": "Esta invitación de entrenador es inválida o ya fue usada",
 
         // Weekly summary
         "Weekly Summary": "Resumen Semanal",

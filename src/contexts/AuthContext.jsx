@@ -146,6 +146,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Check a super-admin-issued trainer invitation (single-use) before signup.
+  const lookupTrainerInvite = async (invite) => {
+    try {
+      const { data, error } = await supabase.rpc('lookup_trainer_invite', { invite });
+      if (error) throw error;
+      return { valid: data === true, error: null };
+    } catch (error) {
+      return { valid: false, error };
+    }
+  };
+
   // Update user profile
   const updateProfile = async (updates) => {
     try {
@@ -173,7 +184,8 @@ export const AuthProvider = ({ children }) => {
     resetPassword,
     updatePassword,
     updateProfile,
-    lookupTrainerCode
+    lookupTrainerCode,
+    lookupTrainerInvite
   };
 
   return (

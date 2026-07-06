@@ -13,8 +13,8 @@ import Input from '../components/ui/Input';
 import PasswordInput from '../components/ui/PasswordInput';
 import mdLogo from '../assets/mdlogo.jpeg';
 
-export default function SignUp({ onToggleMode, initialTrainerCode = '' }) {
-  const { signUp, lookupTrainerCode } = useAuth();
+export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerInvite = '' }) {
+  const { signUp, lookupTrainerCode, lookupTrainerInvite } = useAuth();
   const { language } = useLanguage();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -49,19 +49,33 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '' }) {
       return;
     }
 
-    // The trainer code is optional, but if one was typed it must be real —
-    // silently ignoring a typo would create an unassigned account.
-    const code = trainerCode.trim().toUpperCase();
-    if (code) {
-      const { trainerEmail } = await lookupTrainerCode(code);
-      if (!trainerEmail) {
-        setError(t('Invalid trainer code', language));
+    let metadata = { name };
+
+    if (trainerInvite) {
+      // Super-admin invitation: this signup creates a TRAINER account.
+      const invite = trainerInvite.trim().toUpperCase();
+      const { valid } = await lookupTrainerInvite(invite);
+      if (!valid) {
+        setError(t('This trainer invitation is invalid or was already used', language));
         setLoading(false);
         return;
       }
+      metadata = { name, trainer_invite_code: invite };
+    } else {
+      // The trainer code is optional, but if one was typed it must be real —
+      // silently ignoring a typo would create an unassigned account.
+      const code = trainerCode.trim().toUpperCase();
+      if (code) {
+        const { trainerEmail } = await lookupTrainerCode(code);
+        if (!trainerEmail) {
+          setError(t('Invalid trainer code', language));
+          setLoading(false);
+          return;
+        }
+        metadata = { name, trainer_code: code };
+      }
     }
 
-    const metadata = code ? { name, trainer_code: code } : { name };
     const { error: signUpError } = await signUp(email, password, metadata);
 
     if (signUpError) {
@@ -210,6 +224,20 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '' }) {
         {/* Form */}
         <form onSubmit={handleSubmit} style={{ padding: '32px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            {trainerInvite && (
+              <div style={{
+                padding: '12px 16px',
+                backgroundColor: '#ecfeff',
+                border: '1px solid #a5f3fc',
+                borderRadius: '8px',
+                color: '#155e75',
+                fontSize: '14px'
+              }}>
+                🏋️ <strong>{t('Trainer invitation', language)}</strong>
+                <br />
+                {t('This link creates a trainer account.', language)}
+              </div>
+            )}
             {error && (
               <div style={{
                 padding: '12px 16px',
@@ -301,33 +329,37 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '' }) {
               />
             </div>
 
-            <div>
-              <label style={{
-                display: 'block',
-                marginBottom: '8px',
-                fontSize: '14px',
-                fontWeight: '600',
-                color: '#374151'
-              }}>
-                {t('Trainer code (optional)', language)}
-              </label>
-              <Input
-                type="text"
-                value={trainerCode}
-                onChange={(e) => setTrainerCode(e.target.value)}
-                placeholder={t("Enter your trainer's code", language)}
-                disabled={loading}
-                maxLength={12}
-                style={{ textTransform: 'uppercase' }}
-              />
-              <p style={{
-                fontSize: '12px',
-                color: '#6b7280',
-                margin: '6px 0 0 0'
-              }}>
-                {t('Leave it empty if you train on your own.', language)}
-              </p>
-            </div>
+            {/* A trainer joining via invitation is nobody's trainee — hide
+                the client code field in that mode */}
+            {!trainerInvite && (
+              <div>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '8px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  color: '#374151'
+                }}>
+                  {t('Trainer code (optional)', language)}
+                </label>
+                <Input
+                  type="text"
+                  value={trainerCode}
+                  onChange={(e) => setTrainerCode(e.target.value)}
+                  placeholder={t("Enter your trainer's code", language)}
+                  disabled={loading}
+                  maxLength={12}
+                  style={{ textTransform: 'uppercase' }}
+                />
+                <p style={{
+                  fontSize: '12px',
+                  color: '#6b7280',
+                  margin: '6px 0 0 0'
+                }}>
+                  {t('Leave it empty if you train on your own.', language)}
+                </p>
+              </div>
+            )}
 
             <Button
               type="submit"
