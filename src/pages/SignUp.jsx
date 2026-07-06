@@ -10,6 +10,7 @@ import { t } from '../translations/ui';
 import Button from '../components/ui/Button';
 import { ButtonVariant } from '../components/ui/Button.constants.js';
 import Input from '../components/ui/Input';
+import PasswordInput from '../components/ui/PasswordInput';
 import mdLogo from '../assets/mdlogo.jpeg';
 
 export default function SignUp({ onToggleMode }) {
@@ -258,8 +259,7 @@ export default function SignUp({ onToggleMode }) {
               }}>
                 {t('Password', language)}
               </label>
-              <Input
-                type="password"
+              <PasswordInput
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder={t('At least 6 characters', language)}
@@ -278,8 +278,7 @@ export default function SignUp({ onToggleMode }) {
               }}>
                 {t('Confirm Password', language)}
               </label>
-              <Input
-                type="password"
+              <PasswordInput
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder={t('Re-enter your password', language)}

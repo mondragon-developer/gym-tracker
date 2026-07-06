@@ -132,6 +132,8 @@ export const uiTranslations = {
         "Confirm New Password": "Confirm New Password",
         "Update Password": "Update Password",
         "Updating...": "Updating...",
+        "Show password": "Show password",
+        "Hide password": "Hide password",
 
         // Admin panel
         "Admin panel": "Admin panel",
@@ -305,6 +307,8 @@ export const uiTranslations = {
         "Confirm New Password": "Confirmar Nueva Contraseña",
         "Update Password": "Actualizar Contraseña",
         "Updating...": "Actualizando...",
+        "Show password": "Mostrar contraseña",
+        "Hide password": "Ocultar contraseña",
 
         // Admin panel
         "Admin panel": "Panel de Administrador",

@@ -10,6 +10,7 @@ import { t } from '../translations/ui';
 import Button from '../components/ui/Button';
 import { ButtonVariant } from '../components/ui/Button.constants.js';
 import Input from '../components/ui/Input';
+import PasswordInput from '../components/ui/PasswordInput';
 import mdLogo from '../assets/mdlogo.jpeg';
 
 export default function SignIn({ onToggleMode, onForgotPassword }) {
@@ -143,8 +144,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
               }}>
                 {t('Password', language)}
               </label>
-              <Input
-                type="password"
+              <PasswordInput
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder={t('Enter your password', language)}
