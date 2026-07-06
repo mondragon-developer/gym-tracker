@@ -32,3 +32,6 @@ dist-ssr
 # AI tooling
 .claude/
 .vercel
+
+# Scratch / working notes (not committed)
+temp/
