@@ -2,7 +2,7 @@
 
 ## Deployment record (last updated 2026-07-16)
 
-- **Agent ID:** `RZAeW82nDUzmI2uMyEEL5` — embedded via the script in `index.html` (with custom bubble CSS in the same file)
+- **Agent ID:** `leN3dAU7gJn3-rufdfJO_` ("Gym AI Coach") — embedded via the script in `index.html` (with custom bubble CSS in the same file). An older ID (`RZAeW82nDUzmI2uMyEEL5`) is defunct — returns 404 from Chatbase.
 - **Plan:** Hobby
 - **Model:** GPT-5, temperature 0 · Instructions = system prompt below
 - **Sources:** the 14 guide files in this folder uploaded as Files (no separate Q&A-pair entries yet — candidate follow-up: paste top pairs from the `05-` files into Sources → Q&A for verbatim answers)
