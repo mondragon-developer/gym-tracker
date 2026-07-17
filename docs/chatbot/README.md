@@ -6,7 +6,7 @@
 - **Plan:** Hobby
 - **Model:** GPT-5, temperature 0 · Instructions = system prompt below
 - **Sources:** the 14 guide files in this folder uploaded as Files (no separate Q&A-pair entries yet — candidate follow-up: paste top pairs from the `05-` files into Sources → Q&A for verbatim answers)
-- **Allowed domains:** `gymworkoutjm.vercel.app` + localhost (dev)
+- **Allowed domains:** none (unrestricted). Chatbase's validator rejects `gymworkoutjm.vercel.app` as "invalid domain" (likely a `.vercel.app` public-suffix quirk); with a restriction saved as localhost-only, the embedded chat window 503s on production (white panel). Leave the list empty unless the app moves to a custom domain; the agent's rate limit is the abuse guard.
 - **Knowledge-base size:** ~324K characters across 14 files
 - **On content changes:** edit the doc here, re-upload that file in Sources, and hit **Retrain agent** — keep `06-roadmap-*` in sync with the main `README.md` roadmap
 
