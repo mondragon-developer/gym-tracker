@@ -220,7 +220,11 @@ export const uiTranslations = {
         // Exercise demo
         "How to do this exercise": "How to do this exercise",
         "Full range of motion — start to finish": "Full range of motion — start to finish",
-        "No demonstration available yet": "No demonstration available yet"
+        "No demonstration available yet": "No demonstration available yet",
+        "How to perform": "How to perform",
+        "Equipment": "Equipment",
+        "Target": "Target",
+        "Exercise data from the open exercises-dataset (MIT)": "Exercise data from the open exercises-dataset (MIT)"
     },
     es: {
         // Header
@@ -439,7 +443,11 @@ export const uiTranslations = {
         // Exercise demo
         "How to do this exercise": "Cómo hacer este ejercicio",
         "Full range of motion — start to finish": "Rango completo de movimiento — de inicio a fin",
-        "No demonstration available yet": "Aún no hay demostración disponible"
+        "No demonstration available yet": "Aún no hay demostración disponible",
+        "How to perform": "Cómo realizarlo",
+        "Equipment": "Equipo",
+        "Target": "Músculo objetivo",
+        "Exercise data from the open exercises-dataset (MIT)": "Datos de ejercicios del dataset abierto exercises-dataset (MIT)"
     }
 };
 

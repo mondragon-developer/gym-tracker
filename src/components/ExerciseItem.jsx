@@ -4,6 +4,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import ExerciseService from '../services/ExerciseService.js';
 import { hasExerciseMedia } from '../services/ExerciseMediaService.js';
+import { hasExerciseEnrichment } from '../services/ExerciseEnrichmentService.js';
 import ExerciseDemoModal from './ExerciseDemoModal.jsx';
 import { t } from '../translations/ui';
 import { translateExercise } from '../translations/exercises';
@@ -16,7 +17,8 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en', readOnly 
         id: exercise.id,
     });
     const [showDemo, setShowDemo] = useState(false);
-    const hasDemo = hasExerciseMedia(exercise.dbId);
+    // Show the demo button if we have an animation OR step-by-step instructions.
+    const hasDemo = hasExerciseMedia(exercise.dbId) || hasExerciseEnrichment(exercise.dbId);
     const isCardio = () => ExerciseService.isCardioExercise(exercise);
     const handleUpdate = (field, value) => {
         onUpdate(exercise.id, { ...exercise, [field]: value });
