@@ -35,3 +35,6 @@ dist-ssr
 
 # Scratch / working notes (not committed)
 temp/
+
+# Enrichment builder's cached copy of the 17MB source dataset (fetched on demand)
+scripts/enrichment/.cache/

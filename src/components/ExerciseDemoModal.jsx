@@ -4,21 +4,25 @@
  * frames on a loop, approximating the full range of motion from two stills, and
  * (when available) a step-by-step how-to with equipment/target metadata.
  * Mounted only while open, so the animation timer and image loads are lazy.
+ *
+ * The enrichment data is a large module, loaded lazily (dynamic import inside
+ * ExerciseEnrichmentService) once the modal opens — not shipped in the initial
+ * bundle. `hasExerciseEnrichment` (sync, tiny) tells us whether to expect it.
  */
 
 import React, { useState, useEffect } from 'react';
 import Modal from './ui/Modal.jsx';
 import { getExerciseMedia } from '../services/ExerciseMediaService.js';
-import { getExerciseEnrichment, getExerciseInstructions } from '../services/ExerciseEnrichmentService.js';
+import { getExerciseEnrichment, hasExerciseEnrichment } from '../services/ExerciseEnrichmentService.js';
 import { t } from '../translations/ui';
 import { translateExercise } from '../translations/exercises';
 import { translateEquipment, translateTarget } from '../translations/exerciseTerms';
 
 export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }) {
   const media = getExerciseMedia(exercise.dbId);
-  const enrichment = getExerciseEnrichment(exercise.dbId);
-  const steps = getExerciseInstructions(exercise.dbId, language);
   const [frame, setFrame] = useState(0);
+  const [enrichment, setEnrichment] = useState(null);
+  const enrichmentExpected = hasExerciseEnrichment(exercise.dbId);
 
   // Alternate start/end frames to convey the movement.
   useEffect(() => {
@@ -27,7 +31,20 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
     return () => clearInterval(timer);
   }, [media]);
 
-  const hasAnything = media || steps;
+  // Lazily load the (heavy) enrichment record for this exercise.
+  useEffect(() => {
+    let alive = true;
+    setEnrichment(null);
+    getExerciseEnrichment(exercise.dbId).then(rec => { if (alive) setEnrichment(rec); });
+    return () => { alive = false; };
+  }, [exercise.dbId]);
+
+  // Steps for the current language derive synchronously from the loaded record.
+  const steps = enrichment
+    ? (enrichment.instructions[language]?.length ? enrichment.instructions[language] : enrichment.instructions.en)
+    : null;
+
+  const loadingEnrichment = enrichmentExpected && !enrichment;
 
   return (
     <Modal isOpen onClose={onClose} title={`▶ ${translateExercise(exercise.name, language)}`}>
@@ -74,7 +91,7 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
 
       {steps && (
         <div style={{ marginTop: media ? '20px' : 0, textAlign: 'left' }}>
-          {/* Equipment / target chips (values come from the source data in English) */}
+          {/* Equipment / target chips */}
           {enrichment && (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '14px' }}>
               {enrichment.equipment && (
@@ -105,7 +122,13 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
         </div>
       )}
 
-      {!hasAnything && (
+      {/* While the enrichment chunk loads for a covered exercise that has no
+          animation, show a subtle placeholder instead of the "no demo" message. */}
+      {!media && loadingEnrichment && (
+        <p style={{ color: '#9ca3af', margin: 0, fontSize: '13px' }}>…</p>
+      )}
+
+      {!media && !steps && !loadingEnrichment && (
         <p style={{ color: '#6b7280', margin: 0 }}>
           {t('No demonstration available yet', language)}
         </p>

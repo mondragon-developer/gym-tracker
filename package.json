@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:run": "vitest run",
+    "build:enrichment": "node scripts/enrichment/build-enrichment.mjs",
     "upload:media": "node --env-file=.env scripts/upload-exercise-media.mjs"
   },
   "dependencies": {
