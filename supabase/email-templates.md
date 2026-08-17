@@ -7,9 +7,12 @@ dashboard config is reproducible; editing this file does NOT change the emails.
 Both templates are bilingual (EN + ES) because the app ships both languages
 and the email is sent before we know the user's language preference.
 
-Note: the sender ("Supabase Auth <noreply@mail.app.supabase.io>") can only be
-changed by enabling custom SMTP (Authentication → Emails → SMTP Settings).
-The built-in email service is rate-limited and not meant for production scale.
+Note on sending: auth email is sent through custom SMTP (Brevo), configured in
+Dashboard → Authentication → Emails → SMTP Settings. The sender is
+"Gym Tracker <vmarketingmiami@gmail.com>". The SMTP login and key live only in
+the Brevo and Supabase dashboards, never in this repo. This replaced the
+built-in Supabase email service, whose low per-hour rate limit caused
+"email rate limit exceeded" errors on repeated reset requests.
 
 ---
 

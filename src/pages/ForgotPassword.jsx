@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth.js';
 import { useLanguage } from '../hooks/useLanguage.js';
 import { t } from '../translations/ui';
+import { friendlyAuthError } from '../utils/authErrors.js';
 import Button from '../components/ui/Button';
 import { ButtonVariant } from '../components/ui/Button.constants.js';
 import Input from '../components/ui/Input';
@@ -34,7 +35,7 @@ export default function ForgotPassword({ onBackToSignIn }) {
     setLoading(false);
 
     if (resetError) {
-      setError(resetError.message);
+      setError(t(friendlyAuthError(resetError), language));
     } else {
       setSent(true);
     }

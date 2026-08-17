@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth.js';
 import { useLanguage } from '../hooks/useLanguage.js';
 import { t } from '../translations/ui';
+import { friendlyAuthError } from '../utils/authErrors.js';
 import Button from '../components/ui/Button';
 import { ButtonVariant } from '../components/ui/Button.constants.js';
 import Input from '../components/ui/Input';
@@ -79,7 +80,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
     const { error: signUpError } = await signUp(email, password, metadata);
 
     if (signUpError) {
-      setError(signUpError.message);
+      setError(t(friendlyAuthError(signUpError), language));
       setLoading(false);
     } else {
       setSuccess(true);

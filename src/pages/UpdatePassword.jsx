@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth.js';
 import { useLanguage } from '../hooks/useLanguage.js';
 import { t } from '../translations/ui';
+import { friendlyAuthError } from '../utils/authErrors.js';
 import Button from '../components/ui/Button';
 import { ButtonVariant } from '../components/ui/Button.constants.js';
 import PasswordInput from '../components/ui/PasswordInput';
@@ -47,7 +48,7 @@ export default function UpdatePassword() {
     // On success the AuthProvider clears the recovery flag and the app
     // renders normally, so this component only handles the failure case.
     if (updateError) {
-      setError(updateError.message);
+      setError(t(friendlyAuthError(updateError), language));
       setLoading(false);
     }
   };

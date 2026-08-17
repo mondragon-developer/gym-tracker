@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth.js';
 import { useLanguage } from '../hooks/useLanguage.js';
 import { t } from '../translations/ui';
+import { friendlyAuthError } from '../utils/authErrors.js';
 import Button from '../components/ui/Button';
 import { ButtonVariant } from '../components/ui/Button.constants.js';
 import Input from '../components/ui/Input';
@@ -36,7 +37,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
     const { error: signInError } = await signIn(email, password);
 
     if (signInError) {
-      setError(signInError.message);
+      setError(t(friendlyAuthError(signInError), language));
       setLoading(false);
     }
   };

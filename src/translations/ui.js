@@ -139,6 +139,19 @@ export const uiTranslations = {
         "Leave it empty if you train on your own.": "Leave it empty if you train on your own.",
         "Invalid trainer code": "Invalid trainer code",
 
+        // Auth error messages (Supabase errors mapped via friendlyAuthError)
+        "Incorrect email or password. Please try again.": "Incorrect email or password. Please try again.",
+        "Please confirm your email before signing in. Check your inbox for the confirmation link.": "Please confirm your email before signing in. Check your inbox for the confirmation link.",
+        "An account with this email already exists. Try signing in instead.": "An account with this email already exists. Try signing in instead.",
+        "Please choose a stronger password (at least 6 characters).": "Please choose a stronger password (at least 6 characters).",
+        "The new password must be different from the current one.": "The new password must be different from the current one.",
+        "Too many emails requested. Please wait a while before trying again.": "Too many emails requested. Please wait a while before trying again.",
+        "Too many attempts. Please wait a few minutes and try again.": "Too many attempts. Please wait a few minutes and try again.",
+        "That link is invalid or has expired. Please request a new one.": "That link is invalid or has expired. Please request a new one.",
+        "No account exists with this email.": "No account exists with this email.",
+        "Could not reach the server. Check your connection and try again.": "Could not reach the server. Check your connection and try again.",
+        "Something went wrong. Please try again in a moment.": "Something went wrong. Please try again in a moment.",
+
         // Admin panel
         "Admin panel": "Admin panel",
         "Back to tracker": "Back to tracker",
@@ -361,6 +374,19 @@ export const uiTranslations = {
         "Enter your trainer's code": "Ingresa el código de tu entrenador",
         "Leave it empty if you train on your own.": "Déjalo vacío si entrenas por tu cuenta.",
         "Invalid trainer code": "Código de entrenador inválido",
+
+        // Auth error messages (Supabase errors mapped via friendlyAuthError)
+        "Incorrect email or password. Please try again.": "Correo o contraseña incorrectos. Inténtalo de nuevo.",
+        "Please confirm your email before signing in. Check your inbox for the confirmation link.": "Confirma tu correo antes de iniciar sesión. Revisa tu bandeja de entrada y haz clic en el enlace de confirmación.",
+        "An account with this email already exists. Try signing in instead.": "Ya existe una cuenta con este correo. Intenta iniciar sesión.",
+        "Please choose a stronger password (at least 6 characters).": "Elige una contraseña más segura (al menos 6 caracteres).",
+        "The new password must be different from the current one.": "La nueva contraseña debe ser diferente a la actual.",
+        "Too many emails requested. Please wait a while before trying again.": "Solicitaste demasiados correos. Espera un momento antes de intentarlo de nuevo.",
+        "Too many attempts. Please wait a few minutes and try again.": "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
+        "That link is invalid or has expired. Please request a new one.": "Ese enlace es inválido o ya expiró. Solicita uno nuevo.",
+        "No account exists with this email.": "No existe ninguna cuenta con este correo.",
+        "Could not reach the server. Check your connection and try again.": "No se pudo conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.",
+        "Something went wrong. Please try again in a moment.": "Algo salió mal. Inténtalo de nuevo en un momento.",
 
         // Admin panel
         "Admin panel": "Panel de Administrador",
