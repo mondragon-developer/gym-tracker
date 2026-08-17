@@ -104,6 +104,21 @@ class AdminService {
   }
 
   /**
+   * Emails the caller's client-invite link via the send-invite Edge Function.
+   * Trainer/admin only; the function re-checks the role and builds the URL
+   * from the caller's own invite code server-side.
+   * @param {string} email - Recipient client email
+   * @returns {Promise<Object>} { sent: true } on success
+   */
+  async sendInviteEmail(email) {
+    const { data, error } = await supabase.functions.invoke('send-invite', {
+      body: { email }
+    });
+    if (error) throw error;
+    return data;
+  }
+
+  /**
    * Gets a target user's workout plan
    * @param {string} userId - Target user
    * @returns {Promise<Object|null>} The plan blob, or null if none saved yet

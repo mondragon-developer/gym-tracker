@@ -23,6 +23,7 @@ const REPO_ROOT = path.resolve(SCRIPT_DIR, '../..');
 const APP_CONSTANTS = path.join(REPO_ROOT, 'src/constants/index.js');
 const OUT = path.join(REPO_ROOT, 'src/data/exerciseEnrichment.js');
 const INDEX_OUT = path.join(REPO_ROOT, 'src/data/exerciseEnrichmentIndex.js');
+const EQUIPMENT_OUT = path.join(REPO_ROOT, 'src/data/exerciseEquipment.js');
 const CACHE_DIR = path.join(SCRIPT_DIR, '.cache');
 const CACHE = path.join(CACHE_DIR, 'exercises.json');
 const DATASET_URL = 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/data/exercises.json';
@@ -194,7 +195,24 @@ ${body}
 export const ENRICHED_IDS = [${entries.map(e => e.appId).join(', ')}];
 `;
   fs.writeFileSync(INDEX_OUT, index);
-  return { entries, file };
+
+  // Second lightweight companion: id -> equipment, so the AddExerciseModal can
+  // offer an equipment filter without loading the heavy enrichment chunk.
+  const equipmentBody = entries.map(e => `  ${e.appId}: ${JSON.stringify(e.equipment)}`).join(',\n');
+  const equipment = `/**
+ * GENERATED FILE — do not edit by hand. Run: npm run build:enrichment
+ *
+ * Lightweight EXERCISE_DATABASE.id -> equipment map. Imported synchronously by
+ * the AddExerciseModal equipment filter; the heavy exerciseEnrichment.js stays
+ * lazily loaded. Values are the dataset's English equipment terms (localized
+ * in the UI via translations/exerciseTerms.js).
+ */
+export const EXERCISE_EQUIPMENT = {
+${equipmentBody}
+};
+`;
+  fs.writeFileSync(EQUIPMENT_OUT, equipment);
+  return { entries, file, equipment };
 }
 
 // --- main ---------------------------------------------------------------------
@@ -204,7 +222,7 @@ const dataset = await loadDataset();
 
 const results = match(appDb, dataset);
 const count = t => results.filter(r => r.tier === t).length;
-const { entries, file } = emit(results);
+const { entries, file, equipment } = emit(results);
 
 console.log(`\nApp exercises: ${appDb.length}   Dataset records: ${dataset.length}`);
 for (const t of ['override', 'exact', 'strong', 'none']) console.log(`  ${t.padEnd(8)} ${count(t)}`);
@@ -213,4 +231,5 @@ const missingSteps = entries.filter(e => !e.instructions.en.length || !e.instruc
 if (missingSteps.length) console.warn(`WARNING: ${missingSteps.length} entries missing EN or ES steps`);
 console.log(`\nWrote ${path.relative(REPO_ROOT, OUT)} (${(file.length / 1024).toFixed(0)} KB)`);
 console.log(`Wrote ${path.relative(REPO_ROOT, INDEX_OUT)} (${entries.length} ids)`);
+console.log(`Wrote ${path.relative(REPO_ROOT, EQUIPMENT_OUT)} (${(equipment.length / 1024).toFixed(1)} KB)`);
 console.log('Still uncovered:', results.filter(r => r.tier === 'none').map(r => r.app.name).join(', '));

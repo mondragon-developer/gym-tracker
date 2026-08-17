@@ -2,7 +2,9 @@ import { describe, it, expect } from 'vitest';
 import {
   getExerciseEnrichment,
   getExerciseInstructions,
+  getExerciseEquipment,
   hasExerciseEnrichment,
+  listEquipment,
 } from './ExerciseEnrichmentService.js';
 
 describe('ExerciseEnrichmentService', () => {
@@ -40,5 +42,22 @@ describe('ExerciseEnrichmentService', () => {
     expect(await getExerciseInstructions(999999, 'en')).toBeNull();
     expect(hasExerciseEnrichment(undefined)).toBe(false);
     expect(hasExerciseEnrichment(999999)).toBe(false);
+  });
+
+  it('resolves equipment synchronously via getExerciseEquipment', () => {
+    expect(getExerciseEquipment(1)).toBe('barbell');   // Barbell Bench Press
+    expect(getExerciseEquipment('1')).toBe('barbell'); // string ids coerce
+    expect(getExerciseEquipment(999999)).toBeNull();
+    expect(getExerciseEquipment(null)).toBeNull();
+    expect(getExerciseEquipment(undefined)).toBeNull();
+  });
+
+  it('lists sorted, unique equipment values via listEquipment', () => {
+    const equipment = listEquipment();
+    expect(equipment).toContain('barbell');
+    expect(equipment).toContain('body weight');
+    expect(equipment).toContain('dumbbell');
+    expect(new Set(equipment).size).toBe(equipment.length);
+    expect([...equipment].sort()).toEqual(equipment);
   });
 });

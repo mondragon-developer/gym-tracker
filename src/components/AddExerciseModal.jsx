@@ -4,8 +4,12 @@ import { INDIVIDUAL_MUSCLE_GROUPS } from '../constants/AppConstants.js';
 import Modal from './ui/Modal.jsx';
 import { t } from '../translations/ui';
 import { translateExercise } from '../translations/exercises';
+import { translateEquipment } from '../translations/exerciseTerms';
+import { getExerciseEquipment, listEquipment } from '../services/ExerciseEnrichmentService.js';
 
 const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
 // Helper function to get muscle group colors
 const getMuscleGroupColor = (muscleGroup) => {
@@ -34,6 +38,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
         ? muscleGroup
         : 'All';
     const [selectedMuscleGroup, setSelectedMuscleGroup] = useState(initialFilter);
+    const [selectedEquipment, setSelectedEquipment] = useState('All');
     const [isCustom, setIsCustom] = useState(false);
     const [customName, setCustomName] = useState('');
     const [customSets, setCustomSets] = useState('3');
@@ -45,12 +50,17 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
 
     // Get unique muscle groups from the database
     const allMuscleGroups = ['All', ...new Set(EXERCISE_DATABASE.map(ex => ex.muscleGroup))];
-    
-    // Filter exercises based on search and selected muscle group
+    // Equipment values come from the generated enrichment map (sync and tiny).
+    const equipmentOptions = listEquipment();
+
+    // Filter exercises based on search, selected muscle group, and equipment.
+    // An active equipment filter excludes un-enriched exercises: their
+    // equipment is unknown, not "other".
     const filteredExercises = EXERCISE_DATABASE.filter(ex => {
         const matchesSearch = ex.name.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesMuscleGroup = selectedMuscleGroup === 'All' || ex.muscleGroup === selectedMuscleGroup;
-        return matchesSearch && matchesMuscleGroup;
+        const matchesEquipment = selectedEquipment === 'All' || getExerciseEquipment(ex.id) === selectedEquipment;
+        return matchesSearch && matchesMuscleGroup && matchesEquipment;
     });
 
     // Handle adding exercise from library
@@ -100,6 +110,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
     const resetForm = () => {
         setSearchTerm('');
         setSelectedMuscleGroup('All');
+        setSelectedEquipment('All');
         setIsCustom(false);
         setCustomName('');
         setCustomSets('3');
@@ -301,6 +312,31 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                             >
                                 {allMuscleGroups.map(group => (
                                     <option key={group} value={group}>{translateExercise(group, language)}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        {/* Equipment Filter (options from the enrichment map) */}
+                        <div style={{ marginBottom: '12px' }}>
+                            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>{t("Filter by Equipment", language)}</label>
+                            <select
+                                aria-label={t("Filter by Equipment", language)}
+                                value={selectedEquipment}
+                                onChange={(e) => setSelectedEquipment(e.target.value)}
+                                style={{
+                                    width: '100%',
+                                    padding: '12px',
+                                    border: '1px solid #d1d5db',
+                                    borderRadius: '8px',
+                                    backgroundColor: 'white',
+                                    fontSize: '14px',
+                                    boxSizing: 'border-box',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                <option value="All">{t("All equipment", language)}</option>
+                                {equipmentOptions.map(eq => (
+                                    <option key={eq} value={eq}>{capitalize(translateEquipment(eq, language))}</option>
                                 ))}
                             </select>
                         </div>

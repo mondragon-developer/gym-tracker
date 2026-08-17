@@ -1,11 +1,10 @@
 /**
- * Exercise Media Service — demonstration images for exercises.
+ * Exercise Media Service - demonstration images for exercises.
  *
  * Frames are self-hosted in the project's Supabase Storage bucket
- * (`exercise-media`) once uploaded via scripts/upload-exercise-media.mjs. The
- * original free source (yuhonas/free-exercise-db on jsDelivr) is kept only as a
- * per-image runtime FALLBACK, so switching to self-hosting is zero-risk: if a
- * frame isn't in Storage yet, the CDN still serves it.
+ * (`exercise-media`), uploaded via scripts/upload-exercise-media.mjs. There is
+ * no third-party runtime dependency: when Supabase isn't configured (offline
+ * dev without env vars) no media is returned and the UI hides the demo.
  *
  * The dbId -> folder map lives in ../data/exerciseMediaFolders.js (shared with
  * the upload script). Each folder holds 0.jpg (start) and 1.jpg (end).
@@ -13,15 +12,11 @@
 
 import { MEDIA_FOLDERS } from '../data/exerciseMediaFolders.js';
 
-const supabaseUrl = import.meta.env?.VITE_SUPABASE_URL;
-
-// Primary: self-hosted Supabase Storage (public bucket). Falls back to the CDN
-// when Supabase isn't configured (e.g. offline dev without env vars).
-const PRIMARY_BASE = supabaseUrl
-  ? `${supabaseUrl}/storage/v1/object/public/exercise-media`
-  : 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises';
-
-const FALLBACK_BASE = 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises';
+// Read lazily so tests can stub import.meta.env before each call.
+const mediaBase = () => {
+  const url = import.meta.env?.VITE_SUPABASE_URL;
+  return url ? `${url}/storage/v1/object/public/exercise-media` : null;
+};
 
 /**
  * Whether we have demonstration media for a given exercise.
@@ -34,16 +29,16 @@ export function hasExerciseMedia(dbId) {
 
 /**
  * Demonstration frames for an exercise, or null when we have none (custom
- * exercises have no dbId; others may simply not be mapped yet). `fallback`
- * holds the CDN URLs to try if a self-hosted frame fails to load.
+ * exercises have no dbId; others may simply not be mapped yet; or Supabase is
+ * not configured, e.g. offline dev).
  * @param {number|string|undefined|null} dbId
- * @returns {{ frames: string[], fallback: string[] } | null}
+ * @returns {{ frames: string[] } | null}
  */
 export function getExerciseMedia(dbId) {
   const folder = dbId != null ? MEDIA_FOLDERS[dbId] : undefined;
-  if (!folder) return null;
+  const base = mediaBase();
+  if (!folder || !base) return null;
   return {
-    frames: [`${PRIMARY_BASE}/${folder}/0.jpg`, `${PRIMARY_BASE}/${folder}/1.jpg`],
-    fallback: [`${FALLBACK_BASE}/${folder}/0.jpg`, `${FALLBACK_BASE}/${folder}/1.jpg`]
+    frames: [`${base}/${folder}/0.jpg`, `${base}/${folder}/1.jpg`]
   };
 }

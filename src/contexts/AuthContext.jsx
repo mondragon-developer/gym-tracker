@@ -11,6 +11,9 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState('user');
+  // False until the profiles fetch for the current user has resolved, so
+  // consumers can avoid acting on the optimistic 'user' default.
+  const [roleLoaded, setRoleLoaded] = useState(false);
   const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
 
   useEffect(() => {
@@ -39,10 +42,12 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (!user) {
       setRole('user');
+      setRoleLoaded(false);
       return;
     }
 
     let cancelled = false;
+    setRoleLoaded(false);
     supabase
       .from('profiles')
       .select('role')
@@ -51,6 +56,7 @@ export const AuthProvider = ({ children }) => {
       .then(({ data, error }) => {
         if (!cancelled) {
           setRole(!error && data?.role ? data.role : 'user');
+          setRoleLoaded(true);
         }
       });
 
@@ -175,6 +181,7 @@ export const AuthProvider = ({ children }) => {
     user,
     loading,
     role,
+    roleLoaded,
     isAdmin: role === 'admin',
     isTrainer: role === 'trainer',
     isPasswordRecovery,

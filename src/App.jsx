@@ -28,6 +28,9 @@ import { useAuth } from './hooks/useAuth.js';
 import { t } from './translations/ui';
 import { getToday, formatWeekRange, formatDayDate } from './utils/dateHelper';
 import { DAYS_OF_WEEK } from './constants/AppConstants.js';
+import { isInviteNoticeRelevant, isInviteNoticeDismissed, dismissInviteNotice } from './utils/inviteNotice.js';
+import InviteNoticeBanner from './components/InviteNoticeBanner.jsx';
+import RestTimer from './components/RestTimer.jsx';
 import mdLogo from './assets/mdlogo.jpeg';
 
 /**
@@ -37,7 +40,7 @@ import mdLogo from './assets/mdlogo.jpeg';
  */
 function AppContent() {
     const { language } = useLanguage();
-    const { isAdmin, isTrainer } = useAuth();
+    const { isAdmin, isTrainer, user, role, roleLoaded } = useAuth();
     const [showAdmin, setShowAdmin] = useState(false);
     // Custom hooks for state management (Single Responsibility)
     const {
@@ -66,6 +69,17 @@ function AppContent() {
     // UI state
     const [activeDay, setActiveDay] = useState(getToday());
     const activeDayRef = useRef(null);
+
+    // One-time notice when a trainer invite lost the consumption race: the
+    // account exists but as a regular user (see utils/inviteNotice.js).
+    // Gated on roleLoaded so real trainers never see it flash while the
+    // role fetch is still in flight.
+    const [inviteNoticeVisible, setInviteNoticeVisible] = useState(false);
+    React.useEffect(() => {
+        if (roleLoaded && user && isInviteNoticeRelevant(user, role) && !isInviteNoticeDismissed(user.id)) {
+            setInviteNoticeVisible(true);
+        }
+    }, [user, role, roleLoaded]);
 
     // Scroll active day into view when it changes
     React.useEffect(() => {
@@ -258,6 +272,16 @@ function AppContent() {
                     </div>
                 </div>
 
+                {inviteNoticeVisible && (
+                    <InviteNoticeBanner
+                        language={language}
+                        onDismiss={() => {
+                            dismissInviteNotice(user.id);
+                            setInviteNoticeVisible(false);
+                        }}
+                    />
+                )}
+
                 {/* Week navigator — shows the viewed week's dates and steps through history */}
                 <div style={{
                     padding: '16px 32px 0 32px',
@@ -339,6 +363,12 @@ function AppContent() {
                     backgroundColor: 'white'
                 }}>
                     <ProgressBar workoutPlan={workoutPlan} language={language} />
+                </div>
+
+                {/* Rest timer - one shared instance above the day list so it
+                    keeps running across day-accordion toggles */}
+                <div style={{ padding: '0 32px 20px', backgroundColor: 'white' }}>
+                    <RestTimer language={language} />
                 </div>
 
                 {/* Days Container */}

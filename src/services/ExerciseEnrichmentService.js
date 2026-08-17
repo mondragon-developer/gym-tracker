@@ -4,14 +4,15 @@
  *
  * The heavy data (../data/exerciseEnrichment.js, ~160KB) is loaded LAZILY via
  * dynamic import so it stays out of the initial bundle — it's only needed when a
- * demo modal opens. The synchronous availability check uses the tiny
- * ../data/exerciseEnrichmentIndex.js (just the covered ids) instead, so the UI
- * can decide whether to show the demo button during render.
+ * demo modal opens. Two tiny generated companions are imported synchronously:
+ * ../data/exerciseEnrichmentIndex.js (covered ids, for the demo button) and
+ * ../data/exerciseEquipment.js (id -> equipment, for the library filter).
  *
  * Keyed by EXERCISE_DATABASE.id (dbId); custom exercises have no dbId.
  */
 
 import { ENRICHED_IDS } from '../data/exerciseEnrichmentIndex.js';
+import { EXERCISE_EQUIPMENT } from '../data/exerciseEquipment.js';
 
 const ENRICHED = new Set(ENRICHED_IDS);
 
@@ -32,6 +33,27 @@ function loadData() {
  */
 export function hasExerciseEnrichment(dbId) {
   return dbId != null && ENRICHED.has(Number(dbId));
+}
+
+/**
+ * Equipment tag for an exercise ('barbell', 'dumbbell', ...), or null when the
+ * exercise has no enrichment. Synchronous, backed by the generated
+ * exerciseEquipment.js map, so it is safe to call during render.
+ * @param {number|string|undefined|null} dbId
+ * @returns {string | null}
+ */
+export function getExerciseEquipment(dbId) {
+  if (dbId == null) return null;
+  return EXERCISE_EQUIPMENT[dbId] ?? null;
+}
+
+/**
+ * Sorted, de-duplicated list of every equipment value present in the library,
+ * for building filter dropdowns. Synchronous.
+ * @returns {string[]}
+ */
+export function listEquipment() {
+  return [...new Set(Object.values(EXERCISE_EQUIPMENT))].sort();
 }
 
 /**

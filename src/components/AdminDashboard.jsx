@@ -12,7 +12,7 @@
  * the real gatekeeper, so this UI failing open is not a security hole.
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth } from '../hooks/useAuth.js';
 import { useLanguage } from '../hooks/useLanguage.js';
 import useModal from '../hooks/useModal.js';
@@ -86,6 +86,10 @@ export default function AdminDashboard({ onBack }) {
   const [usersLoading, setUsersLoading] = useState(true);
   const [error, setError] = useState('');
   const [copiedItem, setCopiedItem] = useState(null); // 'code' | 'link' | invite code
+  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteEmailSending, setInviteEmailSending] = useState(false);
+  // { ok: boolean, text: string } | null - result of the last email invite
+  const [inviteEmailResult, setInviteEmailResult] = useState(null);
   const [trainerInvites, setTrainerInvites] = useState([]);
 
   const [selectedUser, setSelectedUser] = useState(null);
@@ -97,6 +101,11 @@ export default function AdminDashboard({ onBack }) {
   const [activeDay, setActiveDay] = useState(null);
 
   const addExerciseModal = useModal();
+
+  // Timer that hides the "copied" indicator; tracked in a ref so it can be
+  // cancelled on unmount and re-armed cleanly on a rapid second copy.
+  const copiedTimer = useRef(null);
+  useEffect(() => () => clearTimeout(copiedTimer.current), []);
 
   const plan = history ? history.weeks[history.currentWeekStart] ?? null : null;
 
@@ -180,7 +189,8 @@ export default function AdminDashboard({ onBack }) {
     try {
       await navigator.clipboard.writeText(text);
       setCopiedItem(key);
-      setTimeout(() => setCopiedItem(null), 2000);
+      clearTimeout(copiedTimer.current);
+      copiedTimer.current = setTimeout(() => setCopiedItem(null), 2000);
     } catch {
       // Clipboard unavailable (http/permissions) — the code is visible anyway.
     }
@@ -188,6 +198,24 @@ export default function AdminDashboard({ onBack }) {
 
   const copyInvite = (which) =>
     copyText(which === 'link' ? inviteLink : myProfile?.inviteCode, which);
+
+  // Emails the trainer's invite link through the send-invite Edge Function.
+  const sendInviteByEmail = async () => {
+    const email = inviteEmail.trim();
+    if (!email || inviteEmailSending) return;
+    setInviteEmailSending(true);
+    setInviteEmailResult(null);
+    try {
+      await adminService.sendInviteEmail(email);
+      setInviteEmailResult({ ok: true, text: t('Invitation sent!', language) });
+      setInviteEmail('');
+    } catch (err) {
+      console.error('Error sending invite email:', err);
+      setInviteEmailResult({ ok: false, text: t('Could not send the invitation. Please try again.', language) });
+    } finally {
+      setInviteEmailSending(false);
+    }
+  };
 
   // --- Trainer invitations (super admin): create the link that lets someone
   // sign up directly as a trainer. Single-use, revocable while pending. ---
@@ -365,6 +393,39 @@ export default function AdminDashboard({ onBack }) {
             <span style={{ fontSize: '12px', color: '#6b7280', flexBasis: '100%' }}>
               {t('Send the invite link to your clients — signing up through it assigns their account to you automatically.', language)}
             </span>
+            {/* Email the invite link directly (send-invite Edge Function) */}
+            <div style={{ display: 'flex', gap: '8px', flexBasis: '100%', alignItems: 'center', flexWrap: 'wrap' }}>
+              <input
+                type="email"
+                value={inviteEmail}
+                onChange={(e) => {
+                  setInviteEmail(e.target.value);
+                  setInviteEmailResult(null);
+                }}
+                placeholder={t("Client's email", language)}
+                aria-label={t("Client's email", language)}
+                style={{
+                  flex: '1 1 220px',
+                  padding: '8px 12px',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  boxSizing: 'border-box'
+                }}
+              />
+              <Button
+                onClick={sendInviteByEmail}
+                disabled={inviteEmailSending}
+                style={{ fontSize: '13px' }}
+              >
+                {inviteEmailSending ? t('Sending...', language) : `✉️ ${t('Send invite', language)}`}
+              </Button>
+              {inviteEmailResult && (
+                <span style={{ fontSize: '13px', fontWeight: 600, color: inviteEmailResult.ok ? '#059669' : '#991b1b' }}>
+                  {inviteEmailResult.text}
+                </span>
+              )}
+            </div>
           </div>
         )}
 
