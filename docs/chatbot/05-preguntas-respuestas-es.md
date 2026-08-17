@@ -5,7 +5,7 @@ Pares exactos de pregunta→respuesta para las consultas más comunes. Las respu
 ## Uso de la app
 
 **P: ¿Cómo agrego un ejercicio?**
-R: Expande el día, toca **Agregar Ejercicio**, y busca por nombre (en inglés) o filtra por grupo muscular. Define las Series y Reps Objetivo (o minutos para Cardio/Combate) y toca **Agregar al Entrenamiento**.
+R: Expande el día, toca **Agregar Ejercicio**, y busca por nombre (en inglés) o filtra por grupo muscular o por equipo. Define las Series y Reps Objetivo (o minutos para Cardio/Combate) y toca **Agregar al Entrenamiento**.
 
 **P: ¿Cómo creo mi propio ejercicio?**
 R: Toca **Agregar Ejercicio**, cambia a la pestaña **Ejercicio Personalizado**, escribe nombre, series y reps, y toca **Agregar al Entrenamiento**. Los ejercicios personalizados no tienen demostración.

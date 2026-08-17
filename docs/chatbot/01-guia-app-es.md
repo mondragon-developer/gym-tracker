@@ -61,7 +61,7 @@ Cada ejercicio dentro de un día muestra:
 ### Modal Agregar Ejercicio
 Se abre con **"Agregar Ejercicio"** en cualquier día:
 1. **Barra de búsqueda** ("Buscar ejercicios...") — escribe el nombre para filtrar al instante, con el texto coincidente resaltado. Importante: la búsqueda usa los nombres en **inglés** (busca "Squats", no "Sentadillas").
-2. **Pestañas de filtro** — **Populares** (una lista corta seleccionada), **Todos**, o un grupo muscular específico.
+2. **Filtros** — un desplegable de **grupo muscular** (preseleccionado según el día) y un desplegable de **equipo** (barra, mancuerna, cable, máquinas, peso corporal, ...). Ambos se combinan con la búsqueda.
 3. **Valores por defecto** — antes de agregar, define **Series Objetivo (1–10)** y **Reps Objetivo (1–20)**. Los ejercicios de Cardio/Combate muestran en su lugar un selector de **Duración Objetivo (1–120 minutos)**.
 4. **Pestaña Ejercicio Personalizado** — crea tu propio ejercicio: escribe nombre, series y reps, y pulsa **Agregar al Entrenamiento**. Los ejercicios personalizados no tienen imagen de demostración.
 
@@ -71,6 +71,9 @@ El botón **📊 Resumen Semanal**, debajo de los días, abre un reporte de la s
 - **Series por grupo muscular** — desglose por músculo de series planificadas vs hechas.
 - **Detalle de la semana** — cada ejercicio por día con su estado (completado / incompleto / omitido).
 - **Descargar CSV** — exporta el resumen como archivo CSV para Excel/Sheets.
+
+### Temporizador de descanso (⏱️)
+Debajo de la barra de progreso semanal. Elige un preset (**0:30 / 1:00 / 1:30 / 2:00**) y pulsa **Iniciar**; hay **Pausar**/**Reanudar** y **Reiniciar**, y al terminar suena una señal y aparece el aviso rojo "¡Tiempo!". Sigue corriendo aunque abras o cierres días.
 
 ### 🔄 Comenzar Nueva Semana
 El botón **"Comenzar Nueva Semana"** archiva la semana actual y comienza una nueva. Un modal pide confirmación. Importante: la nueva semana **conserva todos tus ejercicios y pesos y solo reinicia el estado de completado** (arrastre de datos), para que puedas aplicar sobrecarga progresiva sin rearmar tu plan. La semana terminada queda visible (solo lectura) en el navegador de semanas.
@@ -103,6 +106,7 @@ Todo funciona sin iniciar sesión: el plan se guarda automáticamente en el alma
 - Una cuenta de **entrenador** se crea mediante un enlace de invitación de un solo uso (emitido por un administrador).
 - Los entrenadores tienen un **Panel de Entrenador** (botón 🏋️ en el encabezado) donde ven a sus **Clientes**, abren el plan semanal de cualquier cliente y lo construyen o ajustan (agregar/quitar ejercicios, cambiar series/reps, restablecer por defecto, guardar cambios).
 - Cada entrenador tiene un **código de invitación** y un **enlace de invitación** con botones de Copiar. Los clientes que se registran con el código o enlace del entrenador quedan **asignados a ese entrenador automáticamente**.
+- El entrenador también puede **enviar la invitación por correo** desde el panel: escribe el correo del cliente en el campo de invitación por correo y el cliente recibe un email bilingüe con un botón que abre el registro con el código ya cargado.
 
 ## Funciones de administrador (para referencia)
 

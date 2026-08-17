@@ -56,6 +56,10 @@ update public.profiles set role = 'admin' where email = 'you@example.com';
    - Customize confirmation email if desired
    - For production, set up a custom SMTP provider (optional but recommended)
 
+## ⚡ Optional: Edge Function for email invitations
+
+Trainer invite-by-email uses the `send-invite` Edge Function. It is optional: without it, everything works except the "Send invite" button in the trainer panel. Deploy steps and required secrets are in [`supabase/functions/send-invite/README.md`](supabase/functions/send-invite/README.md).
+
 ## 🔧 Step 5: Add Environment Variables to Vercel
 
 ### Option A: Via Vercel Dashboard (Recommended)

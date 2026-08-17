@@ -5,7 +5,7 @@ Exact question→answer pairs for the most common user queries. Answers use the 
 ## Using the app
 
 **Q: How do I add an exercise?**
-A: Expand the day, tap **Add Exercise**, then search by name (in English) or filter by muscle group. Set your Target Sets and Reps (or minutes for Cardio/Combat) and tap **Add to Workout**.
+A: Expand the day, tap **Add Exercise**, then search by name (in English) or filter by muscle group or equipment. Set your Target Sets and Reps (or minutes for Cardio/Combat) and tap **Add to Workout**.
 
 **Q: How do I create my own exercise?**
 A: Tap **Add Exercise**, switch to the **Custom Exercise** tab, enter a name, sets, and reps, and tap **Add to Workout**. Custom exercises don't have demo images.

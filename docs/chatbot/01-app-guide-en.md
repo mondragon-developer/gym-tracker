@@ -61,7 +61,7 @@ Each exercise inside a day shows:
 ### Add Exercise modal
 Opened with **"Add Exercise"** on any day:
 1. **Search bar** ("Search exercises...") — type any exercise name for instant filtering with the matching text highlighted. Note: exercise names are searched in **English** (e.g. search "Squats", not "Sentadillas").
-2. **Filter tabs** — **Popular** (a curated shortlist), **All**, or a specific muscle group.
+2. **Filters** — a **muscle-group dropdown** (preselected to the day you opened it from) and an **equipment dropdown** (barbell, dumbbell, cable, machines, body weight, ...). Both combine with the search bar.
 3. **Defaults** — before adding, set **Target Sets (1–10)** and **Target Reps (1–20)**. Cardio/Combat exercises show a **Target Duration (1–120 minutes)** selector instead.
 4. **Custom Exercise tab** — create your own exercise: enter a name, sets, and reps, then **Add to Workout**. Custom exercises have no demo image.
 
@@ -71,6 +71,9 @@ The **📊 Weekly Summary** button below the days opens a report of the current 
 - **Sets per muscle group** — a per-muscle breakdown of planned vs done sets.
 - **Week detail** — every exercise by day with its status (completed / incomplete / skipped).
 - **Download CSV** — exports the summary as a CSV file for Excel/Sheets.
+
+### Rest timer (⏱️)
+Below the weekly progress bar. Tap a preset (**0:30 / 1:00 / 1:30 / 2:00**), then **Start**; **Pause**/**Resume** and **Reset** are available, and a short sound plus a red "Time's up!" cue mark the end of the rest. It keeps running while you open or close days.
 
 ### 🔄 Start New Week
 The **"Start New Week"** button archives the current week and starts a fresh one. A confirmation modal explains what happens. Important: the new week **keeps all your exercises and weights and only resets completion status** (carry-forward), so you can apply progressive overload without rebuilding your plan. The finished week remains viewable (read-only) through the week navigator.
@@ -103,6 +106,7 @@ Everything works without signing in: the plan saves automatically to the device'
 - A **trainer** account is created through a single-use trainer invitation link (issued by an admin).
 - Trainers have a **Trainer panel** (🏋️ button in the header) where they see their **Clients**, open any client's weekly plan, and build or adjust it (add/remove exercises, change sets/reps, reset to default, save changes).
 - Trainers have a personal **invite code** and **invite link** with Copy buttons. Clients who sign up using the trainer's code or invite link are **assigned to that trainer automatically**. Existing solo users can also be linked by entering the code where applicable.
+- Trainers can also **email the invitation directly** from the panel: enter the client's email in the invite-by-email field and the client receives a branded bilingual email whose button opens sign-up with the code pre-filled.
 
 ## Admin features (for completeness)
 

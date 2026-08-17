@@ -18,12 +18,13 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Smart Exercise System**: 
   - **Strength Training**: Traditional sets, reps, and weight tracking
   - **Cardio Exercises**: Time-based tracking (1-120 minutes) instead of sets/reps
-- **Advanced Exercise Library**: 200+ exercises categorized by muscle groups
+- **Advanced Exercise Library**: 159 exercises across 11 categories, with equipment filtering
 - **Universal Search**: Search exercises across all muscle groups with real-time filtering
 - **Custom Exercise Creation**: Add your own exercises with flexible sets/reps configuration
 - **Multi-Muscle Group Selection**: Select up to 3 muscle groups per day with intelligent UI
 
 ### Progress & Tracking
+- **Rest Timer**: Between-sets countdown with presets, pause/resume, and an end-of-rest sound
 - **Visual Progress Bar**: Real-time weekly completion tracking
 - **Interactive Exercise Management**: 
   - Mark exercises as completed, skipped, or incomplete
@@ -38,6 +39,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Offline Fallback**: Not signed in? Everything still works and saves to local storage, then migrates to the cloud on your first sign-in
 - **Password Recovery**: Full "forgot password" flow with an emailed reset link
 - **Admin Dashboard**: Admins can list users, manage roles, and view or edit any user's workout plan (access enforced server-side by Postgres Row Level Security)
+- **Trainer Tools**: Trainer accounts with shareable invite codes/links, plus one-tap **email invitations** sent from the app via a Supabase Edge Function
 
 ### Weekly History & Dates
 - **Dated Weeks**: Every week is stamped with its date range and each day shows its calendar date
@@ -128,8 +130,10 @@ src/
 │   ├── DayAccordion.jsx        # Day workout with muscle group selection
 │   ├── ExerciseItem.jsx        # Smart exercise item (cardio/strength)
 │   ├── FeedbackModal.jsx       # Feedback form (lazy-loaded)
+│   ├── InviteNoticeBanner.jsx  # One-time notice when a trainer invite was already used
 │   ├── LanguageToggle.jsx      # English/Spanish switch
 │   ├── ProgressBar.jsx         # Weekly progress visualization
+│   ├── RestTimer.jsx           # Between-sets countdown with presets and end cue
 │   ├── UserProfile.jsx         # Header account dropdown + sign out
 │   └── ui/                     # Reusable Button, Input, Modal primitives
 ├── pages/              # Full-screen auth pages
@@ -141,6 +145,7 @@ src/
 ├── services/           # Business logic
 │   ├── workoutService.js       # Push/Pull/Leg plan data & operations
 │   ├── ExerciseService.js      # Exercise creation, search, stats
+│   ├── ExerciseEnrichmentService.js  # Equipment/instructions: lazy chunk + sync maps
 │   ├── ExerciseTypeStrategies.js  # Strategy pattern for cardio vs strength
 │   ├── StorageService.js       # Local storage adapter
 │   ├── SupabaseStorageService.js  # Cloud storage adapter
@@ -148,7 +153,8 @@ src/
 ├── lib/
 │   └── supabase.js             # Shared Supabase client
 ├── translations/       # English/Spanish UI and exercise strings
-├── constants/          # 200+ exercises, muscle groups, days
+├── constants/          # 159 exercises, muscle groups, days
+├── data/               # Generated enrichment indexes + media folder map
 ├── utils/              # dateHelper and other helpers
 ├── test/               # Vitest setup
 ├── App.jsx             # Main application + provider tree
@@ -157,7 +163,9 @@ src/
 
 supabase/
 ├── schema.sql          # Tables (workout_plans, user_preferences) + RLS
-└── admin.sql           # profiles, roles, is_admin(), admin policies
+├── admin.sql           # profiles, roles, is_admin(), admin policies
+├── trainers.sql / trainer-invites.sql  # Trainer hierarchy + single-use invites
+└── functions/send-invite/  # Edge Function: email client invites (see its README)
 ```
 
 ### Available Scripts
@@ -168,7 +176,7 @@ npm run build     # Production build to dist/
 npm run preview   # Preview the production build locally
 npm run lint      # Run ESLint
 npm test          # Run the Vitest suite in watch mode
-npm run test:run  # Run the Vitest suite once (76 tests)
+npm run test:run  # Run the Vitest suite once (149 tests)
 ```
 
 ## Usage Guide
@@ -238,7 +246,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 - **Supabase**: Authentication and Postgres cloud database with Row Level Security
 - **@dnd-kit**: Accessible, touch-friendly drag-and-drop for exercise reordering
 - **vite-plugin-pwa**: Installable, offline-capable Progressive Web App
-- **Vitest + Testing Library**: 76-test suite across services, hooks, and components
+- **Vitest + Testing Library**: 149-test suite across services, hooks, and components
 - **Inline Styles**: Component-scoped styling for better maintainability
 - **Lucide React**: Beautiful, consistent icon library
 - **Modern JavaScript**: ES6+ features and best practices
@@ -248,7 +256,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 #### Enhanced Exercise System
 - **Smart exercise detection**: Automatically identifies cardio vs strength exercises
 - **Context-aware UI**: Different interfaces for different exercise types
-- **Comprehensive database**: 200+ exercises across 10 muscle groups
+- **Comprehensive database**: 159 exercises across 11 categories
 - **Advanced search**: Real-time filtering with search term highlighting
 
 #### Improved User Experience
@@ -354,13 +362,15 @@ This project is open source and available under the [MIT License](LICENSE).
 - [x] **PWA support**: Offline functionality and home-screen installation
 - [x] **Weekly history & dates**: Dated weeks with a navigator and carry-forward on a new week
 - [x] **Exercise demonstrations**: Start-to-finish how-to images for 122 exercises, self-hosted on Supabase
+- [x] **Rest timer**: Between-sets countdown with presets, pause/resume, and an end-of-rest cue
+- [x] **Equipment filtering**: Filter the exercise library by equipment (barbell, dumbbell, cable, machines, body weight, ...)
+- [x] **Email invitations**: Trainers email client invite links straight from the app (Supabase Edge Function + custom SMTP)
 
 ### Planned Features
 - [ ] **Workout analytics**: Progress charts and performance metrics
 - [ ] **Animated demos**: Upgrade the exercise how-tos from stills to looping video/GIF
 - [ ] **Social features**: Share workouts and progress
 - [ ] **Advanced templates**: More workout split options
-- [ ] **Timer integration**: Rest timers and workout timing
 - [ ] **Export functionality**: Export workouts to PDF/CSV
 - [ ] **Nutrition tracking**: Basic meal and calorie logging
 - [ ] **Achievement system**: Workout milestones and badges
@@ -368,7 +378,7 @@ This project is open source and available under the [MIT License](LICENSE).
 ### Technical Improvements
 - [ ] **Data export/import**: Backup and restore functionality
 - [ ] **Theme customization**: Dark mode and color themes
-- [ ] **Advanced search**: Exercise filtering by equipment, difficulty
+- [ ] **Advanced search**: Exercise filtering by difficulty
 - [ ] **Performance optimization**: Virtual scrolling for large lists
 
 
