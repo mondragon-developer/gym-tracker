@@ -75,8 +75,11 @@ El botón **📊 Resumen Semanal**, debajo de los días, abre un reporte de la s
 ### Temporizador de descanso (⏱️)
 Debajo de la barra de progreso semanal. Elige un preset (**0:30 / 1:00 / 1:30 / 2:00**) y pulsa **Iniciar**; hay **Pausar**/**Reanudar** y **Reiniciar**, y al terminar suena una señal y aparece el aviso rojo "¡Tiempo!". Sigue corriendo aunque abras o cierres días.
 
-### 🔄 Comenzar Nueva Semana
-El botón **"Comenzar Nueva Semana"** archiva la semana actual y comienza una nueva. Un modal pide confirmación. Importante: la nueva semana **conserva todos tus ejercicios y pesos y solo reinicia el estado de completado** (arrastre de datos), para que puedas aplicar sobrecarga progresiva sin rearmar tu plan. La semana terminada queda visible (solo lectura) en el navegador de semanas.
+### 🔄 Semanas y Reiniciar Esta Semana
+Las semanas son semanas de calendario, de lunes a domingo, y avanzan solas: cada lunes la app abre en la semana nueva **conservando todos tus ejercicios y pesos y reiniciando solo el estado de completado**, para que puedas aplicar sobrecarga progresiva sin rearmar tu plan. La semana terminada queda archivada y visible (solo lectura) en el navegador de semanas. El botón **"Reiniciar Esta Semana"** borra el progreso y las series registradas solo de la semana actual, conservando ejercicios y pesos; un modal pide confirmación antes de cambiar nada.
+
+### Ocultar días de descanso
+Un día marcado como Descanso, o sin ejercicios, muestra el botón **"Ocultar este día"** dentro de su panel. Los días ocultos salen de la lista y aparecen en una fila pequeña de "Días ocultos" al final, cada uno con un enlace **Mostrar** para recuperarlo. La elección se conserva en las semanas siguientes, y el entrenador ve la misma disposición para ese cliente.
 
 ### Comparte tu Opinión
 Al final de la pantalla principal. Abre un formulario con **Nombre, Correo, Mensaje** — envía los comentarios directamente al desarrollador. Úsalo para reportar errores y sugerir funciones.
@@ -94,7 +97,7 @@ Todo funciona sin iniciar sesión: el plan se guarda automáticamente en el alma
 
 ### Iniciar y cerrar sesión
 - **Iniciar Sesión** con correo y contraseña. Con la sesión iniciada, los entrenamientos se sincronizan en la nube y te siguen a cualquier dispositivo.
-- **Iniciar sesión con Google** (Continuar con Google) es la alternativa de un toque, sin contraseña; el primer uso crea la cuenta. Ojo: los códigos de entrenador solo se pueden vincular durante un registro con **correo**, así que usa el correo si un entrenador te dio un código.
+- **Iniciar sesión con Google** (Continuar con Google) es la alternativa de un toque, sin contraseña; el primer uso crea la cuenta. Un código de entrenador también se puede agregar después: abre el menú de tu perfil, escribe el código en "Código de entrenador" y pulsa Conectar, o abre el enlace de invitación del entrenador con la sesión iniciada. Puedes estar conectado con varios entrenadores a la vez.
 - **Cerrar Sesión** está en el menú de perfil del encabezado.
 
 ### Olvidé mi contraseña
@@ -165,7 +168,7 @@ Deadlifts (Peso Muerto) 4×6-8 · Front Squats (Sentadillas Frontales) 3×8-10 �
 
 **No puedo editar mi semana.** Probablemente estás viendo una semana pasada — son de solo lectura. Toca "Volver a la semana actual".
 
-**¿"Comenzar Nueva Semana" borra mi plan?** No. Conserva tus ejercicios y pesos y solo reinicia el estado de completado. Las semanas pasadas siguen visibles en el navegador. ("Reiniciar Semana"/"Reiniciar Día" restauran el plan *predeterminado*; úsalos solo si quieres descartar tus personalizaciones.)
+**¿Tengo que comenzar la nueva semana yo mismo?** No. Cada lunes comienza una semana nueva automáticamente con tus ejercicios y pesos conservados y el progreso reiniciado. "Reiniciar Esta Semana" solo borra el progreso de la semana actual. Las semanas pasadas siguen visibles en el navegador. ("Reiniciar Semana"/"Reiniciar Día" restauran el plan *predeterminado*; úsalos solo si quieres descartar tus personalizaciones.)
 
 **Un ejercicio no tiene demostración.** 122 de 159 ejercicios tienen demo. Los de Cardio, Combate y los personalizados no — la app muestra "Aún no hay demostración disponible".
 
@@ -183,4 +186,6 @@ Deadlifts (Peso Muerto) 4×6-8 · Front Squats (Sentadillas Frontales) 3×8-10 �
 
 **¿Cómo reporto un error o sugiero una función?** Usa "Comparte tu Opinión" al final de la pantalla principal.
 
-**¿Mis datos son privados?** Sí. Los datos en la nube se guardan por cuenta y están protegidos en el servidor (Row Level Security); solo tú — y tu entrenador o un administrador, si aplica — pueden acceder a tu plan.
+**¿Puedo tener más de un entrenador?** Sí. Cada entrenador con el que te conectes (por código, enlace de invitación o asignación del administrador) puede ver y editar tu plan. Lo que guarde el último, tú o cualquiera de tus entrenadores, es lo que la app conserva. Si un entrenador guardó mientras tenías cambios sin guardar, la barra de guardado te deja elegir Cargar la última versión o Conservar la mía.
+
+**¿Mis datos son privados?** Sí. Los datos en la nube se guardan por cuenta y están protegidos en el servidor (Row Level Security); solo tú — y tus entrenadores o un administrador, si aplica — pueden acceder a tu plan.

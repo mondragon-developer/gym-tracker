@@ -11,10 +11,23 @@ import Button from './ui/Button';
 import { ButtonVariant } from './ui/Button.constants.js';
 
 export default function UserProfile() {
-  const { user, signOut } = useAuth();
+  const { user, signOut, joinTrainer, isTrainer, isAdmin } = useAuth();
   const { language } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
+  // Clients can link themselves to another trainer at any time.
+  const [trainerCode, setTrainerCode] = useState('');
+  const [joinState, setJoinState] = useState('idle'); // idle | joining | joined | invalid
+
+  const handleJoinTrainer = async (e) => {
+    e.preventDefault();
+    const code = trainerCode.trim();
+    if (!code) return;
+    setJoinState('joining');
+    const { joined } = await joinTrainer(code);
+    setJoinState(joined ? 'joined' : 'invalid');
+    if (joined) setTrainerCode('');
+  };
 
   const handleSignOut = async () => {
     setIsSigningOut(true);
@@ -134,6 +147,55 @@ export default function UserProfile() {
                 {user.email}
               </p>
             </div>
+
+            {/* Trainer code: link this account to one more trainer */}
+            {!isTrainer && !isAdmin && (
+              <form onSubmit={handleJoinTrainer} style={{ padding: '12px 16px', borderBottom: '1px solid #e5e7eb' }}>
+                <label
+                  htmlFor="profile-trainer-code"
+                  style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#6b7280', marginBottom: '6px' }}
+                >
+                  {t('Trainer code', language)}
+                </label>
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  <input
+                    id="profile-trainer-code"
+                    value={trainerCode}
+                    onChange={(e) => { setTrainerCode(e.target.value.toUpperCase()); setJoinState('idle'); }}
+                    placeholder="ABC123"
+                    autoComplete="off"
+                    style={{
+                      flex: 1,
+                      minWidth: 0,
+                      padding: '8px 10px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '8px',
+                      fontSize: '14px',
+                      color: '#111827',
+                      textTransform: 'uppercase'
+                    }}
+                  />
+                  <Button
+                    type="submit"
+                    variant={ButtonVariant.SECONDARY}
+                    disabled={joinState === 'joining' || !trainerCode.trim()}
+                    style={{ fontSize: '13px', padding: '8px 12px' }}
+                  >
+                    {joinState === 'joining' ? t('Connecting...', language) : t('Connect', language)}
+                  </Button>
+                </div>
+                {joinState === 'joined' && (
+                  <p style={{ margin: '8px 0 0', fontSize: '12px', color: '#047857', fontWeight: 600 }}>
+                    {t('Connected to your trainer.', language)}
+                  </p>
+                )}
+                {joinState === 'invalid' && (
+                  <p style={{ margin: '8px 0 0', fontSize: '12px', color: '#b91c1c', fontWeight: 600 }}>
+                    {t('That trainer code is not valid.', language)}
+                  </p>
+                )}
+              </form>
+            )}
 
             {/* Sign Out Button */}
             <div style={{ padding: '8px' }}>

@@ -75,8 +75,11 @@ The **📊 Weekly Summary** button below the days opens a report of the current 
 ### Rest timer (⏱️)
 Below the weekly progress bar. Tap a preset (**0:30 / 1:00 / 1:30 / 2:00**), then **Start**; **Pause**/**Resume** and **Reset** are available, and a short sound plus a red "Time's up!" cue mark the end of the rest. It keeps running while you open or close days.
 
-### 🔄 Start New Week
-The **"Start New Week"** button archives the current week and starts a fresh one. A confirmation modal explains what happens. Important: the new week **keeps all your exercises and weights and only resets completion status** (carry-forward), so you can apply progressive overload without rebuilding your plan. The finished week remains viewable (read-only) through the week navigator.
+### 🔄 Weeks and Restart This Week
+Weeks are calendar weeks, Monday to Sunday, and they advance on their own: every Monday the app opens on the new week with **all your exercises and weights carried forward and only the completion status cleared**, so you can apply progressive overload without rebuilding your plan. The finished week is archived and stays viewable (read-only) through the week navigator. The **"Restart This Week"** button clears completion and logged sets for the current week only, keeping exercises and weights; a confirmation modal explains this before anything changes.
+
+### Hiding rest days
+A day set to Rest, or with no exercises, shows a **"Hide this day"** button inside its panel. Hidden days leave the list and appear in a small "Hidden days" row at the bottom, each with a **Show** link to bring it back. The choice carries over to the following weeks, and a trainer sees the same layout for that client.
 
 ### Share Your Feedback
 At the bottom of the main screen. Opens a form with **Name, Email, Message** — sends feedback directly to the developer. Use this for bug reports and feature requests.
@@ -94,7 +97,7 @@ Everything works without signing in: the plan saves automatically to the device'
 
 ### Signing in and out
 - **Sign In** with email and password. Once signed in, workouts sync to the cloud and follow you to any device.
-- **Sign in with Google** (Continue with Google) is a one-tap alternative with no password; first use creates the account. Note: trainer codes can only be attached during an **email** sign-up, so use email if a trainer gave you a code.
+- **Sign in with Google** (Continue with Google) is a one-tap alternative with no password; first use creates the account. A trainer code can also be added later: open your profile menu, type the code under "Trainer code" and press Connect, or open the trainer's invite link while signed in. You can be connected to several trainers at the same time.
 - **Sign Out** is in the profile menu in the header.
 
 ### Forgot password
@@ -165,7 +168,7 @@ Deadlifts 4×6-8 · Front Squats 3×8-10 · Lunges 3×12-15 · Leg Extensions 3�
 
 **I can't edit my week.** You are probably viewing a past week — they are read-only. Tap "Back to current week".
 
-**Will "Start New Week" delete my plan?** No. It keeps your exercises and weights and resets only the completion status. Past weeks stay viewable in the navigator. ("Reset Week"/"Reset Day" restore the *default* plan, so use those only when you want to discard customizations.)
+**Do I have to start a new week myself?** No. A new week starts automatically every Monday with your exercises and weights carried over and completion cleared. "Restart This Week" only clears the current week's progress. Past weeks stay viewable in the navigator. ("Reset Week"/"Reset Day" restore the *default* plan, so use those only when you want to discard customizations.)
 
 **An exercise has no demo.** 122 of 159 exercises have demos. Cardio, Combat, and custom exercises don't — the app shows "No demonstration available yet".
 
@@ -183,4 +186,6 @@ Deadlifts 4×6-8 · Front Squats 3×8-10 · Lunges 3×12-15 · Leg Extensions 3�
 
 **How do I report a bug or suggest a feature?** Use "Share Your Feedback" at the bottom of the main screen.
 
-**Is my data private?** Yes. Cloud data is stored per-account and protected server-side (Row Level Security); only you — and your trainer or an admin, if applicable — can access your plan.
+**Can I have more than one trainer?** Yes. Each trainer you connect with (by code, invite link, or assignment by the admin) can see and edit your plan. Whoever saves last, you or any of your trainers, is what the app keeps. If a trainer saved while you had unsaved edits, the save bar lets you choose Load latest or Keep mine.
+
+**Is my data private?** Yes. Cloud data is stored per-account and protected server-side (Row Level Security); only you — and your trainers or an admin, if applicable — can access your plan.

@@ -170,6 +170,7 @@ supabase/
 ├── schema.sql          # Tables (workout_plans, user_preferences) + RLS
 ├── admin.sql           # profiles, roles, is_admin(), admin policies
 ├── trainers.sql / trainer-invites.sql  # Trainer hierarchy + single-use invites
+├── multi-trainer.sql   # Several trainers per client (trainer_clients join table, join_trainer RPC)
 └── functions/send-invite/  # Edge Function: email client invites (see its README)
 ```
 
@@ -181,7 +182,7 @@ npm run build     # Production build to dist/
 npm run preview   # Preview the production build locally
 npm run lint      # Run ESLint
 npm test          # Run the Vitest suite in watch mode
-npm run test:run  # Run the Vitest suite once (171 tests)
+npm run test:run  # Run the Vitest suite once (179 tests)
 ```
 
 ## Usage Guide
@@ -251,7 +252,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 - **Supabase**: Authentication and Postgres cloud database with Row Level Security
 - **@dnd-kit**: Accessible, touch-friendly drag-and-drop for exercise reordering
 - **vite-plugin-pwa**: Installable, offline-capable Progressive Web App
-- **Vitest + Testing Library**: 171-test suite across services, hooks, and components
+- **Vitest + Testing Library**: 179-test suite across services, hooks, and components
 - **Inline Styles**: Component-scoped styling for better maintainability
 - **Lucide React**: Beautiful, consistent icon library
 - **Modern JavaScript**: ES6+ features and best practices

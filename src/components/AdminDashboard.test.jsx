@@ -19,8 +19,9 @@ vi.mock('../hooks/useLanguage.js', () => ({
 vi.mock('../services/AdminService', () => ({
   adminService: {
     listUsers: vi.fn().mockResolvedValue([
-      { id: 'trainer-1', email: 'trainer@example.com', role: 'trainer', inviteCode: 'ABC123', trainerId: null },
+      { id: 'trainer-1', email: 'trainer@example.com', role: 'trainer', inviteCode: 'ABC123' },
     ]),
+    listTrainerLinks: vi.fn().mockResolvedValue([]),
     listTrainerInvites: vi.fn().mockResolvedValue([]),
     sendInviteEmail: vi.fn(),
   },
