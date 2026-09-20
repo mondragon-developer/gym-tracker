@@ -26,7 +26,7 @@ const unlockAudio = (ref) => {
     try {
         if (!ref.current) ref.current = new AudioCtx();
         const ctx = ref.current;
-        if (ctx.state === 'suspended') ctx.resume();
+        if (ctx.state === 'suspended') ctx.resume().catch(() => {});
         const source = ctx.createBufferSource();
         source.buffer = ctx.createBuffer(1, 1, 22050);
         source.connect(ctx.destination);
@@ -93,6 +93,20 @@ export default function RestTimer({ language = 'en' }) {
     const [remaining, setRemaining] = useState(null);
     const [running, setRunning] = useState(false);
     const audioRef = useRef(null);
+
+    // Browsers cap the number of live AudioContexts per page; release ours
+    // when the timer unmounts (admin panel toggles, hot reload).
+    useEffect(() => () => {
+        const ctx = audioRef.current;
+        audioRef.current = null;
+        if (ctx && typeof ctx.close === 'function') {
+            try {
+                ctx.close().catch(() => {});
+            } catch {
+                // Already closed or unsupported: nothing to release.
+            }
+        }
+    }, []);
 
     const done = remaining === 0;
 

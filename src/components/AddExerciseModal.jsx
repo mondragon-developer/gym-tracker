@@ -43,7 +43,11 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
     const [selectedEquipment, setSelectedEquipment] = useState('All');
     const [isCustom, setIsCustom] = useState(false);
     // Exercise whose demo is open on top of the picker, before it is added.
+    // Cleared on close so a reopened picker does not start with a demo up.
     const [previewExercise, setPreviewExercise] = useState(null);
+    useEffect(() => {
+        if (!isOpen) setPreviewExercise(null);
+    }, [isOpen]);
     const [customName, setCustomName] = useState('');
     const [customSets, setCustomSets] = useState('3');
     const [customReps, setCustomReps] = useState('10-12');
