@@ -52,15 +52,19 @@ class SupabaseStorageService {
   /**
    * Saves workout plan to Supabase.
    *
-   * With expectedUpdatedAt the write only lands when the row still carries
-   * that stamp (optimistic concurrency). Zero rows updated means someone else
-   * (a trainer, another device) saved since we loaded, or the row was deleted;
-   * the caller decides whether to reload or overwrite.
+   * Three write modes, chosen by the options:
+   *   - expectedUpdatedAt: update only if the row still carries that stamp.
+   *     Zero rows updated means someone else (a trainer, another device)
+   *     saved since we loaded, or the row was deleted.
+   *   - overwrite: unconditional upsert. Only for an explicit user choice.
+   *   - neither: insert. The caller believes no row exists; if one appeared
+   *     since the read, the unique(user_id) violation is reported as a
+   *     conflict instead of clobbering it.
    * @param {Object} workoutPlan - Workout plan to save
-   * @param {{expectedUpdatedAt?: string|null}} [options]
+   * @param {{expectedUpdatedAt?: string|null, overwrite?: boolean}} [options]
    * @returns {Promise<{ok: true, updatedAt: string}|{ok: false, reason: 'unauthenticated'|'conflict'|'error', error?: Error}>}
    */
-  async saveWorkoutPlan(workoutPlan, { expectedUpdatedAt = null } = {}) {
+  async saveWorkoutPlan(workoutPlan, { expectedUpdatedAt = null, overwrite = false } = {}) {
     try {
       const { data: { user } } = await supabase.auth.getUser();
 
@@ -70,8 +74,9 @@ class SupabaseStorageService {
       }
 
       const now = new Date().toISOString();
+      const row = { user_id: user.id, data: workoutPlan, updated_at: now };
 
-      if (expectedUpdatedAt) {
+      if (expectedUpdatedAt && !overwrite) {
         const { data, error } = await supabase
           .from('workout_plans')
           .update({ data: workoutPlan, updated_at: now })
@@ -86,18 +91,28 @@ class SupabaseStorageService {
         return { ok: true, updatedAt: data[0].updated_at };
       }
 
+      if (overwrite) {
+        const { data, error } = await supabase
+          .from('workout_plans')
+          .upsert(row, { onConflict: 'user_id' })
+          .select('updated_at');
+
+        if (error) throw error;
+        return { ok: true, updatedAt: data?.[0]?.updated_at ?? now };
+      }
+
       const { data, error } = await supabase
         .from('workout_plans')
-        .upsert({
-          user_id: user.id,
-          data: workoutPlan,
-          updated_at: now
-        }, {
-          onConflict: 'user_id'
-        })
+        .insert(row)
         .select('updated_at');
 
-      if (error) throw error;
+      if (error) {
+        // 23505 is Postgres unique_violation: a row for this user now exists.
+        if (error.code === '23505') {
+          return { ok: false, reason: 'conflict' };
+        }
+        throw error;
+      }
 
       return { ok: true, updatedAt: data?.[0]?.updated_at ?? now };
     } catch (error) {

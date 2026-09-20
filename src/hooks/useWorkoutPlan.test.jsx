@@ -70,6 +70,9 @@ describe('useWorkoutPlan persistence', () => {
     expect(result.current.workoutPlan.Monday.name).toBe('Cloud Day');
     expect(result.current.saveState).toBe(SaveState.IDLE);
     expect(result.current.isDirty).toBe(false);
+    // Whatever was left offline on this browser must not outlive the cloud
+    // copy, or it would be migrated into the next account that signs in here.
+    expect(mocks.localRemove).toHaveBeenCalledWith('gymAppWorkoutPlan');
 
     await act(async () => { vi.advanceTimersByTime(5000); });
     expect(mocks.saveWorkoutPlan).not.toHaveBeenCalled();
@@ -142,7 +145,7 @@ describe('useWorkoutPlan persistence', () => {
 
     await act(async () => { await result.current.saveOverwrite(); });
     expect(mocks.saveWorkoutPlan).toHaveBeenCalledTimes(2);
-    expect(mocks.saveWorkoutPlan.mock.calls[1][1]).toEqual({ expectedUpdatedAt: null });
+    expect(mocks.saveWorkoutPlan.mock.calls[1][1]).toEqual({ overwrite: true });
     expect(result.current.saveState).toBe(SaveState.SAVED);
   });
 

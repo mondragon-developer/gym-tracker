@@ -76,6 +76,9 @@ const useWorkoutPlan = () => {
         if (record) {
           raw = record.data;
           version = record.updatedAt;
+          // The cloud copy wins. Drop any offline plan left on this browser
+          // so it cannot be migrated into a different account later.
+          storageService.removeWorkoutPlan(LOCAL_KEY);
         } else {
           // First sign-in on this device: move any offline history to the
           // cloud, then drop the local copy so it cannot leak into another
@@ -134,9 +137,13 @@ const useWorkoutPlan = () => {
 
     try {
       if (userIdRef.current) {
-        const result = await supabaseStorageService.saveWorkoutPlan(target, {
-          expectedUpdatedAt: force ? null : versionRef.current
-        });
+        // Without a known version the row should not exist yet, so the
+        // service inserts instead of upserting; a row that appeared in the
+        // meantime surfaces as a conflict rather than being overwritten.
+        const result = await supabaseStorageService.saveWorkoutPlan(
+          target,
+          force ? { overwrite: true } : { expectedUpdatedAt: versionRef.current }
+        );
         if (!result.ok) {
           if (result.reason === 'conflict') {
             conflictRef.current = true;

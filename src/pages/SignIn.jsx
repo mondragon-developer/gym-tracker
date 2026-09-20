@@ -42,6 +42,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
     e.preventDefault();
     setError('');
     setShowResend(false);
+    setResent(false);
     setLoading(true);
 
     // Basic validation

@@ -25,6 +25,7 @@ export default function GoogleSignInButton() {
         <div style={{ flex: 1, height: '1px', backgroundColor: '#e5e7eb' }} />
       </div>
       <Button
+        type="button"
         variant={ButtonVariant.SECONDARY}
         onClick={signInWithGoogle}
         fullWidth
