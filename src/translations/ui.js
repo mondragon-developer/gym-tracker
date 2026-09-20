@@ -280,6 +280,7 @@ export const uiTranslations = {
         "Next week": "Next week",
         "Current week": "Current week",
         "Viewing a past week — read only": "Viewing a past week — read only",
+        "Planning ahead": "Planning ahead",
         "Back to current week": "Back to current week",
 
         // Exercise demo
@@ -568,6 +569,7 @@ export const uiTranslations = {
         "Next week": "Semana siguiente",
         "Current week": "Semana actual",
         "Viewing a past week — read only": "Viendo una semana pasada — solo lectura",
+        "Planning ahead": "Planificando por adelantado",
         "Back to current week": "Volver a la semana actual",
 
         // Exercise demo

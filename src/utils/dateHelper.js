@@ -43,6 +43,17 @@ export const getWeekStart = (date = new Date()) => {
 };
 
 /**
+ * The Monday `n` weeks after (or before, when negative) a week-start key.
+ * @param {string} weekStartISO
+ * @param {number} n
+ * @returns {string}
+ */
+export const addWeeks = (weekStartISO, n) => {
+    const d = parseISODate(weekStartISO);
+    return toISODate(new Date(d.getFullYear(), d.getMonth(), d.getDate() + 7 * n));
+};
+
+/**
  * The actual calendar date of a given weekday within a week.
  * @param {string} weekStartISO - Monday of the week (YYYY-MM-DD)
  * @param {string} dayName - e.g. "Wednesday"

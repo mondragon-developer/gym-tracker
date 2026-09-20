@@ -89,6 +89,66 @@ describe('WeekPlanService', () => {
     });
   });
 
+  describe('planning ahead', () => {
+    const today = new Date(2026, 8, 20); // Sun Sep 20 2026, week of Sep 14
+
+    it('previews an unplanned future week from the newest week before it, without storing it', () => {
+      const h = WeekPlanService.migrate(null, today);
+      h.weeks['2026-09-14'].Monday.exercises[0].weight = '200';
+      h.weeks['2026-09-14'].Monday.exercises[0].status = 'completed';
+
+      const preview = WeekPlanService.resolveWeek(h, '2026-09-28');
+      expect(preview.Monday.exercises[0].weight).toBe('200');
+      expect(preview.Monday.exercises[0].status).toBe('incomplete');
+      expect(h.weeks['2026-09-28']).toBeUndefined();
+      expect(WeekPlanService.resolveWeek(h, '2026-08-31')).toBeNull();
+    });
+
+    it('setWeek stores a planned week and later previews build on it', () => {
+      const h = WeekPlanService.migrate(null, today);
+      const planned = WeekPlanService.resolveWeek(h, '2026-09-28');
+      planned.Tuesday.name = 'Planned';
+      const next = WeekPlanService.setWeek(h, '2026-09-28', planned);
+
+      expect(next.weeks['2026-09-28'].Tuesday.name).toBe('Planned');
+      expect(WeekPlanService.resolveWeek(next, '2026-10-12').Tuesday.name).toBe('Planned');
+      expect(h.weeks['2026-09-28']).toBeUndefined();
+    });
+
+    it('a week planned in advance becomes the current week as planned', () => {
+      const h = WeekPlanService.migrate(null, today);
+      const planned = WeekPlanService.resolveWeek(h, '2026-09-21');
+      planned.Wednesday.name = 'Deload';
+      const withPlan = WeekPlanService.setWeek(h, '2026-09-21', planned);
+
+      const rolled = WeekPlanService.rollForward(withPlan, new Date(2026, 8, 23));
+      expect(rolled.currentWeekStart).toBe('2026-09-21');
+      expect(rolled.weeks['2026-09-21'].Wednesday.name).toBe('Deload');
+      expect(Object.keys(rolled.weeks).sort()).toEqual(['2026-09-14', '2026-09-21']);
+    });
+
+    it('rolling past a planned week carries from that planned week, not the old current one', () => {
+      const h = WeekPlanService.migrate(null, today);
+      const planned = WeekPlanService.resolveWeek(h, '2026-09-28');
+      planned.Monday.exercises[0].weight = '225';
+      const withPlan = WeekPlanService.setWeek(h, '2026-09-28', planned);
+
+      const rolled = WeekPlanService.rollForward(withPlan, new Date(2026, 9, 7)); // Wed Oct 7, week of Oct 5
+      expect(rolled.currentWeekStart).toBe('2026-10-05');
+      expect(rolled.weeks['2026-10-05'].Monday.exercises[0].weight).toBe('225');
+    });
+
+    it('lists stored weeks plus twelve weeks ahead, oldest first', () => {
+      const h = WeekPlanService.migrate(null, new Date(2026, 7, 10));
+      const rolled = WeekPlanService.rollForward(h, today);
+      const weeks = WeekPlanService.listNavigableWeeks(rolled);
+      expect(weeks[0]).toBe('2026-08-10');
+      expect(weeks[1]).toBe('2026-09-14');
+      expect(weeks[weeks.length - 1]).toBe('2026-12-07');
+      expect(weeks).toHaveLength(2 + WeekPlanService.MAX_WEEKS_AHEAD);
+    });
+  });
+
   describe('startNewWeek', () => {
     it('carries weights forward but resets completion, archiving the old week', () => {
       // Force the "current" week to a fixed PAST Monday so startNewWeek (which

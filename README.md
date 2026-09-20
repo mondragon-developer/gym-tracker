@@ -48,7 +48,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 
 ### Weekly History & Dates
 - **Dated Weeks**: Every week is stamped with its date range and each day shows its calendar date
-- **Week Navigator**: Step back through past weeks; finished weeks are kept read-only
+- **Week Navigator**: Step back through past weeks (read-only) or forward up to 12 weeks to plan ahead. A future week starts as a copy of the latest plan and is stored once edited; when its Monday arrives it opens as planned. Trainers get the same navigator in their panel
 - **Calendar Weeks**: Weeks run Monday to Sunday and advance on their own. Every Monday the app opens on the new week with exercises and weights carried forward and completion cleared, so progressive overload needs no button
 - **Restart This Week**: Clears the current week's progress only, keeping exercises and weights
 
@@ -186,7 +186,7 @@ npm run build     # Production build to dist/
 npm run preview   # Preview the production build locally
 npm run lint      # Run ESLint
 npm test          # Run the Vitest suite in watch mode
-npm run test:run  # Run the Vitest suite once (179 tests)
+npm run test:run  # Run the Vitest suite once (186 tests)
 ```
 
 ## Usage Guide
@@ -256,7 +256,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 - **Supabase**: Authentication and Postgres cloud database with Row Level Security
 - **@dnd-kit**: Accessible, touch-friendly drag-and-drop for exercise reordering
 - **vite-plugin-pwa**: Installable, offline-capable Progressive Web App
-- **Vitest + Testing Library**: 179-test suite across services, hooks, and components
+- **Vitest + Testing Library**: 186-test suite across services, hooks, and components
 - **Inline Styles**: Component-scoped styling for better maintainability
 - **Lucide React**: Beautiful, consistent icon library
 - **Modern JavaScript**: ES6+ features and best practices

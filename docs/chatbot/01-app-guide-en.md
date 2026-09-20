@@ -34,7 +34,8 @@ The chatbot embedded in this app should:
 ### Week navigator
 Directly under the header:
 - Shows **"Week of \<date\>"** — every week is stamped with its real calendar date range, and each day card shows its date.
-- **Arrows** step to the **previous week / next week**. Past weeks open in **read-only mode** — the banner "Viewing a past week — read only" appears and nothing can be edited there. Use **"Back to current week"** to return to the editable current week.
+- **Arrows** step to the **previous week / next week**. Past weeks open in **read-only mode** — the banner "Viewing a past week — read only" appears and nothing can be edited there. Use **"Back to current week"** to return to the current week.
+- **Planning ahead**: the next arrow also goes forward, up to **12 weeks** into the future, labeled "Planning ahead". A future week starts as a copy of your latest plan (exercises and weights, nothing completed) and is saved as soon as you change something in it. When that Monday arrives, the week opens exactly as you planned it. Trainers get the same arrows in their panel to plan ahead for a client.
 
 ### Weekly Progress bar
 Shows "Weekly Progress" with **X of Y exercises completed** and a percentage that fills in real time as exercises are marked complete. At 100% it celebrates with "Week Complete!".

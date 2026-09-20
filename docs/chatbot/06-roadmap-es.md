@@ -16,6 +16,7 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 - **Selector de unidades kg/lbs** en el encabezado (solo cambia la etiqueta del campo de peso)
 - Barra de progreso semanal, 📊 Resumen Semanal con desglose de series por grupo muscular y **exportación CSV del resumen**
 - **Semanas de calendario** (de lunes a domingo) que comienzan solas cada lunes con el plan y los pesos arrastrados; historial semanal con fechas y semanas pasadas de solo lectura; **Reiniciar Esta Semana** borra solo el progreso de la semana actual
+- **Planificar por adelantado**: el navegador de semanas avanza hasta 12 semanas en el futuro para usuarios y entrenadores; una semana futura empieza como copia del último plan y se guarda al editarla
 - **Días de descanso ocultos**: los días de Descanso o sin ejercicios se pueden ocultar de la lista y recuperar desde la fila "Días ocultos"
 - **Barra de guardado** con botón Guardar manual; los guardados en la nube verifican la versión, así que la copia más reciente de un entrenador nunca se sobrescribe en silencio (Cargar la última versión / Conservar la mía)
 - **Varios entrenadores por cliente**: un cliente puede conectarse con más entrenadores por código en el menú de perfil o por enlace de invitación con la sesión iniciada; todos los entrenadores vinculados pueden editar el plan y el último guardado gana

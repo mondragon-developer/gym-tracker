@@ -62,6 +62,8 @@ function AppContent() {
         reload,
         viewedWeekStart,
         isViewingCurrent,
+        isFutureWeek,
+        isEditable,
         hasOlderWeek,
         hasNewerWeek,
         goToOlderWeek,
@@ -391,10 +393,12 @@ function AppContent() {
                         <div style={{ fontSize: '15px', fontWeight: 700, color: '#164e63' }}>
                             {viewedWeekStart && `${t('Week of', language)} ${formatWeekRange(viewedWeekStart, language)}`}
                         </div>
-                        <div style={{ fontSize: '12px', fontWeight: 600, color: isViewingCurrent ? '#059669' : '#b45309' }}>
+                        <div style={{ fontSize: '12px', fontWeight: 600, color: isViewingCurrent ? '#059669' : isFutureWeek ? '#0e7490' : '#b45309' }}>
                             {isViewingCurrent
                                 ? t('Current week', language)
-                                : t('Viewing a past week — read only', language)}
+                                : isFutureWeek
+                                    ? t('Planning ahead', language)
+                                    : t('Viewing a past week — read only', language)}
                         </div>
                     </div>
                     <button
@@ -470,7 +474,7 @@ function AppContent() {
                                 onOpenAddExercise={handleOpenAddExercise}
                                 activeDayRef={activeDayRef}
                                 language={language}
-                                readOnly={!isViewingCurrent}
+                                readOnly={!isEditable}
                                 date={viewedWeekStart ? formatDayDate(viewedWeekStart, day, language) : undefined}
                             />
                         ))}
@@ -478,12 +482,12 @@ function AppContent() {
                             days={DAYS_OF_WEEK.filter(day => workoutPlan[day]?.hidden)}
                             onShow={(day) => updateDay(day, { ...workoutPlan[day], hidden: false })}
                             language={language}
-                            readOnly={!isViewingCurrent}
+                            readOnly={!isEditable}
                         />
                     </div>
 
-                    {/* Action Buttons — editing actions only on the current week */}
-                    {isViewingCurrent && (
+                    {/* Action Buttons — only on editable weeks; restart only on the current one */}
+                    {isEditable && (
                     <div style={{
                         marginTop: '20px',
                         display: 'flex',
@@ -491,6 +495,7 @@ function AppContent() {
                         alignItems: 'center',
                         gap: '12px'
                     }}>
+                        {isViewingCurrent && (
                         <Button
                             variant={ButtonVariant.DANGER}
                             onClick={resetModal.open}
@@ -499,6 +504,7 @@ function AppContent() {
                         >
                             🔄 {t("Restart This Week", language)}
                         </Button>
+                        )}
                         
                         {/* Feedback Button */}
                         <button
@@ -568,7 +574,7 @@ function AppContent() {
                     </div>
                     )}
 
-                    {isViewingCurrent && (
+                    {isEditable && (
                         <SaveStatusBar
                             saveState={saveState}
                             lastSavedAt={lastSavedAt}

@@ -34,7 +34,8 @@ El chatbot integrado en esta app debe:
 ### Navegador de semanas
 Justo debajo del encabezado:
 - Muestra **"Semana del \<fecha\>"** — cada semana queda marcada con su rango de fechas real y cada día muestra su fecha de calendario.
-- Las **flechas** van a la **semana anterior / semana siguiente**. Las semanas pasadas se abren en **modo solo lectura** — aparece el aviso "Viendo una semana pasada — solo lectura" y nada se puede editar ahí. Usa **"Volver a la semana actual"** para regresar a la semana editable.
+- Las **flechas** van a la **semana anterior / semana siguiente**. Las semanas pasadas se abren en **modo solo lectura** — aparece el aviso "Viendo una semana pasada — solo lectura" y nada se puede editar ahí. Usa **"Volver a la semana actual"** para regresar a la semana actual.
+- **Planificar por adelantado**: la flecha siguiente también avanza hasta **12 semanas** en el futuro, con la etiqueta "Planificando por adelantado". Una semana futura empieza como copia de tu último plan (ejercicios y pesos, nada completado) y se guarda en cuanto cambias algo en ella. Cuando llega ese lunes, la semana abre tal como la planificaste. Los entrenadores tienen las mismas flechas en su panel para planificar por adelantado a un cliente.
 
 ### Barra de Progreso Semanal
 Muestra "Progreso Semanal" con **X de Y ejercicios completados** y un porcentaje que se llena en tiempo real al marcar ejercicios. Al llegar al 100% celebra con "¡Semana Completa!".

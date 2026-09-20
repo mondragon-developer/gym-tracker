@@ -52,6 +52,9 @@ A: Yes. A day set to Rest, or with no exercises, shows a **Hide this day** butto
 **Q: Why does the app say "Unsaved changes" or "Saved at"?**
 A: That is the save bar at the bottom. Edits save on their own a second after you make them; **Save changes** forces it right away. If it says the plan was updated from another device or by your trainer, choose **Load latest** to take their version or **Keep mine** to overwrite it with yours.
 
+**Q: Can I plan next week (or further ahead) before it starts?**
+A: Yes. Press the next arrow in the week navigator to move forward, up to 12 weeks ahead ("Planning ahead"). The future week starts as a copy of your latest plan with nothing completed; edit it and it saves. When that Monday comes, the week opens as planned. Trainers can do the same for a client from their panel.
+
 **Q: How do I see past weeks?**
 A: Use the arrows in the week navigator ("Week of …"). Past weeks are read-only; tap **Back to current week** to edit again.
 

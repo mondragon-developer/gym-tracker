@@ -52,6 +52,9 @@ R: Sí. Un día marcado como Descanso, o sin ejercicios, muestra el botón **Ocu
 **P: ¿Por qué la app dice "Cambios sin guardar" o "Guardado a las"?**
 R: Es la barra de guardado al pie. Los cambios se guardan solos un segundo después de hacerlos; **Guardar Cambios** lo fuerza de inmediato. Si dice que el plan fue actualizado desde otro dispositivo o por tu entrenador, elige **Cargar la última versión** para tomar la de ellos o **Conservar la mía** para sobrescribirla con la tuya.
 
+**P: ¿Puedo planificar la próxima semana (o más adelante) antes de que empiece?**
+R: Sí. Pulsa la flecha siguiente del navegador de semanas para avanzar, hasta 12 semanas por adelantado ("Planificando por adelantado"). La semana futura empieza como copia de tu último plan sin nada completado; edítala y se guarda. Cuando llega ese lunes, la semana abre tal como la planificaste. Los entrenadores pueden hacer lo mismo para un cliente desde su panel.
+
 **P: ¿Cómo veo semanas pasadas?**
 R: Usa las flechas del navegador de semanas ("Semana del …"). Las semanas pasadas son de solo lectura; toca **Volver a la semana actual** para editar de nuevo.
 

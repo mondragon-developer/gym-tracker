@@ -97,6 +97,7 @@ export default function AdminDashboard({ onBack }) {
   const [selectedUser, setSelectedUser] = useState(null);
   // The user's whole weekly history; admins edit its CURRENT week.
   const [history, setHistory] = useState(null);
+  const [viewedWeekStart, setViewedWeekStart] = useState(null);
   const [planLoading, setPlanLoading] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
   const [saveState, setSaveState] = useState('idle'); // idle | saving | saved
@@ -109,7 +110,16 @@ export default function AdminDashboard({ onBack }) {
   const copiedTimer = useRef(null);
   useEffect(() => () => clearTimeout(copiedTimer.current), []);
 
-  const plan = history ? history.weeks[history.currentWeekStart] ?? null : null;
+  // The editor follows the same week rules as the tracker: past weeks are
+  // read-only, the current week and up to twelve weeks ahead can be edited.
+  const viewedWeek = viewedWeekStart ?? history?.currentWeekStart ?? null;
+  const plan = history && viewedWeek ? WeekPlanService.resolveWeek(history, viewedWeek) : null;
+  const navWeeks = history ? WeekPlanService.listNavigableWeeks(history) : [];
+  const viewedIndex = navWeeks.indexOf(viewedWeek);
+  const isViewingCurrent = Boolean(history) && viewedWeek === history.currentWeekStart;
+  const isPastWeek = Boolean(history) && viewedWeek < history.currentWeekStart;
+  const hasOlderWeek = viewedIndex > 0;
+  const hasNewerWeek = viewedIndex >= 0 && viewedIndex < navWeeks.length - 1;
 
   const loadUsers = useCallback(async () => {
     try {
@@ -145,7 +155,9 @@ export default function AdminDashboard({ onBack }) {
       const raw = await adminService.getWorkoutPlan(user.id);
       // raw is null when the user has no cloud plan yet; otherwise migrate the
       // stored blob to the versioned history and edit its current week.
-      setHistory(raw ? WeekPlanService.migrate(raw) : null);
+      const migrated = raw ? WeekPlanService.migrate(raw) : null;
+      setHistory(migrated);
+      setViewedWeekStart(migrated ? migrated.currentWeekStart : null);
     } catch (err) {
       console.error('Error loading workout plan:', err);
       setError(`${t('Failed to load workout plan for', language)} ${user.email}`);
@@ -280,25 +292,28 @@ export default function AdminDashboard({ onBack }) {
     }
   };
 
-  // All plan edits mutate the CURRENT week within the user's history.
-  const editCurrentWeek = (updater) => {
+  // Plan edits land on the viewed week (a previewed future week is stored on
+  // its first edit). Past weeks are never touched.
+  const editViewedWeek = (updater) => {
+    if (isPastWeek || !viewedWeek) return;
     setHistory(prev => {
       if (!prev) return prev;
-      const wk = prev.currentWeekStart;
-      return { ...prev, weeks: { ...prev.weeks, [wk]: updater(prev.weeks[wk]) } };
+      const base = WeekPlanService.resolveWeek(prev, viewedWeek);
+      if (!base) return prev;
+      return WeekPlanService.setWeek(prev, viewedWeek, updater(base));
     });
     setIsDirty(true);
     setSaveState('idle');
   };
 
   const handleToggleDay = (day) => setActiveDay(prev => (prev === day ? null : day));
-  const updateDay = (day, dayData) => editCurrentWeek(p => ({ ...p, [day]: dayData }));
-  const resetDay = (day) => editCurrentWeek(p => workoutService.resetDay(p, day));
+  const updateDay = (day, dayData) => editViewedWeek(p => ({ ...p, [day]: dayData }));
+  const resetDay = (day) => editViewedWeek(p => workoutService.resetDay(p, day));
 
   const handleAddExercise = (exerciseData) => {
     const day = addExerciseModal.data;
     if (!day) return;
-    editCurrentWeek(p => workoutService.addExerciseToDay(p, day, exerciseData));
+    editViewedWeek(p => workoutService.addExerciseToDay(p, day, exerciseData));
     addExerciseModal.close();
   };
 
@@ -319,13 +334,13 @@ export default function AdminDashboard({ onBack }) {
   const resetPlanToDefault = () => {
     setHistory(prev => {
       if (prev) {
-        return {
-          ...prev,
-          weeks: { ...prev.weeks, [prev.currentWeekStart]: workoutService.getInitialPlan() }
-        };
+        const target = isPastWeek || !viewedWeek ? prev.currentWeekStart : viewedWeek;
+        return WeekPlanService.setWeek(prev, target, workoutService.getInitialPlan());
       }
       // No cloud plan yet — create a fresh single-week history to save.
-      return WeekPlanService.migrate(null);
+      const fresh = WeekPlanService.migrate(null);
+      setViewedWeekStart(fresh.currentWeekStart);
+      return fresh;
     });
     setIsDirty(true);
     setSaveState('idle');
@@ -678,10 +693,49 @@ export default function AdminDashboard({ onBack }) {
                 }}>
                   <div>
                     <h2 style={{ fontSize: '16px', margin: 0 }}>{selectedUser.email}</h2>
-                    {history && (
-                      <p style={{ fontSize: '12px', color: '#6b7280', margin: '2px 0 0 0' }}>
-                        {t('Week of', language)} {formatWeekRange(history.currentWeekStart, language)}
-                      </p>
+                    {history && viewedWeek && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', marginTop: '4px' }}>
+                        <button
+                          type="button"
+                          onClick={() => hasOlderWeek && setViewedWeekStart(navWeeks[viewedIndex - 1])}
+                          disabled={!hasOlderWeek}
+                          aria-label={t('Previous week', language)}
+                          title={t('Previous week', language)}
+                          style={{ ...roleSelectStyle, padding: '2px 8px', cursor: hasOlderWeek ? 'pointer' : 'not-allowed', opacity: hasOlderWeek ? 1 : 0.4 }}
+                        >
+                          ‹
+                        </button>
+                        <span style={{ fontSize: '12px', color: '#6b7280' }}>
+                          {t('Week of', language)} {formatWeekRange(viewedWeek, language)}
+                          {' · '}
+                          <span style={{ fontWeight: 600, color: isViewingCurrent ? '#059669' : isPastWeek ? '#b45309' : '#0e7490' }}>
+                            {isViewingCurrent
+                              ? t('Current week', language)
+                              : isPastWeek
+                                ? t('Viewing a past week — read only', language)
+                                : t('Planning ahead', language)}
+                          </span>
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => hasNewerWeek && setViewedWeekStart(navWeeks[viewedIndex + 1])}
+                          disabled={!hasNewerWeek}
+                          aria-label={t('Next week', language)}
+                          title={t('Next week', language)}
+                          style={{ ...roleSelectStyle, padding: '2px 8px', cursor: hasNewerWeek ? 'pointer' : 'not-allowed', opacity: hasNewerWeek ? 1 : 0.4 }}
+                        >
+                          ›
+                        </button>
+                        {!isViewingCurrent && (
+                          <button
+                            type="button"
+                            onClick={() => setViewedWeekStart(history.currentWeekStart)}
+                            style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer', color: '#0e7490', fontSize: '12px', fontWeight: 600 }}
+                          >
+                            {t('Back to current week', language)}
+                          </button>
+                        )}
+                      </div>
                     )}
                   </div>
                   <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -731,13 +785,15 @@ export default function AdminDashboard({ onBack }) {
                         onResetDay={resetDay}
                         onOpenAddExercise={(d) => addExerciseModal.open(d)}
                         language={language}
-                        date={formatDayDate(history.currentWeekStart, day, language)}
+                        readOnly={isPastWeek}
+                        date={formatDayDate(viewedWeek, day, language)}
                       />
                     ))}
                     <HiddenDaysStrip
                       days={DAYS_OF_WEEK.filter(day => plan[day]?.hidden)}
                       onShow={(day) => updateDay(day, { ...plan[day], hidden: false })}
                       language={language}
+                      readOnly={isPastWeek}
                     />
                   </div>
                 )}
