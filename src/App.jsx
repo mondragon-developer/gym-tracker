@@ -33,6 +33,7 @@ import { DAYS_OF_WEEK } from './constants/AppConstants.js';
 import { isInviteNoticeRelevant, isInviteNoticeDismissed, dismissInviteNotice } from './utils/inviteNotice.js';
 import InviteNoticeBanner from './components/InviteNoticeBanner.jsx';
 import RestTimer from './components/RestTimer.jsx';
+import SaveStatusBar from './components/SaveStatusBar.jsx';
 import mdLogo from './assets/mdlogo.jpeg';
 
 /**
@@ -53,6 +54,11 @@ function AppContent() {
         resetDay,
         resetWeek,
         updateDay,
+        saveState,
+        lastSavedAt,
+        saveNow,
+        saveOverwrite,
+        reload,
         viewedWeekStart,
         isViewingCurrent,
         hasOlderWeek,
@@ -482,6 +488,17 @@ function AppContent() {
                             </span>
                         </button>
                     </div>
+                    )}
+
+                    {isViewingCurrent && (
+                        <SaveStatusBar
+                            saveState={saveState}
+                            lastSavedAt={lastSavedAt}
+                            onSave={saveNow}
+                            onReload={reload}
+                            onOverwrite={saveOverwrite}
+                            language={language}
+                        />
                     )}
                 </div>
             </div>

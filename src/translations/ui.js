@@ -202,6 +202,16 @@ export const uiTranslations = {
         "Save changes": "Save changes",
         "Saving...": "Saving...",
         "Saved": "Saved",
+
+        // Save status bar (tracker view)
+        "All changes saved": "All changes saved",
+        "Saved at": "Saved at",
+        "Unsaved changes": "Unsaved changes",
+        "Could not save your changes. Check your connection and try again.": "Could not save your changes. Check your connection and try again.",
+        "Retry": "Retry",
+        "This plan was updated from another device or by your trainer.": "This plan was updated from another device or by your trainer.",
+        "Load latest": "Load latest",
+        "Keep mine": "Keep mine",
         "No cloud workout plan yet. \"Reset to default\" creates one you can save.": "No cloud workout plan yet. \"Reset to default\" creates one you can save.",
         "No exercises.": "No exercises.",
         "Exercise": "Exercise",
@@ -466,6 +476,16 @@ export const uiTranslations = {
         "Save changes": "Guardar Cambios",
         "Saving...": "Guardando...",
         "Saved": "Guardado",
+
+        // Save status bar (tracker view)
+        "All changes saved": "Todos los cambios guardados",
+        "Saved at": "Guardado a las",
+        "Unsaved changes": "Cambios sin guardar",
+        "Could not save your changes. Check your connection and try again.": "No se pudieron guardar tus cambios. Revisa tu conexión e intenta de nuevo.",
+        "Retry": "Reintentar",
+        "This plan was updated from another device or by your trainer.": "Este plan fue actualizado desde otro dispositivo o por tu entrenador.",
+        "Load latest": "Cargar la última versión",
+        "Keep mine": "Conservar la mía",
         "No cloud workout plan yet. \"Reset to default\" creates one you can save.": "Aún no hay un plan en la nube. \"Restablecer por Defecto\" crea uno que puedes guardar.",
         "No exercises.": "Sin ejercicios.",
         "Exercise": "Ejercicio",

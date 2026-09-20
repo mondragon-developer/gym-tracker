@@ -3,94 +3,208 @@
  * Owns the user's weekly history (see WeekPlanService): loading, migration,
  * per-week viewing/navigation, editing the current week, and persistence to
  * cloud (when signed in) or local storage (offline fallback).
+ *
+ * Persistence rules:
+ *   - Only a real edit marks the history dirty. Auth events, token refreshes
+ *     and reloads never trigger a write, so a stale tab cannot overwrite what
+ *     a trainer (or another device) saved.
+ *   - Dirty edits autosave after a short debounce; saveNow() flushes at once.
+ *   - Cloud writes carry the updated_at we loaded. If the row moved on since
+ *     then the save is rejected as a 'conflict' and the user picks a side.
+ *   - Returning to the tab re-reads the cloud copy when nothing is dirty, so
+ *     trainer edits show up without a manual refresh.
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import workoutService from '../services/workoutService.js';
 import WeekPlanService from '../services/WeekPlanService.js';
 import { supabaseStorageService } from '../services/SupabaseStorageService.js';
 import { storageService } from '../services/StorageService.js';
-import { supabase } from '../lib/supabase.js';
+import { useAuth } from './useAuth.js';
 
 const LOCAL_KEY = 'gymAppWorkoutPlan';
+const AUTOSAVE_DELAY_MS = 1200;
+
+// idle | dirty | saving | saved | error | conflict
+export const SaveState = {
+  IDLE: 'idle',
+  DIRTY: 'dirty',
+  SAVING: 'saving',
+  SAVED: 'saved',
+  ERROR: 'error',
+  CONFLICT: 'conflict'
+};
 
 const useWorkoutPlan = () => {
+  const { user } = useAuth();
+  const userId = user?.id ?? null;
+
   const [history, setHistory] = useState(null);
   const [viewedWeekStart, setViewedWeekStart] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [user, setUser] = useState(null);
+  const [saveState, setSaveState] = useState(SaveState.IDLE);
+  const [lastSavedAt, setLastSavedAt] = useState(null);
 
-  // Listen for auth state changes
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
+  // Refs let the async save/load paths read the latest values without
+  // re-subscribing effects (which is what caused the spurious writes before).
+  const historyRef = useRef(null);
+  const persistedRef = useRef(null);
+  const versionRef = useRef(null);
+  const userIdRef = useRef(userId);
+  const timerRef = useRef(null);
+  const savingRef = useRef(false);
+  const conflictRef = useRef(false);
+  const loadSeqRef = useRef(0);
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
+  useEffect(() => { historyRef.current = history; }, [history]);
+  useEffect(() => { userIdRef.current = userId; }, [userId]);
 
-    return () => subscription.unsubscribe();
-  }, []);
+  const isDirty = Boolean(history) && history !== persistedRef.current;
 
-  // Load and migrate the weekly history (cloud or local)
-  useEffect(() => {
-    const loadHistory = async () => {
-      try {
-        setIsLoading(true);
-        let raw = null;
+  const load = useCallback(async ({ silent = false } = {}) => {
+    const seq = ++loadSeqRef.current;
+    const uid = userIdRef.current;
+    if (!silent) setIsLoading(true);
 
-        if (user) {
-          raw = await supabaseStorageService.getWorkoutPlan();
-          if (!raw) {
-            // No cloud data yet — migrate any local history up to the cloud.
-            const local = storageService.getWorkoutPlan(LOCAL_KEY);
-            if (local) {
-              raw = local;
-              await supabaseStorageService.saveWorkoutPlan(WeekPlanService.migrate(local));
+    try {
+      let raw = null;
+      let version = null;
+
+      if (uid) {
+        const record = await supabaseStorageService.getWorkoutPlanRecord();
+        if (record) {
+          raw = record.data;
+          version = record.updatedAt;
+        } else {
+          // First sign-in on this device: move any offline history to the
+          // cloud, then drop the local copy so it cannot leak into another
+          // account that signs in later on the same browser.
+          const local = storageService.getWorkoutPlan(LOCAL_KEY);
+          if (local) {
+            raw = WeekPlanService.migrate(local);
+            const result = await supabaseStorageService.saveWorkoutPlan(raw);
+            if (result.ok) {
+              version = result.updatedAt;
+              storageService.removeWorkoutPlan(LOCAL_KEY);
             }
           }
-        } else {
-          raw = storageService.getWorkoutPlan(LOCAL_KEY);
         }
+      } else {
+        raw = storageService.getWorkoutPlan(LOCAL_KEY);
+      }
 
-        const migrated = WeekPlanService.migrate(raw);
-        setHistory(migrated);
-        setViewedWeekStart(migrated.currentWeekStart);
-      } catch (err) {
+      if (seq !== loadSeqRef.current) return;
+
+      const migrated = WeekPlanService.migrate(raw);
+      persistedRef.current = migrated;
+      versionRef.current = version;
+      conflictRef.current = false;
+      setHistory(migrated);
+      setViewedWeekStart(prev => (silent && prev && migrated.weeks[prev]) ? prev : migrated.currentWeekStart);
+      setSaveState(SaveState.IDLE);
+      setError(null);
+    } catch (err) {
+      if (seq !== loadSeqRef.current) return;
+      console.error('Error loading workout plan:', err);
+      // A silent refresh that fails keeps whatever is on screen. A failed
+      // initial load must NOT fall back to the default plan: that default
+      // would look like real data and could get saved over the cloud copy.
+      if (!silent) {
         setError('Failed to load workout plan');
-        console.error('Error loading workout plan:', err);
-        const fallback = WeekPlanService.migrate(null);
-        setHistory(fallback);
-        setViewedWeekStart(fallback.currentWeekStart);
-      } finally {
-        setIsLoading(false);
+        setHistory(null);
       }
-    };
+    } finally {
+      if (seq === loadSeqRef.current && !silent) setIsLoading(false);
+    }
+  }, []);
 
-    loadHistory();
-  }, [user]);
-
-  // Auto-save the whole history whenever it changes
   useEffect(() => {
-    const saveHistory = async () => {
-      if (history && !isLoading) {
-        try {
-          if (user) {
-            await supabaseStorageService.saveWorkoutPlan(history);
+    load();
+  }, [userId, load]);
+
+  const save = useCallback(async ({ force = false } = {}) => {
+    const target = historyRef.current;
+    if (!target || target === persistedRef.current || savingRef.current) return;
+    if (conflictRef.current && !force) return;
+
+    savingRef.current = true;
+    clearTimeout(timerRef.current);
+    setSaveState(SaveState.SAVING);
+
+    try {
+      if (userIdRef.current) {
+        const result = await supabaseStorageService.saveWorkoutPlan(target, {
+          expectedUpdatedAt: force ? null : versionRef.current
+        });
+        if (!result.ok) {
+          if (result.reason === 'conflict') {
+            conflictRef.current = true;
+            setSaveState(SaveState.CONFLICT);
           } else {
-            storageService.saveWorkoutPlan(history, LOCAL_KEY);
+            setSaveState(SaveState.ERROR);
           }
-        } catch (err) {
-          setError('Failed to save workout plan');
-          console.error('Error saving workout plan:', err);
+          return;
         }
+        versionRef.current = result.updatedAt;
+      } else {
+        storageService.saveWorkoutPlan(target, LOCAL_KEY);
+      }
+
+      persistedRef.current = target;
+      conflictRef.current = false;
+      setLastSavedAt(new Date());
+      // Edits made while the request was in flight still need saving.
+      if (historyRef.current === target) {
+        setSaveState(SaveState.SAVED);
+      } else {
+        setSaveState(SaveState.DIRTY);
+        timerRef.current = setTimeout(() => { save(); }, AUTOSAVE_DELAY_MS);
+      }
+    } catch (err) {
+      console.error('Error saving workout plan:', err);
+      setSaveState(SaveState.ERROR);
+    } finally {
+      savingRef.current = false;
+    }
+  }, []);
+
+  // Debounced autosave, driven only by history changes that came from edits.
+  useEffect(() => {
+    if (!history || history === persistedRef.current || conflictRef.current) return;
+    setSaveState(SaveState.DIRTY);
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => { save(); }, AUTOSAVE_DELAY_MS);
+    return () => clearTimeout(timerRef.current);
+  }, [history, save]);
+
+  // Leaving the tab: flush pending edits right away. Coming back: pick up
+  // anything a trainer or another device saved meanwhile.
+  useEffect(() => {
+    const onVisibility = () => {
+      if (document.visibilityState === 'hidden') {
+        save();
+        return;
+      }
+      const pending = historyRef.current && historyRef.current !== persistedRef.current;
+      if (userIdRef.current && !pending && !savingRef.current) {
+        load({ silent: true });
       }
     };
-
-    saveHistory();
-  }, [history, isLoading, user]);
+    const onBeforeUnload = (event) => {
+      if (historyRef.current && historyRef.current !== persistedRef.current) {
+        save();
+        event.preventDefault();
+        event.returnValue = '';
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+    window.addEventListener('beforeunload', onBeforeUnload);
+    return () => {
+      document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('beforeunload', onBeforeUnload);
+    };
+  }, [save, load]);
 
   const currentWeekStart = history?.currentWeekStart ?? null;
   const weekStarts = history ? WeekPlanService.listWeekStarts(history) : [];
@@ -101,7 +215,7 @@ const useWorkoutPlan = () => {
   const hasOlderWeek = viewedIndex >= 0 && viewedIndex < weekStarts.length - 1;
   const hasNewerWeek = viewedIndex > 0;
 
-  // Editing only ever touches the CURRENT week — past weeks are read-only history.
+  // Editing only ever touches the CURRENT week. Past weeks are read-only history.
   const editCurrentWeek = (updater) => {
     if (!isViewingCurrent) return;
     setHistory(prev => {
@@ -152,6 +266,13 @@ const useWorkoutPlan = () => {
     addExercise,
     resetDay,
     resetWeek,
+    // Persistence status and controls
+    saveState,
+    isDirty,
+    lastSavedAt,
+    saveNow: () => save(),
+    saveOverwrite: () => save({ force: true }),
+    reload: () => load(),
     // Weekly view state
     viewedWeekStart,
     currentWeekStart,

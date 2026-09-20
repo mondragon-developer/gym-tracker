@@ -1,0 +1,182 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { renderHook, act, waitFor } from '@testing-library/react';
+
+const mocks = vi.hoisted(() => ({
+  user: { id: 'user-1' },
+  getWorkoutPlanRecord: vi.fn(),
+  saveWorkoutPlan: vi.fn(),
+  localGet: vi.fn(),
+  localSave: vi.fn(),
+  localRemove: vi.fn()
+}));
+
+vi.mock('./useAuth.js', () => ({
+  useAuth: () => ({ user: mocks.user })
+}));
+
+vi.mock('../services/SupabaseStorageService.js', () => ({
+  supabaseStorageService: {
+    getWorkoutPlanRecord: mocks.getWorkoutPlanRecord,
+    saveWorkoutPlan: mocks.saveWorkoutPlan
+  }
+}));
+
+vi.mock('../services/StorageService.js', () => ({
+  storageService: {
+    getWorkoutPlan: mocks.localGet,
+    saveWorkoutPlan: mocks.localSave,
+    removeWorkoutPlan: mocks.localRemove
+  }
+}));
+
+import useWorkoutPlan, { SaveState } from './useWorkoutPlan.js';
+import WeekPlanService from '../services/WeekPlanService.js';
+import workoutService from '../services/workoutService.js';
+
+const cloudHistory = () => {
+  const history = WeekPlanService.migrate(null);
+  const week = history.weeks[history.currentWeekStart];
+  week.Monday = { ...week.Monday, name: 'Cloud Day' };
+  return history;
+};
+
+const renderPlan = async () => {
+  const rendered = renderHook(() => useWorkoutPlan());
+  await waitFor(() => expect(rendered.result.current.isLoading).toBe(false));
+  return rendered;
+};
+
+describe('useWorkoutPlan persistence', () => {
+  beforeEach(() => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    mocks.getWorkoutPlanRecord.mockReset();
+    mocks.saveWorkoutPlan.mockReset();
+    mocks.localGet.mockReset();
+    mocks.localSave.mockReset();
+    mocks.localRemove.mockReset();
+    mocks.localGet.mockReturnValue(null);
+    mocks.saveWorkoutPlan.mockResolvedValue({ ok: true, updatedAt: '2026-09-20T12:00:00.000+00:00' });
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('loads the cloud plan and never writes back on a plain load', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
+
+    const { result } = await renderPlan();
+
+    expect(result.current.workoutPlan.Monday.name).toBe('Cloud Day');
+    expect(result.current.saveState).toBe(SaveState.IDLE);
+    expect(result.current.isDirty).toBe(false);
+
+    await act(async () => { vi.advanceTimersByTime(5000); });
+    expect(mocks.saveWorkoutPlan).not.toHaveBeenCalled();
+    expect(mocks.localSave).not.toHaveBeenCalled();
+  });
+
+  it('does not replace a plan with the default when the cloud read fails', async () => {
+    mocks.getWorkoutPlanRecord.mockRejectedValue(new Error('network down'));
+
+    const { result } = await renderPlan();
+
+    expect(result.current.error).toBe('Failed to load workout plan');
+    expect(result.current.workoutPlan).toBeNull();
+    await act(async () => { vi.advanceTimersByTime(5000); });
+    expect(mocks.saveWorkoutPlan).not.toHaveBeenCalled();
+  });
+
+  it('autosaves an edit with the loaded version stamp and reports saved', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
+    const { result } = await renderPlan();
+
+    act(() => {
+      result.current.updateDay('Tuesday', { ...result.current.workoutPlan.Tuesday, name: 'Edited' });
+    });
+    expect(result.current.saveState).toBe(SaveState.DIRTY);
+    expect(result.current.isDirty).toBe(true);
+
+    await act(async () => { vi.advanceTimersByTime(1500); });
+
+    await waitFor(() => expect(result.current.saveState).toBe(SaveState.SAVED));
+    expect(mocks.saveWorkoutPlan).toHaveBeenCalledTimes(1);
+    const [savedHistory, options] = mocks.saveWorkoutPlan.mock.calls[0];
+    expect(savedHistory.weeks[savedHistory.currentWeekStart].Tuesday.name).toBe('Edited');
+    expect(options).toEqual({ expectedUpdatedAt: 'v1' });
+    expect(result.current.isDirty).toBe(false);
+    expect(result.current.lastSavedAt).toBeInstanceOf(Date);
+  });
+
+  it('saveNow flushes immediately without waiting for the debounce', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
+    const { result } = await renderPlan();
+
+    act(() => {
+      result.current.addExercise('Monday', { name: 'Curl', sets: '3', reps: '10' });
+    });
+    await act(async () => { await result.current.saveNow(); });
+
+    expect(mocks.saveWorkoutPlan).toHaveBeenCalledTimes(1);
+    expect(result.current.saveState).toBe(SaveState.SAVED);
+  });
+
+  it('flags a conflict when the row changed elsewhere, and can overwrite on request', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
+    mocks.saveWorkoutPlan
+      .mockResolvedValueOnce({ ok: false, reason: 'conflict' })
+      .mockResolvedValueOnce({ ok: true, updatedAt: 'v3' });
+    const { result } = await renderPlan();
+
+    act(() => {
+      result.current.resetDay('Wednesday');
+    });
+    await act(async () => { await result.current.saveNow(); });
+
+    expect(result.current.saveState).toBe(SaveState.CONFLICT);
+    expect(result.current.isDirty).toBe(true);
+
+    // Conflict blocks the autosave loop until the user chooses.
+    await act(async () => { vi.advanceTimersByTime(5000); });
+    expect(mocks.saveWorkoutPlan).toHaveBeenCalledTimes(1);
+
+    await act(async () => { await result.current.saveOverwrite(); });
+    expect(mocks.saveWorkoutPlan).toHaveBeenCalledTimes(2);
+    expect(mocks.saveWorkoutPlan.mock.calls[1][1]).toEqual({ expectedUpdatedAt: null });
+    expect(result.current.saveState).toBe(SaveState.SAVED);
+  });
+
+  it('reload discards local edits and takes the newest cloud copy', async () => {
+    const first = cloudHistory();
+    const second = cloudHistory();
+    second.weeks[second.currentWeekStart].Monday.name = 'Trainer Day';
+    mocks.getWorkoutPlanRecord
+      .mockResolvedValueOnce({ data: first, updatedAt: 'v1' })
+      .mockResolvedValueOnce({ data: second, updatedAt: 'v2' });
+    const { result } = await renderPlan();
+
+    act(() => {
+      result.current.updateDay('Monday', { ...result.current.workoutPlan.Monday, name: 'Mine' });
+    });
+    await act(async () => { await result.current.reload(); });
+
+    expect(result.current.workoutPlan.Monday.name).toBe('Trainer Day');
+    expect(result.current.saveState).toBe(SaveState.IDLE);
+    expect(result.current.isDirty).toBe(false);
+  });
+
+  it('migrates a local plan to the cloud only when no cloud row exists', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValue(null);
+    const local = workoutService.getInitialPlan();
+    local.Friday = { ...local.Friday, name: 'Local Day' };
+    mocks.localGet.mockReturnValue(local);
+
+    const { result } = await renderPlan();
+
+    expect(mocks.saveWorkoutPlan).toHaveBeenCalledTimes(1);
+    expect(mocks.saveWorkoutPlan.mock.calls[0][1]).toBeUndefined();
+    expect(mocks.localRemove).toHaveBeenCalledWith('gymAppWorkoutPlan');
+    expect(result.current.workoutPlan.Friday.name).toBe('Local Day');
+    expect(result.current.saveState).toBe(SaveState.IDLE);
+  });
+});
