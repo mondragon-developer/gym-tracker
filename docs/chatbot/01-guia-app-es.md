@@ -168,7 +168,7 @@ Deadlifts (Peso Muerto) 4×6-8 · Front Squats (Sentadillas Frontales) 3×8-10 �
 
 **No puedo editar mi semana.** Probablemente estás viendo una semana pasada — son de solo lectura. Toca "Volver a la semana actual".
 
-**¿Tengo que comenzar la nueva semana yo mismo?** No. Cada lunes comienza una semana nueva automáticamente con tus ejercicios y pesos conservados y el progreso reiniciado. "Reiniciar Esta Semana" solo borra el progreso de la semana actual. Las semanas pasadas siguen visibles en el navegador. ("Reiniciar Semana"/"Reiniciar Día" restauran el plan *predeterminado*; úsalos solo si quieres descartar tus personalizaciones.)
+**¿Tengo que comenzar la nueva semana yo mismo?** No. Cada lunes comienza una semana nueva automáticamente con tus ejercicios y pesos conservados y el progreso reiniciado. "Reiniciar Esta Semana" solo borra el progreso de la semana actual. Las semanas pasadas siguen visibles en el navegador. ("Reiniciar Día" restaura los ejercicios *predeterminados* de ese día; úsalo solo si quieres descartar tus personalizaciones de ese día.)
 
 **Un ejercicio no tiene demostración.** 122 de 159 ejercicios tienen demo. Los de Cardio, Combate y los personalizados no — la app muestra "Aún no hay demostración disponible".
 

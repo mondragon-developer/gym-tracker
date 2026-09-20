@@ -168,7 +168,7 @@ Deadlifts 4×6-8 · Front Squats 3×8-10 · Lunges 3×12-15 · Leg Extensions 3�
 
 **I can't edit my week.** You are probably viewing a past week — they are read-only. Tap "Back to current week".
 
-**Do I have to start a new week myself?** No. A new week starts automatically every Monday with your exercises and weights carried over and completion cleared. "Restart This Week" only clears the current week's progress. Past weeks stay viewable in the navigator. ("Reset Week"/"Reset Day" restore the *default* plan, so use those only when you want to discard customizations.)
+**Do I have to start a new week myself?** No. A new week starts automatically every Monday with your exercises and weights carried over and completion cleared. "Restart This Week" only clears the current week's progress. Past weeks stay viewable in the navigator. ("Reset Day" restores that day's *default* exercises, so use it only when you want to discard customizations for that day.)
 
 **An exercise has no demo.** 122 of 159 exercises have demos. Cardio, Combat, and custom exercises don't — the app shows "No demonstration available yet".
 
