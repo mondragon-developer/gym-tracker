@@ -84,6 +84,7 @@ export default function AdminDashboard({ onBack }) {
   const { language } = useLanguage();
 
   const [users, setUsers] = useState([]);
+  const [links, setLinks] = useState([]); // trainer/client pairs
   const [usersLoading, setUsersLoading] = useState(true);
   const [error, setError] = useState('');
   const [copiedItem, setCopiedItem] = useState(null); // 'code' | 'link' | invite code
@@ -114,7 +115,12 @@ export default function AdminDashboard({ onBack }) {
     try {
       setUsersLoading(true);
       setError('');
-      setUsers(await adminService.listUsers());
+      const [list, pairs] = await Promise.all([
+        adminService.listUsers(),
+        adminService.listTrainerLinks()
+      ]);
+      setUsers(list);
+      setLinks(pairs);
     } catch (err) {
       console.error('Error loading users:', err);
       setError(t('Failed to load users. Are you an admin?', language));
@@ -168,13 +174,32 @@ export default function AdminDashboard({ onBack }) {
     }
   };
 
-  const changeTrainer = async (user, trainerId) => {
+  const trainersOf = (userId) =>
+    links.filter(l => l.clientId === userId)
+      .map(l => trainers.find(tr => tr.id === l.trainerId))
+      .filter(Boolean);
+
+  const addTrainer = async (user, trainerId) => {
+    if (!trainerId) return;
     try {
       setError('');
-      await adminService.assignTrainer(user.id, trainerId || null);
-      setUsers(prev => prev.map(u => (u.id === user.id ? { ...u, trainerId: trainerId || null } : u)));
+      await adminService.addTrainer(user.id, trainerId);
+      setLinks(prev => (prev.some(l => l.clientId === user.id && l.trainerId === trainerId)
+        ? prev
+        : [...prev, { trainerId, clientId: user.id }]));
     } catch (err) {
       console.error('Error assigning trainer:', err);
+      setError(`${t('Failed to assign trainer for', language)} ${user.email}`);
+    }
+  };
+
+  const removeTrainer = async (user, trainerId) => {
+    try {
+      setError('');
+      await adminService.removeTrainer(user.id, trainerId);
+      setLinks(prev => prev.filter(l => !(l.clientId === user.id && l.trainerId === trainerId)));
+    } catch (err) {
+      console.error('Error removing trainer:', err);
       setError(`${t('Failed to assign trainer for', language)} ${user.email}`);
     }
   };
@@ -574,17 +599,55 @@ export default function AdminDashboard({ onBack }) {
                         ))}
                       </select>
                       {user.role === 'user' && trainers.length > 0 && (
-                        <select
-                          value={user.trainerId ?? ''}
-                          onChange={(e) => changeTrainer(user, e.target.value)}
-                          aria-label={`${t('Trainer', language)} — ${user.email}`}
-                          style={roleSelectStyle}
-                        >
-                          <option value="">{t('No trainer', language)}</option>
-                          {trainers.map(tr => (
-                            <option key={tr.id} value={tr.id}>{tr.email}</option>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'flex-end' }}>
+                          {trainersOf(user.id).map(tr => (
+                            <span
+                              key={tr.id}
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                fontSize: '12px',
+                                color: '#164e63',
+                                backgroundColor: '#ecfeff',
+                                border: '1px solid #a5f3fc',
+                                borderRadius: '999px',
+                                padding: '2px 8px',
+                                maxWidth: '220px'
+                              }}
+                            >
+                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                {tr.email}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => removeTrainer(user, tr.id)}
+                                aria-label={`${t('Remove trainer', language)} ${tr.email} — ${user.email}`}
+                                title={t('Remove trainer', language)}
+                                style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer', color: '#0e7490', fontWeight: 700 }}
+                              >
+                                ×
+                              </button>
+                            </span>
                           ))}
-                        </select>
+                          {trainers.some(tr => !trainersOf(user.id).some(mine => mine.id === tr.id)) && (
+                            <select
+                              value=""
+                              onChange={(e) => addTrainer(user, e.target.value)}
+                              aria-label={`${t('Trainer', language)} — ${user.email}`}
+                              style={roleSelectStyle}
+                            >
+                              <option value="">
+                                {trainersOf(user.id).length === 0 ? t('No trainer', language) : t('Add trainer...', language)}
+                              </option>
+                              {trainers
+                                .filter(tr => !trainersOf(user.id).some(mine => mine.id === tr.id))
+                                .map(tr => (
+                                  <option key={tr.id} value={tr.id}>{tr.email}</option>
+                                ))}
+                            </select>
+                          )}
+                        </div>
                       )}
                     </div>
                   )}

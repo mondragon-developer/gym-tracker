@@ -182,6 +182,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Link the signed-in user to one more trainer by invite code. Idempotent:
+  // re-entering a code you already joined still reports joined.
+  const joinTrainer = async (code) => {
+    try {
+      const { data, error } = await supabase.rpc('join_trainer', { code });
+      if (error) throw error;
+      return { joined: data === true, error: null };
+    } catch (error) {
+      return { joined: false, error };
+    }
+  };
+
   // Check a super-admin-issued trainer invitation (single-use) before signup.
   const lookupTrainerInvite = async (invite) => {
     try {
@@ -224,7 +236,8 @@ export const AuthProvider = ({ children }) => {
     resendConfirmation,
     updateProfile,
     lookupTrainerCode,
-    lookupTrainerInvite
+    lookupTrainerInvite,
+    joinTrainer
   };
 
   return (

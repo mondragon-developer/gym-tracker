@@ -97,7 +97,7 @@ Everything works without signing in: the plan saves automatically to the device'
 
 ### Signing in and out
 - **Sign In** with email and password. Once signed in, workouts sync to the cloud and follow you to any device.
-- **Sign in with Google** (Continue with Google) is a one-tap alternative with no password; first use creates the account. Note: trainer codes can only be attached during an **email** sign-up, so use email if a trainer gave you a code.
+- **Sign in with Google** (Continue with Google) is a one-tap alternative with no password; first use creates the account. A trainer code can also be added later: open your profile menu, type the code under "Trainer code" and press Connect, or open the trainer's invite link while signed in. You can be connected to several trainers at the same time.
 - **Sign Out** is in the profile menu in the header.
 
 ### Forgot password
@@ -186,4 +186,6 @@ Deadlifts 4×6-8 · Front Squats 3×8-10 · Lunges 3×12-15 · Leg Extensions 3�
 
 **How do I report a bug or suggest a feature?** Use "Share Your Feedback" at the bottom of the main screen.
 
-**Is my data private?** Yes. Cloud data is stored per-account and protected server-side (Row Level Security); only you — and your trainer or an admin, if applicable — can access your plan.
+**Can I have more than one trainer?** Yes. Each trainer you connect with (by code, invite link, or assignment by the admin) can see and edit your plan. Whoever saves last, you or any of your trainers, is what the app keeps. If a trainer saved while you had unsaved edits, the save bar lets you choose Load latest or Keep mine.
+
+**Is my data private?** Yes. Cloud data is stored per-account and protected server-side (Row Level Security); only you — and your trainers or an admin, if applicable — can access your plan.

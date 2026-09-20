@@ -170,6 +170,7 @@ supabase/
 ├── schema.sql          # Tables (workout_plans, user_preferences) + RLS
 ├── admin.sql           # profiles, roles, is_admin(), admin policies
 ├── trainers.sql / trainer-invites.sql  # Trainer hierarchy + single-use invites
+├── multi-trainer.sql   # Several trainers per client (trainer_clients join table, join_trainer RPC)
 └── functions/send-invite/  # Edge Function: email client invites (see its README)
 ```
 

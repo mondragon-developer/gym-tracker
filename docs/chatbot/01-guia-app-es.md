@@ -97,7 +97,7 @@ Todo funciona sin iniciar sesión: el plan se guarda automáticamente en el alma
 
 ### Iniciar y cerrar sesión
 - **Iniciar Sesión** con correo y contraseña. Con la sesión iniciada, los entrenamientos se sincronizan en la nube y te siguen a cualquier dispositivo.
-- **Iniciar sesión con Google** (Continuar con Google) es la alternativa de un toque, sin contraseña; el primer uso crea la cuenta. Ojo: los códigos de entrenador solo se pueden vincular durante un registro con **correo**, así que usa el correo si un entrenador te dio un código.
+- **Iniciar sesión con Google** (Continuar con Google) es la alternativa de un toque, sin contraseña; el primer uso crea la cuenta. Un código de entrenador también se puede agregar después: abre el menú de tu perfil, escribe el código en "Código de entrenador" y pulsa Conectar, o abre el enlace de invitación del entrenador con la sesión iniciada. Puedes estar conectado con varios entrenadores a la vez.
 - **Cerrar Sesión** está en el menú de perfil del encabezado.
 
 ### Olvidé mi contraseña
@@ -186,4 +186,6 @@ Deadlifts (Peso Muerto) 4×6-8 · Front Squats (Sentadillas Frontales) 3×8-10 �
 
 **¿Cómo reporto un error o sugiero una función?** Usa "Comparte tu Opinión" al final de la pantalla principal.
 
-**¿Mis datos son privados?** Sí. Los datos en la nube se guardan por cuenta y están protegidos en el servidor (Row Level Security); solo tú — y tu entrenador o un administrador, si aplica — pueden acceder a tu plan.
+**¿Puedo tener más de un entrenador?** Sí. Cada entrenador con el que te conectes (por código, enlace de invitación o asignación del administrador) puede ver y editar tu plan. Lo que guarde el último, tú o cualquiera de tus entrenadores, es lo que la app conserva. Si un entrenador guardó mientras tenías cambios sin guardar, la barra de guardado te deja elegir Cargar la última versión o Conservar la mía.
+
+**¿Mis datos son privados?** Sí. Los datos en la nube se guardan por cuenta y están protegidos en el servidor (Row Level Security); solo tú — y tus entrenadores o un administrador, si aplica — pueden acceder a tu plan.

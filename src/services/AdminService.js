@@ -12,12 +12,12 @@ class AdminService {
   /**
    * Lists the users visible to the caller: every profile for the super admin,
    * or (via RLS) just their own profile + assigned users for a trainer.
-   * @returns {Promise<Array<{id: string, email: string, role: string, trainerId: string|null, inviteCode: string|null, createdAt: string}>>}
+   * @returns {Promise<Array<{id: string, email: string, role: string, inviteCode: string|null, createdAt: string}>>}
    */
   async listUsers() {
     const { data, error } = await supabase
       .from('profiles')
-      .select('id, email, role, trainer_id, invite_code, created_at')
+      .select('id, email, role, invite_code, created_at')
       .order('created_at', { ascending: true });
 
     if (error) throw error;
@@ -25,10 +25,23 @@ class AdminService {
       id: row.id,
       email: row.email ?? '',
       role: row.role ?? 'user',
-      trainerId: row.trainer_id ?? null,
       inviteCode: row.invite_code ?? null,
       createdAt: row.created_at
     }));
+  }
+
+  /**
+   * Lists trainer/client links visible to the caller: all of them for the
+   * super admin, or (via RLS) just the caller's own links.
+   * @returns {Promise<Array<{trainerId: string, clientId: string}>>}
+   */
+  async listTrainerLinks() {
+    const { data, error } = await supabase
+      .from('trainer_clients')
+      .select('trainer_id, client_id');
+
+    if (error) throw error;
+    return (data ?? []).map(row => ({ trainerId: row.trainer_id, clientId: row.client_id }));
   }
 
   /**
@@ -46,16 +59,29 @@ class AdminService {
   }
 
   /**
-   * Assigns a user to a trainer, or makes them individual again
-   * (super admin only, enforced by RLS)
-   * @param {string} userId - Target user
-   * @param {string|null} trainerId - Trainer's profile id, or null to unassign
+   * Links a client to one more trainer (super admin only, enforced by RLS).
+   * Linking an already-linked pair is a no-op.
+   * @param {string} clientId - Target user
+   * @param {string} trainerId - Trainer's profile id
    */
-  async assignTrainer(userId, trainerId) {
+  async addTrainer(clientId, trainerId) {
     const { error } = await supabase
-      .from('profiles')
-      .update({ trainer_id: trainerId })
-      .eq('id', userId);
+      .from('trainer_clients')
+      .upsert({ trainer_id: trainerId, client_id: clientId }, { onConflict: 'trainer_id,client_id', ignoreDuplicates: true });
+    if (error) throw error;
+  }
+
+  /**
+   * Removes one trainer from a client. RLS lets the super admin, that
+   * trainer, or the client themselves do this.
+   * @param {string} clientId - Target user
+   * @param {string} trainerId - Trainer's profile id
+   */
+  async removeTrainer(clientId, trainerId) {
+    const { error } = await supabase
+      .from('trainer_clients')
+      .delete()
+      .match({ trainer_id: trainerId, client_id: clientId });
     if (error) throw error;
   }
 
