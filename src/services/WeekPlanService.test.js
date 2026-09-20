@@ -149,6 +149,36 @@ describe('WeekPlanService', () => {
     });
   });
 
+  describe('copyWeek', () => {
+    it('copies exercises, order, weights and hidden days from the previous week, clearing progress', () => {
+      const h = WeekPlanService.migrate(null, new Date(2026, 8, 7));
+      const last = h.weeks['2026-09-07'];
+      last.Monday.exercises = [last.Monday.exercises[1], last.Monday.exercises[0]];
+      last.Monday.exercises[0].weight = '150';
+      last.Monday.exercises[0].status = 'completed';
+      last.Sunday = { ...last.Sunday, hidden: true };
+      const rolled = WeekPlanService.rollForward(h, new Date(2026, 8, 16));
+      rolled.weeks['2026-09-14'].Monday.exercises = [];
+
+      expect(WeekPlanService.previousWeekOf(rolled, '2026-09-14')).toBe('2026-09-07');
+      const copied = WeekPlanService.copyWeek(rolled, '2026-09-07', '2026-09-14');
+      const monday = copied.weeks['2026-09-14'].Monday;
+      expect(monday.exercises.map(e => e.id)).toEqual(last.Monday.exercises.map(e => e.id));
+      expect(monday.exercises[0].weight).toBe('150');
+      expect(monday.exercises[0].status).toBe('incomplete');
+      expect(copied.weeks['2026-09-14'].Sunday.hidden).toBe(true);
+      // Source untouched and not shared by reference.
+      expect(rolled.weeks['2026-09-07'].Monday.exercises[0].status).toBe('completed');
+      expect(monday.exercises[0]).not.toBe(rolled.weeks['2026-09-07'].Monday.exercises[0]);
+    });
+
+    it('is a no-op when the source week does not exist', () => {
+      const h = WeekPlanService.migrate(null);
+      expect(WeekPlanService.copyWeek(h, '1999-01-04', h.currentWeekStart)).toBe(h);
+      expect(WeekPlanService.previousWeekOf(h, h.currentWeekStart)).toBeNull();
+    });
+  });
+
   describe('startNewWeek', () => {
     it('carries weights forward but resets completion, archiving the old week', () => {
       // Force the "current" week to a fixed PAST Monday so startNewWeek (which

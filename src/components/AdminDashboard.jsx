@@ -26,6 +26,8 @@ import { ButtonVariant } from './ui/Button.constants.js';
 import { DAYS_OF_WEEK } from '../constants/AppConstants.js';
 import DayAccordion from './DayAccordion.jsx';
 import HiddenDaysStrip from './HiddenDaysStrip.jsx';
+import WorkoutTemplateModal from './WorkoutTemplateModal.jsx';
+import { getWorkoutTemplate } from '../constants/workoutTemplates.js';
 import AddExerciseModal from './AddExerciseModal.jsx';
 
 const cardStyle = {
@@ -304,6 +306,30 @@ export default function AdminDashboard({ onBack }) {
     });
     setIsDirty(true);
     setSaveState('idle');
+  };
+
+  const previousWeek = history && viewedWeek ? WeekPlanService.previousWeekOf(history, viewedWeek) : null;
+  const copyPreviousWeek = () => {
+    if (isPastWeek || !previousWeek) return;
+    setHistory(prev => (prev ? WeekPlanService.copyWeek(prev, previousWeek, viewedWeek) : prev));
+    setIsDirty(true);
+    setSaveState('idle');
+  };
+
+  const [templatesOpen, setTemplatesOpen] = useState(false);
+  const applyTemplate = (templateId) => {
+    const template = getWorkoutTemplate(templateId);
+    if (!template) return;
+    setTemplatesOpen(false);
+    if (!history) {
+      const fresh = WeekPlanService.migrate(null);
+      setHistory(WeekPlanService.setWeek(fresh, fresh.currentWeekStart, template.build()));
+      setViewedWeekStart(fresh.currentWeekStart);
+      setIsDirty(true);
+      setSaveState('idle');
+      return;
+    }
+    editViewedWeek(() => template.build());
   };
 
   const handleToggleDay = (day) => setActiveDay(prev => (prev === day ? null : day));
@@ -739,6 +765,22 @@ export default function AdminDashboard({ onBack }) {
                     )}
                   </div>
                   <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                    <Button
+                      variant={ButtonVariant.SECONDARY}
+                      onClick={() => setTemplatesOpen(true)}
+                      disabled={isPastWeek}
+                      style={{ fontSize: '13px' }}
+                    >
+                      {t('Workout templates', language)}
+                    </Button>
+                    {previousWeek && !isPastWeek && (
+                      <ConfirmButton
+                        label={t('Copy last week', language)}
+                        confirmLabel={t('Copy last week?', language)}
+                        variant={ButtonVariant.SECONDARY}
+                        onConfirm={copyPreviousWeek}
+                      />
+                    )}
                     <ConfirmButton
                       label={t('Reset to default', language)}
                       confirmLabel={t('Confirm reset?', language)}
@@ -802,6 +844,13 @@ export default function AdminDashboard({ onBack }) {
           </div>
         </div>
       </div>
+
+      <WorkoutTemplateModal
+        isOpen={templatesOpen}
+        onClose={() => setTemplatesOpen(false)}
+        onSelect={applyTemplate}
+        language={language}
+      />
 
       {/* Add Exercise Modal — shared with the tracker */}
       <AddExerciseModal

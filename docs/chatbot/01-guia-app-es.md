@@ -79,6 +79,15 @@ Debajo de la barra de progreso semanal. Elige un preset (**0:30 / 1:00 / 1:30 / 
 ### 🔄 Semanas y Reiniciar Esta Semana
 Las semanas son semanas de calendario, de lunes a domingo, y avanzan solas: cada lunes la app abre en la semana nueva **conservando todos tus ejercicios y pesos y reiniciando solo el estado de completado**, para que puedas aplicar sobrecarga progresiva sin rearmar tu plan. La semana terminada queda archivada y visible (solo lectura) en el navegador de semanas. El botón **"Reiniciar Esta Semana"** borra el progreso y las series registradas solo de la semana actual, conservando ejercicios y pesos; un modal pide confirmación antes de cambiar nada.
 
+### Plantillas de entrenamiento y Copiar la semana pasada
+Debajo de la lista de días, en la semana actual o en una futura:
+- **Plantillas de entrenamiento** abre un selector con tres semanas listas: **Clásico Push / Pull / Piernas** (6 días, unos 45-60 min), **Tren superior / inferior con recuperación activa** (tren superior lunes y jueves, tren inferior martes y viernes, cardio suave y core el miércoles, unos 45-60 min) y **Cuerpo completo 3 días (agenda ocupada)** (lunes, miércoles y viernes, cinco ejercicios, unos 30-40 min). "Usar este plan" reemplaza los ejercicios de la semana que estás viendo; los pesos empiezan vacíos.
+- **Copiar la semana pasada** reemplaza la semana que ves con los ejercicios, el orden, los pesos y los días ocultos de la semana anterior, con el progreso en cero. Una confirmación indica qué semana se copia.
+- Los entrenadores tienen ambas acciones en su panel para el cliente seleccionado.
+
+### Ver la demostración antes de agregar un ejercicio
+En el selector de Agregar Ejercicio, los ejercicios con demostración o instrucciones muestran un botón **▶** a la derecha de la fila. Abre "Cómo hacer este ejercicio" sobre el selector para revisar el movimiento primero; la fila sigue agregando el ejercicio.
+
 ### Ocultar días de descanso
 Un día marcado como Descanso, o sin ejercicios, muestra el botón **"Ocultar este día"** dentro de su panel. Los días ocultos salen de la lista y aparecen en una fila pequeña de "Días ocultos" al final, cada uno con un enlace **Mostrar** para recuperarlo. La elección se conserva en las semanas siguientes, y el entrenador ve la misma disposición para ese cliente.
 

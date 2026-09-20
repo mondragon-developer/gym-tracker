@@ -55,6 +55,15 @@ R: Es la barra de guardado al pie. Los cambios se guardan solos un segundo despu
 **P: ¿Puedo planificar la próxima semana (o más adelante) antes de que empiece?**
 R: Sí. Pulsa la flecha siguiente del navegador de semanas para avanzar, hasta 12 semanas por adelantado ("Planificando por adelantado"). La semana futura empieza como copia de tu último plan sin nada completado; edítala y se guarda. Cuando llega ese lunes, la semana abre tal como la planificaste. Los entrenadores pueden hacer lo mismo para un cliente desde su panel.
 
+**P: ¿Hay un plan listo con el que pueda empezar?**
+R: Sí, tres. Toca **Plantillas de entrenamiento** debajo de los días y elige **Clásico Push / Pull / Piernas** (6 días), **Tren superior / inferior con recuperación activa** (4 días más un miércoles suave) o **Cuerpo completo 3 días** (lunes, miércoles y viernes, 30-40 minutos). Reemplaza los ejercicios de la semana que estás viendo; los pesos empiezan vacíos.
+
+**P: ¿Puedo reutilizar el entrenamiento de la semana pasada tal cual?**
+R: Sí. Toca **Copiar la semana pasada** debajo de los días y confirma. La semana actual (o futura) recibe los ejercicios de la semana pasada en el mismo orden y con los mismos pesos, con el progreso en cero.
+
+**P: ¿Puedo ver cómo se hace un ejercicio antes de agregarlo?**
+R: Sí. En el selector de Agregar Ejercicio, toca el botón **▶** a la derecha del ejercicio para abrir su demostración. Tocar la fila lo agrega.
+
 **P: ¿Cómo veo semanas pasadas?**
 R: Usa las flechas del navegador de semanas ("Semana del …"). Las semanas pasadas son de solo lectura; toca **Volver a la semana actual** para editar de nuevo.
 

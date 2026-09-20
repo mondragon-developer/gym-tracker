@@ -34,6 +34,8 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Persistent Storage**: Workout data saved automatically — to the cloud when signed in, to local storage otherwise
 - **Save Status Bar**: Sticky footer showing Saved at / Unsaved changes / Saving / Save failed, with a manual Save button. Cloud saves are version-checked, so an edit from another device or a trainer is never overwritten silently (Load latest / Keep mine)
 - **Hidden Rest Days**: Days set to Rest or with no exercises can be hidden from the list and brought back from a "Hidden days" strip; the choice carries into following weeks
+- **Workout Templates**: Three ready-made weeks (Classic Push/Pull/Legs, Upper/Lower with an active-recovery Wednesday, Full body 3 days at 30-40 min) applied to the viewed week from the tracker or the trainer panel (`src/constants/workoutTemplates.js`)
+- **Copy Last Week**: Reuse the previous week's exercises, order and weights in one tap, with completion cleared
 
 ### Accounts & Cloud Sync
 - **Email/Password Authentication**: Secure sign up and sign in powered by Supabase
@@ -55,6 +57,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 ### Exercise Demonstrations
 - **How-To Guides**: Tap ▶ on an exercise for a start-to-finish demonstration of the movement's full range of motion
 - **122 Exercises Covered**: Self-hosted on Supabase Storage with a graceful fallback when a demo isn't available
+- **Preview Before Adding**: The ▶ button on a row in the Add Exercise picker opens the demo without leaving the picker
 
 ### Bilingual Interface
 - **English / Spanish**: Full UI translation with an in-app language toggle
@@ -186,7 +189,7 @@ npm run build     # Production build to dist/
 npm run preview   # Preview the production build locally
 npm run lint      # Run ESLint
 npm test          # Run the Vitest suite in watch mode
-npm run test:run  # Run the Vitest suite once (186 tests)
+npm run test:run  # Run the Vitest suite once (204 tests)
 ```
 
 ## Usage Guide
@@ -256,7 +259,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 - **Supabase**: Authentication and Postgres cloud database with Row Level Security
 - **@dnd-kit**: Accessible, touch-friendly drag-and-drop for exercise reordering
 - **vite-plugin-pwa**: Installable, offline-capable Progressive Web App
-- **Vitest + Testing Library**: 186-test suite across services, hooks, and components
+- **Vitest + Testing Library**: 204-test suite across services, hooks, and components
 - **Inline Styles**: Component-scoped styling for better maintainability
 - **Lucide React**: Beautiful, consistent icon library
 - **Modern JavaScript**: ES6+ features and best practices

@@ -194,6 +194,25 @@ const WeekPlanService = {
     },
 
     /**
+     * Newest stored week before `weekStart`, or null when there is none.
+     */
+    previousWeekOf(history, weekStart) {
+        if (!history || !weekStart) return null;
+        return latestWeekBefore(history, weekStart);
+    },
+
+    /**
+     * Replaces `toWeek` with a copy of `fromWeek`: same exercises, order,
+     * weights and hidden days, completion cleared. Returns the SAME history
+     * when the source week does not exist.
+     */
+    copyWeek(history, fromWeek, toWeek) {
+        const source = history?.weeks?.[fromWeek];
+        if (!source) return history;
+        return WeekPlanService.setWeek(history, toWeek, carryForward(deepClone(source)));
+    },
+
+    /**
      * Every week the navigator can show, oldest first: all stored weeks plus
      * the current week and the next MAX_WEEKS_AHEAD Mondays.
      * @param {Object} history

@@ -269,6 +269,23 @@ const useWorkoutPlan = () => {
     editViewedWeek(prev => workoutService.resetDay(prev, day));
   };
 
+  // Whole-week replacements (templates, copy of last week) on the viewed
+  // editable week.
+  const replaceViewedWeek = (plan) => {
+    editViewedWeek(() => plan);
+  };
+
+  const previousWeekStart = history && viewedWeekStart
+    ? WeekPlanService.previousWeekOf(history, viewedWeekStart)
+    : null;
+  const hasPreviousWeek = Boolean(previousWeekStart);
+
+  const copyFromPreviousWeek = () => {
+    if (!isEditable || !previousWeekStart) return;
+    const weekStart = viewedWeekStart;
+    setHistory(prev => (prev ? WeekPlanService.copyWeek(prev, previousWeekStart, weekStart) : prev));
+  };
+
   // "Restart This Week": clear the current week's progress, keeping the plan.
   const resetWeek = () => {
     if (!history) return;
@@ -297,6 +314,10 @@ const useWorkoutPlan = () => {
     addExercise,
     resetDay,
     resetWeek,
+    replaceViewedWeek,
+    copyFromPreviousWeek,
+    hasPreviousWeek,
+    previousWeekStart,
     // Persistence status and controls
     saveState,
     isDirty,

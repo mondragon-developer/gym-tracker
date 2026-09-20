@@ -6,19 +6,40 @@
  * list so it survives day-accordion toggles.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { t } from '../translations/ui';
 import { formatSeconds } from '../utils/restTimer.js';
 
 const PRESETS = [30, 60, 90, 120];
 
-// Short two-tone beep via Web Audio. Silently skipped where audio is
-// unavailable (jsdom, autoplay-restricted contexts) - the visual cue remains.
-const beep = () => {
-    const Ctx = window.AudioContext || window.webkitAudioContext;
-    if (!Ctx) return;
+const AudioCtx = typeof window !== 'undefined'
+    ? (window.AudioContext || window.webkitAudioContext)
+    : null;
+
+// Browsers only let sound start from a user gesture, and the countdown ends
+// outside of one. So the context is created and unlocked when the user
+// presses Start (a silent buffer counts as playback on iOS), kept in a ref,
+// and reused for the end-of-rest beep. Silently skipped where Web Audio is
+// unavailable (jsdom) - the visual cue remains.
+const unlockAudio = (ref) => {
+    if (!AudioCtx) return;
     try {
-        const ctx = new Ctx();
+        if (!ref.current) ref.current = new AudioCtx();
+        const ctx = ref.current;
+        if (ctx.state === 'suspended') ctx.resume();
+        const source = ctx.createBufferSource();
+        source.buffer = ctx.createBuffer(1, 1, 22050);
+        source.connect(ctx.destination);
+        source.start(0);
+    } catch {
+        ref.current = null;
+    }
+};
+
+const beep = (ref) => {
+    const ctx = ref.current;
+    if (!ctx) return;
+    const play = () => {
         [880, 1320].forEach((freq, i) => {
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
@@ -31,6 +52,13 @@ const beep = () => {
             osc.start(at);
             osc.stop(at + 0.18);
         });
+    };
+    try {
+        if (ctx.state === 'suspended') {
+            ctx.resume().then(play, () => {});
+        } else {
+            play();
+        }
     } catch {
         // Audio unavailable: the "Time's up!" visual cue still fires.
     }
@@ -64,6 +92,7 @@ export default function RestTimer({ language = 'en' }) {
     // remaining === null means idle: the display then shows the preset itself.
     const [remaining, setRemaining] = useState(null);
     const [running, setRunning] = useState(false);
+    const audioRef = useRef(null);
 
     const done = remaining === 0;
 
@@ -79,12 +108,13 @@ export default function RestTimer({ language = 'en' }) {
     // end-of-rest cue exactly once.
     useEffect(() => {
         if (remaining === 0) {
-            beep();
+            beep(audioRef);
             setRunning(false);
         }
     }, [remaining]);
 
     const start = () => {
+        unlockAudio(audioRef);
         setRemaining(r => (r === null || r === 0 ? duration : r));
         setRunning(true);
     };
