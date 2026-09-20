@@ -75,8 +75,8 @@ The **📊 Weekly Summary** button below the days opens a report of the current 
 ### Rest timer (⏱️)
 Below the weekly progress bar. Tap a preset (**0:30 / 1:00 / 1:30 / 2:00**), then **Start**; **Pause**/**Resume** and **Reset** are available, and a short sound plus a red "Time's up!" cue mark the end of the rest. It keeps running while you open or close days.
 
-### 🔄 Start New Week
-The **"Start New Week"** button archives the current week and starts a fresh one. A confirmation modal explains what happens. Important: the new week **keeps all your exercises and weights and only resets completion status** (carry-forward), so you can apply progressive overload without rebuilding your plan. The finished week remains viewable (read-only) through the week navigator.
+### 🔄 Weeks and Restart This Week
+Weeks are calendar weeks, Monday to Sunday, and they advance on their own: every Monday the app opens on the new week with **all your exercises and weights carried forward and only the completion status cleared**, so you can apply progressive overload without rebuilding your plan. The finished week is archived and stays viewable (read-only) through the week navigator. The **"Restart This Week"** button clears completion and logged sets for the current week only, keeping exercises and weights; a confirmation modal explains this before anything changes.
 
 ### Share Your Feedback
 At the bottom of the main screen. Opens a form with **Name, Email, Message** — sends feedback directly to the developer. Use this for bug reports and feature requests.
@@ -165,7 +165,7 @@ Deadlifts 4×6-8 · Front Squats 3×8-10 · Lunges 3×12-15 · Leg Extensions 3�
 
 **I can't edit my week.** You are probably viewing a past week — they are read-only. Tap "Back to current week".
 
-**Will "Start New Week" delete my plan?** No. It keeps your exercises and weights and resets only the completion status. Past weeks stay viewable in the navigator. ("Reset Week"/"Reset Day" restore the *default* plan, so use those only when you want to discard customizations.)
+**Do I have to start a new week myself?** No. A new week starts automatically every Monday with your exercises and weights carried over and completion cleared. "Restart This Week" only clears the current week's progress. Past weeks stay viewable in the navigator. ("Reset Week"/"Reset Day" restore the *default* plan, so use those only when you want to discard customizations.)
 
 **An exercise has no demo.** 122 of 159 exercises have demos. Cardio, Combat, and custom exercises don't — the app shows "No demonstration available yet".
 

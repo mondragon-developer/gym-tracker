@@ -68,6 +68,18 @@ function AppContent() {
         goToCurrentWeek
     } = useWorkoutPlan();
     
+    // Shown while a code-split modal's chunk downloads, so a tap on a slow
+    // connection is not mistaken for a dead button.
+    const lazyFallback = (
+        <div style={{
+            position: 'fixed', bottom: '24px', left: '50%', transform: 'translateX(-50%)',
+            padding: '8px 14px', borderRadius: '10px', backgroundColor: '#0e7490',
+            color: 'white', fontSize: '13px', fontWeight: 600, zIndex: 1000
+        }}>
+            {t('Loading...', language)}
+        </div>
+    );
+
     const resetModal = useModal();
     const resetDayModal = useModal();
     const addExerciseModal = useModal();
@@ -144,7 +156,7 @@ function AppContent() {
     // Admin/trainer panel replaces the tracker view; it loads its own data.
     if (showAdmin && (isAdmin || isTrainer)) {
         return (
-            <Suspense fallback={null}>
+            <Suspense fallback={lazyFallback}>
                 <AdminDashboard onBack={() => setShowAdmin(false)} />
             </Suspense>
         );
@@ -419,7 +431,7 @@ function AppContent() {
                             fullWidth
                             style={{ maxWidth: '320px' }}
                         >
-                            🔄 {t("Start New Week", language)}
+                            🔄 {t("Restart This Week", language)}
                         </Button>
                         
                         {/* Feedback Button */}
@@ -507,16 +519,16 @@ function AppContent() {
             <Modal
                 isOpen={resetModal.isOpen}
                 onClose={resetModal.close}
-                title={`🔄 ${t("Confirm Reset", language)}`}
+                title={`🔄 ${t("Restart this week?", language)}`}
             >
-                <p style={{ 
-                    marginBottom: '24px', 
-                    color: '#6b7280', 
+                <p style={{
+                    marginBottom: '24px',
+                    color: '#6b7280',
                     fontSize: '16px',
                     lineHeight: '1.6',
                     margin: '0 0 24px 0'
                 }}>
-                    {t("Are you sure you want to start a new week? This will reset all exercises and progress to the default plan.", language)}
+                    {t("Completion and logged sets for this week are cleared. Exercises and weights are kept. A new week starts on its own every Monday.", language)}
                 </p>
                 <div style={{ 
                     display: 'flex', 
@@ -535,7 +547,7 @@ function AppContent() {
                         onClick={handleResetWeek}
                         fullWidth
                     >
-                        {t("Reset Week", language)}
+                        {t("Restart Week", language)}
                     </Button>
                 </div>
             </Modal>
@@ -588,7 +600,7 @@ function AppContent() {
 
             {/* Feedback Modal — code-split, mounted only while open */}
             {feedbackModal.isOpen && (
-                <Suspense fallback={null}>
+                <Suspense fallback={lazyFallback}>
                     <FeedbackModal
                         isOpen={feedbackModal.isOpen}
                         onClose={feedbackModal.close}
@@ -599,7 +611,7 @@ function AppContent() {
 
             {/* Weekly Summary Modal — code-split, mounted only while open */}
             {summaryModal.isOpen && (
-                <Suspense fallback={null}>
+                <Suspense fallback={lazyFallback}>
                     <WeeklySummaryModal
                         isOpen={summaryModal.isOpen}
                         onClose={summaryModal.close}

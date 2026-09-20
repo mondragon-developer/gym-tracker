@@ -185,8 +185,20 @@ const useWorkoutPlan = () => {
     return () => clearTimeout(timerRef.current);
   }, [history, save]);
 
+  // A tab left open across Sunday midnight must move to the new calendar
+  // week on its own. rollForward returns the same object when nothing
+  // changed, so this is a no-op re-render most of the time.
+  useEffect(() => {
+    const tick = () => {
+      setHistory(prev => (prev ? WeekPlanService.rollForward(prev) : prev));
+    };
+    const id = setInterval(tick, 60 * 1000);
+    return () => clearInterval(id);
+  }, []);
+
   // Leaving the tab: flush pending edits right away. Coming back: pick up
-  // anything a trainer or another device saved meanwhile.
+  // anything a trainer or another device saved meanwhile (the reload also
+  // rolls the week forward), or at least roll the week when edits are pending.
   useEffect(() => {
     const onVisibility = () => {
       if (document.visibilityState === 'hidden') {
@@ -194,9 +206,11 @@ const useWorkoutPlan = () => {
         return;
       }
       const pending = historyRef.current && historyRef.current !== persistedRef.current;
-      if (userIdRef.current && !pending && !savingRef.current) {
-        load({ silent: true });
+      if (pending || !userIdRef.current || savingRef.current) {
+        setHistory(prev => (prev ? WeekPlanService.rollForward(prev) : prev));
+        return;
       }
+      load({ silent: true });
     };
     const onBeforeUnload = (event) => {
       if (historyRef.current && historyRef.current !== persistedRef.current) {

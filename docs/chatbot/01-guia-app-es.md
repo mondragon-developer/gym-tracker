@@ -75,8 +75,8 @@ El botón **📊 Resumen Semanal**, debajo de los días, abre un reporte de la s
 ### Temporizador de descanso (⏱️)
 Debajo de la barra de progreso semanal. Elige un preset (**0:30 / 1:00 / 1:30 / 2:00**) y pulsa **Iniciar**; hay **Pausar**/**Reanudar** y **Reiniciar**, y al terminar suena una señal y aparece el aviso rojo "¡Tiempo!". Sigue corriendo aunque abras o cierres días.
 
-### 🔄 Comenzar Nueva Semana
-El botón **"Comenzar Nueva Semana"** archiva la semana actual y comienza una nueva. Un modal pide confirmación. Importante: la nueva semana **conserva todos tus ejercicios y pesos y solo reinicia el estado de completado** (arrastre de datos), para que puedas aplicar sobrecarga progresiva sin rearmar tu plan. La semana terminada queda visible (solo lectura) en el navegador de semanas.
+### 🔄 Semanas y Reiniciar Esta Semana
+Las semanas son semanas de calendario, de lunes a domingo, y avanzan solas: cada lunes la app abre en la semana nueva **conservando todos tus ejercicios y pesos y reiniciando solo el estado de completado**, para que puedas aplicar sobrecarga progresiva sin rearmar tu plan. La semana terminada queda archivada y visible (solo lectura) en el navegador de semanas. El botón **"Reiniciar Esta Semana"** borra el progreso y las series registradas solo de la semana actual, conservando ejercicios y pesos; un modal pide confirmación antes de cambiar nada.
 
 ### Comparte tu Opinión
 Al final de la pantalla principal. Abre un formulario con **Nombre, Correo, Mensaje** — envía los comentarios directamente al desarrollador. Úsalo para reportar errores y sugerir funciones.
@@ -165,7 +165,7 @@ Deadlifts (Peso Muerto) 4×6-8 · Front Squats (Sentadillas Frontales) 3×8-10 �
 
 **No puedo editar mi semana.** Probablemente estás viendo una semana pasada — son de solo lectura. Toca "Volver a la semana actual".
 
-**¿"Comenzar Nueva Semana" borra mi plan?** No. Conserva tus ejercicios y pesos y solo reinicia el estado de completado. Las semanas pasadas siguen visibles en el navegador. ("Reiniciar Semana"/"Reiniciar Día" restauran el plan *predeterminado*; úsalos solo si quieres descartar tus personalizaciones.)
+**¿Tengo que comenzar la nueva semana yo mismo?** No. Cada lunes comienza una semana nueva automáticamente con tus ejercicios y pesos conservados y el progreso reiniciado. "Reiniciar Esta Semana" solo borra el progreso de la semana actual. Las semanas pasadas siguen visibles en el navegador. ("Reiniciar Semana"/"Reiniciar Día" restauran el plan *predeterminado*; úsalos solo si quieres descartar tus personalizaciones.)
 
 **Un ejercicio no tiene demostración.** 122 de 159 ejercicios tienen demo. Los de Cardio, Combate y los personalizados no — la app muestra "Aún no hay demostración disponible".
 
