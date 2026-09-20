@@ -33,12 +33,15 @@ The SQL lives in this repo so it stays in sync with the code:
 
 - `supabase/schema.sql` — `workout_plans` + `user_preferences` tables with per-user Row Level Security
 - `supabase/admin.sql` — `profiles` table, signup trigger, `is_admin()` helper, and admin full-access policies (run AFTER schema.sql)
+- `supabase/trainers.sql` — trainer role, invite codes, `is_trainer_of()` helper, and trainer policies on client plans (run AFTER admin.sql)
+- `supabase/trainer-invites.sql` — single-use invitations that create trainer accounts (run AFTER trainers.sql)
+- `supabase/multi-trainer.sql` — `trainer_clients` join table so a client can have several trainers, plus the `join_trainer(code)` function used by the profile menu and invite links (run AFTER trainer-invites.sql)
 
 Both scripts are idempotent — safe to re-run any time.
 
 1. In your Supabase dashboard, click **SQL Editor** in the sidebar
 2. Click **"New Query"**, paste the contents of `supabase/schema.sql`, and **Run**
-3. Repeat with `supabase/admin.sql`
+3. Repeat, in this order, with `supabase/admin.sql`, `supabase/trainers.sql`, `supabase/trainer-invites.sql` and `supabase/multi-trainer.sql`. Every file is idempotent, so re-running one is safe
 4. After you have signed up in the app, promote yourself to admin (run once):
 
 ```sql

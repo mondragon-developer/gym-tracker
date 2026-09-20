@@ -15,7 +15,10 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 - **Resend confirmation email** action on the post-signup screen and after an "email not confirmed" sign-in error
 - **kg/lbs unit toggle** in the header (display-only label for the weight field)
 - Weekly progress bar, 📊 Weekly Summary with sets-per-muscle-group breakdown, and **CSV export of the weekly summary**
-- Dated weekly history with read-only past weeks and carry-forward on Start New Week
+- **Calendar weeks** (Monday to Sunday) that start on their own every Monday with the plan and weights carried forward; dated weekly history with read-only past weeks; **Restart This Week** clears the current week's progress only
+- **Hidden rest days**: Rest or empty days can be hidden from the list and shown again from the "Hidden days" row
+- **Save status bar** with a manual Save button; cloud saves are version-checked, so a trainer's newer copy is never overwritten silently (Load latest / Keep mine)
+- **Several trainers per client**: a client can connect to more trainers by code in the profile menu or by invite link while signed in; every linked trainer can edit the plan and the last save wins
 - Drag-and-drop exercise reordering
 - Free accounts with cloud sync across devices; offline/local mode without an account; automatic migration on first sign-in
 - Password recovery by email

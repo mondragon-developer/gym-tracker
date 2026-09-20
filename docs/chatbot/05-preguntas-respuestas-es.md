@@ -40,11 +40,17 @@ R: Toca el selector **EN/ES** en el encabezado — toda la interfaz cambia al in
 **P: ¿Cómo veo mis estadísticas de la semana?**
 R: Toca el botón **📊 Resumen Semanal** debajo de los días. Muestra totales, series por grupo muscular y el detalle completo de la semana, con opción de **Descargar CSV**.
 
-**P: ¿Qué hace "Comenzar Nueva Semana"? ¿Pierdo mi plan?**
-R: No — archiva la semana actual y comienza una nueva **conservando tus ejercicios y pesos**, solo reinicia las marcas de completado. Las semanas pasadas quedan visibles en el navegador de semanas.
+**P: ¿Tengo que comenzar la nueva semana yo mismo?**
+R: No — las semanas van de lunes a domingo y cada lunes comienza una nueva automáticamente, **conservando tus ejercicios y pesos** y solo borrando las marcas de completado. La semana terminada queda archivada y visible en el navegador de semanas.
 
-**P: ¿Cuál es la diferencia entre "Comenzar Nueva Semana" y "Reiniciar Semana"/"Reiniciar Día"?**
-R: **Comenzar Nueva Semana** conserva tus personalizaciones y solo reinicia el progreso. **Reiniciar Semana/Día** restauran el plan predeterminado original y descartan tus cambios — úsalos con cuidado.
+**P: ¿Qué hace "Reiniciar Esta Semana"? ¿Pierdo mi plan?**
+R: No — borra las marcas de completado y las series registradas solo de la semana actual. Tus ejercicios y pesos se conservan. **Reiniciar Día** es distinto: restaura los ejercicios predeterminados originales de ese día y descarta tus personalizaciones de ese día — úsalo con cuidado.
+
+**P: ¿Puedo ocultar un día de descanso?**
+R: Sí. Un día marcado como Descanso, o sin ejercicios, muestra el botón **Ocultar este día** dentro de su panel. Los días ocultos pasan a una fila pequeña de "Días ocultos" debajo de la lista, cada uno con un enlace **Mostrar** para recuperarlo. La elección se conserva en las semanas siguientes.
+
+**P: ¿Por qué la app dice "Cambios sin guardar" o "Guardado a las"?**
+R: Es la barra de guardado al pie. Los cambios se guardan solos un segundo después de hacerlos; **Guardar Cambios** lo fuerza de inmediato. Si dice que el plan fue actualizado desde otro dispositivo o por tu entrenador, elige **Cargar la última versión** para tomar la de ellos o **Conservar la mía** para sobrescribirla con la tuya.
 
 **P: ¿Cómo veo semanas pasadas?**
 R: Usa las flechas del navegador de semanas ("Semana del …"). Las semanas pasadas son de solo lectura; toca **Volver a la semana actual** para editar de nuevo.

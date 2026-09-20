@@ -32,6 +32,8 @@ A modern, responsive React-based gym workout tracking application that helps you
   - Drag and drop exercise reordering
 - **Intelligent Exercise Display**: Context-aware UI that adapts to exercise type
 - **Persistent Storage**: Workout data saved automatically — to the cloud when signed in, to local storage otherwise
+- **Save Status Bar**: Sticky footer showing Saved at / Unsaved changes / Saving / Save failed, with a manual Save button. Cloud saves are version-checked, so an edit from another device or a trainer is never overwritten silently (Load latest / Keep mine)
+- **Hidden Rest Days**: Days set to Rest or with no exercises can be hidden from the list and brought back from a "Hidden days" strip; the choice carries into following weeks
 
 ### Accounts & Cloud Sync
 - **Email/Password Authentication**: Secure sign up and sign in powered by Supabase
@@ -40,13 +42,15 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Password Recovery**: Full "forgot password" flow with an emailed reset link
 - **Google Sign-In**: One-tap OAuth sign-in alongside email/password accounts
 - **Confirmation Resend**: Resend the verification email from the post-signup screen or after an "email not confirmed" sign-in error
-- **Admin Dashboard**: Admins can list users, manage roles, and view or edit any user's workout plan (access enforced server-side by Postgres Row Level Security)
+- **Admin Dashboard**: Admins can list users, manage roles, assign or remove trainers per client, and view or edit any user's workout plan (access enforced server-side by Postgres Row Level Security)
 - **Trainer Tools**: Trainer accounts with shareable invite codes/links, plus one-tap **email invitations** sent from the app via a Supabase Edge Function
+- **Multiple Trainers per Client**: A client can be coached by several trainers at once (`trainer_clients` join table). Clients connect to another trainer by entering a code in the profile menu or opening an invite link while signed in. Every linked trainer can view and edit the plan; the last save wins
 
 ### Weekly History & Dates
 - **Dated Weeks**: Every week is stamped with its date range and each day shows its calendar date
 - **Week Navigator**: Step back through past weeks; finished weeks are kept read-only
-- **Carry-Forward**: Starting a new week keeps your exercises and weights and resets completion, so progressive overload is one tap
+- **Calendar Weeks**: Weeks run Monday to Sunday and advance on their own. Every Monday the app opens on the new week with exercises and weights carried forward and completion cleared, so progressive overload needs no button
+- **Restart This Week**: Clears the current week's progress only, keeping exercises and weights
 
 ### Exercise Demonstrations
 - **How-To Guides**: Tap ▶ on an exercise for a start-to-finish demonstration of the movement's full range of motion
@@ -105,7 +109,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 
 4. **Set up the database**
 
-   In the Supabase SQL editor, run `supabase/schema.sql`, then `supabase/admin.sql`. See [`SUPABASE_SETUP.md`](SUPABASE_SETUP.md) for the full walkthrough, including how to promote your account to admin.
+   In the Supabase SQL editor, run these files in order: `supabase/schema.sql`, `supabase/admin.sql`, `supabase/trainers.sql`, `supabase/trainer-invites.sql`, `supabase/multi-trainer.sql`. All are idempotent. See [`SUPABASE_SETUP.md`](SUPABASE_SETUP.md) for the full walkthrough, including how to promote your account to admin.
 
 5. **Start the development server**
    ```bash
@@ -374,6 +378,10 @@ This project is open source and available under the [MIT License](LICENSE).
 - [x] **Google sign-in**: One-tap OAuth alongside email/password accounts
 - [x] **kg/lbs unit toggle**: Header switch for the weight-field unit label
 - [x] **Auth UX hardening**: Friendly bilingual auth errors and confirmation-email resend
+- [x] **Reliable saves**: Edit-driven autosave with version-checked cloud writes and a visible save status bar
+- [x] **Calendar weeks**: Monday-to-Sunday weeks that roll forward automatically; Restart This Week replaces the manual Start New Week
+- [x] **Hidden rest days**: Hide Rest or empty days from the list and bring them back any time
+- [x] **Multiple trainers per client**: Join table, profile-menu trainer code, invite links that work while signed in, admin add/remove per client
 
 ### Planned Features
 - [ ] **Workout analytics**: Progress charts and performance metrics

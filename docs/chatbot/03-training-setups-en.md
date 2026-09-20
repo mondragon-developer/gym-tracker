@@ -95,7 +95,7 @@ A fun Combat-category session, all logged in minutes: Jump Rope 10 min → Shado
 ## Volume, progression, and rest — rules of thumb (non-medical)
 
 - **Weekly volume:** roughly 10–20 hard sets per muscle per week works well for most people. The 📊 Weekly Summary shows **Sets per muscle group** — the easy way to check.
-- **Progression:** when you hit the top of the rep range on all sets with good form, add a little weight the following week. **Start New Week** carries your exercises and weights forward, so progression is just editing the number up.
+- **Progression:** when you hit the top of the rep range on all sets with good form, add a little weight the following week. Each new calendar week carries your exercises and weights forward automatically, so progression is just editing the number up.
 - **Rest between sets:** ~2–3 minutes on heavy compound lifts, ~1–2 minutes on isolation work.
 - **Easier weeks:** every 6–10 weeks, or when performance drops and everything feels heavy, taking a lighter week (less weight or fewer sets) is a common, sensible practice.
 - **Sleep and recovery matter** — generic advice: muscles grow between sessions, not during them.
@@ -106,4 +106,4 @@ A fun Combat-category session, all logged in minutes: Jump Rope 10 min → Shado
 2. Tap **Add Exercise** → search the English name → set Target Sets/Reps (or minutes for Cardio/Combat) → **Add to Workout**. Use the **All** tab if the exercise belongs to a different group than the day's label.
 3. Drag to reorder; delete what you don't want.
 4. Train, mark ✓ done or ✗ skipped, and check the 📊 Weekly Summary.
-5. Tap **🔄 Start New Week** each week — your plan and weights carry forward automatically.
+5. Nothing to do on Monday — the new week starts on its own with your plan and weights carried forward and completion cleared.
