@@ -75,7 +75,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Exercise Type Detection**: Automatic detection and handling of cardio vs strength exercises
 - **kg/lbs Unit Toggle**: Header switch that labels the weight field in your preferred unit (display-only)
 - **Reset Options**: Reset a single day to its default exercises, or restart the current week's progress
-- **Workout Templates**: Pre-configured Push/Pull/Leg split with 20+ exercises
+- **Default Plan**: New accounts start on the Classic Push/Pull/Legs split with 20+ exercises
 
 ## Getting Started
 
