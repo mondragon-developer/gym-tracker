@@ -23,11 +23,14 @@
  */
 
 import workoutService from './workoutService.js';
-import { getWeekStart, parseISODate } from '../utils/dateHelper.js';
+import { getWeekStart, parseISODate, addWeeks } from '../utils/dateHelper.js';
 import { DAYS_OF_WEEK } from '../constants/AppConstants.js';
 
 const CURRENT_VERSION = 2;
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+// How far ahead a user or trainer can plan. Future weeks are stored only
+// once edited; until then they are previews carried from the latest plan.
+const MAX_WEEKS_AHEAD = 12;
 
 const deepClone = (obj) =>
     typeof structuredClone === 'function' ? structuredClone(obj) : JSON.parse(JSON.stringify(obj));
@@ -76,6 +79,12 @@ const carryForward = (plan) => {
     return carried;
 };
 
+/**
+ * Newest stored week strictly before `weekStart`, or null.
+ */
+const latestWeekBefore = (history, weekStart) =>
+    Object.keys(history.weeks).filter(ws => ws < weekStart).sort().pop() ?? null;
+
 const freshHistory = (today = new Date()) => {
     const weekStart = getWeekStart(today);
     return {
@@ -87,6 +96,7 @@ const freshHistory = (today = new Date()) => {
 
 const WeekPlanService = {
     CURRENT_VERSION,
+    MAX_WEEKS_AHEAD,
 
     /**
      * Normalizes any stored blob (null, a v1 bare plan, or a v2 history) into a
@@ -143,7 +153,77 @@ const WeekPlanService = {
         if (!history) return history;
         const thisWeek = getWeekStart(today);
         if (history.currentWeekStart >= thisWeek) return history;
-        return WeekPlanService.startNewWeek(history, thisWeek);
+        // A week planned in advance becomes the current week as it was
+        // planned; otherwise carry from the newest week before today.
+        if (history.weeks[thisWeek]) {
+            return { ...history, currentWeekStart: thisWeek };
+        }
+        const source = latestWeekBefore(history, thisWeek);
+        const plan = (source && history.weeks[source])
+            || WeekPlanService.getCurrentPlan(history)
+            || workoutService.getInitialPlan();
+        return {
+            version: CURRENT_VERSION,
+            currentWeekStart: thisWeek,
+            weeks: { ...deepClone(history.weeks), [thisWeek]: carryForward(plan) }
+        };
+    },
+
+    /**
+     * The plan to show for a week: the stored one, or for a future week that
+     * has not been edited yet, a preview carried from the newest week before
+     * it. Past weeks that were never stored return null.
+     * @param {Object} history
+     * @param {string} weekStart
+     * @returns {Object|null} WorkoutPlan
+     */
+    resolveWeek(history, weekStart) {
+        if (!history || !weekStart) return null;
+        if (history.weeks[weekStart]) return history.weeks[weekStart];
+        if (weekStart <= history.currentWeekStart) return null;
+        const source = latestWeekBefore(history, weekStart);
+        return carryForward(source ? history.weeks[source] : workoutService.getInitialPlan());
+    },
+
+    /**
+     * Stores a plan under a week key (this is how a previewed future week
+     * becomes real). Returns a NEW history object.
+     */
+    setWeek(history, weekStart, plan) {
+        return { ...history, weeks: { ...history.weeks, [weekStart]: plan } };
+    },
+
+    /**
+     * Newest stored week before `weekStart`, or null when there is none.
+     */
+    previousWeekOf(history, weekStart) {
+        if (!history || !weekStart) return null;
+        return latestWeekBefore(history, weekStart);
+    },
+
+    /**
+     * Replaces `toWeek` with a copy of `fromWeek`: same exercises, order,
+     * weights and hidden days, completion cleared. Returns the SAME history
+     * when the source week does not exist.
+     */
+    copyWeek(history, fromWeek, toWeek) {
+        const source = history?.weeks?.[fromWeek];
+        if (!source) return history;
+        return WeekPlanService.setWeek(history, toWeek, carryForward(deepClone(source)));
+    },
+
+    /**
+     * Every week the navigator can show, oldest first: all stored weeks plus
+     * the current week and the next MAX_WEEKS_AHEAD Mondays.
+     * @param {Object} history
+     * @returns {string[]}
+     */
+    listNavigableWeeks(history) {
+        const keys = new Set(Object.keys(history.weeks));
+        for (let k = 0; k <= MAX_WEEKS_AHEAD; k++) {
+            keys.add(addWeeks(history.currentWeekStart, k));
+        }
+        return [...keys].sort();
     },
 
     /**

@@ -34,7 +34,8 @@ El chatbot integrado en esta app debe:
 ### Navegador de semanas
 Justo debajo del encabezado:
 - Muestra **"Semana del \<fecha\>"** — cada semana queda marcada con su rango de fechas real y cada día muestra su fecha de calendario.
-- Las **flechas** van a la **semana anterior / semana siguiente**. Las semanas pasadas se abren en **modo solo lectura** — aparece el aviso "Viendo una semana pasada — solo lectura" y nada se puede editar ahí. Usa **"Volver a la semana actual"** para regresar a la semana editable.
+- Las **flechas** van a la **semana anterior / semana siguiente**. Las semanas pasadas se abren en **modo solo lectura** — aparece el aviso "Viendo una semana pasada — solo lectura" y nada se puede editar ahí. Usa **"Volver a la semana actual"** para regresar a la semana actual.
+- **Planificar por adelantado**: la flecha siguiente también avanza hasta **12 semanas** en el futuro, con la etiqueta "Planificando por adelantado". Una semana futura empieza como copia de tu último plan (ejercicios y pesos, nada completado) y se guarda en cuanto cambias algo en ella. Cuando llega ese lunes, la semana abre tal como la planificaste. Los entrenadores tienen las mismas flechas en su panel para planificar por adelantado a un cliente.
 
 ### Barra de Progreso Semanal
 Muestra "Progreso Semanal" con **X de Y ejercicios completados** y un porcentaje que se llena en tiempo real al marcar ejercicios. Al llegar al 100% celebra con "¡Semana Completa!".
@@ -77,6 +78,15 @@ Debajo de la barra de progreso semanal. Elige un preset (**0:30 / 1:00 / 1:30 / 
 
 ### 🔄 Semanas y Reiniciar Esta Semana
 Las semanas son semanas de calendario, de lunes a domingo, y avanzan solas: cada lunes la app abre en la semana nueva **conservando todos tus ejercicios y pesos y reiniciando solo el estado de completado**, para que puedas aplicar sobrecarga progresiva sin rearmar tu plan. La semana terminada queda archivada y visible (solo lectura) en el navegador de semanas. El botón **"Reiniciar Esta Semana"** borra el progreso y las series registradas solo de la semana actual, conservando ejercicios y pesos; un modal pide confirmación antes de cambiar nada.
+
+### Plantillas de entrenamiento y Copiar la semana pasada
+Debajo de la lista de días, en la semana actual o en una futura:
+- **Plantillas de entrenamiento** abre un selector con tres semanas listas: **Clásico Push / Pull / Piernas** (6 días, unos 45-60 min), **Tren superior / inferior con recuperación activa** (tren superior lunes y jueves, tren inferior martes y viernes, cardio suave y core el miércoles, unos 45-60 min) y **Cuerpo completo 3 días (agenda ocupada)** (lunes, miércoles y viernes, cinco ejercicios, unos 30-40 min). "Usar este plan" reemplaza los ejercicios de la semana que estás viendo; los pesos empiezan vacíos.
+- **Copiar la semana pasada** reemplaza la semana que ves con los ejercicios, el orden, los pesos y los días ocultos de la semana anterior, con el progreso en cero. Una confirmación indica qué semana se copia.
+- Los entrenadores tienen ambas acciones en su panel para el cliente seleccionado.
+
+### Ver la demostración antes de agregar un ejercicio
+En el selector de Agregar Ejercicio, los ejercicios con demostración o instrucciones muestran un botón **▶** a la derecha de la fila. Abre "Cómo hacer este ejercicio" sobre el selector para revisar el movimiento primero; la fila sigue agregando el ejercicio.
 
 ### Ocultar días de descanso
 Un día marcado como Descanso, o sin ejercicios, muestra el botón **"Ocultar este día"** dentro de su panel. Los días ocultos salen de la lista y aparecen en una fila pequeña de "Días ocultos" al final, cada uno con un enlace **Mostrar** para recuperarlo. La elección se conserva en las semanas siguientes, y el entrenador ve la misma disposición para ese cliente.
@@ -168,7 +178,7 @@ Deadlifts (Peso Muerto) 4×6-8 · Front Squats (Sentadillas Frontales) 3×8-10 �
 
 **No puedo editar mi semana.** Probablemente estás viendo una semana pasada — son de solo lectura. Toca "Volver a la semana actual".
 
-**¿Tengo que comenzar la nueva semana yo mismo?** No. Cada lunes comienza una semana nueva automáticamente con tus ejercicios y pesos conservados y el progreso reiniciado. "Reiniciar Esta Semana" solo borra el progreso de la semana actual. Las semanas pasadas siguen visibles en el navegador. ("Reiniciar Semana"/"Reiniciar Día" restauran el plan *predeterminado*; úsalos solo si quieres descartar tus personalizaciones.)
+**¿Tengo que comenzar la nueva semana yo mismo?** No. Cada lunes comienza una semana nueva automáticamente con tus ejercicios y pesos conservados y el progreso reiniciado. "Reiniciar Esta Semana" solo borra el progreso de la semana actual. Las semanas pasadas siguen visibles en el navegador. ("Reiniciar Día" restaura los ejercicios *predeterminados* de ese día; úsalo solo si quieres descartar tus personalizaciones de ese día.)
 
 **Un ejercicio no tiene demostración.** 122 de 159 ejercicios tienen demo. Los de Cardio, Combate y los personalizados no — la app muestra "Aún no hay demostración disponible".
 

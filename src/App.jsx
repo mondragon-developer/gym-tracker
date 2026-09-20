@@ -35,6 +35,9 @@ import InviteNoticeBanner from './components/InviteNoticeBanner.jsx';
 import RestTimer from './components/RestTimer.jsx';
 import SaveStatusBar from './components/SaveStatusBar.jsx';
 import HiddenDaysStrip from './components/HiddenDaysStrip.jsx';
+import { getWorkoutTemplate } from './constants/workoutTemplates.js';
+// Lazy: only loads when the user opens the template picker.
+const WorkoutTemplateModal = React.lazy(() => import('./components/WorkoutTemplateModal'));
 import mdLogo from './assets/mdlogo.jpeg';
 
 /**
@@ -55,6 +58,10 @@ function AppContent() {
         resetDay,
         resetWeek,
         updateDay,
+        replaceViewedWeek,
+        copyFromPreviousWeek,
+        hasPreviousWeek,
+        previousWeekStart,
         saveState,
         lastSavedAt,
         saveNow,
@@ -62,6 +69,8 @@ function AppContent() {
         reload,
         viewedWeekStart,
         isViewingCurrent,
+        isFutureWeek,
+        isEditable,
         hasOlderWeek,
         hasNewerWeek,
         goToOlderWeek,
@@ -82,6 +91,8 @@ function AppContent() {
     );
 
     const resetModal = useModal();
+    const copyWeekModal = useModal();
+    const templatesModal = useModal();
     const resetDayModal = useModal();
     const addExerciseModal = useModal();
     const feedbackModal = useModal();
@@ -167,6 +178,17 @@ function AppContent() {
         resetWeek();
         resetModal.close();
         setActiveDay(getToday());
+    };
+
+    const handleCopyLastWeek = () => {
+        copyFromPreviousWeek();
+        copyWeekModal.close();
+    };
+
+    const handleSelectTemplate = (templateId) => {
+        const template = getWorkoutTemplate(templateId);
+        if (template) replaceViewedWeek(template.build());
+        templatesModal.close();
     };
 
     const handleOpenAddExercise = (day) => {
@@ -391,10 +413,12 @@ function AppContent() {
                         <div style={{ fontSize: '15px', fontWeight: 700, color: '#164e63' }}>
                             {viewedWeekStart && `${t('Week of', language)} ${formatWeekRange(viewedWeekStart, language)}`}
                         </div>
-                        <div style={{ fontSize: '12px', fontWeight: 600, color: isViewingCurrent ? '#059669' : '#b45309' }}>
+                        <div style={{ fontSize: '12px', fontWeight: 600, color: isViewingCurrent ? '#059669' : isFutureWeek ? '#0e7490' : '#b45309' }}>
                             {isViewingCurrent
                                 ? t('Current week', language)
-                                : t('Viewing a past week — read only', language)}
+                                : isFutureWeek
+                                    ? t('Planning ahead', language)
+                                    : t('Viewing a past week — read only', language)}
                         </div>
                     </div>
                     <button
@@ -470,7 +494,7 @@ function AppContent() {
                                 onOpenAddExercise={handleOpenAddExercise}
                                 activeDayRef={activeDayRef}
                                 language={language}
-                                readOnly={!isViewingCurrent}
+                                readOnly={!isEditable}
                                 date={viewedWeekStart ? formatDayDate(viewedWeekStart, day, language) : undefined}
                             />
                         ))}
@@ -478,12 +502,12 @@ function AppContent() {
                             days={DAYS_OF_WEEK.filter(day => workoutPlan[day]?.hidden)}
                             onShow={(day) => updateDay(day, { ...workoutPlan[day], hidden: false })}
                             language={language}
-                            readOnly={!isViewingCurrent}
+                            readOnly={!isEditable}
                         />
                     </div>
 
-                    {/* Action Buttons — editing actions only on the current week */}
-                    {isViewingCurrent && (
+                    {/* Action Buttons — only on editable weeks; restart only on the current one */}
+                    {isEditable && (
                     <div style={{
                         marginTop: '20px',
                         display: 'flex',
@@ -492,6 +516,25 @@ function AppContent() {
                         gap: '12px'
                     }}>
                         <Button
+                            variant={ButtonVariant.SECONDARY}
+                            onClick={templatesModal.open}
+                            fullWidth
+                            style={{ maxWidth: '320px' }}
+                        >
+                            {t("Workout templates", language)}
+                        </Button>
+                        {hasPreviousWeek && (
+                        <Button
+                            variant={ButtonVariant.SECONDARY}
+                            onClick={copyWeekModal.open}
+                            fullWidth
+                            style={{ maxWidth: '320px' }}
+                        >
+                            {t("Copy last week", language)}
+                        </Button>
+                        )}
+                        {isViewingCurrent && (
+                        <Button
                             variant={ButtonVariant.DANGER}
                             onClick={resetModal.open}
                             fullWidth
@@ -499,6 +542,7 @@ function AppContent() {
                         >
                             🔄 {t("Restart This Week", language)}
                         </Button>
+                        )}
                         
                         {/* Feedback Button */}
                         <button
@@ -568,7 +612,7 @@ function AppContent() {
                     </div>
                     )}
 
-                    {isViewingCurrent && (
+                    {isEditable && (
                         <SaveStatusBar
                             saveState={saveState}
                             lastSavedAt={lastSavedAt}
@@ -617,6 +661,38 @@ function AppContent() {
                     </Button>
                 </div>
             </Modal>
+
+            {/* Copy last week Modal */}
+            <Modal
+                isOpen={copyWeekModal.isOpen}
+                onClose={copyWeekModal.close}
+                title={t("Copy last week?", language)}
+            >
+                <p style={{ color: '#6b7280', fontSize: '16px', lineHeight: '1.6', margin: '0 0 24px 0' }}>
+                    {t("This week's exercises, order and weights are replaced with last week's. Completion starts cleared.", language)}
+                    {previousWeekStart && ` (${t('Week of', language)} ${formatWeekRange(previousWeekStart, language)})`}
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    <Button variant={ButtonVariant.SECONDARY} onClick={copyWeekModal.close} fullWidth>
+                        {t("Cancel", language)}
+                    </Button>
+                    <Button variant={ButtonVariant.PRIMARY} onClick={handleCopyLastWeek} fullWidth>
+                        {t("Copy", language)}
+                    </Button>
+                </div>
+            </Modal>
+
+            {/* Workout templates Modal — code-split, mounted only while open */}
+            {templatesModal.isOpen && (
+                <Suspense fallback={lazyFallback}>
+                    <WorkoutTemplateModal
+                        isOpen={templatesModal.isOpen}
+                        onClose={templatesModal.close}
+                        onSelect={handleSelectTemplate}
+                        language={language}
+                    />
+                </Suspense>
+            )}
 
             {/* Reset Day Modal */}
             <Modal

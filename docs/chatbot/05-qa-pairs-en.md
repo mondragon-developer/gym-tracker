@@ -40,11 +40,29 @@ A: Tap the **EN/ES** toggle in the header — the whole interface switches insta
 **Q: How do I see my weekly stats?**
 A: Tap the **📊 Weekly Summary** button below the days. It shows totals, sets per muscle group, and the full week detail, with a **Download CSV** option.
 
-**Q: What does "Start New Week" do? Will I lose my plan?**
-A: No — it archives the current week and starts a new one **keeping your exercises and weights**, only resetting the completion checkmarks. Past weeks stay viewable in the week navigator.
+**Q: Do I have to start a new week myself?**
+A: No — weeks run Monday to Sunday and a new one starts automatically every Monday, **keeping your exercises and weights** and only clearing the completion checkmarks. The finished week is archived and stays viewable in the week navigator.
 
-**Q: What's the difference between "Start New Week" and "Reset Week"/"Reset Day"?**
-A: **Start New Week** keeps your customizations and just resets progress for the new week. **Reset Week/Reset Day** restore the original default plan and discard your customizations — use with care.
+**Q: What does "Restart This Week" do? Will I lose my plan?**
+A: No — it clears the completion checkmarks and logged sets for the current week only. Your exercises and weights stay. **Reset Day** is different: it restores that day's original default exercises and discards your customizations for that day — use with care.
+
+**Q: Can I hide a rest day?**
+A: Yes. A day set to Rest, or with no exercises, shows a **Hide this day** button inside its panel. Hidden days move to a small "Hidden days" row under the list, each with a **Show** link to bring it back. The setting carries into the following weeks.
+
+**Q: Why does the app say "Unsaved changes" or "Saved at"?**
+A: That is the save bar at the bottom. Edits save on their own a second after you make them; **Save changes** forces it right away. If it says the plan was updated from another device or by your trainer, choose **Load latest** to take their version or **Keep mine** to overwrite it with yours.
+
+**Q: Can I plan next week (or further ahead) before it starts?**
+A: Yes. Press the next arrow in the week navigator to move forward, up to 12 weeks ahead ("Planning ahead"). The future week starts as a copy of your latest plan with nothing completed; edit it and it saves. When that Monday comes, the week opens as planned. Trainers can do the same for a client from their panel.
+
+**Q: Is there a ready-made plan I can start with?**
+A: Yes, three. Tap **Workout templates** under the days and pick **Classic Push / Pull / Legs** (6 days), **Upper / Lower with active recovery** (4 days plus a light Wednesday) or **Full body 3 days** (Monday, Wednesday, Friday, 30-40 minutes). It replaces the exercises of the week you are viewing; weights start empty.
+
+**Q: Can I reuse last week's workout as it was?**
+A: Yes. Tap **Copy last week** under the days and confirm. The current (or future) week gets last week's exercises in the same order with the same weights, and completion starts cleared.
+
+**Q: Can I see how an exercise is done before adding it?**
+A: Yes. In the Add Exercise picker, tap the **▶** button on the right of an exercise to open its demo. Tapping the row itself adds it.
 
 **Q: How do I see past weeks?**
 A: Use the arrows in the week navigator ("Week of …"). Past weeks are read-only; tap **Back to current week** to edit again.

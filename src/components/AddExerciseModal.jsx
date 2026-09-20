@@ -5,7 +5,9 @@ import Modal from './ui/Modal.jsx';
 import { t } from '../translations/ui';
 import { translateExercise } from '../translations/exercises';
 import { translateEquipment } from '../translations/exerciseTerms';
-import { getExerciseEquipment, listEquipment } from '../services/ExerciseEnrichmentService.js';
+import { getExerciseEquipment, listEquipment, hasExerciseEnrichment } from '../services/ExerciseEnrichmentService.js';
+import { hasExerciseMedia } from '../services/ExerciseMediaService.js';
+import ExerciseDemoModal from './ExerciseDemoModal.jsx';
 
 const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -40,6 +42,12 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
     const [selectedMuscleGroup, setSelectedMuscleGroup] = useState(initialFilter);
     const [selectedEquipment, setSelectedEquipment] = useState('All');
     const [isCustom, setIsCustom] = useState(false);
+    // Exercise whose demo is open on top of the picker, before it is added.
+    // Cleared on close so a reopened picker does not start with a demo up.
+    const [previewExercise, setPreviewExercise] = useState(null);
+    useEffect(() => {
+        if (!isOpen) setPreviewExercise(null);
+    }, [isOpen]);
     const [customName, setCustomName] = useState('');
     const [customSets, setCustomSets] = useState('3');
     const [customReps, setCustomReps] = useState('10-12');
@@ -528,6 +536,28 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                                     }
                                                 </div>
                                             </div>
+                                            {(hasExerciseMedia(ex.id) || hasExerciseEnrichment(ex.id)) && (
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => { e.stopPropagation(); setPreviewExercise({ dbId: ex.id, name: ex.name }); }}
+                                                    title={t("How to do this exercise", language)}
+                                                    aria-label={`${t("How to do this exercise", language)}: ${translateExercise(ex.name, language)}`}
+                                                    style={{
+                                                        flexShrink: 0,
+                                                        width: '34px',
+                                                        height: '34px',
+                                                        borderRadius: '50%',
+                                                        border: '1px solid #a5f3fc',
+                                                        backgroundColor: '#ecfeff',
+                                                        color: '#0e7490',
+                                                        cursor: 'pointer',
+                                                        fontSize: '14px',
+                                                        fontWeight: 700
+                                                    }}
+                                                >
+                                                    ▶
+                                                </button>
+                                            )}
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                                 <span style={{
                                                     fontSize: '12px',
@@ -563,6 +593,13 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                     </div>
                 )}
             </div>
+            {previewExercise && (
+                <ExerciseDemoModal
+                    exercise={previewExercise}
+                    onClose={() => setPreviewExercise(null)}
+                    language={language}
+                />
+            )}
         </Modal>
     );
 };

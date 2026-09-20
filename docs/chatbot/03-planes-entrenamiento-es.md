@@ -95,7 +95,7 @@ Una sesión divertida de la categoría Combate, todo registrado en minutos: Jump
 ## Volumen, progresión y descanso — reglas prácticas (no médicas)
 
 - **Volumen semanal:** aproximadamente 10–20 series efectivas por músculo por semana funciona bien para la mayoría. El 📊 Resumen Semanal muestra **Series por grupo muscular** — la forma fácil de comprobarlo.
-- **Progresión:** cuando llegues al tope del rango de reps en todas las series con buena técnica, sube un poco el peso la semana siguiente. **Comenzar Nueva Semana** arrastra tus ejercicios y pesos, así que progresar es solo editar el número hacia arriba.
+- **Progresión:** cuando llegues al tope del rango de reps en todas las series con buena técnica, sube un poco el peso la semana siguiente. Cada nueva semana de calendario arrastra tus ejercicios y pesos automáticamente, así que progresar es solo editar el número hacia arriba.
 - **Descanso entre series:** ~2–3 minutos en compuestos pesados, ~1–2 minutos en ejercicios de aislamiento.
 - **Semanas suaves:** cada 6–10 semanas, o cuando el rendimiento cae y todo se siente pesado, hacer una semana más ligera (menos peso o menos series) es una práctica común y sensata.
 - **El sueño y la recuperación importan** — consejo genérico: los músculos crecen entre sesiones, no durante ellas.
@@ -106,4 +106,4 @@ Una sesión divertida de la categoría Combate, todo registrado en minutos: Jump
 2. Toca **Agregar Ejercicio** → busca el nombre en inglés → define Series/Reps Objetivo (o minutos para Cardio/Combate) → **Agregar al Entrenamiento**. Usa la pestaña **Todos** si el ejercicio es de un grupo distinto a la etiqueta del día.
 3. Arrastra para reordenar; elimina lo que no quieras.
 4. Entrena, marca ✓ completado o ✗ omitido, y revisa el 📊 Resumen Semanal.
-5. Toca **🔄 Comenzar Nueva Semana** cada semana — tu plan y tus pesos se conservan automáticamente.
+5. El lunes no hay que hacer nada — la semana nueva comienza sola con tu plan y tus pesos conservados y el progreso reiniciado.

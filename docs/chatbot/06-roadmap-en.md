@@ -15,7 +15,14 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 - **Resend confirmation email** action on the post-signup screen and after an "email not confirmed" sign-in error
 - **kg/lbs unit toggle** in the header (display-only label for the weight field)
 - Weekly progress bar, 📊 Weekly Summary with sets-per-muscle-group breakdown, and **CSV export of the weekly summary**
-- Dated weekly history with read-only past weeks and carry-forward on Start New Week
+- **Calendar weeks** (Monday to Sunday) that start on their own every Monday with the plan and weights carried forward; dated weekly history with read-only past weeks; **Restart This Week** clears the current week's progress only
+- **Workout templates**: Classic Push/Pull/Legs (6 days), Upper/Lower with active recovery (4 days + light Wednesday), Full body 3 days (30-40 min); applied to the viewed week from the tracker or the trainer panel
+- **Copy last week**: one tap reuses the previous week's exercises, order and weights with completion cleared
+- **Demo preview in the exercise picker**: the ▶ button on a row opens the how-to before the exercise is added
+- **Planning ahead**: the week navigator goes up to 12 weeks into the future for users and trainers; a future week starts as a copy of the latest plan and is saved once edited
+- **Hidden rest days**: Rest or empty days can be hidden from the list and shown again from the "Hidden days" row
+- **Save status bar** with a manual Save button; cloud saves are version-checked, so a trainer's newer copy is never overwritten silently (Load latest / Keep mine)
+- **Several trainers per client**: a client can connect to more trainers by code in the profile menu or by invite link while signed in; every linked trainer can edit the plan and the last save wins
 - Drag-and-drop exercise reordering
 - Free accounts with cloud sync across devices; offline/local mode without an account; automatic migration on first sign-in
 - Password recovery by email

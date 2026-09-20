@@ -104,7 +104,11 @@ const useWorkoutPlan = () => {
       versionRef.current = version;
       conflictRef.current = false;
       setHistory(migrated);
-      setViewedWeekStart(prev => (silent && prev && migrated.weeks[prev]) ? prev : migrated.currentWeekStart);
+      setViewedWeekStart(prev => (
+        silent && prev && WeekPlanService.listNavigableWeeks(migrated).includes(prev)
+          ? prev
+          : migrated.currentWeekStart
+      ));
       setSaveState(SaveState.IDLE);
       setError(null);
     } catch (err) {
@@ -228,37 +232,61 @@ const useWorkoutPlan = () => {
   }, [save, load]);
 
   const currentWeekStart = history?.currentWeekStart ?? null;
-  const weekStarts = history ? WeekPlanService.listWeekStarts(history) : [];
-  const workoutPlan = history && viewedWeekStart ? history.weeks[viewedWeekStart] ?? null : null;
+  // Oldest first: stored weeks, the current week, and twelve weeks ahead.
+  const navWeeks = history ? WeekPlanService.listNavigableWeeks(history) : [];
+  const workoutPlan = history && viewedWeekStart ? WeekPlanService.resolveWeek(history, viewedWeekStart) : null;
   const isViewingCurrent = viewedWeekStart === currentWeekStart;
+  const isFutureWeek = Boolean(currentWeekStart && viewedWeekStart && viewedWeekStart > currentWeekStart);
+  // Current and future weeks can be edited; past weeks are read-only history.
+  const isEditable = isViewingCurrent || isFutureWeek;
 
-  const viewedIndex = weekStarts.indexOf(viewedWeekStart);
-  const hasOlderWeek = viewedIndex >= 0 && viewedIndex < weekStarts.length - 1;
-  const hasNewerWeek = viewedIndex > 0;
+  const viewedIndex = navWeeks.indexOf(viewedWeekStart);
+  const hasOlderWeek = viewedIndex > 0;
+  const hasNewerWeek = viewedIndex >= 0 && viewedIndex < navWeeks.length - 1;
 
-  // Editing only ever touches the CURRENT week. Past weeks are read-only history.
-  const editCurrentWeek = (updater) => {
-    if (!isViewingCurrent) return;
+  // Edits land on the viewed week. A previewed future week is stored on its
+  // first edit, which is also what makes it save.
+  const editViewedWeek = (updater) => {
+    if (!isEditable) return;
+    const weekStart = viewedWeekStart;
     setHistory(prev => {
       if (!prev) return prev;
-      const nextPlan = updater(prev.weeks[prev.currentWeekStart]);
-      return { ...prev, weeks: { ...prev.weeks, [prev.currentWeekStart]: nextPlan } };
+      const base = WeekPlanService.resolveWeek(prev, weekStart);
+      if (!base) return prev;
+      return WeekPlanService.setWeek(prev, weekStart, updater(base));
     });
   };
 
   const updateDay = (day, dayData) => {
-    editCurrentWeek(prev => ({ ...prev, [day]: dayData }));
+    editViewedWeek(prev => ({ ...prev, [day]: dayData }));
   };
 
   const addExercise = (day, exerciseData) => {
-    editCurrentWeek(prev => workoutService.addExerciseToDay(prev, day, exerciseData));
+    editViewedWeek(prev => workoutService.addExerciseToDay(prev, day, exerciseData));
   };
 
   const resetDay = (day) => {
-    editCurrentWeek(prev => workoutService.resetDay(prev, day));
+    editViewedWeek(prev => workoutService.resetDay(prev, day));
   };
 
-  // "Start New Week": archive the current week and carry the plan forward.
+  // Whole-week replacements (templates, copy of last week) on the viewed
+  // editable week.
+  const replaceViewedWeek = (plan) => {
+    editViewedWeek(() => plan);
+  };
+
+  const previousWeekStart = history && viewedWeekStart
+    ? WeekPlanService.previousWeekOf(history, viewedWeekStart)
+    : null;
+  const hasPreviousWeek = Boolean(previousWeekStart);
+
+  const copyFromPreviousWeek = () => {
+    if (!isEditable || !previousWeekStart) return;
+    const weekStart = viewedWeekStart;
+    setHistory(prev => (prev ? WeekPlanService.copyWeek(prev, previousWeekStart, weekStart) : prev));
+  };
+
+  // "Restart This Week": clear the current week's progress, keeping the plan.
   const resetWeek = () => {
     if (!history) return;
     const next = WeekPlanService.startNewWeek(history);
@@ -266,13 +294,12 @@ const useWorkoutPlan = () => {
     setViewedWeekStart(next.currentWeekStart);
   };
 
-  // Week navigation among existing weeks (newest-first list).
   const goToOlderWeek = () => {
-    if (hasOlderWeek) setViewedWeekStart(weekStarts[viewedIndex + 1]);
+    if (hasOlderWeek) setViewedWeekStart(navWeeks[viewedIndex - 1]);
   };
 
   const goToNewerWeek = () => {
-    if (hasNewerWeek) setViewedWeekStart(weekStarts[viewedIndex - 1]);
+    if (hasNewerWeek) setViewedWeekStart(navWeeks[viewedIndex + 1]);
   };
 
   const goToCurrentWeek = () => {
@@ -287,6 +314,10 @@ const useWorkoutPlan = () => {
     addExercise,
     resetDay,
     resetWeek,
+    replaceViewedWeek,
+    copyFromPreviousWeek,
+    hasPreviousWeek,
+    previousWeekStart,
     // Persistence status and controls
     saveState,
     isDirty,
@@ -298,6 +329,8 @@ const useWorkoutPlan = () => {
     viewedWeekStart,
     currentWeekStart,
     isViewingCurrent,
+    isFutureWeek,
+    isEditable,
     hasOlderWeek,
     hasNewerWeek,
     goToOlderWeek,

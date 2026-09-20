@@ -15,7 +15,14 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 - **Reenvío del correo de confirmación** en la pantalla posterior al registro y tras un error de "correo no confirmado" al iniciar sesión
 - **Selector de unidades kg/lbs** en el encabezado (solo cambia la etiqueta del campo de peso)
 - Barra de progreso semanal, 📊 Resumen Semanal con desglose de series por grupo muscular y **exportación CSV del resumen**
-- Historial semanal con fechas, semanas pasadas de solo lectura y arrastre del plan al Comenzar Nueva Semana
+- **Semanas de calendario** (de lunes a domingo) que comienzan solas cada lunes con el plan y los pesos arrastrados; historial semanal con fechas y semanas pasadas de solo lectura; **Reiniciar Esta Semana** borra solo el progreso de la semana actual
+- **Plantillas de entrenamiento**: Clásico Push/Pull/Piernas (6 días), Tren superior/inferior con recuperación activa (4 días + miércoles suave), Cuerpo completo 3 días (30-40 min); se aplican a la semana que se está viendo desde el tracker o el panel de entrenador
+- **Copiar la semana pasada**: un toque reutiliza los ejercicios, el orden y los pesos de la semana anterior con el progreso en cero
+- **Vista previa de la demostración en el selector**: el botón ▶ de una fila abre el cómo-hacerlo antes de agregar el ejercicio
+- **Planificar por adelantado**: el navegador de semanas avanza hasta 12 semanas en el futuro para usuarios y entrenadores; una semana futura empieza como copia del último plan y se guarda al editarla
+- **Días de descanso ocultos**: los días de Descanso o sin ejercicios se pueden ocultar de la lista y recuperar desde la fila "Días ocultos"
+- **Barra de guardado** con botón Guardar manual; los guardados en la nube verifican la versión, así que la copia más reciente de un entrenador nunca se sobrescribe en silencio (Cargar la última versión / Conservar la mía)
+- **Varios entrenadores por cliente**: un cliente puede conectarse con más entrenadores por código en el menú de perfil o por enlace de invitación con la sesión iniciada; todos los entrenadores vinculados pueden editar el plan y el último guardado gana
 - Reordenar ejercicios arrastrándolos
 - Cuentas gratuitas con sincronización en la nube entre dispositivos; modo local/sin conexión sin cuenta; migración automática en el primer inicio de sesión
 - Recuperación de contraseña por correo

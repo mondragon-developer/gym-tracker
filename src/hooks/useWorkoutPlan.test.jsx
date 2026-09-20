@@ -168,6 +168,45 @@ describe('useWorkoutPlan persistence', () => {
     expect(result.current.isDirty).toBe(false);
   });
 
+  it('lets the user step into a future week, previews it, and stores it on first edit', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
+    const { result } = await renderPlan();
+    const current = result.current.currentWeekStart;
+
+    act(() => { result.current.goToNewerWeek(); });
+    expect(result.current.isFutureWeek).toBe(true);
+    expect(result.current.isEditable).toBe(true);
+    expect(result.current.viewedWeekStart > current).toBe(true);
+    // Preview carries the plan but nothing is dirty yet.
+    expect(result.current.workoutPlan.Monday.name).toBe('Cloud Day');
+    expect(result.current.isDirty).toBe(false);
+
+    const nextWeek = result.current.viewedWeekStart;
+    act(() => {
+      result.current.updateDay('Monday', { ...result.current.workoutPlan.Monday, name: 'Planned Day' });
+    });
+    expect(result.current.isDirty).toBe(true);
+    await act(async () => { await result.current.saveNow(); });
+
+    const saved = mocks.saveWorkoutPlan.mock.calls[0][0];
+    expect(saved.currentWeekStart).toBe(current);
+    expect(saved.weeks[nextWeek].Monday.name).toBe('Planned Day');
+    expect(saved.weeks[current].Monday.name).toBe('Cloud Day');
+  });
+
+  it('blocks navigation beyond twelve weeks ahead', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
+    const { result } = await renderPlan();
+
+    for (let i = 0; i < 20; i++) {
+      act(() => { result.current.goToNewerWeek(); });
+    }
+    expect(result.current.hasNewerWeek).toBe(false);
+    expect(result.current.viewedWeekStart).toBe(
+      WeekPlanService.listNavigableWeeks({ currentWeekStart: result.current.currentWeekStart, weeks: {} }).pop()
+    );
+  });
+
   it('migrates a local plan to the cloud only when no cloud row exists', async () => {
     mocks.getWorkoutPlanRecord.mockResolvedValue(null);
     const local = workoutService.getInitialPlan();

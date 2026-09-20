@@ -32,6 +32,10 @@ A modern, responsive React-based gym workout tracking application that helps you
   - Drag and drop exercise reordering
 - **Intelligent Exercise Display**: Context-aware UI that adapts to exercise type
 - **Persistent Storage**: Workout data saved automatically — to the cloud when signed in, to local storage otherwise
+- **Save Status Bar**: Sticky footer showing Saved at / Unsaved changes / Saving / Save failed, with a manual Save button. Cloud saves are version-checked, so an edit from another device or a trainer is never overwritten silently (Load latest / Keep mine)
+- **Hidden Rest Days**: Days set to Rest or with no exercises can be hidden from the list and brought back from a "Hidden days" strip; the choice carries into following weeks
+- **Workout Templates**: Three ready-made weeks (Classic Push/Pull/Legs, Upper/Lower with an active-recovery Wednesday, Full body 3 days at 30-40 min) applied to the viewed week from the tracker or the trainer panel (`src/constants/workoutTemplates.js`)
+- **Copy Last Week**: Reuse the previous week's exercises, order and weights in one tap, with completion cleared
 
 ### Accounts & Cloud Sync
 - **Email/Password Authentication**: Secure sign up and sign in powered by Supabase
@@ -40,17 +44,20 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Password Recovery**: Full "forgot password" flow with an emailed reset link
 - **Google Sign-In**: One-tap OAuth sign-in alongside email/password accounts
 - **Confirmation Resend**: Resend the verification email from the post-signup screen or after an "email not confirmed" sign-in error
-- **Admin Dashboard**: Admins can list users, manage roles, and view or edit any user's workout plan (access enforced server-side by Postgres Row Level Security)
+- **Admin Dashboard**: Admins can list users, manage roles, assign or remove trainers per client, and view or edit any user's workout plan (access enforced server-side by Postgres Row Level Security)
 - **Trainer Tools**: Trainer accounts with shareable invite codes/links, plus one-tap **email invitations** sent from the app via a Supabase Edge Function
+- **Multiple Trainers per Client**: A client can be coached by several trainers at once (`trainer_clients` join table). Clients connect to another trainer by entering a code in the profile menu or opening an invite link while signed in. Every linked trainer can view and edit the plan; the last save wins
 
 ### Weekly History & Dates
 - **Dated Weeks**: Every week is stamped with its date range and each day shows its calendar date
-- **Week Navigator**: Step back through past weeks; finished weeks are kept read-only
-- **Carry-Forward**: Starting a new week keeps your exercises and weights and resets completion, so progressive overload is one tap
+- **Week Navigator**: Step back through past weeks (read-only) or forward up to 12 weeks to plan ahead. A future week starts as a copy of the latest plan and is stored once edited; when its Monday arrives it opens as planned. Trainers get the same navigator in their panel
+- **Calendar Weeks**: Weeks run Monday to Sunday and advance on their own. Every Monday the app opens on the new week with exercises and weights carried forward and completion cleared, so progressive overload needs no button
+- **Restart This Week**: Clears the current week's progress only, keeping exercises and weights
 
 ### Exercise Demonstrations
 - **How-To Guides**: Tap ▶ on an exercise for a start-to-finish demonstration of the movement's full range of motion
 - **122 Exercises Covered**: Self-hosted on Supabase Storage with a graceful fallback when a demo isn't available
+- **Preview Before Adding**: The ▶ button on a row in the Add Exercise picker opens the demo without leaving the picker
 
 ### Bilingual Interface
 - **English / Spanish**: Full UI translation with an in-app language toggle
@@ -67,8 +74,8 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Custom Default Settings**: Set preferred sets (1-10) and reps (1-20) for exercises
 - **Exercise Type Detection**: Automatic detection and handling of cardio vs strength exercises
 - **kg/lbs Unit Toggle**: Header switch that labels the weight field in your preferred unit (display-only)
-- **Reset Options**: Reset individual days or entire weeks
-- **Workout Templates**: Pre-configured Push/Pull/Leg split with 20+ exercises
+- **Reset Options**: Reset a single day to its default exercises, or restart the current week's progress
+- **Default Plan**: New accounts start on the Classic Push/Pull/Legs split with 20+ exercises
 
 ## Getting Started
 
@@ -105,7 +112,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 
 4. **Set up the database**
 
-   In the Supabase SQL editor, run `supabase/schema.sql`, then `supabase/admin.sql`. See [`SUPABASE_SETUP.md`](SUPABASE_SETUP.md) for the full walkthrough, including how to promote your account to admin.
+   In the Supabase SQL editor, run these files in order: `supabase/schema.sql`, `supabase/admin.sql`, `supabase/trainers.sql`, `supabase/trainer-invites.sql`, `supabase/multi-trainer.sql`. All are idempotent. See [`SUPABASE_SETUP.md`](SUPABASE_SETUP.md) for the full walkthrough, including how to promote your account to admin.
 
 5. **Start the development server**
    ```bash
@@ -182,7 +189,7 @@ npm run build     # Production build to dist/
 npm run preview   # Preview the production build locally
 npm run lint      # Run ESLint
 npm test          # Run the Vitest suite in watch mode
-npm run test:run  # Run the Vitest suite once (179 tests)
+npm run test:run  # Run the Vitest suite once (204 tests)
 ```
 
 ## Usage Guide
@@ -252,7 +259,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 - **Supabase**: Authentication and Postgres cloud database with Row Level Security
 - **@dnd-kit**: Accessible, touch-friendly drag-and-drop for exercise reordering
 - **vite-plugin-pwa**: Installable, offline-capable Progressive Web App
-- **Vitest + Testing Library**: 179-test suite across services, hooks, and components
+- **Vitest + Testing Library**: 204-test suite across services, hooks, and components
 - **Inline Styles**: Component-scoped styling for better maintainability
 - **Lucide React**: Beautiful, consistent icon library
 - **Modern JavaScript**: ES6+ features and best practices
@@ -374,6 +381,10 @@ This project is open source and available under the [MIT License](LICENSE).
 - [x] **Google sign-in**: One-tap OAuth alongside email/password accounts
 - [x] **kg/lbs unit toggle**: Header switch for the weight-field unit label
 - [x] **Auth UX hardening**: Friendly bilingual auth errors and confirmation-email resend
+- [x] **Reliable saves**: Edit-driven autosave with version-checked cloud writes and a visible save status bar
+- [x] **Calendar weeks**: Monday-to-Sunday weeks that roll forward automatically; Restart This Week replaces the manual Start New Week
+- [x] **Hidden rest days**: Hide Rest or empty days from the list and bring them back any time
+- [x] **Multiple trainers per client**: Join table, profile-menu trainer code, invite links that work while signed in, admin add/remove per client
 
 ### Planned Features
 - [ ] **Workout analytics**: Progress charts and performance metrics
