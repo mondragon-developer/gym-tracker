@@ -16,12 +16,14 @@ const AdminDashboard = React.lazy(() => import('./components/AdminDashboard'));
 // Lazy: only loads when the user opens the weekly summary.
 const WeeklySummaryModal = React.lazy(() => import('./components/WeeklySummaryModal'));
 import LanguageToggle from './components/LanguageToggle';
+import UnitsToggle from './components/UnitsToggle';
 import UserProfile from './components/UserProfile';
 import AuthWrapper from './components/AuthWrapper';
 import Modal from './components/ui/Modal.jsx';
 import Button from './components/ui/Button.jsx';
 import { ButtonVariant } from './components/ui/Button.constants.js';
 import { LanguageProvider } from './contexts/LanguageContext';
+import { UnitsProvider } from './contexts/UnitsContext';
 import { useLanguage } from './hooks/useLanguage.js';
 import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from './hooks/useAuth.js';
@@ -250,6 +252,7 @@ function AppContent() {
                             flexWrap: 'wrap'
                         }}>
                             <LanguageToggle />
+                            <UnitsToggle />
                             <UserProfile />
                             {(isAdmin || isTrainer) && (
                                 <button
@@ -596,16 +599,18 @@ function AppContent() {
 /**
  * Main App Component with Providers
  * Wraps the AppContent with all necessary context providers
- * Order: LanguageProvider -> AuthProvider -> AuthWrapper -> AppContent
+ * Order: LanguageProvider -> UnitsProvider -> AuthProvider -> AuthWrapper -> AppContent
  */
 export default function App() {
     return (
         <LanguageProvider>
-            <AuthProvider>
-                <AuthWrapper>
-                    <AppContent />
-                </AuthWrapper>
-            </AuthProvider>
+            <UnitsProvider>
+                <AuthProvider>
+                    <AuthWrapper>
+                        <AppContent />
+                    </AuthWrapper>
+                </AuthProvider>
+            </UnitsProvider>
         </LanguageProvider>
     );
 }

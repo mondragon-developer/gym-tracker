@@ -90,10 +90,11 @@ Everything works without signing in: the plan saves automatically to the device'
 1. On the sign-in screen choose **Sign Up**.
 2. Enter your **name, email, and a password of at least 6 characters** (and confirm it).
 3. Optional: enter a **Trainer code** if a personal trainer gave you one — this links your account to that trainer. Leave it empty if you train on your own. An invalid code shows "Invalid trainer code".
-4. Check your email — the app sends a **confirmation link** you must click to verify the account ("Check Your Email" screen).
+4. Check your email — the app sends a **confirmation link** you must click to verify the account ("Check Your Email" screen). If it does not arrive, use **Resend confirmation email** on that screen (or after an "email not confirmed" sign-in error).
 
 ### Signing in and out
 - **Sign In** with email and password. Once signed in, workouts sync to the cloud and follow you to any device.
+- **Sign in with Google** (Continue with Google) is a one-tap alternative with no password; first use creates the account. Note: trainer codes can only be attached during an **email** sign-up, so use email if a trainer gave you a code.
 - **Sign Out** is in the profile menu in the header.
 
 ### Forgot password

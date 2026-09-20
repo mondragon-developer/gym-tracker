@@ -7,7 +7,8 @@ import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth.js';
 import { useLanguage } from '../hooks/useLanguage.js';
 import { t } from '../translations/ui';
-import { friendlyAuthError } from '../utils/authErrors.js';
+import { friendlyAuthError, isEmailNotConfirmed } from '../utils/authErrors.js';
+import GoogleSignInButton from '../components/GoogleSignInButton';
 import Button from '../components/ui/Button';
 import { ButtonVariant } from '../components/ui/Button.constants.js';
 import Input from '../components/ui/Input';
@@ -15,16 +16,32 @@ import PasswordInput from '../components/ui/PasswordInput';
 import mdLogo from '../assets/mdlogo.jpeg';
 
 export default function SignIn({ onToggleMode, onForgotPassword }) {
-  const { signIn } = useAuth();
+  const { signIn, resendConfirmation } = useAuth();
   const { language } = useLanguage();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  // Offer to resend the confirmation email when sign-in fails because the
+  // account's email was never confirmed.
+  const [showResend, setShowResend] = useState(false);
+  const [resending, setResending] = useState(false);
+  const [resent, setResent] = useState(false);
+
+  const handleResend = async () => {
+    setResending(true);
+    const { error: resendError } = await resendConfirmation(email);
+    setResending(false);
+    if (!resendError) {
+      setResent(true);
+      setShowResend(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setShowResend(false);
     setLoading(true);
 
     // Basic validation
@@ -38,6 +55,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
 
     if (signInError) {
       setError(t(friendlyAuthError(signInError), language));
+      setShowResend(isEmailNotConfirmed(signInError));
       setLoading(false);
     }
   };
@@ -115,6 +133,40 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
               </div>
             )}
 
+            {showResend && (
+              <button
+                type="button"
+                onClick={handleResend}
+                disabled={resending}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#06b6d4',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  textDecoration: 'underline',
+                  padding: 0,
+                  fontSize: '14px',
+                  textAlign: 'left'
+                }}
+              >
+                {resending ? t('Sending...', language) : t('Resend confirmation email', language)}
+              </button>
+            )}
+
+            {resent && (
+              <div style={{
+                padding: '12px 16px',
+                backgroundColor: '#d1fae5',
+                border: '1px solid #a7f3d0',
+                borderRadius: '8px',
+                color: '#065f46',
+                fontSize: '14px'
+              }}>
+                {t('Confirmation email sent!', language)}
+              </div>
+            )}
+
             <div>
               <label style={{
                 display: 'block',
@@ -180,6 +232,8 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
             >
               {loading ? t('Signing in...', language) : t('Sign In', language)}
             </Button>
+
+            <GoogleSignInButton />
 
             <div style={{
               textAlign: 'center',

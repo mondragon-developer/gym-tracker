@@ -295,7 +295,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                         
                         {/* Muscle Group Filter */}
                         <div style={{ marginBottom: '12px' }}>
-                            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>Filter by Muscle Group</label>
+                            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>{t("Filter by Muscle Group", language)}</label>
                             <select
                                 value={selectedMuscleGroup}
                                 onChange={(e) => setSelectedMuscleGroup(e.target.value)}
@@ -349,13 +349,13 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                             border: '1px solid #e2e8f0',
                             marginBottom: '12px'
                         }}>
-                            <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: '#374151', marginBottom: '12px' }}>Default Configuration for Selected Exercises</label>
+                            <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: '#374151', marginBottom: '12px' }}>{t("Default Configuration for Selected Exercises", language)}</label>
                             
                             {isDurationGroup(selectedMuscleGroup) ? (
                                 // Cardio/combat configuration
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '12px' }}>
                                     <div>
-                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#6b7280', marginBottom: '6px' }}>Duration (minutes)</label>
+                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#6b7280', marginBottom: '6px' }}>{t("Duration (minutes)", language)}</label>
                                         <select
                                             value={defaultSets}
                                             onChange={(e) => setDefaultSets(e.target.value)}
@@ -371,7 +371,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                             }}
                                         >
                                             {[...Array(120)].map((_, i) => (
-                                                <option key={i+1} value={i+1}>{i+1} minutes</option>
+                                                <option key={i+1} value={i+1}>{i+1} {t("minutes", language)}</option>
                                             ))}
                                         </select>
                                     </div>
@@ -380,7 +380,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                 // Regular exercise configuration
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
                                     <div>
-                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#6b7280', marginBottom: '6px' }}>Sets</label>
+                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#6b7280', marginBottom: '6px' }}>{t("Sets", language)}</label>
                                         <select
                                             value={defaultSets}
                                             onChange={(e) => setDefaultSets(e.target.value)}
@@ -401,7 +401,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                         </select>
                                     </div>
                                     <div>
-                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#6b7280', marginBottom: '6px' }}>Min Reps</label>
+                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#6b7280', marginBottom: '6px' }}>{t("Min Reps", language)}</label>
                                         <select
                                             value={defaultRepsMin}
                                             onChange={(e) => setDefaultRepsMin(e.target.value)}
@@ -422,7 +422,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                         </select>
                                     </div>
                                     <div>
-                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#6b7280', marginBottom: '6px' }}>Max Reps</label>
+                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#6b7280', marginBottom: '6px' }}>{t("Max Reps", language)}</label>
                                         <select
                                             value={defaultRepsMax}
                                             onChange={(e) => setDefaultRepsMax(e.target.value)}
@@ -460,10 +460,10 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                             alignItems: 'center'
                         }}>
                             <span>
-                                💡 Showing: <span style={{ fontWeight: '600' }}>{selectedMuscleGroup}</span> exercises
+                                💡 {t("Showing:", language)} <span style={{ fontWeight: '600' }}>{translateExercise(selectedMuscleGroup, language)}</span> {t("exercises", language)}
                             </span>
                             <span style={{ fontSize: '12px', fontWeight: '600' }}>
-                                {filteredExercises.length} results
+                                {filteredExercises.length} {t("results", language)}
                             </span>
                         </div>
                         
@@ -555,8 +555,8 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                     borderRadius: '6px'
                                 }}>
                                     <div style={{ fontSize: '32px', marginBottom: '8px' }}>🔍</div>
-                                    <p style={{ color: '#6b7280', margin: '0 0 4px 0' }}>No exercises found</p>
-                                    <p style={{ fontSize: '12px', color: '#9ca3af', margin: '0' }}>Try a different search term</p>
+                                    <p style={{ color: '#6b7280', margin: '0 0 4px 0' }}>{t("No exercises found", language)}</p>
+                                    <p style={{ fontSize: '12px', color: '#9ca3af', margin: '0' }}>{t("Try a different search term", language)}</p>
                                 </div>
                             )}
                         </div>

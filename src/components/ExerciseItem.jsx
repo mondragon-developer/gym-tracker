@@ -8,6 +8,7 @@ import { hasExerciseEnrichment } from '../services/ExerciseEnrichmentService.js'
 import ExerciseDemoModal from './ExerciseDemoModal.jsx';
 import { t } from '../translations/ui';
 import { translateExercise } from '../translations/exercises';
+import { useUnits } from '../hooks/useUnits.js';
 
 /**
  * Displays a single exercise item, allowing for edits, status changes, and deletion.
@@ -16,6 +17,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en', readOnly 
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
         id: exercise.id,
     });
+    const { unit } = useUnits();
     const [showDemo, setShowDemo] = useState(false);
     // Show the demo button if we have an animation OR step-by-step instructions.
     const hasDemo = hasExerciseMedia(exercise.dbId) || hasExerciseEnrichment(exercise.dbId);
@@ -370,7 +372,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en', readOnly 
                     {!isCardio() && (
                         <>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                                <label style={{ fontSize: '12px', fontWeight: '600', color: '#6366f1' }}>{t("Weight", language)}</label>
+                                <label style={{ fontSize: '12px', fontWeight: '600', color: '#6366f1' }}>{t("Weight", language)} ({unit})</label>
                                 <input 
                                     type="text" 
                                     value={exercise.weight} 
@@ -387,7 +389,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en', readOnly 
                                         boxSizing: 'border-box',
                                         transition: 'all 0.3s ease'
                                     }}
-                                    placeholder="lbs/kg"
+                                    placeholder={unit}
                                     onFocus={(e) => {
                                         e.target.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)';
                                         e.target.style.borderColor = '#6366f1';

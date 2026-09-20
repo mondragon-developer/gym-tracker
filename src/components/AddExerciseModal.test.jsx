@@ -51,4 +51,13 @@ describe('AddExerciseModal equipment filter', () => {
         expect(screen.getByRole('option', { name: 'Barra' })).toBeInTheDocument();       // barbell
         expect(screen.getByRole('option', { name: 'Mancuerna' })).toBeInTheDocument();   // dumbbell
     });
+
+    it('translates the filter labels and results line when language=es', () => {
+        renderModal('es');
+        expect(screen.getByText('Filtrar por Grupo Muscular')).toBeInTheDocument();
+        expect(screen.getByText('Filtrar por Equipo')).toBeInTheDocument();
+        expect(screen.getByText(/Mostrando:/)).toBeInTheDocument();
+        expect(screen.getByText(/resultados/)).toBeInTheDocument();
+        expect(screen.getByText('Configuración por Defecto para los Ejercicios Seleccionados')).toBeInTheDocument();
+    });
 });

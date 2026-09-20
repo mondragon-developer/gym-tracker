@@ -57,3 +57,13 @@ export const friendlyAuthError = (error) => {
 
     return GENERIC_MESSAGE;
 };
+
+/**
+ * Whether an auth error means the account exists but its email was never
+ * confirmed. Used to offer a "resend confirmation email" action.
+ * @param {object|null} error
+ * @returns {boolean}
+ */
+export const isEmailNotConfirmed = (error) =>
+    error?.code === 'email_not_confirmed' ||
+    /email not confirmed/i.test(error?.message || '');

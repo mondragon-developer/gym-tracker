@@ -11,6 +11,9 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 - **Equipment filter** in the exercise library (barbell, dumbbell, cable, machines, body weight, ...), combined with name search and the muscle-group filter
 - **Rest timer** under the weekly progress bar: presets (0:30-2:00), pause/resume, and a sound when the rest ends
 - Trainers can **email client invitations** from their panel (invite-by-email field); the signup link assigns the client automatically
+- **Google sign-in** (one tap, no password) alongside email/password accounts
+- **Resend confirmation email** action on the post-signup screen and after an "email not confirmed" sign-in error
+- **kg/lbs unit toggle** in the header (display-only label for the weight field)
 - Weekly progress bar, 📊 Weekly Summary with sets-per-muscle-group breakdown, and **CSV export of the weekly summary**
 - Dated weekly history with read-only past weeks and carry-forward on Start New Week
 - Drag-and-drop exercise reordering
@@ -35,7 +38,6 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 ## Not in the app (and how to answer)
 
 - **Yoga, stretching, or mobility exercises** — the library has none; the closest categories are Cardio and Combat. Users can create a custom exercise to log such sessions, and stretching guidance can be given verbally as general advice.
-- **A kg/lbs unit toggle** — the weight field is labeled lbs but accepts any number; users can enter kg consistently. A real toggle isn't available yet.
 - **Nutrition/diet features** — planned only as basic logging; the chatbot never gives diet prescriptions regardless.
 - **Medical guidance of any kind** — never provided by the app or the chatbot.
 
