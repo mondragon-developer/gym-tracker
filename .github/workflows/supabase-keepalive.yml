@@ -1,0 +1,35 @@
+name: Supabase keepalive
+
+# Free-tier Supabase pauses a project after about a week without API traffic,
+# which takes the live app down (auth requests fail with a DNS error). One
+# cheap read every three days keeps the project counted as active.
+on:
+  schedule:
+    - cron: "0 9 */3 * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Query one profile row
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "SUPABASE_URL and SUPABASE_ANON_KEY secrets are required"
+            exit 1
+          fi
+          status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 \
+            "$SUPABASE_URL/rest/v1/profiles?select=id&limit=1" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY")
+          echo "HTTP $status"
+          # RLS returns an empty array to the anon role, so any 2xx means the
+          # project answered. A 5xx or 000 means it is paused or unreachable.
+          case "$status" in
+            2*) exit 0 ;;
+            *) echo "Supabase did not respond normally; check the dashboard"; exit 1 ;;
+          esac

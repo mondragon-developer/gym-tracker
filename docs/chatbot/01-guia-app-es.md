@@ -90,10 +90,11 @@ Todo funciona sin iniciar sesión: el plan se guarda automáticamente en el alma
 1. En la pantalla de inicio de sesión elige **Registrarse**.
 2. Escribe tu **nombre, correo y una contraseña de al menos 6 caracteres** (y confírmala).
 3. Opcional: escribe un **Código de entrenador** si un entrenador personal te dio uno — esto vincula tu cuenta a ese entrenador. Déjalo vacío si entrenas por tu cuenta. Un código incorrecto muestra "Código de entrenador inválido".
-4. Revisa tu correo — la app envía un **enlace de confirmación** que debes abrir para verificar la cuenta (pantalla "Revisa tu Correo").
+4. Revisa tu correo — la app envía un **enlace de confirmación** que debes abrir para verificar la cuenta (pantalla "Revisa tu Correo"). Si no llega, usa **Reenviar correo de confirmación** en esa pantalla (o tras un error de "correo no confirmado" al iniciar sesión).
 
 ### Iniciar y cerrar sesión
 - **Iniciar Sesión** con correo y contraseña. Con la sesión iniciada, los entrenamientos se sincronizan en la nube y te siguen a cualquier dispositivo.
+- **Iniciar sesión con Google** (Continuar con Google) es la alternativa de un toque, sin contraseña; el primer uso crea la cuenta. Ojo: los códigos de entrenador solo se pueden vincular durante un registro con **correo**, así que usa el correo si un entrenador te dio un código.
 - **Cerrar Sesión** está en el menú de perfil del encabezado.
 
 ### Olvidé mi contraseña

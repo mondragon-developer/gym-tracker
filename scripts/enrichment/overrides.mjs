@@ -17,6 +17,12 @@ export const OVERRIDES = {
   127: '3142', // Squats (Wide Stance)     -> smith sumo squat (wide stance == sumo)
   181: '0857', // Ab Wheel Rollouts        -> wheel rollerout
   170: '2133', // Farmer's Carry           -> farmers walk (same movement, forearms variant)
+  86: '0596',  // Pec Deck Machine         -> lever seated fly (same machine movement)
+  92: '0203',  // Face Pulls               -> cable rear delt row with rope (a face pull by another name)
+  105: '0095', // Trap Bar Shrugs          -> barbell shrug (same shrug, different implement)
+  124: '0859', // Wrist Roller             -> wrist rollerer
+  125: '1409', // Barbell Hip Thrusts      -> barbell glute bridge (same barbell glute pattern)
+  142: '3193', // Nordic Ham Curls         -> glute-ham raise (same hamstring eccentric)
 
   // --- cardio ---
   193: '0685', // Treadmill Running -> run

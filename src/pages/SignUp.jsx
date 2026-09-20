@@ -8,6 +8,7 @@ import { useAuth } from '../hooks/useAuth.js';
 import { useLanguage } from '../hooks/useLanguage.js';
 import { t } from '../translations/ui';
 import { friendlyAuthError } from '../utils/authErrors.js';
+import GoogleSignInButton from '../components/GoogleSignInButton';
 import Button from '../components/ui/Button';
 import { ButtonVariant } from '../components/ui/Button.constants.js';
 import Input from '../components/ui/Input';
@@ -15,7 +16,7 @@ import PasswordInput from '../components/ui/PasswordInput';
 import mdLogo from '../assets/mdlogo.jpeg';
 
 export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerInvite = '' }) {
-  const { signUp, lookupTrainerCode, lookupTrainerInvite } = useAuth();
+  const { signUp, lookupTrainerCode, lookupTrainerInvite, resendConfirmation } = useAuth();
   const { language } = useLanguage();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,6 +26,17 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  // Resend-confirmation state for the "Check Your Email" screen
+  const [resending, setResending] = useState(false);
+  const [resent, setResent] = useState(false);
+
+  // Resend the signup confirmation email to the address just registered.
+  const handleResend = async () => {
+    setResending(true);
+    const { error: resendError } = await resendConfirmation(email);
+    setResending(false);
+    if (!resendError) setResent(true);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -152,6 +164,32 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
             }}>
               {t('Please check your email and click the link to verify your account', language)}
             </p>
+            {resent ? (
+              <p style={{ color: '#059669', fontSize: '14px', fontWeight: 600, margin: '0 0 24px 0' }}>
+                {t('Confirmation email sent!', language)}
+              </p>
+            ) : (
+              <p style={{ color: '#6b7280', fontSize: '14px', margin: '0 0 24px 0' }}>
+                {t("Didn't get the email?", language)}{' '}
+                <button
+                  type="button"
+                  onClick={handleResend}
+                  disabled={resending}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#06b6d4',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                    padding: 0,
+                    fontSize: '14px'
+                  }}
+                >
+                  {resending ? t('Sending...', language) : t('Resend confirmation email', language)}
+                </button>
+              </p>
+            )}
             <Button
               variant={ButtonVariant.SECONDARY}
               onClick={onToggleMode}
@@ -370,6 +408,12 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
             >
               {loading ? t('Creating account...', language) : t('Create Account', language)}
             </Button>
+
+            {/* Google sign-up cannot carry a trainer code/invite through the
+                OAuth redirect, so it only appears when no code is in play. */}
+            {!trainerInvite && !trainerCode.trim() && (
+              <GoogleSignInButton />
+            )}
 
             <div style={{
               textAlign: 'center',

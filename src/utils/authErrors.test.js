@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { friendlyAuthError } from './authErrors.js';
+import { friendlyAuthError, isEmailNotConfirmed } from './authErrors.js';
 
 describe('friendlyAuthError', () => {
     it('maps invalid_credentials by code', () => {
@@ -45,5 +45,20 @@ describe('friendlyAuthError', () => {
     it('returns the generic message for null or undefined errors', () => {
         expect(friendlyAuthError(null)).toBe('Something went wrong. Please try again in a moment.');
         expect(friendlyAuthError(undefined)).toBe('Something went wrong. Please try again in a moment.');
+    });
+});
+
+describe('isEmailNotConfirmed', () => {
+    it('detects the error by code', () => {
+        expect(isEmailNotConfirmed({ code: 'email_not_confirmed' })).toBe(true);
+    });
+
+    it('falls back to the message text when there is no code', () => {
+        expect(isEmailNotConfirmed({ message: 'Email not confirmed' })).toBe(true);
+    });
+
+    it('is false for other errors and null', () => {
+        expect(isEmailNotConfirmed({ code: 'invalid_credentials', message: 'Invalid login credentials' })).toBe(false);
+        expect(isEmailNotConfirmed(null)).toBe(false);
     });
 });

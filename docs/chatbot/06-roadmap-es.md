@@ -11,6 +11,9 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 - **Filtro por equipo** en la biblioteca de ejercicios (barra, mancuerna, cable, máquinas, peso corporal, ...), combinado con la búsqueda por nombre y el filtro por grupo muscular
 - **Temporizador de descanso** bajo la barra de progreso semanal: presets (0:30-2:00), pausa/reanudar y un sonido al terminar el descanso
 - Los entrenadores pueden **enviar invitaciones por correo** desde su panel (campo de invitación por correo); el enlace de registro asigna al cliente automáticamente
+- **Inicio de sesión con Google** (un toque, sin contraseña) además de cuentas con correo/contraseña
+- **Reenvío del correo de confirmación** en la pantalla posterior al registro y tras un error de "correo no confirmado" al iniciar sesión
+- **Selector de unidades kg/lbs** en el encabezado (solo cambia la etiqueta del campo de peso)
 - Barra de progreso semanal, 📊 Resumen Semanal con desglose de series por grupo muscular y **exportación CSV del resumen**
 - Historial semanal con fechas, semanas pasadas de solo lectura y arrastre del plan al Comenzar Nueva Semana
 - Reordenar ejercicios arrastrándolos
@@ -35,7 +38,6 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 ## No está en la app (y cómo responder)
 
 - **Yoga, estiramientos o movilidad** — la biblioteca no tiene ninguno; las categorías más cercanas son Cardio y Combate. El usuario puede crear un ejercicio personalizado para registrar esas sesiones, y las indicaciones de estiramiento se pueden dar verbalmente como consejo general.
-- **Selector de unidades kg/lbs** — el campo de peso dice lbs pero acepta cualquier número; se puede escribir kg de forma consistente. Un selector real aún no existe.
 - **Funciones de nutrición/dieta** — planeadas solo como registro básico; el chatbot nunca da prescripciones de dieta en ningún caso.
 - **Orientación médica de cualquier tipo** — ni la app ni el chatbot la ofrecen.
 

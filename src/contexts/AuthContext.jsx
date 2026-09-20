@@ -140,6 +140,36 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Sign in with Google OAuth. Redirects the browser to Google and back;
+  // the session is picked up by onAuthStateChange on return. Trainer invite
+  // codes cannot ride along on the redirect, so the sign-up form hides this
+  // option while a code is in play.
+  const signInWithGoogle = async () => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: window.location.origin }
+      });
+
+      if (error) throw error;
+      return { data, error: null };
+    } catch (error) {
+      return { data: null, error };
+    }
+  };
+
+  // Resend the signup confirmation email (offered on the post-signup screen
+  // and after an "email not confirmed" sign-in error).
+  const resendConfirmation = async (email) => {
+    try {
+      const { data, error } = await supabase.auth.resend({ type: 'signup', email });
+      if (error) throw error;
+      return { data, error: null };
+    } catch (error) {
+      return { data: null, error };
+    }
+  };
+
   // Check whether a trainer code is valid (used by the sign-up form to
   // validate the optional code before creating the account).
   const lookupTrainerCode = async (code) => {
@@ -190,6 +220,8 @@ export const AuthProvider = ({ children }) => {
     signOut,
     resetPassword,
     updatePassword,
+    signInWithGoogle,
+    resendConfirmation,
     updateProfile,
     lookupTrainerCode,
     lookupTrainerInvite

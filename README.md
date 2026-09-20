@@ -38,6 +38,8 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Cross-Device Sync**: Signed-in workouts are stored in the cloud and follow you to any device
 - **Offline Fallback**: Not signed in? Everything still works and saves to local storage, then migrates to the cloud on your first sign-in
 - **Password Recovery**: Full "forgot password" flow with an emailed reset link
+- **Google Sign-In**: One-tap OAuth sign-in alongside email/password accounts
+- **Confirmation Resend**: Resend the verification email from the post-signup screen or after an "email not confirmed" sign-in error
 - **Admin Dashboard**: Admins can list users, manage roles, and view or edit any user's workout plan (access enforced server-side by Postgres Row Level Security)
 - **Trainer Tools**: Trainer accounts with shareable invite codes/links, plus one-tap **email invitations** sent from the app via a Supabase Edge Function
 
@@ -64,6 +66,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Dynamic Muscle Group Assignment**: Change any day's focus with dropdown selection
 - **Custom Default Settings**: Set preferred sets (1-10) and reps (1-20) for exercises
 - **Exercise Type Detection**: Automatic detection and handling of cardio vs strength exercises
+- **kg/lbs Unit Toggle**: Header switch that labels the weight field in your preferred unit (display-only)
 - **Reset Options**: Reset individual days or entire weeks
 - **Workout Templates**: Pre-configured Push/Pull/Leg split with 20+ exercises
 
@@ -130,17 +133,19 @@ src/
 │   ├── DayAccordion.jsx        # Day workout with muscle group selection
 │   ├── ExerciseItem.jsx        # Smart exercise item (cardio/strength)
 │   ├── FeedbackModal.jsx       # Feedback form (lazy-loaded)
+│   ├── GoogleSignInButton.jsx  # OAuth button + divider (hidden when a trainer code is in play)
 │   ├── InviteNoticeBanner.jsx  # One-time notice when a trainer invite was already used
 │   ├── LanguageToggle.jsx      # English/Spanish switch
 │   ├── ProgressBar.jsx         # Weekly progress visualization
 │   ├── RestTimer.jsx           # Between-sets countdown with presets and end cue
+│   ├── UnitsToggle.jsx         # kg/lbs header switch
 │   ├── UserProfile.jsx         # Header account dropdown + sign out
 │   └── ui/                     # Reusable Button, Input, Modal primitives
 ├── pages/              # Full-screen auth pages
 │   ├── SignIn.jsx / SignUp.jsx
 │   ├── ForgotPassword.jsx      # Sends the reset email
 │   └── UpdatePassword.jsx      # Set a new password after the reset link
-├── contexts/           # React context providers (auth, language)
+├── contexts/           # React context providers (auth, language, units)
 ├── hooks/              # useAuth, useLanguage, useModal, useWorkoutPlan
 ├── services/           # Business logic
 │   ├── workoutService.js       # Push/Pull/Leg plan data & operations
@@ -176,7 +181,7 @@ npm run build     # Production build to dist/
 npm run preview   # Preview the production build locally
 npm run lint      # Run ESLint
 npm test          # Run the Vitest suite in watch mode
-npm run test:run  # Run the Vitest suite once (149 tests)
+npm run test:run  # Run the Vitest suite once (171 tests)
 ```
 
 ## Usage Guide
@@ -246,7 +251,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 - **Supabase**: Authentication and Postgres cloud database with Row Level Security
 - **@dnd-kit**: Accessible, touch-friendly drag-and-drop for exercise reordering
 - **vite-plugin-pwa**: Installable, offline-capable Progressive Web App
-- **Vitest + Testing Library**: 149-test suite across services, hooks, and components
+- **Vitest + Testing Library**: 171-test suite across services, hooks, and components
 - **Inline Styles**: Component-scoped styling for better maintainability
 - **Lucide React**: Beautiful, consistent icon library
 - **Modern JavaScript**: ES6+ features and best practices
@@ -365,6 +370,9 @@ This project is open source and available under the [MIT License](LICENSE).
 - [x] **Rest timer**: Between-sets countdown with presets, pause/resume, and an end-of-rest cue
 - [x] **Equipment filtering**: Filter the exercise library by equipment (barbell, dumbbell, cable, machines, body weight, ...)
 - [x] **Email invitations**: Trainers email client invite links straight from the app (Supabase Edge Function + custom SMTP)
+- [x] **Google sign-in**: One-tap OAuth alongside email/password accounts
+- [x] **kg/lbs unit toggle**: Header switch for the weight-field unit label
+- [x] **Auth UX hardening**: Friendly bilingual auth errors and confirmation-email resend
 
 ### Planned Features
 - [ ] **Workout analytics**: Progress charts and performance metrics

@@ -10,7 +10,7 @@
  * Only the MIT-licensed textual data is used — the dataset's images/GIFs are
  * (c) Gym Visual and are intentionally NOT included or referenced.
  *
- * 125 of our exercises are covered; the rest (combat drills, some
+ * 131 of our exercises are covered; the rest (combat drills, some
  * cardio, grip-only work) have no dataset equivalent. Kept free of Vite/
  * browser-only syntax so Node tooling can import it.
  */
@@ -561,6 +561,31 @@ export const EXERCISE_ENRICHMENT = {
       ],
     },
   },
+  86: {
+    sourceId: "0596",
+    sourceName: "lever seated fly",
+    equipment: "leverage machine",
+    target: "pectorals",
+    secondaryMuscles: ["deltoids","trapezius"],
+    instructions: {
+      en: [
+      "Adjust the seat height and position yourself on the machine with your back against the pad.",
+      "Grasp the handles with a pronated grip and keep your elbows slightly bent.",
+      "Exhale and push the handles forward, bringing them together in front of your chest.",
+      "Pause for a moment, squeezing your chest muscles.",
+      "Inhale and slowly return to the starting position, allowing your chest muscles to stretch.",
+      "Repeat for the desired number of repetitions."
+      ],
+      es: [
+      "Ajusta la altura del asiento y colócate en la máquina con la espalda apoyada en la almohadilla.",
+      "Agarra las asas con un agarre pronado y mantén los codos ligeramente flexionados.",
+      "Exhala y empuja las asas hacia adelante, juntándolas frente a tu pecho.",
+      "Haz una pausa por un momento, contrayendo los músculos del pecho.",
+      "Inhala y vuelve lentamente a la posición inicial, permitiendo que los músculos del pecho se estiren.",
+      "Repite el número de repeticiones deseado."
+      ],
+    },
+  },
   87: {
     sourceId: "0519",
     sourceName: "kettlebell alternating press on floor",
@@ -682,6 +707,33 @@ export const EXERCISE_ENRICHMENT = {
       "Mantén la espalda recta y activa el core.",
       "Tira de las asas hacia el torso, juntando los omóplatos.",
       "Haz una pausa en el punto de máxima contracción y luego suelta lentamente las asas hasta la posición inicial.",
+      "Repite el número de repeticiones deseado."
+      ],
+    },
+  },
+  92: {
+    sourceId: "0203",
+    sourceName: "cable rear delt row (with rope)",
+    equipment: "cable",
+    target: "delts",
+    secondaryMuscles: ["trapezius","rhomboids","biceps"],
+    instructions: {
+      en: [
+      "Attach a rope handle to a low pulley cable machine.",
+      "Stand facing the machine with your feet shoulder-width apart.",
+      "Grasp the rope handle with an overhand grip, palms facing each other.",
+      "Bend your knees slightly and hinge forward at the hips, keeping your back straight.",
+      "Keep your elbows slightly bent and pull the rope towards your chest, squeezing your shoulder blades together.",
+      "Pause for a moment at the top of the movement, then slowly release the tension and return to the starting position.",
+      "Repeat for the desired number of repetitions."
+      ],
+      es: [
+      "Sujeta una agarradera de cuerda a una máquina de cable con polea baja.",
+      "Ponte de pie frente a la máquina con los pies separados a la altura de los hombros.",
+      "Sujeta la agarradera de cuerda con un agarre prono, con las palmas una frente a la otra.",
+      "Flexiona ligeramente las rodillas e inclínate hacia adelante desde las caderas, manteniendo la espalda recta.",
+      "Mantén los codos ligeramente flexionados y jala la cuerda hacia el pecho, apretando los omóplatos entre sí.",
+      "Haz una pausa por un momento en la parte más alta del movimiento y luego libera lentamente la tensión, regresando a la posición inicial.",
       "Repite el número de repeticiones deseado."
       ],
     },
@@ -962,6 +1014,29 @@ export const EXERCISE_ENRICHMENT = {
       "Sujeta las agarraderas del cable con un agarre prono y deja que los brazos cuelguen frente a ti.",
       "Manteniendo los brazos rectos, encoge los hombros hacia las orejas.",
       "Mantén la contracción por un momento, luego baja lentamente los hombros de vuelta a la posición inicial.",
+      "Repite el número de repeticiones deseado."
+      ],
+    },
+  },
+  105: {
+    sourceId: "0095",
+    sourceName: "barbell shrug",
+    equipment: "barbell",
+    target: "traps",
+    secondaryMuscles: ["shoulders"],
+    instructions: {
+      en: [
+      "Stand with your feet shoulder-width apart and hold a barbell in front of you with an overhand grip.",
+      "Keep your arms straight and your back straight throughout the exercise.",
+      "Lift your shoulders up towards your ears as high as possible, squeezing your traps at the top.",
+      "Hold for a moment, then slowly lower your shoulders back down to the starting position.",
+      "Repeat for the desired number of repetitions."
+      ],
+      es: [
+      "Ponte de pie con los pies separados a la altura de los hombros y sujeta una barra frente a ti con un agarre pronado.",
+      "Mantén los brazos rectos y la espalda recta durante todo el ejercicio.",
+      "Levanta los hombros hacia las orejas lo más alto posible, apretando los trapecios en la parte alta.",
+      "Mantén la posición por un momento y luego baja lentamente los hombros de vuelta a la posición inicial.",
       "Repite el número de repeticiones deseado."
       ],
     },
@@ -1387,6 +1462,56 @@ export const EXERCISE_ENRICHMENT = {
       ],
     },
   },
+  124: {
+    sourceId: "0859",
+    sourceName: "wrist rollerer",
+    equipment: "weighted",
+    target: "forearms",
+    secondaryMuscles: ["biceps","triceps"],
+    instructions: {
+      en: [
+      "Attach a weight to one end of a rope or bar.",
+      "Hold the other end of the rope or bar with both hands, palms facing down.",
+      "Stand with your feet shoulder-width apart and your arms fully extended in front of you.",
+      "Slowly roll the weight up towards your hands by flexing your wrists.",
+      "Pause for a moment at the top, then slowly lower the weight back down to the starting position.",
+      "Repeat for the desired number of repetitions."
+      ],
+      es: [
+      "Sujeta un peso a un extremo de una cuerda o barra.",
+      "Sostén el otro extremo de la cuerda o barra con ambas manos, con las palmas hacia abajo.",
+      "Ponte de pie con los pies separados a la altura de los hombros y los brazos completamente extendidos frente a ti.",
+      "Enrolla lentamente el peso hacia las manos flexionando las muñecas.",
+      "Haz una pausa breve en lo alto, luego baja lentamente el peso de vuelta a la posición inicial.",
+      "Repite el número de repeticiones deseado."
+      ],
+    },
+  },
+  125: {
+    sourceId: "1409",
+    sourceName: "barbell glute bridge",
+    equipment: "barbell",
+    target: "glutes",
+    secondaryMuscles: ["hamstrings","lower back"],
+    instructions: {
+      en: [
+      "Start by lying flat on your back on the ground with your knees bent and feet flat on the floor.",
+      "Place a barbell across your hips, holding it securely with both hands.",
+      "Engage your glutes and core muscles, then lift your hips off the ground until your body forms a straight line from your knees to your shoulders.",
+      "Pause for a moment at the top, squeezing your glutes.",
+      "Slowly lower your hips back down to the starting position.",
+      "Repeat for the desired number of repetitions."
+      ],
+      es: [
+      "Empieza tumbado boca arriba en el suelo con las rodillas flexionadas y los pies planos sobre el suelo.",
+      "Coloca una barra sobre las caderas, sujetándola con firmeza con ambas manos.",
+      "Activa los glúteos y el core, luego levanta las caderas del suelo hasta que el cuerpo forme una línea recta desde las rodillas hasta los hombros.",
+      "Haz una pausa breve en la parte alta, apretando los glúteos.",
+      "Baja lentamente las caderas de vuelta a la posición inicial.",
+      "Repite el número de repeticiones deseado."
+      ],
+    },
+  },
   126: {
     sourceId: "1409",
     sourceName: "barbell glute bridge",
@@ -1792,6 +1917,33 @@ export const EXERCISE_ENRICHMENT = {
       "Baja la barra hacia el suelo, manteniéndola cerca del cuerpo y la pierna izquierda ligeramente flexionada.",
       "Haz una pausa breve en la posición más baja, luego activa los glúteos y los isquiotibiales para levantar el torso de vuelta a la posición inicial.",
       "Repite el número de repeticiones deseado, luego cambia de lado."
+      ],
+    },
+  },
+  142: {
+    sourceId: "3193",
+    sourceName: "glute-ham raise",
+    equipment: "body weight",
+    target: "hamstrings",
+    secondaryMuscles: ["glutes","lower back"],
+    instructions: {
+      en: [
+      "Adjust the glute-ham raise machine to fit your body.",
+      "Position yourself face down on the machine with your ankles secured.",
+      "Place your hands on your chest or cross them over your chest.",
+      "Engage your hamstrings and glutes to lift your upper body up towards the ceiling.",
+      "Continue lifting until your body is in a straight line from your head to your heels.",
+      "Pause for a moment at the top, then slowly lower your body back down to the starting position.",
+      "Repeat for the desired number of repetitions."
+      ],
+      es: [
+      "Ajusta la máquina de extensión de glúteos e isquiotibiales para que se adapte a tu cuerpo.",
+      "Colócate boca abajo en la máquina con los tobillos asegurados.",
+      "Coloca las manos sobre el pecho o crúzalas sobre el pecho.",
+      "Activa los isquiotibiales y los glúteos para levantar la parte superior del cuerpo hacia el techo.",
+      "Continúa levantando hasta que el cuerpo forme una línea recta desde la cabeza hasta los talones.",
+      "Haz una pausa por un momento en la parte superior, luego baja lentamente el cuerpo de vuelta a la posición inicial.",
+      "Repite el número de repeticiones deseado."
       ],
     },
   },
