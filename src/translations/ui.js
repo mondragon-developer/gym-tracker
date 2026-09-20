@@ -73,6 +73,9 @@ export const uiTranslations = {
         "Restart this week?": "Restart this week?",
         "Completion and logged sets for this week are cleared. Exercises and weights are kept. A new week starts on its own every Monday.": "Completion and logged sets for this week are cleared. Exercises and weights are kept. A new week starts on its own every Monday.",
         "Restart Week": "Restart Week",
+        "Hide this day": "Hide this day",
+        "Hidden days:": "Hidden days:",
+        "Show": "Show",
 
         // Buttons
         "Start New Week": "Start New Week",
@@ -351,6 +354,9 @@ export const uiTranslations = {
         "Restart this week?": "¿Reiniciar esta semana?",
         "Completion and logged sets for this week are cleared. Exercises and weights are kept. A new week starts on its own every Monday.": "Se borran el progreso y las series registradas de esta semana. Los ejercicios y pesos se conservan. Cada lunes comienza una semana nueva automáticamente.",
         "Restart Week": "Reiniciar Semana",
+        "Hide this day": "Ocultar este día",
+        "Hidden days:": "Días ocultos:",
+        "Show": "Mostrar",
 
         // Buttons
         "Start New Week": "Comenzar Nueva Semana",

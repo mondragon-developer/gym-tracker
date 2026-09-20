@@ -78,6 +78,9 @@ Debajo de la barra de progreso semanal. Elige un preset (**0:30 / 1:00 / 1:30 / 
 ### 🔄 Semanas y Reiniciar Esta Semana
 Las semanas son semanas de calendario, de lunes a domingo, y avanzan solas: cada lunes la app abre en la semana nueva **conservando todos tus ejercicios y pesos y reiniciando solo el estado de completado**, para que puedas aplicar sobrecarga progresiva sin rearmar tu plan. La semana terminada queda archivada y visible (solo lectura) en el navegador de semanas. El botón **"Reiniciar Esta Semana"** borra el progreso y las series registradas solo de la semana actual, conservando ejercicios y pesos; un modal pide confirmación antes de cambiar nada.
 
+### Ocultar días de descanso
+Un día marcado como Descanso, o sin ejercicios, muestra el botón **"Ocultar este día"** dentro de su panel. Los días ocultos salen de la lista y aparecen en una fila pequeña de "Días ocultos" al final, cada uno con un enlace **Mostrar** para recuperarlo. La elección se conserva en las semanas siguientes, y el entrenador ve la misma disposición para ese cliente.
+
 ### Comparte tu Opinión
 Al final de la pantalla principal. Abre un formulario con **Nombre, Correo, Mensaje** — envía los comentarios directamente al desarrollador. Úsalo para reportar errores y sugerir funciones.
 

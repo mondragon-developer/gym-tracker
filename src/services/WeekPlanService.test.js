@@ -133,6 +133,15 @@ describe('WeekPlanService', () => {
       expect(next.weeks[week].Monday.exercises[0].status).toBe('incomplete');
     });
 
+    it('keeps hidden rest days hidden in the next week', () => {
+      const h = WeekPlanService.migrate(null, new Date(2026, 7, 10));
+      h.weeks[h.currentWeekStart].Sunday = { name: 'Rest', exercises: [], hidden: true };
+
+      const next = WeekPlanService.startNewWeek(h, '2026-09-14');
+      expect(next.weeks['2026-09-14'].Sunday.hidden).toBe(true);
+      expect(next.weeks['2026-09-14'].Monday.hidden).toBeUndefined();
+    });
+
     it('does not mutate the input history', () => {
       const h = WeekPlanService.migrate(null);
       const before = JSON.stringify(h);

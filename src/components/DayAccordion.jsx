@@ -131,6 +131,9 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
     const exerciseCount = data.exercises.length;
     const completedCount = data.exercises.filter(ex => ex.status === 'completed').length;
     const headerStyle = getHeaderColors();
+    // Only a day with nothing to train can be hidden; a day with exercises
+    // must be emptied or set to Rest first so no work disappears from view.
+    const canHide = !readOnly && (data.name === 'Rest' || exerciseCount === 0);
 
     return (
         <div 
@@ -466,6 +469,24 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                         >
                             🔄 {t("Reset Day", language)}
                         </button>
+                        {canHide && (
+                            <button
+                                type="button"
+                                onClick={() => onUpdateDay(day, { ...data, hidden: true })}
+                                style={{
+                                    padding: '10px 16px',
+                                    background: 'none',
+                                    color: '#64748b',
+                                    fontWeight: '600',
+                                    borderRadius: '12px',
+                                    border: '1px dashed #cbd5e1',
+                                    cursor: 'pointer',
+                                    fontSize: '14px'
+                                }}
+                            >
+                                {t("Hide this day", language)}
+                            </button>
+                        )}
                     </div>
                     )}
                 </div>

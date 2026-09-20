@@ -25,6 +25,7 @@ import Button from './ui/Button.jsx';
 import { ButtonVariant } from './ui/Button.constants.js';
 import { DAYS_OF_WEEK } from '../constants/AppConstants.js';
 import DayAccordion from './DayAccordion.jsx';
+import HiddenDaysStrip from './HiddenDaysStrip.jsx';
 import AddExerciseModal from './AddExerciseModal.jsx';
 
 const cardStyle = {
@@ -656,7 +657,7 @@ export default function AdminDashboard({ onBack }) {
                   </p>
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    {DAYS_OF_WEEK.map(day => (
+                    {DAYS_OF_WEEK.filter(day => !plan[day]?.hidden).map(day => (
                       <DayAccordion
                         key={day}
                         day={day}
@@ -670,6 +671,11 @@ export default function AdminDashboard({ onBack }) {
                         date={formatDayDate(history.currentWeekStart, day, language)}
                       />
                     ))}
+                    <HiddenDaysStrip
+                      days={DAYS_OF_WEEK.filter(day => plan[day]?.hidden)}
+                      onShow={(day) => updateDay(day, { ...plan[day], hidden: false })}
+                      language={language}
+                    />
                   </div>
                 )}
               </>

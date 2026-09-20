@@ -34,6 +34,7 @@ import { isInviteNoticeRelevant, isInviteNoticeDismissed, dismissInviteNotice } 
 import InviteNoticeBanner from './components/InviteNoticeBanner.jsx';
 import RestTimer from './components/RestTimer.jsx';
 import SaveStatusBar from './components/SaveStatusBar.jsx';
+import HiddenDaysStrip from './components/HiddenDaysStrip.jsx';
 import mdLogo from './assets/mdlogo.jpeg';
 
 /**
@@ -398,7 +399,7 @@ function AppContent() {
                     backgroundColor: 'white'
                 }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        {DAYS_OF_WEEK.map(day => (
+                        {DAYS_OF_WEEK.filter(day => !workoutPlan[day]?.hidden).map(day => (
                             <DayAccordion
                                 key={day}
                                 day={day}
@@ -414,6 +415,12 @@ function AppContent() {
                                 date={viewedWeekStart ? formatDayDate(viewedWeekStart, day, language) : undefined}
                             />
                         ))}
+                        <HiddenDaysStrip
+                            days={DAYS_OF_WEEK.filter(day => workoutPlan[day]?.hidden)}
+                            onShow={(day) => updateDay(day, { ...workoutPlan[day], hidden: false })}
+                            language={language}
+                            readOnly={!isViewingCurrent}
+                        />
                     </div>
 
                     {/* Action Buttons — editing actions only on the current week */}

@@ -78,6 +78,9 @@ Below the weekly progress bar. Tap a preset (**0:30 / 1:00 / 1:30 / 2:00**), the
 ### 🔄 Weeks and Restart This Week
 Weeks are calendar weeks, Monday to Sunday, and they advance on their own: every Monday the app opens on the new week with **all your exercises and weights carried forward and only the completion status cleared**, so you can apply progressive overload without rebuilding your plan. The finished week is archived and stays viewable (read-only) through the week navigator. The **"Restart This Week"** button clears completion and logged sets for the current week only, keeping exercises and weights; a confirmation modal explains this before anything changes.
 
+### Hiding rest days
+A day set to Rest, or with no exercises, shows a **"Hide this day"** button inside its panel. Hidden days leave the list and appear in a small "Hidden days" row at the bottom, each with a **Show** link to bring it back. The choice carries over to the following weeks, and a trainer sees the same layout for that client.
+
 ### Share Your Feedback
 At the bottom of the main screen. Opens a form with **Name, Email, Message** — sends feedback directly to the developer. Use this for bug reports and feature requests.
 
