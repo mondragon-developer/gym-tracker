@@ -30,7 +30,9 @@ Luego empieza tus series de trabajo registradas. Los ejercicios siguientes del m
 
 ## Cuerpo completo 3 días (lunes / miércoles / viernes)
 
-Pon martes, jueves, sábado (y domingo) en **Rest** con el botón ✏️. Etiqueta cada día de entrenamiento con algo como Pecho + Espalda + Piernas. Descansa 2–3 minutos en los levantamientos grandes, 1–2 en el resto.
+Un toque: **Plantillas de entrenamiento** debajo de los días → **Cuerpo completo 3 días (agenda ocupada)** aplica este plan a la semana que estás viendo (cinco ejercicios por sesión, unos 30-40 minutos). La plantilla dentro de la app es la versión canónica; los números de abajo son una guía que puedes ajustar después de aplicarla.
+
+Para armarlo a mano: pon martes, jueves, sábado (y domingo) en **Rest** con el botón ✏️. Etiqueta cada día de entrenamiento con algo como Pecho + Espalda + Piernas. Descansa 2–3 minutos en los levantamientos grandes, 1–2 en el resto.
 
 **Día A (lunes):** Barbell Squats 3×8-10 · Barbell Bench Press 3×8-10 · Seated Cable Rows 3×10-12 · Overhead Press 2×10-12 · Plank 3× (aguanta 30–60s)
 
@@ -40,7 +42,9 @@ Pon martes, jueves, sábado (y domingo) en **Rest** con el botón ✏️. Etique
 
 ## Torso/pierna 4 días (lunes / martes / jueves / viernes)
 
-Miércoles, sábado y domingo → Descanso (o cardio suave, ver abajo).
+Un toque: **Plantillas de entrenamiento** → **Tren superior / inferior con recuperación activa** aplica esta división con un miércoles suave de bici y core ya incluido. La plantilla dentro de la app es la versión canónica; ajústala después de aplicarla si prefieres los números de abajo.
+
+Para armarlo a mano: miércoles, sábado y domingo → Descanso (o cardio suave, ver abajo).
 
 **Torso A (lunes):** Barbell Bench Press 4×6-10 · Bent-Over Barbell Rows 4×8-10 · Overhead Press 3×8-10 · Lat Pulldowns 3×10-12 · Barbell Curls 2×10-12 · Rope Pushdowns 2×10-12
 
@@ -102,6 +106,7 @@ Una sesión divertida de la categoría Combate, todo registrado en minutos: Jump
 
 ## Configurar cualquier plan en la app — pasos rápidos
 
+0. La vía más rápida: toca **Plantillas de entrenamiento** debajo de los días, elige un plan y confirma con **¿Reemplazar esta semana?**. O toca **Copiar la semana pasada** para reutilizar lo que hiciste la semana anterior. Luego ajusta solo lo que cambie.
 1. Expande un día → toca **✏️** → selecciona hasta 3 etiquetas de grupo muscular (o **Rest**) → **Listo**.
 2. Toca **Agregar Ejercicio** → busca el nombre en inglés → define Series/Reps Objetivo (o minutos para Cardio/Combate) → **Agregar al Entrenamiento**. Usa la pestaña **Todos** si el ejercicio es de un grupo distinto a la etiqueta del día.
 3. Arrastra para reordenar; elimina lo que no quieras.

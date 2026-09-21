@@ -30,7 +30,9 @@ Then start your logged working sets. Later exercises for the same muscles usuall
 
 ## 3-day full body (Monday / Wednesday / Friday)
 
-Set Tuesday, Thursday, Saturday (and Sunday) to **Rest** with the ✏️ button. Give each training day a label like Chest + Back + Legs. Rest 2–3 minutes on the big lifts, 1–2 on the rest.
+One tap: **Workout templates** under the days → **Full body 3 days (busy schedule)** applies this plan to the week you are viewing (five exercises per session, about 30-40 minutes). The in-app template is the canonical version; the numbers below are a guide you can adjust after applying it.
+
+To build it by hand instead: set Tuesday, Thursday, Saturday (and Sunday) to **Rest** with the ✏️ button. Give each training day a label like Chest + Back + Legs. Rest 2–3 minutes on the big lifts, 1–2 on the rest.
 
 **Day A (Monday):** Barbell Squats 3×8-10 · Barbell Bench Press 3×8-10 · Seated Cable Rows 3×10-12 · Overhead Press 2×10-12 · Plank 3× (hold 30–60s)
 
@@ -40,7 +42,9 @@ Set Tuesday, Thursday, Saturday (and Sunday) to **Rest** with the ✏️ button.
 
 ## 4-day upper/lower (Monday / Tuesday / Thursday / Friday)
 
-Wednesday, Saturday, Sunday → Rest (or light cardio, see below).
+One tap: **Workout templates** → **Upper / Lower with active recovery** applies this split with a light bike-and-core Wednesday already in place. The in-app template is the canonical version; adjust it after applying if you prefer the numbers below.
+
+Building it by hand: Wednesday, Saturday, Sunday → Rest (or light cardio, see below).
 
 **Upper A (Monday):** Barbell Bench Press 4×6-10 · Bent-Over Barbell Rows 4×8-10 · Overhead Press 3×8-10 · Lat Pulldowns 3×10-12 · Barbell Curls 2×10-12 · Rope Pushdowns 2×10-12
 
@@ -102,6 +106,7 @@ A fun Combat-category session, all logged in minutes: Jump Rope 10 min → Shado
 
 ## Setting any plan up in the app — quick steps
 
+0. Fastest path: tap **Workout templates** under the days, pick a plan, confirm with **Replace this week?**. Or tap **Copy last week** to reuse what you did last week. Then adjust only what differs.
 1. Expand a day → tap **✏️** → select up to 3 muscle-group labels (or **Rest**) → **Done**.
 2. Tap **Add Exercise** → search the English name → set Target Sets/Reps (or minutes for Cardio/Combat) → **Add to Workout**. Use the **All** tab if the exercise belongs to a different group than the day's label.
 3. Drag to reorder; delete what you don't want.

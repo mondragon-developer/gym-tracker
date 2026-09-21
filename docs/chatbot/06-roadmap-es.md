@@ -34,7 +34,7 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 
 - **Analíticas de entrenamiento** — gráficas de progreso y métricas de rendimiento en el tiempo
 - **Demos animadas** — pasar las demostraciones de imágenes fijas a video/GIF en bucle
-- **Más plantillas de rutinas** — además del PPL por defecto
+- **Más plantillas de rutinas** — además de las tres incluidas (Push/Pull/Piernas, Torso/Pierna, Cuerpo completo 3 días), por ejemplo una rutina dividida de 5 días o una semana en casa con peso corporal
 - **Funciones sociales** — compartir entrenamientos y progreso
 - **Exportar a PDF** (el CSV ya existe para el resumen semanal) y respaldo/restauración completos de datos
 - **Registro de nutrición** — registro básico de comidas y calorías

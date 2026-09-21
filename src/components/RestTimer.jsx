@@ -32,7 +32,15 @@ const unlockAudio = (ref) => {
         source.connect(ctx.destination);
         source.start(0);
     } catch {
+        // Release a context we may have just created so a repeated failure
+        // does not burn through the browser's per-page limit.
+        const ctx = ref.current;
         ref.current = null;
+        try {
+            if (ctx && typeof ctx.close === 'function') ctx.close().catch(() => {});
+        } catch {
+            // Nothing left to release.
+        }
     }
 };
 
@@ -55,7 +63,15 @@ const beep = (ref) => {
     };
     try {
         if (ctx.state === 'suspended') {
-            ctx.resume().then(play, () => {});
+            // The context may have been closed by unmount before resume
+            // settles, so play() needs its own guard on this path too.
+            ctx.resume().then(() => {
+                try {
+                    play();
+                } catch {
+                    // Visual cue still fires.
+                }
+            }, () => {});
         } else {
             play();
         }
