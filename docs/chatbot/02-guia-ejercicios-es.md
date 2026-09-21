@@ -813,10 +813,10 @@ Descargo de responsabilidad: esta guía ofrece indicaciones generales de técnic
   - Arquear la espalda baja.
 - **Consejo:** la posición estira la cabeza larga del tríceps; usa 10–15 reps y mantén el abdomen firme para proteger la lumbar.
 
-### Skullcrushers
+### Rompe Cráneos (Skull Crushers)
 - **Nota:** este es el mismo ejercicio que "Rompe Cráneos (Skull Crushers)"; en la app aparece dos veces con distinta grafía (Skull Crushers y Skullcrushers). Consulta la entrada "Rompe Cráneos (Skull Crushers)" en esta misma sección para músculos, técnica, errores comunes y consejos. Puedes registrar tus series en cualquiera de las dos variantes del catálogo, pero usa siempre la misma para que tu historial y tu progreso queden en un solo ejercicio.
 
-### Dips
+### Fondos (Dips)
 - **Nota:** en la app este ejercicio aparece con su nombre en inglés (Dips), sin traducción al español; corresponde a los fondos en paralelas.
 - **Músculos:** tríceps; pectoral inferior y deltoides anterior.
 - **Equipo:** barras paralelas (peso corporal).
@@ -1101,7 +1101,7 @@ Descargo de responsabilidad: esta guía ofrece indicaciones generales de técnic
   - Subir con impulso rápido.
 - **Consejo:** versión accesible del hip thrust, ideal para empezar; series de 12–20 reps con pausa de 2 segundos arriba.
 
-### Squats (Wide Stance)
+### Sentadillas (Postura Amplia) (Squats (Wide Stance))
 - **Nota:** en la app este ejercicio aparece con su nombre en inglés (Squats (Wide Stance)), sin traducción al español; es la sentadilla con postura amplia (estilo sumo).
 - **Músculos:** glúteos y aductores; cuádriceps y femorales.
 - **Equipo:** barra, mancuerna o peso corporal.
@@ -1141,7 +1141,7 @@ Descargo de responsabilidad: esta guía ofrece indicaciones generales de técnic
   - Dejarse caer sin control al bajar.
 - **Consejo:** haz todas las reps de una pierna antes de cambiar; 8–12 por lado con torso erguido.
 
-### Cable Kickbacks
+### Patada de Glúteo en Polea (Cable Kickbacks)
 - **Nota:** en la app este ejercicio aparece con su nombre en inglés (Cable Kickbacks), sin traducción al español; es la patada de glúteo en polea.
 - **Músculos:** glúteo mayor; femorales.
 - **Equipo:** polea baja con tobillera.
@@ -1363,7 +1363,7 @@ Descargo de responsabilidad: esta guía ofrece indicaciones generales de técnic
   - Acelerar sin pausa arriba.
 - **Consejo:** la cadera flexionada estira más el gastrocnemio que la versión de pie; 12–20 reps con estiramiento profundo.
 
-### Calf Press on Leg Machine
+### Press de Pantorrilla en Prensa (Calf Press on Leg Machine)
 - **Nota:** en la app este ejercicio aparece con su nombre en inglés (Calf Press on Leg Machine), sin traducción al español; es la elevación de pantorrilla en la prensa de piernas.
 - **Músculos:** gastrocnemio y sóleo.
 - **Equipo:** máquina de prensa de piernas.
@@ -1600,7 +1600,7 @@ Descargo de responsabilidad: esta guía ofrece indicaciones generales de técnic
   - Dejar caer las piernas sin control.
 - **Consejo:** si la lumbar se despega, flexiona un poco las rodillas o reduce el rango; series de 10–15 reps lentas.
 
-### V-Ups
+### Abdominales en V (V-Ups)
 - **Nota:** en la app este ejercicio aparece con su nombre en inglés (V-Ups), sin traducción al español.
 - **Músculos:** recto abdominal completo; flexores de cadera.
 - **Equipo:** peso corporal.
@@ -1614,7 +1614,7 @@ Descargo de responsabilidad: esta guía ofrece indicaciones generales de técnic
   - Doblar mucho las rodillas.
 - **Consejo:** si no llegas, empieza con tuck-ups (rodillas al pecho) y progresa; series de 8–15 reps.
 
-### Pallof Press
+### Press Pallof (Pallof Press)
 - **Nota:** en la app este ejercicio aparece con su nombre en inglés (Pallof Press), sin traducción al español; es un press antirrotación en polea.
 - **Músculos:** core antirrotación (oblicuos y transverso); hombros.
 - **Equipo:** polea a la altura del pecho o banda elástica.
@@ -1628,7 +1628,7 @@ Descargo de responsabilidad: esta guía ofrece indicaciones generales de técnic
   - Usar tanto peso que la cadera se tuerce.
 - **Consejo:** el objetivo es NO moverte: 8–12 extensiones lentas por lado con el abdomen firme todo el tiempo.
 
-### Hollow Body Hold
+### Cuerpo Hueco (Hollow Hold) (Hollow Body Hold)
 - **Nota:** en la app este ejercicio aparece con su nombre en inglés (Hollow Body Hold), sin traducción al español; es la posición de "cuerpo hueco" de la gimnasia.
 - **Músculos:** recto abdominal y core profundo.
 - **Equipo:** peso corporal.
@@ -1668,7 +1668,7 @@ Descargo de responsabilidad: esta guía ofrece indicaciones generales de técnic
   - Patadas tan amplias que se pierde la tensión.
 - **Consejo:** trabaja por tiempo: 20–30 segundos por serie; si la lumbar se despega, eleva más las piernas.
 
-### Scissor Kicks
+### Tijeras (Scissor Kicks)
 - **Nota:** en la app este ejercicio aparece con su nombre en inglés (Scissor Kicks), sin traducción al español.
 - **Músculos:** recto abdominal inferior, oblicuos y flexores de cadera.
 - **Equipo:** peso corporal.
@@ -1803,7 +1803,7 @@ Todos los ejercicios de esta categoría se registran por Duración en minutos (1
   - Redondear la espalda en la fase inicial.
 - **Consejo:** la secuencia es piernas-torso-brazos; prueba 15–30 minutos suaves o intervalos de 250–500 metros fuertes con descanso igual al tiempo de trabajo.
 
-### Ski Erg
+### Ski Erg (Ski Erg)
 - **Nota:** en la app este ejercicio aparece con su nombre en inglés (Ski Erg), sin traducción al español.
 - **Músculos:** dorsal, tríceps y core; piernas en la flexión.
 - **Equipo:** máquina Ski Erg (esquí estacionario).
@@ -1817,7 +1817,7 @@ Todos los ejercicios de esta categoría se registran por Duración en minutos (1
   - Redondear la espalda en el tirón.
 - **Consejo:** excelente cardio de tren superior; prueba intervalos de 30–60 segundos fuertes con 1 minuto suave durante 10–20 minutos.
 
-### Assault Bike
+### Bicicleta Assault (Assault Bike)
 - **Nota:** en la app este ejercicio aparece con su nombre en inglés (Assault Bike), sin traducción al español; también se conoce como air bike.
 - **Músculos:** cuerpo completo (piernas y brazos simultáneos); capacidad anaeróbica.
 - **Equipo:** bicicleta de aire con brazos móviles.
@@ -1883,7 +1883,7 @@ Todos los ejercicios de esta categoría se registran por Duración en minutos (1
   - Pasos hacia atrás con rodillas rígidas.
 - **Consejo:** caminar hacia atrás con el trineo es excelente para las rodillas y los cuádriceps; 4–8 tramos de 15–30 metros.
 
-### Jump Rope HIIT
+### Saltar la Cuerda HIIT (Jump Rope HIIT)
 - **Nota:** en la app este ejercicio aparece con su nombre en inglés (Jump Rope HIIT), sin traducción al español; es la versión por intervalos de alta intensidad de saltar la cuerda.
 - **Músculos:** pantorrillas, hombros y core; capacidad anaeróbica.
 - **Equipo:** cuerda para saltar.
@@ -2074,7 +2074,7 @@ Todos los ejercicios de esta categoría se registran por Duración en minutos (1
 
 ## Espalda baja (dentro de Espalda)
 
-### Hiperextensiones (Hyperextensions (Back Extensions))
+### Hiperextensiones (Extensiones de Espalda) (Hyperextensions (Back Extensions))
 - **Músculos:** espalda baja (erectores); glúteos e isquiotibiales como secundarios.
 - **Equipo:** banco de hiperextensiones (a 45 grados u horizontal).
 - **Cómo hacerlo:**

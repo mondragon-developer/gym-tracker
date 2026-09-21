@@ -7,6 +7,9 @@ Pares exactos de pregunta→respuesta para las consultas más comunes. Las respu
 **P: ¿Cómo agrego un ejercicio?**
 R: Expande el día, toca **Agregar Ejercicio**, y busca por nombre (en inglés o en español) o filtra por grupo muscular o por equipo. Define las Series y Reps Objetivo (o minutos para Cardio/Combate) y toca **Agregar al Entrenamiento**.
 
+**P: ¿Puedes meter un plan en la app por mí?**
+R: Lo escribo en el formato de la app. Pídeme un plan; mi respuesta termina con un bloque `GYMPLAN v1`. Toca **Copiar**, abre **Importar plan** debajo de los días, pega, toca **Vista previa** y luego **Aplicar a esta semana**. Los ejercicios de la biblioteca conservan su demostración; lo demás se crea como ejercicio personalizado, y tienes **Deshacer** si cambias de idea.
+
 **P: ¿Cómo creo mi propio ejercicio?**
 R: Toca **Agregar Ejercicio**, cambia a la pestaña **Ejercicio Personalizado**, escribe nombre, series y reps, y toca **Agregar al Entrenamiento**. Los ejercicios personalizados no tienen demostración.
 

@@ -1,0 +1,270 @@
+# Plan format for the app (GYMPLAN v1)
+
+Gym Tracker has an **Import plan** button under the day cards. The user pastes a plan written in the format below, previews how every line matched the exercise library, and the app builds the week in one tap. This guide tells the assistant exactly how to write that block. Use it whenever the user asks for a weekly or daily plan, a routine, a split, or "what should I do on Monday".
+
+## Rules for the assistant
+
+1. End every plan answer with **one** fenced code block that starts with `GYMPLAN v1`. Explain the plan in prose first if useful, then the block, then one sentence: "Tap Copy on this answer, open Import plan under the days, paste and tap Preview."
+2. Write exercise names **exactly as they appear in the table below**, in the language the user is chatting in (English name or Spanish name). Do not shorten, pluralize or translate them yourself.
+3. Strength exercises: `Name SETSxREPS`, for example `Barbell Bench Press 4x6-8`. Reps can be a number, a range like `8-10`, a hold like `30-60s`, or `max`.
+4. Cardio and Combat exercises: `Name MINUTES min`, for example `Stationary Bike 20 min`. Never sets x reps for them.
+5. One line per weekday, `Weekday: Group` with up to three groups from the group table joined by `&` (or `y` in Spanish). Off days are `Weekday: Rest` (`Descanso`).
+6. List all seven weekdays, Monday to Sunday, in order.
+7. At most 8 exercises per day. Put an optional day note on its own line as `note: ...` (`nota: ...`).
+8. No weights. The app keeps last week's weights and the user fills in the rest.
+9. Do not invent exercise names. If the user explicitly asks for something the library lacks (a machine, a sport drill), write it with the prefix `custom:` so the app creates a custom exercise, for example `- custom: Sled Push with rope 4x20`.
+10. Every exercise in the block must exist in the table, unless it carries the `custom:` prefix.
+
+## Example (English chat)
+
+```
+GYMPLAN v1
+Monday: Chest & Triceps
+- Barbell Bench Press 4x6-8
+- Incline Dumbbell Press 3x8-10
+- Rope Pushdowns 3x12-15
+note: Warm up 5 min on the bike first
+Tuesday: Legs
+- Barbell Squats 4x6-8
+- Romanian Deadlifts 3x8-10
+- Plank 3x30-60s
+Wednesday: Rest
+Thursday: Cardio & Abs
+- Stationary Bike 20 min
+- Dead Bug 3x10
+Friday: Back & Biceps
+- Lat Pulldowns 3x10-12
+- Barbell Curls 3x10-12
+Saturday: Rest
+Sunday: Rest
+```
+
+## Example (Spanish chat)
+
+```
+GYMPLAN v1
+Lunes: Pecho y Tríceps
+- Press de Banca con Barra 4x6-8
+- Press Inclinado con Mancuernas 3x8-10
+- Extensión con Cuerda 3x12-15
+nota: Calienta 5 min en la bici primero
+Martes: Piernas
+- Sentadillas con Barra 4x6-8
+- Peso Muerto Rumano 3x8-10
+- Plancha 3x30-60s
+Miércoles: Descanso
+Jueves: Cardio y Abdominales
+- Bicicleta Estática 20 min
+- Bicho Muerto 3x10
+Viernes: Espalda y Bíceps
+- Jalón al Pecho 3x10-12
+- Curl con Barra 3x10-12
+Sábado: Descanso
+Domingo: Descanso
+```
+
+## How the app reads it
+
+Exact English or Spanish names from the table become library exercises with their demo and instructions. Small typos still match, but the user has to confirm them. Anything else becomes a custom exercise (no demo). The user chooses, per day, whether the block replaces the day, is added after the existing exercises, or is skipped, and whether days not listed become Rest or stay as they are. Undo is available after applying.
+
+## Muscle groups
+
+| English | Spanish |
+|---|---|
+| Rest | Descanso |
+| Chest | Pecho |
+| Back | Espalda |
+| Shoulders | Hombros |
+| Biceps | Bíceps |
+| Triceps | Tríceps |
+| Forearms | Antebrazos |
+| Legs | Piernas |
+| Abs | Abdominales |
+| Cardio | Cardio |
+| Combat | Combate |
+
+## Exercise names (181 entries)
+
+| Group | English name | Spanish name |
+|---|---|---|
+| Abs | Ab Wheel Rollouts | Rueda Abdominal |
+| Abs | Bicycle Crunches | Abdominales Bicicleta |
+| Abs | Bird Dog | Perro de Caza |
+| Abs | Cable Crunches | Abdominales en Polea |
+| Abs | Dead Bug | Bicho Muerto |
+| Abs | Flutter Kicks | Patadas de Tijera |
+| Abs | Hanging Leg Raises | Elevaciones de Piernas Colgado |
+| Abs | Hollow Body Hold | Cuerpo Hueco (Hollow Hold) |
+| Abs | Leg Raises | Elevaciones de Piernas |
+| Abs | Mountain Climbers | Escaladores |
+| Abs | Pallof Press | Press Pallof |
+| Abs | Plank | Plancha |
+| Abs | Russian Twists | Giros Rusos |
+| Abs | Scissor Kicks | Tijeras |
+| Abs | Side Plank | Plancha Lateral |
+| Abs | Toe Touches | Toques de Punta |
+| Abs | V-Ups | Abdominales en V |
+| Abs | Wood Choppers | Leñador |
+| Back | Barbell Shrugs | Encogimientos con Barra |
+| Back | Bent-Over Barbell Rows | Remo con Barra Inclinado |
+| Back | Bent-Over Dumbbell Rows | Remo Inclinado con Mancuernas |
+| Back | Bodyweight Back Extensions | Extensiones de Espalda sin Banco |
+| Back | Cable Shrugs | Encogimientos en Polea |
+| Back | Chin-ups | Dominadas Supinas |
+| Back | Dumbbell Shrugs | Encogimientos con Mancuernas |
+| Back | Face Pulls | Jalón a la Cara |
+| Back | Farmer's Walk | Paseo del Granjero |
+| Back | Hyperextensions (Back Extensions) | Hiperextensiones (Extensiones de Espalda) |
+| Back | Inverted Rows | Remo Invertido |
+| Back | Lat Pulldowns | Jalón al Pecho |
+| Back | Meadows Rows | Remo Meadows |
+| Back | Pendlay Rows | Remo Pendlay |
+| Back | Pull-ups | Dominadas |
+| Back | Rack Pulls | Peso Muerto Parcial |
+| Back | Reverse Hyperextensions | Hiperextensiones Inversas |
+| Back | Seated Cable Rows | Remo Sentado en Polea |
+| Back | Seated Good Mornings | Buenos Días Sentado |
+| Back | Single-Arm Dumbbell Rows | Remo con Mancuerna a Un Brazo |
+| Back | Stiff-Leg Good Mornings | Buenos Días con Piernas Rígidas |
+| Back | Straight-Arm Pulldowns | Pullover en Polea |
+| Back | Superman | Superman |
+| Back | T-Bar Rows | Remo en T |
+| Back | Trap Bar Shrugs | Encogimientos con Barra Trap |
+| Biceps | 21s | 21s |
+| Biceps | Barbell Curls | Curl con Barra |
+| Biceps | Cable Curls | Curl en Polea |
+| Biceps | Cable Hammer Curls | Curl Martillo en Polea |
+| Biceps | Concentration Curls | Curl Concentrado |
+| Biceps | Drag Curls | Curl de Arrastre |
+| Biceps | Dumbbell Curls | Curl con Mancuernas |
+| Biceps | EZ-Bar Curls | Curl con Barra EZ |
+| Biceps | Hammer Curls | Curl Martillo |
+| Biceps | Incline Dumbbell Curls | Curl Inclinado con Mancuernas |
+| Biceps | Preacher Curls | Curl en Banco Scott |
+| Biceps | Spider Curls | Curl Araña |
+| Cardio | Assault Bike | Bicicleta Assault |
+| Cardio | Battle Ropes | Cuerdas de Batalla |
+| Cardio | Boxing | Boxeo |
+| Cardio | Burpees | Burpees |
+| Cardio | Cycling | Ciclismo |
+| Cardio | Elliptical | Elíptica |
+| Cardio | High Knees | Rodillas Altas |
+| Cardio | Jump Rope HIIT | Saltar la Cuerda HIIT |
+| Cardio | Jumping Jacks | Saltos de Tijera |
+| Cardio | Rowing Machine | Máquina de Remo |
+| Cardio | Ski Erg | Ski Erg |
+| Cardio | Sled Pull | Arrastre de Trineo |
+| Cardio | Sled Push | Empuje de Trineo |
+| Cardio | Sprint Intervals | Intervalos de Sprint |
+| Cardio | Stair Climber | Escaladora |
+| Cardio | Stationary Bike | Bicicleta Estática |
+| Cardio | Swimming | Natación |
+| Cardio | Treadmill Running | Correr en Cinta |
+| Chest | Barbell Bench Press | Press de Banca con Barra |
+| Chest | Cable Crossovers | Cruces en Polea |
+| Chest | Cable Flyes | Aperturas en Polea |
+| Chest | Chest Dips | Fondos para Pecho |
+| Chest | Decline Bench Press | Press Declinado |
+| Chest | Decline Push-Ups | Flexiones Declinadas |
+| Chest | Diamond Push-Ups | Flexiones Diamante |
+| Chest | Dumbbell Floor Press | Press en el Suelo con Mancuernas |
+| Chest | Dumbbell Flyes | Aperturas con Mancuernas |
+| Chest | Dumbbell Press | Press con Mancuernas |
+| Chest | Dumbbell Pullovers | Pullover con Mancuerna |
+| Chest | Floor Press | Press de Suelo |
+| Chest | Incline Dumbbell Press | Press Inclinado con Mancuernas |
+| Chest | Incline Push-Ups | Flexiones Inclinadas |
+| Chest | Landmine Press | Press con Mina Terrestre |
+| Chest | Machine Chest Press | Press de Pecho en Máquina |
+| Chest | Pec Deck Machine | Máquina Peck Deck |
+| Chest | Push-Ups | Flexiones |
+| Combat | Boxing Footwork Drills | Juego de Pies de Boxeo |
+| Combat | Defensive Drills (Slips & Rolls) | Defensa (Esquivas y Giros) |
+| Combat | Double-End Bag | Pera de Doble Anclaje |
+| Combat | Grappling Drills | Ejercicios de Grappling |
+| Combat | Heavy Bag Rounds | Rondas de Saco Pesado |
+| Combat | Kickboxing Rounds | Rondas de Kickboxing |
+| Combat | Kicking Drills | Ejercicios de Patadas |
+| Combat | MMA Conditioning Circuit | Circuito de Acondicionamiento MMA |
+| Combat | Pad Work (Mitts) | Trabajo de Manoplas |
+| Combat | Shadowboxing | Boxeo de Sombra |
+| Combat | Sparring | Sparring |
+| Combat | Speed Bag | Pera de Velocidad |
+| Forearms | Dead Hangs | Colgarse |
+| Forearms | Farmer's Carry | Paseo del Granjero |
+| Forearms | Finger Curls | Curl de Dedos |
+| Forearms | Gripper Training | Entrenamiento con Gripper |
+| Forearms | Plate Pinches | Pinza de Discos |
+| Forearms | Reverse Barbell Curls | Curl Inverso con Barra |
+| Forearms | Reverse Wrist Curls | Curl de Muñeca Inverso |
+| Forearms | Towel Pull-Ups | Dominadas con Toalla |
+| Forearms | Wrist Curls | Curl de Muñeca |
+| Forearms | Wrist Roller | Rodillo de Muñeca |
+| Legs | Barbell Hip Thrusts | Empuje de Cadera |
+| Legs | Barbell Squats | Sentadillas con Barra |
+| Legs | Box Jumps | Saltos al Cajón |
+| Legs | Bulgarian Split Squats | Sentadillas Búlgaras |
+| Legs | Cable Kickbacks | Patada de Glúteo en Polea |
+| Legs | Calf Press on Leg Machine | Press de Pantorrilla en Prensa |
+| Legs | Crossover Reverse Lunges | Zancadas Inversas Cruzadas |
+| Legs | Deadlifts | Peso Muerto |
+| Legs | Donkey Calf Raises | Elevaciones de Pantorrilla Burro |
+| Legs | Dumbbell Calf Raises | Elevaciones de Gemelos con Mancuernas |
+| Legs | Dumbbell Lunges | Zancadas con Mancuernas |
+| Legs | Dumbbell Romanian Deadlifts | Peso Muerto Rumano con Mancuernas |
+| Legs | Dumbbell Squats | Sentadillas con Mancuernas |
+| Legs | Dumbbell Step-Ups | Subidas al Cajón con Mancuernas |
+| Legs | Front Squats | Sentadillas Frontales |
+| Legs | Glute Bridges | Puente de Glúteos |
+| Legs | Glute Kickbacks | Patada de Glúteo |
+| Legs | Glute-Ham Raises (GHR) | Elevaciones Glúteo-Femoral (GHR) |
+| Legs | Goblet Squats | Sentadillas Goblet |
+| Legs | Good Mornings | Buenos Días |
+| Legs | Hack Squats | Sentadillas Hack |
+| Legs | Jump Rope | Saltar la Cuerda |
+| Legs | Kettlebell Swings | Balanceo con Kettlebell |
+| Legs | Leg Extensions | Extensiones de Cuádriceps |
+| Legs | Leg Press | Prensa de Piernas |
+| Legs | Lunges | Zancadas |
+| Legs | Lying Leg Curls | Curl Femoral Acostado |
+| Legs | Nordic Ham Curls | Curl Nórdico |
+| Legs | Pistol Squats | Sentadillas Pistola |
+| Legs | Romanian Deadlifts | Peso Muerto Rumano |
+| Legs | Seated Calf Raises | Elevaciones de Pantorrilla Sentado |
+| Legs | Seated Leg Curls | Curl Femoral Sentado |
+| Legs | Side Leg Raises | Elevaciones Laterales de Pierna |
+| Legs | Single-Leg Calf Raises | Elevaciones de Pantorrilla a Una Pierna |
+| Legs | Single-Leg Deadlifts | Peso Muerto a Una Pierna |
+| Legs | Single-Leg Glute Bridges | Puente de Glúteo a Una Pierna |
+| Legs | Sissy Squats | Sentadillas Sissy |
+| Legs | Squats (Wide Stance) | Sentadillas (Postura Amplia) |
+| Legs | Standing Calf Raises | Elevaciones de Pantorrilla |
+| Legs | Step-Ups | Subidas al Cajón |
+| Legs | Walking Lunges | Zancadas Caminando |
+| Legs | Wall Sits | Sentadilla en Pared |
+| Shoulders | Arnold Press | Press Arnold |
+| Shoulders | Bradford Press | Press Bradford |
+| Shoulders | Cable Lateral Raises | Elevaciones Laterales en Polea |
+| Shoulders | Dumbbell Rear Delt Raises | Elevaciones Posteriores con Mancuernas |
+| Shoulders | Dumbbell Shoulder Press | Press de Hombros con Mancuernas |
+| Shoulders | Front Raises | Elevaciones Frontales |
+| Shoulders | Handstand Push-Ups | Flexiones en Parada de Manos |
+| Shoulders | Lateral Raises | Elevaciones Laterales |
+| Shoulders | Military Press | Press Militar |
+| Shoulders | Overhead Press | Press sobre Cabeza |
+| Shoulders | Push Press | Press de Empuje |
+| Shoulders | Rear Delt Rows | Remo de Deltoides Posterior |
+| Shoulders | Reverse Pec Deck Flyes | Aperturas Inversas en Máquina |
+| Shoulders | Upright Rows | Remo al Mentón |
+| Triceps | Bench Dips | Fondos en Banco |
+| Triceps | Cable Overhead Extension | Extensión sobre Cabeza en Polea |
+| Triceps | Close-Grip Bench Press | Press de Banca Cerrado |
+| Triceps | Dips | Fondos |
+| Triceps | Dumbbell Triceps Kickbacks | Patada de Tríceps con Mancuerna |
+| Triceps | JM Press | Press JM |
+| Triceps | Overhead Dumbbell Extension | Extensión sobre Cabeza con Mancuernas |
+| Triceps | Rope Pushdowns | Extensión con Cuerda |
+| Triceps | Single-Arm Cable Pushdowns | Extensión en Polea a Un Brazo |
+| Triceps | Skull Crushers | Rompe Cráneos |
+| Triceps | Tate Press | Press Tate |
+| Triceps | Triceps Pushdowns | Extensión de Tríceps en Polea |

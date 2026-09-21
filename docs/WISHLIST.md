@@ -6,6 +6,15 @@ the open decisions, so a future session can start without re-deriving it.
 
 ## 1. AI exercise finder that fills the day
 
+**Status (2026-09-21): superseded.** The paste-import shipped instead: the
+AI coach ends every plan answer with a GYMPLAN v1 block (see
+`docs/chatbot/08-plan-format-en.md`), and **Import plan** under the days
+builds the week from it, matching names to the library and creating custom
+exercises for the rest. Zero backend, zero API cost. The in-app "Find
+exercises" call described below is only worth revisiting if the copy and
+paste step turns out to be a real barrier for users.
+
+
 **What the user does.** On a day, taps "Find exercises" and types a request
 in plain words, in English or Spanish: "3 chest exercises with dumbbells",
 "something for lower back without equipment", "a 20 minute cardio finisher".
@@ -129,3 +138,17 @@ row and trainer links. The last one also matters for store listings.
 
 A 5-day split and a kettlebell week, once the library has enough kettlebell
 movements with demos (`npm run report:coverage` shows the pool).
+
+## 6. Conflict check on trainer saves
+
+**What goes wrong.** `AdminService.saveWorkoutPlan` upserts a client's plan
+without `expectedUpdatedAt`, so a trainer's "Save changes" is last-write-wins
+over anything the client changed since the trainer opened the panel. The
+tracker itself already sends the expected `updated_at` and shows the conflict
+bar (`useWorkoutPlan.save`); the trainer panel should do the same. Import plan
+makes trainer saves bigger, so the window matters more now.
+
+**Plan.** Keep the loaded `updated_at` in AdminDashboard state, pass it to
+`adminService.saveWorkoutPlan`, add the `.eq('updated_at', ...)` guard the
+tracker uses in `SupabaseStorageService.saveWorkoutPlan`, and on a conflict
+offer Reload or Overwrite like the tracker's SaveStatusBar.

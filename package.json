@@ -13,6 +13,7 @@
     "build:enrichment": "node scripts/enrichment/build-enrichment.mjs",
     "upload:media": "node --env-file=.env scripts/upload-exercise-media.mjs",
     "report:coverage": "node scripts/enrichment/coverage-report.mjs",
+    "build:plan-doc": "node scripts/build-plan-format-doc.mjs",
     "check:contrast": "node scripts/check-contrast.mjs"
   },
   "dependencies": {
