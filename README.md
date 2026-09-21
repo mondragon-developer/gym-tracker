@@ -189,7 +189,7 @@ npm run build     # Production build to dist/
 npm run preview   # Preview the production build locally
 npm run lint      # Run ESLint
 npm test          # Run the Vitest suite in watch mode
-npm run test:run  # Run the Vitest suite once (204 tests)
+npm run test:run  # Run the Vitest suite once (209 tests)
 ```
 
 ## Usage Guide
@@ -259,7 +259,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 - **Supabase**: Authentication and Postgres cloud database with Row Level Security
 - **@dnd-kit**: Accessible, touch-friendly drag-and-drop for exercise reordering
 - **vite-plugin-pwa**: Installable, offline-capable Progressive Web App
-- **Vitest + Testing Library**: 204-test suite across services, hooks, and components
+- **Vitest + Testing Library**: 209-test suite across services, hooks, and components
 - **Inline Styles**: Component-scoped styling for better maintainability
 - **Lucide React**: Beautiful, consistent icon library
 - **Modern JavaScript**: ES6+ features and best practices
@@ -385,12 +385,16 @@ This project is open source and available under the [MIT License](LICENSE).
 - [x] **Calendar weeks**: Monday-to-Sunday weeks that roll forward automatically; Restart This Week replaces the manual Start New Week
 - [x] **Hidden rest days**: Hide Rest or empty days from the list and bring them back any time
 - [x] **Multiple trainers per client**: Join table, profile-menu trainer code, invite links that work while signed in, admin add/remove per client
+- [x] **Planning ahead**: Week navigator goes up to 12 weeks into the future; future weeks preview the latest plan and are stored on first edit
+- [x] **Workout templates**: Classic Push/Pull/Legs, Upper/Lower with active recovery, Full body 3 days
+- [x] **Copy last week**: One-tap reuse of the previous week's exercises, order and weights
+- [x] **Demo preview in the picker**: Check the movement before adding the exercise
 
 ### Planned Features
 - [ ] **Workout analytics**: Progress charts and performance metrics
 - [ ] **Animated demos**: Upgrade the exercise how-tos from stills to looping video/GIF
 - [ ] **Social features**: Share workouts and progress
-- [ ] **Advanced templates**: More workout split options
+- [ ] **More templates**: Splits beyond the three included, such as a 5-day split or a home/bodyweight week
 - [ ] **Export functionality**: Export workouts to PDF/CSV
 - [ ] **Nutrition tracking**: Basic meal and calorie logging
 - [ ] **Achievement system**: Workout milestones and badges

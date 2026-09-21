@@ -96,7 +96,7 @@ const fullBodyThree = () => ({
         ex(81, 3, '10'),      // Dumbbell Press
         ex(11, 3, '10'),      // Seated Cable Rows
         ex(19, 2, '15'),      // Lateral Raises
-        ex(177, 2, '1')       // Plank, hold
+        ex(177, 3, '30-60s')  // Plank, each set is a timed hold
     ]),
     Saturday: rest(),
     Sunday: rest()

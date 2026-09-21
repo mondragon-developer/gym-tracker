@@ -56,7 +56,7 @@ A: That is the save bar at the bottom. Edits save on their own a second after yo
 A: Yes. Press the next arrow in the week navigator to move forward, up to 12 weeks ahead ("Planning ahead"). The future week starts as a copy of your latest plan with nothing completed; edit it and it saves. When that Monday comes, the week opens as planned. Trainers can do the same for a client from their panel.
 
 **Q: Is there a ready-made plan I can start with?**
-A: Yes, three. Tap **Workout templates** under the days and pick **Classic Push / Pull / Legs** (6 days), **Upper / Lower with active recovery** (4 days plus a light Wednesday) or **Full body 3 days** (Monday, Wednesday, Friday, 30-40 minutes). It replaces the exercises of the week you are viewing; weights start empty.
+A: Yes, three. Tap **Workout templates** under the days and pick **Classic Push / Pull / Legs** (6 days), **Upper / Lower with active recovery** (4 days plus a light Wednesday) or **Full body 3 days** (Monday, Wednesday, Friday, 30-40 minutes). After a confirming tap it replaces the exercises of the week you are viewing; completion, logged sets and weights are cleared.
 
 **Q: Can I reuse last week's workout as it was?**
 A: Yes. Tap **Copy last week** under the days and confirm. The current (or future) week gets last week's exercises in the same order with the same weights, and completion starts cleared.

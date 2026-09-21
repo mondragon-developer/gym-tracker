@@ -3,8 +3,13 @@
  * Replaces CustomModal and NewModal to follow Interface Segregation Principle
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+
+// Open modals, outermost first. Modals can nest (a demo on top of the
+// exercise picker), so only the topmost one answers Escape and the body
+// scroll lock is released only when the last one closes.
+const openModals = [];
 import Button from './Button.jsx';
 import { ButtonVariant, ButtonSize } from './Button.constants.js';
 
@@ -87,24 +92,33 @@ const Modal = ({
   style = {},
   className = ''
 }) => {
-  // Handle ESC key
+  // Latest onClose without re-registering the listener on every render.
+  const onCloseRef = useRef(onClose);
   useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    const entry = {};
+    openModals.push(entry);
+    document.body.style.overflow = 'hidden';
+
     const handleEscape = (e) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
+      if (e.key === 'Escape' && openModals[openModals.length - 1] === entry) {
+        onCloseRef.current();
       }
     };
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
-    }
+    document.addEventListener('keydown', handleEscape);
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
+      const index = openModals.indexOf(entry);
+      if (index !== -1) openModals.splice(index, 1);
+      if (openModals.length === 0) document.body.style.overflow = 'unset';
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 

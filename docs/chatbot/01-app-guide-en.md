@@ -81,7 +81,7 @@ Weeks are calendar weeks, Monday to Sunday, and they advance on their own: every
 
 ### Workout templates and Copy last week
 Under the day list, on the current week or a future week:
-- **Workout templates** opens a picker with three ready-made weeks: **Classic Push / Pull / Legs** (6 days, about 45-60 min), **Upper / Lower with active recovery** (upper body Monday and Thursday, lower body Tuesday and Friday, light cardio and core on Wednesday, about 45-60 min) and **Full body 3 days (busy schedule)** (Monday, Wednesday, Friday, five exercises, about 30-40 min). "Use this plan" replaces the exercises of the week you are viewing; weights start empty.
+- **Workout templates** opens a picker with three ready-made weeks: **Classic Push / Pull / Legs** (6 days, about 45-60 min), **Upper / Lower with active recovery** (upper body Monday and Thursday, lower body Tuesday and Friday, light cardio and core on Wednesday, about 45-60 min) and **Full body 3 days (busy schedule)** (Monday, Wednesday, Friday, five exercises, about 30-40 min). "Use this plan" asks for a confirming tap ("Replace this week?") and then replaces the exercises of the week you are viewing; completion, logged sets and weights are cleared.
 - **Copy last week** replaces the viewed week with the previous week's exercises, order, weights and hidden days, with completion cleared. A confirmation shows which week is copied.
 - Trainers have both actions in their panel for the selected client.
 

@@ -34,7 +34,7 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 
 - **Workout analytics** — progress charts and performance metrics over time
 - **Animated demos** — upgrading exercise how-tos from still images to looping video/GIF
-- **More workout split templates** — beyond the default PPL
+- **More workout split templates** — beyond the three included (Push/Pull/Legs, Upper/Lower, Full body 3 days), for example a 5-day split or a home/bodyweight week
 - **Social features** — sharing workouts and progress
 - **Export to PDF** (CSV already exists for the weekly summary) and full data backup/restore
 - **Nutrition tracking** — basic meal and calorie logging

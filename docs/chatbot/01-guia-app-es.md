@@ -81,7 +81,7 @@ Las semanas son semanas de calendario, de lunes a domingo, y avanzan solas: cada
 
 ### Plantillas de entrenamiento y Copiar la semana pasada
 Debajo de la lista de días, en la semana actual o en una futura:
-- **Plantillas de entrenamiento** abre un selector con tres semanas listas: **Clásico Push / Pull / Piernas** (6 días, unos 45-60 min), **Tren superior / inferior con recuperación activa** (tren superior lunes y jueves, tren inferior martes y viernes, cardio suave y core el miércoles, unos 45-60 min) y **Cuerpo completo 3 días (agenda ocupada)** (lunes, miércoles y viernes, cinco ejercicios, unos 30-40 min). "Usar este plan" reemplaza los ejercicios de la semana que estás viendo; los pesos empiezan vacíos.
+- **Plantillas de entrenamiento** abre un selector con tres semanas listas: **Clásico Push / Pull / Piernas** (6 días, unos 45-60 min), **Tren superior / inferior con recuperación activa** (tren superior lunes y jueves, tren inferior martes y viernes, cardio suave y core el miércoles, unos 45-60 min) y **Cuerpo completo 3 días (agenda ocupada)** (lunes, miércoles y viernes, cinco ejercicios, unos 30-40 min). "Usar este plan" pide un toque de confirmación ("¿Reemplazar esta semana?") y luego reemplaza los ejercicios de la semana que estás viendo; se borran el progreso, las series registradas y los pesos.
 - **Copiar la semana pasada** reemplaza la semana que ves con los ejercicios, el orden, los pesos y los días ocultos de la semana anterior, con el progreso en cero. Una confirmación indica qué semana se copia.
 - Los entrenadores tienen ambas acciones en su panel para el cliente seleccionado.
 
