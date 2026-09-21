@@ -34,7 +34,7 @@ export default function AuthWrapper({ children }) {
     return (
       <div style={{
         minHeight: '100vh',
-        backgroundColor: '#f9fafb',
+        backgroundColor: 'var(--surface-2)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
@@ -48,12 +48,12 @@ export default function AuthWrapper({ children }) {
           <div style={{
             width: '48px',
             height: '48px',
-            border: '4px solid #e5e7eb',
-            borderTopColor: '#06b6d4',
+            border: '4px solid var(--border)',
+            borderTopColor: 'var(--brand)',
             borderRadius: '50%',
             animation: 'spin 1s linear infinite'
           }} />
-          <p style={{ color: '#6b7280', fontSize: '16px' }}>Loading...</p>
+          <p style={{ color: 'var(--text-3)', fontSize: '16px' }}>Loading...</p>
         </div>
       </div>
     );

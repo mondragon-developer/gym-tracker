@@ -26,24 +26,24 @@ const baseStyles = {
  */
 const variantStyles = {
   [ButtonVariant.PRIMARY]: {
-    background: 'linear-gradient(90deg, #06b6d4 0%, #0891b2 50%, #0e7490 100%)',
-    color: 'white',
-    boxShadow: '0 4px 12px rgba(6, 182, 212, 0.3)'
+    background: 'var(--brand)',
+    color: 'var(--on-brand)',
+    boxShadow: '0 4px 12px var(--shadow)'
   },
   [ButtonVariant.SECONDARY]: {
-    background: 'linear-gradient(90deg, #e5e7eb 0%, #d1d5db 100%)',
-    color: '#374151',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+    background: 'var(--surface-3)',
+    color: 'var(--text-2)',
+    boxShadow: '0 2px 4px var(--shadow)'
   },
   [ButtonVariant.DANGER]: {
-    background: 'linear-gradient(90deg, #ef4444 0%, #dc2626 100%)',
-    color: 'white',
-    boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)'
+    background: 'var(--danger)',
+    color: 'var(--text-inverse)',
+    boxShadow: '0 4px 12px var(--shadow)'
   },
   [ButtonVariant.SUCCESS]: {
-    background: 'linear-gradient(90deg, #10b981 0%, #059669 100%)',
-    color: 'white',
-    boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)'
+    background: 'var(--done)',
+    color: 'var(--text-inverse)',
+    boxShadow: '0 4px 12px var(--shadow)'
   }
 };
 
@@ -70,20 +70,21 @@ const sizeStyles = {
  */
 const hoverEffects = {
   [ButtonVariant.PRIMARY]: {
+    background: 'var(--brand-strong)',
     transform: 'scale(1.02)',
-    boxShadow: '0 6px 20px rgba(6, 182, 212, 0.4)'
+    boxShadow: '0 6px 20px var(--shadow-strong)'
   },
   [ButtonVariant.SECONDARY]: {
     transform: 'scale(1.02)',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)'
+    boxShadow: '0 4px 8px var(--shadow-strong)'
   },
   [ButtonVariant.DANGER]: {
     transform: 'scale(1.02)',
-    boxShadow: '0 6px 20px rgba(239, 68, 68, 0.4)'
+    boxShadow: '0 6px 20px var(--shadow-strong)'
   },
   [ButtonVariant.SUCCESS]: {
     transform: 'scale(1.02)',
-    boxShadow: '0 6px 20px rgba(16, 185, 129, 0.4)'
+    boxShadow: '0 6px 20px var(--shadow-strong)'
   }
 };
 
@@ -134,6 +135,7 @@ const Button = ({
     if (!disabled) {
       Object.assign(e.target.style, {
         transform: 'scale(1)',
+        background: variantStyles[variant].background,
         boxShadow: variantStyles[variant].boxShadow
       });
     }

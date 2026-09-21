@@ -10,8 +10,10 @@ import { InputVariant, InputSize } from './Input.constants.js';
  * Base input styles
  */
 const baseStyles = {
-  border: '2px solid #e5e7eb',
+  border: '2px solid var(--border-strong)',
   borderRadius: '8px',
+  backgroundColor: 'var(--surface)',
+  color: 'var(--text)',
   padding: '8px 12px',
   fontSize: '14px',
   fontFamily: 'inherit',
@@ -26,16 +28,16 @@ const baseStyles = {
  */
 const variantStyles = {
   [InputVariant.DEFAULT]: {
-    borderColor: '#e5e7eb',
-    focusBorderColor: '#06b6d4'
+    borderColor: 'var(--border-strong)',
+    focusBorderColor: 'var(--brand-border)'
   },
   [InputVariant.SUCCESS]: {
-    borderColor: '#10b981',
-    focusBorderColor: '#059669'
+    borderColor: 'var(--done-border)',
+    focusBorderColor: 'var(--done)'
   },
   [InputVariant.ERROR]: {
-    borderColor: '#ef4444',
-    focusBorderColor: '#dc2626'
+    borderColor: 'var(--danger-border)',
+    focusBorderColor: 'var(--danger)'
   }
 };
 
@@ -92,7 +94,7 @@ const Input = ({
     ...sizeStyles[size],
     borderColor: variantStyles[variant].borderColor,
     ...(disabled && { 
-      backgroundColor: '#f9fafb',
+      backgroundColor: 'var(--surface-2)',
       cursor: 'not-allowed',
       opacity: 0.6
     }),
@@ -102,7 +104,7 @@ const Input = ({
   const handleFocus = (e) => {
     if (!disabled) {
       e.target.style.borderColor = variantStyles[variant].focusBorderColor;
-      e.target.style.boxShadow = `0 0 0 3px ${variantStyles[variant].focusBorderColor}20`;
+      e.target.style.boxShadow = `0 0 0 3px color-mix(in srgb, ${variantStyles[variant].focusBorderColor} 25%, transparent)`;
     }
   };
 

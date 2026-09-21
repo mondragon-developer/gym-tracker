@@ -74,7 +74,7 @@ const PasswordInput = ({ style = {}, disabled = false, ...rest }) => {
           border: 'none',
           padding: '6px',
           cursor: disabled ? 'not-allowed' : 'pointer',
-          color: '#6b7280',
+          color: 'var(--text-3)',
           display: 'flex',
           alignItems: 'center',
           opacity: disabled ? 0.6 : 1

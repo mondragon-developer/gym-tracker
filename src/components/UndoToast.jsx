@@ -34,11 +34,11 @@ const UndoToast = ({ message, onUndo, onDismiss, language = 'en', bottom = '84px
         gap: '14px',
         padding: '12px 16px',
         borderRadius: '12px',
-        backgroundColor: '#0f172a',
-        color: 'white',
+        backgroundColor: 'var(--toast-bg)',
+        color: 'var(--toast-text)',
         fontSize: '14px',
         fontWeight: 600,
-        boxShadow: '0 10px 30px rgba(15, 23, 42, 0.35)',
+        boxShadow: '0 10px 30px var(--shadow-strong)',
         maxWidth: 'calc(100vw - 32px)'
       }}
     >
@@ -50,7 +50,7 @@ const UndoToast = ({ message, onUndo, onDismiss, language = 'en', bottom = '84px
           style={{
             border: 'none',
             background: 'none',
-            color: '#67e8f9',
+            color: 'var(--brand-soft)',
             fontWeight: 700,
             fontSize: '14px',
             cursor: 'pointer',

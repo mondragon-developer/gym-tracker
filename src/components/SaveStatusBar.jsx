@@ -19,20 +19,20 @@ const formatTime = (date, language) => {
 };
 
 const tone = {
-  neutral: { color: '#6b7280', border: '#e5e7eb', bg: '#ffffff' },
-  pending: { color: '#b45309', border: '#fcd34d', bg: '#fffbeb' },
-  ok:      { color: '#047857', border: '#a7f3d0', bg: '#ecfdf5' },
-  bad:     { color: '#b91c1c', border: '#fecaca', bg: '#fef2f2' }
+  neutral: { color: 'var(--text-3)', border: 'var(--border)', bg: 'var(--surface)' },
+  pending: { color: 'var(--skipped)', border: 'var(--skipped-border)', bg: 'var(--skipped-soft)' },
+  ok:      { color: 'var(--done)', border: 'var(--done-border)', bg: 'var(--done-soft)' },
+  bad:     { color: 'var(--danger)', border: 'var(--danger-border)', bg: 'var(--danger-soft)' }
 };
 
 const buttonStyle = (variant, disabled) => ({
   padding: '10px 16px',
   borderRadius: '10px',
-  border: variant === 'primary' ? 'none' : '1px solid #d1d5db',
+  border: variant === 'primary' ? 'none' : '1px solid var(--border)',
   background: variant === 'primary'
-    ? 'linear-gradient(90deg, #06b6d4 0%, #0e7490 100%)'
-    : '#ffffff',
-  color: variant === 'primary' ? '#ffffff' : '#374151',
+    ? 'var(--brand)'
+    : 'var(--surface)',
+  color: variant === 'primary' ? 'var(--on-brand)' : 'var(--text-2)',
   fontSize: '14px',
   fontWeight: 600,
   cursor: disabled ? 'not-allowed' : 'pointer',
@@ -127,7 +127,7 @@ const SaveStatusBar = ({ saveState, lastSavedAt, onSave, onReload, onOverwrite, 
         margin: '20px -32px -24px',
         borderTop: `1px solid ${palette.border}`,
         backgroundColor: palette.bg,
-        boxShadow: '0 -6px 16px rgba(15, 23, 42, 0.08)'
+        boxShadow: '0 -6px 16px var(--shadow)'
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
@@ -138,9 +138,9 @@ const SaveStatusBar = ({ saveState, lastSavedAt, onSave, onReload, onOverwrite, 
             style={{
               padding: '6px 12px',
               borderRadius: '999px',
-              border: '1px solid #a5f3fc',
-              backgroundColor: '#ecfeff',
-              color: '#0e7490',
+              border: '1px solid var(--brand-border)',
+              backgroundColor: 'var(--brand-soft)',
+              color: 'var(--brand)',
               fontSize: '13px',
               fontWeight: 700,
               cursor: 'pointer'

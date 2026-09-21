@@ -1,0 +1,200 @@
+/* Color tokens. Components style inline, so they read these through
+   var(--name). Light values on :root; dark values twice: once for the
+   phone setting when no manual choice is stored, once for the manual
+   choice. Every text/surface pair here is checked by scripts/check-contrast.mjs
+   (4.5:1 for text, 3:1 for input borders, icons and focus rings). */
+
+:root {
+  color-scheme: light;
+
+  --bg-page: #e9f7be;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --surface-3: #eef2f7;
+
+  --border: #e2e8f0;
+  --border-strong: #64748b;
+
+  --text: #0f172a;
+  --text-2: #334155;
+  --text-3: #64748b;
+  --text-inverse: #ffffff;
+
+  --brand: #0e7490;
+  --brand-strong: #155e75;
+  --brand-soft: #ecfeff;
+  --brand-border: #0891b2;
+  --on-brand: #ffffff;
+
+  --done: #0f766e;
+  --done-soft: #ccfbf1;
+  --done-border: #0d9488;
+
+  --skipped: #b45309;
+  --skipped-soft: #fef3c7;
+  --skipped-border: #b45309;
+
+  --danger: #b91c1c;
+  --danger-soft: #fee2e2;
+  --danger-border: #dc2626;
+
+  --info: #1d4ed8;
+  --info-soft: #dbeafe;
+  --info-border: #2563eb;
+
+  --accent-a: #475569;
+  --accent-a-soft: #eef2f7;
+  --accent-a-border: #64748b;
+
+  --accent-b: #4338ca;
+  --accent-b-soft: #e0e7ff;
+  --accent-b-border: #4f46e5;
+
+  --focus: #0e7490;
+  --shadow: rgba(15, 23, 42, 0.10);
+  --shadow-strong: rgba(15, 23, 42, 0.22);
+  --overlay: rgba(15, 23, 42, 0.55);
+
+  --header-bg: linear-gradient(135deg, #06b6d4 0%, #0e7490 40%, #164e63 80%, #0f172a 100%);
+  --day-open-bg: #0f766e;
+  --day-today-bg: #1d4ed8;
+  --day-idle-bg: #475569;
+  --on-day: #ffffff;
+  --day-chip-bg: rgba(255, 255, 255, 0.22);
+
+  --toast-bg: #0f172a;
+  --toast-text: #f8fafc;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --bg-page: #0b1220;
+    --surface: #1e293b;
+    --surface-2: #0f172a;
+    --surface-3: #334155;
+
+    --border: #334155;
+    --border-strong: #94a3b8;
+
+    --text: #f1f5f9;
+    --text-2: #cbd5e1;
+    --text-3: #94a3b8;
+    --text-inverse: #0f172a;
+
+    --brand: #22d3ee;
+    --brand-strong: #67e8f9;
+    --brand-soft: #164e63;
+    --brand-border: #22d3ee;
+    --on-brand: #0f172a;
+
+    --done: #5eead4;
+    --done-soft: #134e4a;
+    --done-border: #2dd4bf;
+
+    --skipped: #fbbf24;
+    --skipped-soft: #78350f;
+    --skipped-border: #f59e0b;
+
+    --danger: #fca5a5;
+    --danger-soft: #7f1d1d;
+    --danger-border: #f87171;
+
+    --info: #93c5fd;
+    --info-soft: #263a66;
+    --info-border: #60a5fa;
+
+    --accent-a: #cbd5e1;
+    --accent-a-soft: #334155;
+    --accent-a-border: #94a3b8;
+
+    --accent-b: #a5b4fc;
+    --accent-b-soft: #2f2d5c;
+    --accent-b-border: #818cf8;
+
+    --focus: #22d3ee;
+    --shadow: rgba(0, 0, 0, 0.45);
+    --shadow-strong: rgba(0, 0, 0, 0.65);
+    --overlay: rgba(0, 0, 0, 0.7);
+
+    --header-bg: linear-gradient(135deg, #164e63 0%, #0f172a 70%, #020617 100%);
+    --day-open-bg: #115e59;
+    --day-today-bg: #1e3a8a;
+    --day-idle-bg: #334155;
+    --on-day: #f8fafc;
+    --day-chip-bg: rgba(255, 255, 255, 0.16);
+
+    --toast-bg: #f1f5f9;
+    --toast-text: #0f172a;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-page: #0b1220;
+  --surface: #1e293b;
+  --surface-2: #0f172a;
+  --surface-3: #334155;
+
+  --border: #334155;
+  --border-strong: #94a3b8;
+
+  --text: #f1f5f9;
+  --text-2: #cbd5e1;
+  --text-3: #94a3b8;
+  --text-inverse: #0f172a;
+
+  --brand: #22d3ee;
+  --brand-strong: #67e8f9;
+  --brand-soft: #164e63;
+  --brand-border: #22d3ee;
+  --on-brand: #0f172a;
+
+  --done: #5eead4;
+  --done-soft: #134e4a;
+  --done-border: #2dd4bf;
+
+  --skipped: #fbbf24;
+  --skipped-soft: #78350f;
+  --skipped-border: #f59e0b;
+
+  --danger: #fca5a5;
+  --danger-soft: #7f1d1d;
+  --danger-border: #f87171;
+
+  --info: #93c5fd;
+  --info-soft: #263a66;
+  --info-border: #60a5fa;
+
+  --accent-a: #cbd5e1;
+  --accent-a-soft: #334155;
+  --accent-a-border: #94a3b8;
+
+  --accent-b: #a5b4fc;
+  --accent-b-soft: #2f2d5c;
+  --accent-b-border: #818cf8;
+
+  --focus: #22d3ee;
+  --shadow: rgba(0, 0, 0, 0.45);
+  --shadow-strong: rgba(0, 0, 0, 0.65);
+  --overlay: rgba(0, 0, 0, 0.7);
+
+  --header-bg: linear-gradient(135deg, #164e63 0%, #0f172a 70%, #020617 100%);
+  --day-open-bg: #115e59;
+  --day-today-bg: #1e3a8a;
+  --day-idle-bg: #334155;
+  --on-day: #f8fafc;
+  --day-chip-bg: rgba(255, 255, 255, 0.16);
+
+  --toast-bg: #f1f5f9;
+  --toast-text: #0f172a;
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --header-bg: #0f172a;
+    --border: var(--border-strong);
+  }
+}

@@ -64,7 +64,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundColor: '#f9fafb',
+      backgroundColor: 'var(--bg-page)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -73,15 +73,15 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
       <div style={{
         width: '100%',
         maxWidth: '440px',
-        backgroundColor: 'white',
+        backgroundColor: 'var(--surface)',
         borderRadius: '16px',
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+        boxShadow: '0 25px 50px -12px var(--shadow-strong)',
         overflow: 'hidden'
       }}>
         {/* Header */}
         <div style={{
           padding: '40px 32px',
-          background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 20%, #0e7490 40%, #155e75 60%, #164e63 80%, #0f172a 100%)',
+          background: 'var(--header-bg)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -96,7 +96,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
               objectFit: 'cover',
               borderRadius: '50%',
               border: '4px solid rgba(255, 255, 255, 0.4)',
-              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.4)'
+              boxShadow: '0 8px 25px var(--shadow-strong)'
             }}
           />
           <div style={{ textAlign: 'center' }}>
@@ -124,10 +124,10 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
             {error && (
               <div style={{
                 padding: '12px 16px',
-                backgroundColor: '#fee2e2',
-                border: '1px solid #fecaca',
+                backgroundColor: 'var(--danger-soft)',
+                border: '1px solid var(--danger-border)',
                 borderRadius: '8px',
-                color: '#991b1b',
+                color: 'var(--danger)',
                 fontSize: '14px'
               }}>
                 {error}
@@ -142,7 +142,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: '#06b6d4',
+                  color: 'var(--brand)',
                   fontWeight: 600,
                   cursor: 'pointer',
                   textDecoration: 'underline',
@@ -158,10 +158,10 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
             {resent && (
               <div style={{
                 padding: '12px 16px',
-                backgroundColor: '#d1fae5',
-                border: '1px solid #a7f3d0',
+                backgroundColor: 'var(--done-soft)',
+                border: '1px solid var(--done-border)',
                 borderRadius: '8px',
-                color: '#065f46',
+                color: 'var(--done)',
                 fontSize: '14px'
               }}>
                 {t('Confirmation email sent!', language)}
@@ -174,7 +174,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
                 marginBottom: '8px',
                 fontSize: '14px',
                 fontWeight: '600',
-                color: '#374151'
+                color: 'var(--text-2)'
               }}>
                 {t('Email', language)}
               </label>
@@ -194,7 +194,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
                 marginBottom: '8px',
                 fontSize: '14px',
                 fontWeight: '600',
-                color: '#374151'
+                color: 'var(--text-2)'
               }}>
                 {t('Password', language)}
               </label>
@@ -212,7 +212,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
                   style={{
                     background: 'none',
                     border: 'none',
-                    color: '#06b6d4',
+                    color: 'var(--brand)',
                     fontSize: '13px',
                     fontWeight: '600',
                     cursor: 'pointer',
@@ -239,7 +239,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
             <div style={{
               textAlign: 'center',
               fontSize: '14px',
-              color: '#6b7280',
+              color: 'var(--text-3)',
               marginTop: '8px'
             }}>
               {t("Don't have an account?", language)}{' '}
@@ -249,7 +249,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: '#06b6d4',
+                  color: 'var(--brand)',
                   fontWeight: '600',
                   cursor: 'pointer',
                   textDecoration: 'underline',

@@ -31,19 +31,19 @@ import { getWorkoutTemplate } from '../constants/workoutTemplates.js';
 import AddExerciseModal from './AddExerciseModal.jsx';
 
 const cardStyle = {
-  backgroundColor: 'white',
+  backgroundColor: 'var(--surface)',
   borderRadius: '12px',
-  border: '1px solid #e5e7eb',
-  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+  border: '1px solid var(--border)',
+  boxShadow: '0 1px 3px var(--shadow)'
 };
 
 const roleSelectStyle = {
   fontSize: '12px',
   padding: '4px 6px',
   borderRadius: '6px',
-  border: '1px solid #e5e7eb',
-  backgroundColor: 'white',
-  color: '#374151',
+  border: '1px solid var(--border-strong)',
+  backgroundColor: 'var(--surface)',
+  color: 'var(--text-2)',
   maxWidth: '170px',
   cursor: 'pointer'
 };
@@ -387,8 +387,8 @@ export default function AdminDashboard({ onBack }) {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundColor: '#f9fafb',
-      color: '#374151',
+      backgroundColor: 'var(--bg-page)',
+      color: 'var(--text-2)',
       fontFamily: 'system-ui, -apple-system, sans-serif'
     }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 16px' }}>
@@ -396,7 +396,7 @@ export default function AdminDashboard({ onBack }) {
         <div style={{
           padding: '24px 32px',
           borderRadius: '12px',
-          background: 'linear-gradient(135deg, #06b6d4 0%, #0e7490 50%, #0f172a 100%)',
+          background: 'var(--header-bg)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -437,8 +437,8 @@ export default function AdminDashboard({ onBack }) {
               fontSize: '18px',
               fontWeight: 700,
               letterSpacing: '2px',
-              color: '#0e7490',
-              backgroundColor: '#ecfeff',
+              color: 'var(--brand)',
+              backgroundColor: 'var(--brand-soft)',
               padding: '4px 10px',
               borderRadius: '8px'
             }}>
@@ -457,7 +457,7 @@ export default function AdminDashboard({ onBack }) {
             >
               🔗 {copiedItem === 'link' ? t('Copied!', language) : t('Copy invite link', language)}
             </Button>
-            <span style={{ fontSize: '12px', color: '#6b7280', flexBasis: '100%' }}>
+            <span style={{ fontSize: '12px', color: 'var(--text-3)', flexBasis: '100%' }}>
               {t('Send the invite link to your clients — signing up through it assigns their account to you automatically.', language)}
             </span>
             {/* Email the invite link directly (send-invite Edge Function) */}
@@ -474,7 +474,7 @@ export default function AdminDashboard({ onBack }) {
                 style={{
                   flex: '1 1 220px',
                   padding: '8px 12px',
-                  border: '1px solid #d1d5db',
+                  border: '1px solid var(--border-strong)',
                   borderRadius: '8px',
                   fontSize: '14px',
                   boxSizing: 'border-box'
@@ -488,7 +488,7 @@ export default function AdminDashboard({ onBack }) {
                 {inviteEmailSending ? t('Sending...', language) : `✉️ ${t('Send invite', language)}`}
               </Button>
               {inviteEmailResult && (
-                <span style={{ fontSize: '13px', fontWeight: 600, color: inviteEmailResult.ok ? '#059669' : '#991b1b' }}>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: inviteEmailResult.ok ? 'var(--done)' : 'var(--danger)' }}>
                   {inviteEmailResult.text}
                 </span>
               )}
@@ -514,7 +514,7 @@ export default function AdminDashboard({ onBack }) {
                 + {t('Invite a trainer', language)}
               </Button>
             </div>
-            <p style={{ fontSize: '12px', color: '#6b7280', margin: '8px 0 0 0' }}>
+            <p style={{ fontSize: '12px', color: 'var(--text-3)', margin: '8px 0 0 0' }}>
               {t('Each link is single-use: whoever signs up through it becomes a trainer.', language)}
             </p>
             {trainerInvites.length > 0 && (
@@ -528,8 +528,8 @@ export default function AdminDashboard({ onBack }) {
                       fontSize: '14px',
                       fontWeight: 700,
                       letterSpacing: '1px',
-                      color: '#0e7490',
-                      backgroundColor: '#ecfeff',
+                      color: 'var(--brand)',
+                      backgroundColor: 'var(--brand-soft)',
                       padding: '3px 8px',
                       borderRadius: '6px'
                     }}>
@@ -560,9 +560,9 @@ export default function AdminDashboard({ onBack }) {
             ...cardStyle,
             padding: '12px 16px',
             marginBottom: '16px',
-            borderColor: '#fca5a5',
-            backgroundColor: '#fef2f2',
-            color: '#b91c1c',
+            borderColor: 'var(--danger-border)',
+            backgroundColor: 'var(--danger-soft)',
+            color: 'var(--danger)',
             fontSize: '14px'
           }}>
             {error}
@@ -572,12 +572,12 @@ export default function AdminDashboard({ onBack }) {
         <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
           {/* User list */}
           <div style={{ ...cardStyle, flex: '1 1 300px', maxWidth: '420px' }}>
-            <div style={{ padding: '16px', borderBottom: '1px solid #e5e7eb', fontWeight: 600 }}>
+            <div style={{ padding: '16px', borderBottom: '1px solid var(--border)', fontWeight: 600 }}>
               {isTrainer ? t('Clients', language) : t('Users', language)}{' '}
               {usersLoading ? '' : `(${visibleUsers.length})`}
             </div>
             {usersLoading ? (
-              <p style={{ padding: '16px', margin: 0, color: '#6b7280' }}>
+              <p style={{ padding: '16px', margin: 0, color: 'var(--text-3)' }}>
                 {t('Loading users...', language)}
               </p>
             ) : (
@@ -586,12 +586,12 @@ export default function AdminDashboard({ onBack }) {
                   key={user.id}
                   style={{
                     padding: '12px 16px',
-                    borderBottom: '1px solid #f3f4f6',
+                    borderBottom: '1px solid var(--border)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     gap: '8px',
-                    backgroundColor: selectedUser?.id === user.id ? '#ecfeff' : 'transparent'
+                    backgroundColor: selectedUser?.id === user.id ? 'var(--brand-soft)' : 'transparent'
                   }}
                 >
                   <button
@@ -609,14 +609,14 @@ export default function AdminDashboard({ onBack }) {
                     <span style={{
                       display: 'block',
                       fontSize: '14px',
-                      color: '#111827',
+                      color: 'var(--text)',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap'
                     }}>
                       {user.email || user.id}
                     </span>
-                    <span style={{ fontSize: '12px', color: '#6b7280' }}>
+                    <span style={{ fontSize: '12px', color: 'var(--text-3)' }}>
                       {user.role === 'admin'
                         ? `🛡️ ${t('admin', language)}`
                         : user.role === 'trainer'
@@ -649,9 +649,9 @@ export default function AdminDashboard({ onBack }) {
                                 alignItems: 'center',
                                 gap: '6px',
                                 fontSize: '12px',
-                                color: '#164e63',
-                                backgroundColor: '#ecfeff',
-                                border: '1px solid #a5f3fc',
+                                color: 'var(--brand)',
+                                backgroundColor: 'var(--brand-soft)',
+                                border: '1px solid var(--brand-border)',
                                 borderRadius: '999px',
                                 padding: '2px 8px',
                                 maxWidth: '220px'
@@ -665,7 +665,7 @@ export default function AdminDashboard({ onBack }) {
                                 onClick={() => removeTrainer(user, tr.id)}
                                 aria-label={`${t('Remove trainer', language)} ${tr.email} — ${user.email}`}
                                 title={t('Remove trainer', language)}
-                                style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer', color: '#0e7490', fontWeight: 700 }}
+                                style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer', color: 'var(--brand)', fontWeight: 700 }}
                               >
                                 ×
                               </button>
@@ -700,11 +700,11 @@ export default function AdminDashboard({ onBack }) {
           {/* Plan editor — full tracker controls for the user's current week */}
           <div style={{ ...cardStyle, flex: '2 1 420px', padding: '16px' }}>
             {!selectedUser ? (
-              <p style={{ margin: 0, color: '#6b7280' }}>
+              <p style={{ margin: 0, color: 'var(--text-3)' }}>
                 {t('Select a user to view their workout plan.', language)}
               </p>
             ) : planLoading ? (
-              <p style={{ margin: 0, color: '#6b7280' }}>
+              <p style={{ margin: 0, color: 'var(--text-3)' }}>
                 {t('Loading plan for', language)} {selectedUser.email}…
               </p>
             ) : (
@@ -731,10 +731,10 @@ export default function AdminDashboard({ onBack }) {
                         >
                           ‹
                         </button>
-                        <span style={{ fontSize: '12px', color: '#6b7280' }}>
+                        <span style={{ fontSize: '12px', color: 'var(--text-3)' }}>
                           {t('Week of', language)} {formatWeekRange(viewedWeek, language)}
                           {' · '}
-                          <span style={{ fontWeight: 600, color: isViewingCurrent ? '#059669' : isPastWeek ? '#b45309' : '#0e7490' }}>
+                          <span style={{ fontWeight: 600, color: isViewingCurrent ? 'var(--done)' : isPastWeek ? 'var(--skipped)' : 'var(--brand)' }}>
                             {isViewingCurrent
                               ? t('Current week', language)
                               : isPastWeek
@@ -756,7 +756,7 @@ export default function AdminDashboard({ onBack }) {
                           <button
                             type="button"
                             onClick={() => setViewedWeekStart(history.currentWeekStart)}
-                            style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer', color: '#0e7490', fontSize: '12px', fontWeight: 600 }}
+                            style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer', color: 'var(--brand)', fontSize: '12px', fontWeight: 600 }}
                           >
                             {t('Back to current week', language)}
                           </button>
@@ -811,7 +811,7 @@ export default function AdminDashboard({ onBack }) {
                 </div>
 
                 {!plan ? (
-                  <p style={{ margin: 0, color: '#6b7280' }}>
+                  <p style={{ margin: 0, color: 'var(--text-3)' }}>
                     {t('No cloud workout plan yet. "Reset to default" creates one you can save.', language)}
                   </p>
                 ) : (

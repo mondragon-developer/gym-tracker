@@ -16,10 +16,10 @@ export default function InviteNoticeBanner({ onDismiss, language = 'en' }) {
             style={{
                 margin: '16px 32px 0 32px',
                 padding: '12px 16px',
-                backgroundColor: '#fffbeb',
-                border: '1px solid #fde68a',
+                backgroundColor: 'var(--skipped-soft)',
+                border: '1px solid var(--skipped-border)',
                 borderRadius: '10px',
-                color: '#92400e',
+                color: 'var(--skipped)',
                 fontSize: '14px',
                 display: 'flex',
                 alignItems: 'center',
@@ -35,8 +35,8 @@ export default function InviteNoticeBanner({ onDismiss, language = 'en' }) {
                 onClick={onDismiss}
                 style={{
                     padding: '6px 14px',
-                    backgroundColor: '#f59e0b',
-                    color: 'white',
+                    backgroundColor: 'var(--skipped)',
+                    color: 'var(--text-inverse)',
                     border: 'none',
                     borderRadius: '8px',
                     fontSize: '13px',

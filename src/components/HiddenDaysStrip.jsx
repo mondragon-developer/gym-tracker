@@ -19,9 +19,9 @@ const HiddenDaysStrip = ({ days, onShow, language = 'en', readOnly = false }) =>
         gap: '8px',
         padding: '10px 14px',
         borderRadius: '12px',
-        border: '1px dashed #cbd5e1',
-        backgroundColor: '#f8fafc',
-        color: '#64748b',
+        border: '1px dashed var(--border)',
+        backgroundColor: 'var(--surface-2)',
+        color: 'var(--text-3)',
         fontSize: '13px'
       }}
     >
@@ -35,8 +35,8 @@ const HiddenDaysStrip = ({ days, onShow, language = 'en', readOnly = false }) =>
             gap: '6px',
             padding: '4px 10px',
             borderRadius: '999px',
-            backgroundColor: 'white',
-            border: '1px solid #e2e8f0'
+            backgroundColor: 'var(--surface)',
+            border: '1px solid var(--border)'
           }}
         >
           {t(day, language)}
@@ -49,7 +49,7 @@ const HiddenDaysStrip = ({ days, onShow, language = 'en', readOnly = false }) =>
                 border: 'none',
                 background: 'none',
                 padding: 0,
-                color: '#0e7490',
+                color: 'var(--brand)',
                 fontWeight: 600,
                 cursor: 'pointer',
                 fontSize: '13px'

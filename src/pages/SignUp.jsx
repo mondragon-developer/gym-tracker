@@ -104,7 +104,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
     return (
       <div style={{
         minHeight: '100vh',
-        backgroundColor: '#f9fafb',
+        backgroundColor: 'var(--bg-page)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -113,14 +113,14 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
         <div style={{
           width: '100%',
           maxWidth: '440px',
-          backgroundColor: 'white',
+          backgroundColor: 'var(--surface)',
           borderRadius: '16px',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+          boxShadow: '0 25px 50px -12px var(--shadow-strong)',
           overflow: 'hidden'
         }}>
           <div style={{
             padding: '40px 32px',
-            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+            background: 'var(--done)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -130,7 +130,8 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
               width: '80px',
               height: '80px',
               borderRadius: '50%',
-              backgroundColor: 'rgba(255, 255, 255, 0.2)',
+              backgroundColor: 'var(--done-soft)',
+              color: 'var(--done)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -139,7 +140,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
               ✓
             </div>
             <h1 style={{
-              color: 'white',
+              color: 'var(--text-inverse)',
               fontSize: '28px',
               margin: '0',
               fontWeight: '700'
@@ -149,7 +150,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
           </div>
           <div style={{ padding: '32px', textAlign: 'center' }}>
             <p style={{
-              color: '#6b7280',
+              color: 'var(--text-3)',
               fontSize: '16px',
               lineHeight: '1.6',
               margin: '0 0 24px 0'
@@ -157,7 +158,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
               {t('We sent a confirmation link to', language)} <strong>{email}</strong>
             </p>
             <p style={{
-              color: '#6b7280',
+              color: 'var(--text-3)',
               fontSize: '14px',
               lineHeight: '1.6',
               margin: '0 0 24px 0'
@@ -165,11 +166,11 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
               {t('Please check your email and click the link to verify your account', language)}
             </p>
             {resent ? (
-              <p style={{ color: '#059669', fontSize: '14px', fontWeight: 600, margin: '0 0 24px 0' }}>
+              <p style={{ color: 'var(--done)', fontSize: '14px', fontWeight: 600, margin: '0 0 24px 0' }}>
                 {t('Confirmation email sent!', language)}
               </p>
             ) : (
-              <p style={{ color: '#6b7280', fontSize: '14px', margin: '0 0 24px 0' }}>
+              <p style={{ color: 'var(--text-3)', fontSize: '14px', margin: '0 0 24px 0' }}>
                 {t("Didn't get the email?", language)}{' '}
                 <button
                   type="button"
@@ -178,7 +179,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
                   style={{
                     background: 'none',
                     border: 'none',
-                    color: '#06b6d4',
+                    color: 'var(--brand)',
                     fontWeight: 600,
                     cursor: 'pointer',
                     textDecoration: 'underline',
@@ -206,7 +207,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundColor: '#f9fafb',
+      backgroundColor: 'var(--bg-page)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -215,15 +216,15 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
       <div style={{
         width: '100%',
         maxWidth: '440px',
-        backgroundColor: 'white',
+        backgroundColor: 'var(--surface)',
         borderRadius: '16px',
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+        boxShadow: '0 25px 50px -12px var(--shadow-strong)',
         overflow: 'hidden'
       }}>
         {/* Header */}
         <div style={{
           padding: '40px 32px',
-          background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 20%, #0e7490 40%, #155e75 60%, #164e63 80%, #0f172a 100%)',
+          background: 'var(--header-bg)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -238,7 +239,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
               objectFit: 'cover',
               borderRadius: '50%',
               border: '4px solid rgba(255, 255, 255, 0.4)',
-              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.4)'
+              boxShadow: '0 8px 25px var(--shadow-strong)'
             }}
           />
           <div style={{ textAlign: 'center' }}>
@@ -266,10 +267,10 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
             {trainerInvite && (
               <div style={{
                 padding: '12px 16px',
-                backgroundColor: '#ecfeff',
-                border: '1px solid #a5f3fc',
+                backgroundColor: 'var(--brand-soft)',
+                border: '1px solid var(--brand-border)',
                 borderRadius: '8px',
-                color: '#155e75',
+                color: 'var(--brand)',
                 fontSize: '14px'
               }}>
                 🏋️ <strong>{t('Trainer invitation', language)}</strong>
@@ -280,10 +281,10 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
             {error && (
               <div style={{
                 padding: '12px 16px',
-                backgroundColor: '#fee2e2',
-                border: '1px solid #fecaca',
+                backgroundColor: 'var(--danger-soft)',
+                border: '1px solid var(--danger-border)',
                 borderRadius: '8px',
-                color: '#991b1b',
+                color: 'var(--danger)',
                 fontSize: '14px'
               }}>
                 {error}
@@ -296,7 +297,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
                 marginBottom: '8px',
                 fontSize: '14px',
                 fontWeight: '600',
-                color: '#374151'
+                color: 'var(--text-2)'
               }}>
                 {t('Name', language)}
               </label>
@@ -316,7 +317,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
                 marginBottom: '8px',
                 fontSize: '14px',
                 fontWeight: '600',
-                color: '#374151'
+                color: 'var(--text-2)'
               }}>
                 {t('Email', language)}
               </label>
@@ -336,7 +337,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
                 marginBottom: '8px',
                 fontSize: '14px',
                 fontWeight: '600',
-                color: '#374151'
+                color: 'var(--text-2)'
               }}>
                 {t('Password', language)}
               </label>
@@ -355,7 +356,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
                 marginBottom: '8px',
                 fontSize: '14px',
                 fontWeight: '600',
-                color: '#374151'
+                color: 'var(--text-2)'
               }}>
                 {t('Confirm Password', language)}
               </label>
@@ -377,7 +378,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
                   marginBottom: '8px',
                   fontSize: '14px',
                   fontWeight: '600',
-                  color: '#374151'
+                  color: 'var(--text-2)'
                 }}>
                   {t('Trainer code (optional)', language)}
                 </label>
@@ -392,7 +393,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
                 />
                 <p style={{
                   fontSize: '12px',
-                  color: '#6b7280',
+                  color: 'var(--text-3)',
                   margin: '6px 0 0 0'
                 }}>
                   {t('Leave it empty if you train on your own.', language)}
@@ -418,7 +419,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
             <div style={{
               textAlign: 'center',
               fontSize: '14px',
-              color: '#6b7280',
+              color: 'var(--text-3)',
               marginTop: '8px'
             }}>
               {t('Already have an account?', language)}{' '}
@@ -428,7 +429,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: '#06b6d4',
+                  color: 'var(--brand)',
                   fontWeight: '600',
                   cursor: 'pointer',
                   textDecoration: 'underline',

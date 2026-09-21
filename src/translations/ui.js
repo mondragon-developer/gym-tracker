@@ -207,6 +207,11 @@ export const uiTranslations = {
         "Resend confirmation email": "Resend confirmation email",
         "Confirmation email sent!": "Confirmation email sent!",
         "Switch weight unit": "Switch weight unit",
+        "Switch theme": "Switch theme",
+        "Theme": "Theme",
+        "System": "System",
+        "Light": "Light",
+        "Dark": "Dark",
         "or": "or",
         "Continue with Google": "Continue with Google",
 
@@ -532,6 +537,11 @@ export const uiTranslations = {
         "Resend confirmation email": "Reenviar correo de confirmación",
         "Confirmation email sent!": "¡Correo de confirmación enviado!",
         "Switch weight unit": "Cambiar unidad de peso",
+        "Switch theme": "Cambiar tema",
+        "Theme": "Tema",
+        "System": "Sistema",
+        "Light": "Claro",
+        "Dark": "Oscuro",
         "or": "o",
         "Continue with Google": "Continuar con Google",
 

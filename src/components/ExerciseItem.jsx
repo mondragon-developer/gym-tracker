@@ -69,21 +69,21 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
         switch (exercise.status) {
             case 'completed':
                 return {
-                    background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
-                    border: '2px solid #10b981',
-                    boxShadow: '0 4px 12px rgba(16, 185, 129, 0.2)'
+                    background: 'var(--done-soft)',
+                    border: '2px solid var(--done-border)',
+                    boxShadow: '0 4px 12px var(--shadow)'
                 };
             case 'skipped':
                 return {
-                    background: 'linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)',
-                    border: '2px solid #ef4444',
-                    boxShadow: '0 4px 12px rgba(239, 68, 68, 0.2)'
+                    background: 'var(--skipped-soft)',
+                    border: '2px solid var(--skipped-border)',
+                    boxShadow: '0 4px 12px var(--shadow)'
                 };
             default:
                 return {
-                    background: 'linear-gradient(135deg, #ffffff 0%, #f9fafb 100%)',
-                    border: '2px solid #3b82f6',
-                    boxShadow: '0 4px 12px rgba(59, 130, 246, 0.1)'
+                    background: 'var(--surface)',
+                    border: '2px solid var(--border)',
+                    boxShadow: '0 4px 12px var(--shadow)'
                 };
         }
     };
@@ -101,13 +101,13 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
         padding: '7px',
         borderRadius: '10px',
         transition: 'all 0.3s ease',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 2px 8px var(--shadow)',
         border: 'none',
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
-        background: active ? activeBackground : 'linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 100%)',
-        color: active ? 'white' : color
+        background: active ? activeBackground : 'var(--surface-3)',
+        color: active ? 'var(--text-inverse)' : color
     });
 
     const labelStyle = (color) => ({ fontSize: '11px', fontWeight: '600', color, lineHeight: 1.2 });
@@ -142,7 +142,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                                 background: 'transparent',
                                 border: 'none',
                                 padding: '4px 0',
-                                color: '#6b7280',
+                                color: 'var(--text-3)',
                                 cursor: 'grab',
                                 touchAction: 'none',
                                 display: 'flex',
@@ -156,7 +156,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                     <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
                         <h3 style={{
                             fontWeight: '600',
-                            color: '#111827',
+                            color: 'var(--text)',
                             fontSize: '16px',
                             margin: 0,
                             padding: '3px 0',
@@ -176,7 +176,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                                     background: 'transparent',
                                     border: 'none',
                                     padding: '4px 0',
-                                    color: '#0e7490',
+                                    color: 'var(--brand)',
                                     cursor: 'pointer',
                                     display: 'flex',
                                     alignItems: 'center',
@@ -194,7 +194,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                         <button
                             onClick={() => handleStatusChange('completed')}
                             aria-pressed={exercise.status === 'completed'}
-                            style={actionButtonStyle(exercise.status === 'completed', 'linear-gradient(90deg, #10b981 0%, #059669 100%)', '#10b981')}
+                            style={actionButtonStyle(exercise.status === 'completed', 'var(--done)', 'var(--done)')}
                             title={t("Mark as completed", language)}
                             aria-label={t("Mark as completed", language)}
                         >
@@ -203,7 +203,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                         <button
                             onClick={() => handleStatusChange('skipped')}
                             aria-pressed={exercise.status === 'skipped'}
-                            style={actionButtonStyle(exercise.status === 'skipped', 'linear-gradient(90deg, #ef4444 0%, #dc2626 100%)', '#ef4444')}
+                            style={actionButtonStyle(exercise.status === 'skipped', 'var(--skipped)', 'var(--skipped)')}
                             title="Mark as skipped"
                             aria-label="Mark as skipped"
                         >
@@ -211,14 +211,14 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                         </button>
                         <button
                             onClick={() => onDelete(exercise.id)}
-                            style={actionButtonStyle(false, null, '#ef4444')}
+                            style={actionButtonStyle(false, null, 'var(--danger)')}
                             title={t("Delete exercise", language)}
                             aria-label={t("Delete exercise", language)}
                             onMouseOver={(e) => {
-                                e.currentTarget.style.background = 'linear-gradient(90deg, #fee2e2 0%, #fecaca 100%)';
+                                e.currentTarget.style.background = 'var(--danger-soft)';
                             }}
                             onMouseOut={(e) => {
-                                e.currentTarget.style.background = 'linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 100%)';
+                                e.currentTarget.style.background = 'var(--surface-3)';
                             }}
                         >
                             <Trash2 size={16} />
@@ -233,30 +233,30 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                 {cardio ? (
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '14px' }}>
                         <div style={fieldStyle}>
-                            <label style={labelStyle('#f59e0b')}>{t("Duration", language)} (min)</label>
+                            <label style={labelStyle('var(--skipped)')}>{t("Duration", language)} (min)</label>
                             <select
                                 value={exercise.sets || '30'}
                                 onChange={e => handleUpdate('sets', e.target.value)}
                                 style={{
                                     width: '100%',
                                     padding: '8px',
-                                    background: 'linear-gradient(90deg, #fef3c7 0%, #fde68a 100%)',
-                                    border: '2px solid #f59e0b',
+                                    background: 'var(--skipped-soft)',
+                                    border: '2px solid var(--skipped-border)',
                                     borderRadius: '12px',
                                     fontSize: '14px',
                                     fontWeight: '500',
-                                    color: '#374151',
+                                    color: 'var(--text)',
                                     boxSizing: 'border-box',
                                     transition: 'all 0.3s ease',
                                     cursor: 'pointer'
                                 }}
                                 onFocus={(e) => {
-                                    e.target.style.boxShadow = '0 0 0 3px rgba(245, 158, 11, 0.1)';
-                                    e.target.style.borderColor = '#d97706';
+                                    e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--focus) 25%, transparent)';
+                                    e.target.style.borderColor = 'var(--skipped)';
                                 }}
                                 onBlur={(e) => {
                                     e.target.style.boxShadow = 'none';
-                                    e.target.style.borderColor = '#f59e0b';
+                                    e.target.style.borderColor = 'var(--skipped-border)';
                                 }}
                             >
                                 {[...Array(120)].map((_, i) => (
@@ -265,16 +265,16 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                             </select>
                         </div>
                         <div style={fieldStyle}>
-                            <label style={labelStyle('#10b981')}>{t("Effective", language)}</label>
+                            <label style={labelStyle('var(--done)')}>{t("Effective", language)}</label>
                             <StepperInput
                                 value={exercise.effectiveSets || ''}
                                 onChange={v => handleUpdate('effectiveSets', v)}
                                 step={5} min={0} max={120} inputMode="numeric" placeholder="0"
                                 ariaLabel={t("Effective", language)}
-                                background="linear-gradient(90deg, #d1fae5 0%, #a7f3d0 100%)"
-                                borderColor="#34d399"
-                                focusColor="#10b981"
-                                focusShadow="0 0 0 3px rgba(16, 185, 129, 0.1)"
+                                background="var(--done-soft)"
+                                borderColor="var(--done-border)"
+                                focusColor="var(--done)"
+                                focusShadow="0 0 0 3px color-mix(in srgb, var(--focus) 25%, transparent)"
                                 disabled={readOnly}
                             />
                         </div>
@@ -285,44 +285,44 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                         {/* Reps holds ranges like "10-12", so it gets the widest column. */}
                         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 0.8fr) minmax(0, 1.3fr) minmax(0, 1.1fr)', gap: '8px', fontSize: '14px' }}>
                             <div style={fieldStyle}>
-                                <label style={labelStyle('#8b5cf6')}>{t("Sets", language)}</label>
+                                <label style={labelStyle('var(--accent-a)')}>{t("Sets", language)}</label>
                                 <StepperInput
                                     value={exercise.sets}
                                     onChange={v => handleUpdate('sets', v)}
                                     step={1} min={1} max={20} fallback={3} inputMode="numeric" placeholder="3"
                                     ariaLabel={t("Sets", language)}
-                                    background="linear-gradient(90deg, #f3e8ff 0%, #ddd6fe 100%)"
-                                    borderColor="#c084fc"
-                                    focusColor="#8b5cf6"
-                                    focusShadow="0 0 0 3px rgba(139, 92, 246, 0.1)"
+                                    background="var(--accent-a-soft)"
+                                    borderColor="var(--accent-a-border)"
+                                    focusColor="var(--accent-a)"
+                                    focusShadow="0 0 0 3px color-mix(in srgb, var(--focus) 25%, transparent)"
                                     disabled={readOnly}
                                 />
                             </div>
                             <div style={fieldStyle}>
-                                <label style={labelStyle('#3b82f6')}>{t("Reps", language)}</label>
+                                <label style={labelStyle('var(--info)')}>{t("Reps", language)}</label>
                                 <StepperInput
                                     value={exercise.reps}
                                     onChange={v => handleUpdate('reps', v)}
                                     step={1} min={1} max={100} fallback={10} inputMode="numeric" placeholder="8-12"
                                     ariaLabel={t("Reps", language)}
-                                    background="linear-gradient(90deg, #dbeafe 0%, #bfdbfe 100%)"
-                                    borderColor="#60a5fa"
-                                    focusColor="#3b82f6"
-                                    focusShadow="0 0 0 3px rgba(59, 130, 246, 0.1)"
+                                    background="var(--info-soft)"
+                                    borderColor="var(--info-border)"
+                                    focusColor="var(--info)"
+                                    focusShadow="0 0 0 3px color-mix(in srgb, var(--focus) 25%, transparent)"
                                     disabled={readOnly}
                                 />
                             </div>
                             <div style={fieldStyle}>
-                                <label style={labelStyle('#6366f1')}>{t("Weight", language)} ({unit})</label>
+                                <label style={labelStyle('var(--accent-b)')}>{t("Weight", language)} ({unit})</label>
                                 <StepperInput
                                     value={toDisplayWeight(exercise.weight, unit)}
                                     onChange={v => handleUpdate('weight', fromDisplayWeight(v, unit))}
                                     step={weightStep(unit)} min={0} max={2000} fallback={0} inputMode="decimal" placeholder={unit}
                                     ariaLabel={t("Weight", language)}
-                                    background="linear-gradient(90deg, #e0e7ff 0%, #c7d2fe 100%)"
-                                    borderColor="#818cf8"
-                                    focusColor="#6366f1"
-                                    focusShadow="0 0 0 3px rgba(99, 102, 241, 0.1)"
+                                    background="var(--accent-b-soft)"
+                                    borderColor="var(--accent-b-border)"
+                                    focusColor="var(--accent-b)"
+                                    focusShadow="0 0 0 3px color-mix(in srgb, var(--focus) 25%, transparent)"
                                     disabled={readOnly}
                                 />
                             </div>
@@ -330,16 +330,16 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
 
                         <div style={{ display: 'flex', alignItems: 'flex-end', gap: '8px', flexWrap: 'wrap', marginTop: '8px' }}>
                             <div style={{ ...fieldStyle, flex: '1 1 96px', maxWidth: '150px' }}>
-                                <label style={labelStyle('#10b981')}>{t("Effective", language)}</label>
+                                <label style={labelStyle('var(--done)')}>{t("Effective", language)}</label>
                                 <StepperInput
                                     value={exercise.effectiveSets}
                                     onChange={v => handleUpdate('effectiveSets', v)}
                                     step={1} min={0} max={parseInt(exercise.sets, 10) || 20} inputMode="numeric" placeholder="0"
                                     ariaLabel={t("Effective", language)}
-                                    background="linear-gradient(90deg, #d1fae5 0%, #a7f3d0 100%)"
-                                    borderColor="#34d399"
-                                    focusColor="#10b981"
-                                    focusShadow="0 0 0 3px rgba(16, 185, 129, 0.1)"
+                                    background="var(--done-soft)"
+                                    borderColor="var(--done-border)"
+                                    focusColor="var(--done)"
+                                    focusShadow="0 0 0 3px color-mix(in srgb, var(--focus) 25%, transparent)"
                                     disabled={readOnly}
                                 />
                             </div>
@@ -354,9 +354,9 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                                         borderRadius: '12px',
                                         border: 'none',
                                         background: allSetsDone
-                                            ? 'linear-gradient(90deg, #d1fae5 0%, #a7f3d0 100%)'
-                                            : 'linear-gradient(90deg, #10b981 0%, #059669 100%)',
-                                        color: allSetsDone ? '#047857' : 'white',
+                                            ? 'var(--done-soft)'
+                                            : 'var(--done)',
+                                        color: allSetsDone ? 'var(--done)' : 'var(--text-inverse)',
                                         fontWeight: 700,
                                         fontSize: '14px',
                                         whiteSpace: 'nowrap',
@@ -367,7 +367,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                                 </button>
                             )}
                             {hasPrevious && (
-                                <span style={{ fontSize: '12px', color: '#6b7280', display: 'inline-flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', paddingBottom: '8px' }}>
+                                <span style={{ fontSize: '12px', color: 'var(--text-3)', display: 'inline-flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', paddingBottom: '8px' }}>
                                     <span>
                                         {t("Last week", language)}: {isNumericWeight(previous.weight) ? formatWeight(previous.weight, unit) : (previous.weight || '')}
                                         {previous.reps ? ` × ${previous.reps}` : ''}
@@ -379,9 +379,9 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                                             onClick={bumpFromPrevious}
                                             title={`${formatWeight(previous.weight, unit)} + ${weightStep(unit)} ${unit}`}
                                             style={{
-                                                border: '1px solid #c7d2fe',
-                                                backgroundColor: '#eef2ff',
-                                                color: '#4338ca',
+                                                border: '1px solid var(--accent-b-border)',
+                                                backgroundColor: 'var(--accent-b-soft)',
+                                                color: 'var(--accent-b)',
                                                 borderRadius: '999px',
                                                 padding: '3px 10px',
                                                 fontSize: '12px',
