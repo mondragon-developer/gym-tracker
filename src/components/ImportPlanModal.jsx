@@ -63,7 +63,7 @@ const specOf = (item) => {
     return '';
 };
 
-const ImportPlanModal = ({ isOpen, onClose, onApply, existingWeek = {}, language = 'en' }) => {
+const ImportPlanModal = ({ isOpen, onClose, onApply, existingWeek = {}, language = 'en', initialText = '' }) => {
     const { unit } = useUnits();
     const [text, setText] = useState('');
     const [parsed, setParsed] = useState(null);
@@ -72,6 +72,7 @@ const ImportPlanModal = ({ isOpen, onClose, onApply, existingWeek = {}, language
     const [perDay, setPerDay] = useState({});
     const [choices, setChoices] = useState({});
     const [confirming, setConfirming] = useState(false);
+    const [clipboardHint, setClipboardHint] = useState(null);
 
     useEffect(() => {
         if (isOpen) return;
@@ -80,21 +81,46 @@ const ImportPlanModal = ({ isOpen, onClose, onApply, existingWeek = {}, language
         setError(null);
         setChoices({});
         setConfirming(false);
+        setClipboardHint(null);
     }, [isOpen]);
 
-    const handlePreview = () => {
-        const result = parsePlanText(text);
+    const handlePreview = (source = text) => {
+        const result = parsePlanText(source);
         const listed = Object.keys(result.days);
         if (listed.length === 0) {
             setError(result.errors[0] ?? { line: 1, message: 'No plan found in the text' });
             return;
         }
         setError(null);
+        setText(source);
         setParsed(result);
         setPreset(listed.length >= 4 ? IMPORT_PRESETS.REPLACE : IMPORT_PRESETS.MERGE);
         setPerDay(Object.fromEntries(listed.map(day => [day, DAY_MODES.REPLACE])));
         setChoices({});
         setConfirming(false);
+    };
+
+    // Text handed in by the page (a paste anywhere) goes straight to preview.
+    useEffect(() => {
+        if (isOpen && initialText) handlePreview(initialText);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOpen, initialText]);
+
+    // One tap instead of long-press, select, paste. Browsers ask once for
+    // permission; where reading is refused the hint points at the box.
+    const canReadClipboard = typeof navigator !== 'undefined' && Boolean(navigator.clipboard && navigator.clipboard.readText);
+    const pasteFromClipboard = async () => {
+        try {
+            const value = await navigator.clipboard.readText();
+            if (!value || !value.trim()) {
+                setClipboardHint('The clipboard is empty. Copy the plan from the chat first.');
+                return;
+            }
+            setClipboardHint(null);
+            handlePreview(value);
+        } catch {
+            setClipboardHint('Could not read the clipboard here. Paste into the box instead.');
+        }
     };
 
     const handleApply = () => {
@@ -227,9 +253,19 @@ const ImportPlanModal = ({ isOpen, onClose, onApply, existingWeek = {}, language
                             {describeIssue(error, language)}
                         </p>
                     )}
-                    <Button variant={ButtonVariant.PRIMARY} onClick={handlePreview} disabled={!text.trim()}>
-                        {t('Preview', language)}
-                    </Button>
+                    {clipboardHint && (
+                        <p role="status" style={{ margin: 0, color: 'var(--text-3)', fontSize: '13px' }}>{t(clipboardHint, language)}</p>
+                    )}
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                        {canReadClipboard && (
+                            <Button variant={ButtonVariant.PRIMARY} onClick={pasteFromClipboard}>
+                                {t('Paste from clipboard', language)}
+                            </Button>
+                        )}
+                        <Button variant={canReadClipboard ? ButtonVariant.SECONDARY : ButtonVariant.PRIMARY} onClick={() => handlePreview()} disabled={!text.trim()}>
+                            {t('Preview', language)}
+                        </Button>
+                    </div>
                 </div>
             )}
 

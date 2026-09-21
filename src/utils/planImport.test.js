@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parsePlanText, buildWeekFromImport, normalizeLine, IMPORT_PRESETS, DAY_MODES } from './planImport.js';
+import { parsePlanText, buildWeekFromImport, normalizeLine, looksLikePlan, IMPORT_PRESETS, DAY_MODES } from './planImport.js';
 import { EXERCISE_DATABASE } from '../constants/index.js';
 import { DAYS_OF_WEEK, INDIVIDUAL_MUSCLE_GROUPS } from '../constants/AppConstants.js';
 
@@ -231,5 +231,15 @@ describe('buildWeekFromImport', () => {
         const { plan } = buildWeekFromImport(parsed, {}, { unit: 'lbs' });
         expect(Number(plan.Monday.exercises[0].weight)).toBeCloseTo(132.3, 0);
         expect(plan.Monday.exercises[1].weight).toBe('25');
+    });
+});
+
+describe('looksLikePlan', () => {
+    it('recognizes a header or a parsable day line, and nothing else', () => {
+        expect(looksLikePlan('some chat text\nGYMPLAN v1\nMonday: Chest')).toBe(true);
+        expect(looksLikePlan('Lunes: Pecho\n- Press de Banca con Barra 4x8')).toBe(true);
+        expect(looksLikePlan('Nice work today, keep it up!')).toBe(false);
+        expect(looksLikePlan('')).toBe(false);
+        expect(looksLikePlan(null)).toBe(false);
     });
 });

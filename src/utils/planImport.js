@@ -73,6 +73,18 @@ const parseExerciseLine = (rawLine) => {
 };
 
 /**
+ * True when pasted text carries a plan: the header, or at least one weekday
+ * line that parses. Used to open the importer from a paste anywhere on the
+ * page without running the full preview first.
+ */
+export const looksLikePlan = (text) => {
+    const value = String(text ?? '');
+    if (!value.trim() || value.length > 20000) return false;
+    if (/gymplan\s*v?\d/i.test(value)) return true;
+    return Object.keys(parsePlanText(value).days).length > 0;
+};
+
+/**
  * @param {string} text the pasted block, with any prose around it
  * @returns {{ version: number|null, days: object, errors: Array, warnings: Array }}
  */
