@@ -7,8 +7,8 @@ const VALID_UNITS = ['lbs', 'kg'];
 /**
  * Units Provider component
  * Manages the preferred weight unit (lbs or kg) and persists it to
- * localStorage. Display-only: stored workout weights are plain numbers and
- * are never converted when the unit changes.
+ * localStorage. Plans store weight in pounds; display and entry convert
+ * between pounds and kilograms (see utils/weightUnits.js).
  */
 export const UnitsProvider = ({ children }) => {
     // Initialize from localStorage, defaulting to lbs (the historical label)

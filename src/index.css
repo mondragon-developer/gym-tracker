@@ -48,9 +48,85 @@ input:focus-visible,
   }
 }
 
-/* Responsive typography */
+/* End-of-rest alert: full-screen, blinks until the user taps it. Sound is
+   unreliable on phones, so this is the cue that always shows. */
+@keyframes rest-alert-blink {
+  0%, 45% { background-color: #dc2626; }
+  55%, 100% { background-color: #0f172a; }
+}
+
+.rest-alert {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+  cursor: pointer;
+  color: white;
+  text-align: center;
+  animation: rest-alert-blink 1s steps(1, end) infinite;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rest-alert-text {
+  font-size: clamp(40px, 12vw, 96px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+.rest-alert-button {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  background: rgba(255, 255, 255, 0.18);
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  padding: 12px 24px;
+  cursor: pointer;
+}
+
+.rest-alert-button:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rest-alert {
+    animation: none;
+    background-color: #dc2626;
+  }
+}
+
+/* Phones: compact chrome so the first day is above the fold.
+   Components style inline, so these overrides need !important. */
 @media (max-width: 640px) {
   body {
     font-size: 14px;
+    padding: 8px;
+  }
+
+  .app-shell {
+    margin: 8px auto !important;
+  }
+
+  .app-header {
+    padding: 14px 16px !important;
+    gap: 10px !important;
+  }
+
+  .app-logo {
+    width: 64px !important;
+    height: 64px !important;
+    border-width: 3px !important;
+  }
+
+  .app-tagline {
+    margin-bottom: 6px !important;
   }
 }

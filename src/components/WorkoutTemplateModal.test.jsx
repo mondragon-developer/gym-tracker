@@ -26,6 +26,29 @@ describe('WorkoutTemplateModal', () => {
         expect(onSelect).not.toHaveBeenCalled();
     });
 
+    it('applies on the first click and shows the secondary action in onboarding mode', () => {
+        const onSelect = vi.fn();
+        const onSecondary = vi.fn();
+        render(
+            <WorkoutTemplateModal
+                isOpen
+                onClose={() => {}}
+                onSelect={onSelect}
+                title="Welcome"
+                intro="Pick one"
+                confirmBeforeApply={false}
+                secondaryLabel="Keep the default plan"
+                onSecondary={onSecondary}
+            />
+        );
+        expect(screen.getByText('Welcome')).toBeInTheDocument();
+        expect(screen.getByText('Pick one')).toBeInTheDocument();
+        fireEvent.click(screen.getAllByText('Use this plan')[1]);
+        expect(onSelect).toHaveBeenCalledWith('upper-lower');
+        fireEvent.click(screen.getByText('Keep the default plan'));
+        expect(onSecondary).toHaveBeenCalledTimes(1);
+    });
+
     it('translates names and actions to Spanish', () => {
         render(<WorkoutTemplateModal isOpen onClose={() => {}} onSelect={() => {}} language="es" />);
         expect(screen.getByText('Cuerpo completo 3 días (agenda ocupada)')).toBeInTheDocument();

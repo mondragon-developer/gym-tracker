@@ -11,6 +11,8 @@ import { t } from '../translations/ui';
 import { formatSeconds } from '../utils/restTimer.js';
 
 const PRESETS = [30, 60, 90, 120];
+// Per-device custom text for the end-of-rest alert; empty means the default.
+const MESSAGE_KEY = 'gymAppRestMessage';
 
 const AudioCtx = typeof window !== 'undefined'
     ? (window.AudioContext || window.webkitAudioContext)
@@ -134,25 +136,107 @@ export default function RestTimer({ language = 'en' }) {
         return () => clearInterval(timer);
     }, [running]);
 
+    // End-of-rest alert: a full-screen blinking overlay that stays until the
+    // user taps it. Sound is best effort (phones on silent mute Web Audio),
+    // so the overlay plus vibration is the cue that always works.
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [customMessage, setCustomMessage] = useState(() => {
+        try {
+            return localStorage.getItem(MESSAGE_KEY) || '';
+        } catch {
+            return '';
+        }
+    });
+    const [editingMessage, setEditingMessage] = useState(false);
+    const alertMessage = customMessage.trim() || t("Let's go!", language);
+
+    const saveMessage = (value) => {
+        setCustomMessage(value);
+        try {
+            if (value.trim()) localStorage.setItem(MESSAGE_KEY, value);
+            else localStorage.removeItem(MESSAGE_KEY);
+        } catch {
+            // Storage blocked: the message still applies this session.
+        }
+    };
+
+    const dismissAlert = () => setAlertOpen(false);
+
     // Zero is only reachable at the end of a countdown, so this fires the
     // end-of-rest cue exactly once.
     useEffect(() => {
         if (remaining === 0) {
             beep(audioRef);
+            try {
+                if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+                    navigator.vibrate([400, 150, 400, 150, 400]);
+                }
+            } catch {
+                // Vibration unsupported or blocked: the overlay still shows.
+            }
+            setAlertOpen(true);
             setRunning(false);
         }
     }, [remaining]);
 
+    // Focus moves into the alert's dismiss button while it is open and goes
+    // back to where it was when it closes, so keyboard and screen-reader
+    // users land on the dialog instead of the timer underneath.
+    const dismissRef = useRef(null);
+    const previousFocusRef = useRef(null);
+    useEffect(() => {
+        if (alertOpen) {
+            previousFocusRef.current = document.activeElement;
+            dismissRef.current?.focus();
+            return undefined;
+        }
+        const previous = previousFocusRef.current;
+        previousFocusRef.current = null;
+        if (previous && typeof previous.focus === 'function' && document.contains(previous)) {
+            previous.focus();
+        }
+        return undefined;
+    }, [alertOpen]);
+
+    // Keyboard users dismiss with Enter, Space or Escape.
+    useEffect(() => {
+        if (!alertOpen) return undefined;
+        const onKey = (e) => {
+            if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
+                e.preventDefault();
+                setAlertOpen(false);
+            }
+        };
+        document.addEventListener('keydown', onKey);
+        return () => document.removeEventListener('keydown', onKey);
+    }, [alertOpen]);
+
     const start = () => {
         unlockAudio(audioRef);
+        setAlertOpen(false);
         setRemaining(r => (r === null || r === 0 ? duration : r));
         setRunning(true);
     };
 
     const reset = () => {
+        setAlertOpen(false);
         setRunning(false);
         setRemaining(null);
     };
+
+    // Logging a set anywhere on the page starts the rest with the current
+    // preset (see ExerciseItem). Re-registered when the preset changes so
+    // the handler sees the latest duration.
+    useEffect(() => {
+        const onRestStart = () => {
+            setAlertOpen(false);
+            unlockAudio(audioRef);
+            setRemaining(duration);
+            setRunning(true);
+        };
+        window.addEventListener('gym:rest-start', onRestStart);
+        return () => window.removeEventListener('gym:rest-start', onRestStart);
+    }, [duration]);
 
     const pickPreset = (seconds) => {
         setDuration(seconds);
@@ -205,6 +289,56 @@ export default function RestTimer({ language = 'en' }) {
                 <span style={{ fontSize: '13px', fontWeight: 700, color: '#dc2626' }}>
                     {t("Time's up!", language)}
                 </span>
+            )}
+
+            <button
+                type="button"
+                onClick={() => setEditingMessage(v => !v)}
+                aria-expanded={editingMessage}
+                aria-label={t('End-of-rest message', language)}
+                title={t('End-of-rest message', language)}
+                style={{ ...chipStyle(editingMessage), padding: '6px 8px' }}
+            >
+                {t('Message', language)}
+            </button>
+            {editingMessage && (
+                <input
+                    type="text"
+                    value={customMessage}
+                    onChange={(e) => saveMessage(e.target.value)}
+                    placeholder={t("Let's go!", language)}
+                    maxLength={40}
+                    aria-label={t('End-of-rest message', language)}
+                    style={{
+                        flex: '1 1 140px',
+                        minWidth: 0,
+                        padding: '6px 10px',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                        fontSize: '13px'
+                    }}
+                />
+            )}
+
+            {alertOpen && (
+                <div
+                    className="rest-alert"
+                    role="alertdialog"
+                    aria-live="assertive"
+                    aria-label={alertMessage}
+                    data-testid="rest-alert"
+                    onClick={dismissAlert}
+                >
+                    <div className="rest-alert-text">{alertMessage}</div>
+                    <button
+                        ref={dismissRef}
+                        type="button"
+                        className="rest-alert-button"
+                        onClick={dismissAlert}
+                    >
+                        {t('Tap to dismiss', language)}
+                    </button>
+                </div>
             )}
 
             <div style={{ display: 'flex', gap: '6px', marginLeft: 'auto' }}>

@@ -35,6 +35,7 @@ import InviteNoticeBanner from './components/InviteNoticeBanner.jsx';
 import RestTimer from './components/RestTimer.jsx';
 import SaveStatusBar from './components/SaveStatusBar.jsx';
 import HiddenDaysStrip from './components/HiddenDaysStrip.jsx';
+import UndoToast from './components/UndoToast.jsx';
 import { getWorkoutTemplate } from './constants/workoutTemplates.js';
 // Lazy: only loads when the user opens the template picker.
 const WorkoutTemplateModal = React.lazy(() => import('./components/WorkoutTemplateModal'));
@@ -59,9 +60,17 @@ function AppContent() {
         resetWeek,
         updateDay,
         replaceViewedWeek,
+        historySnapshot,
+        restoreSnapshot,
+        persistCurrentPlan,
         copyFromPreviousWeek,
         hasPreviousWeek,
         previousWeekStart,
+        previousWeekPlan,
+        isFirstRun,
+        markOnboarded,
+        remoteUpdateAt,
+        dismissRemoteUpdate,
         saveState,
         lastSavedAt,
         saveNow,
@@ -90,10 +99,8 @@ function AppContent() {
         </div>
     );
 
-    const resetModal = useModal();
     const copyWeekModal = useModal();
     const templatesModal = useModal();
-    const resetDayModal = useModal();
     const addExerciseModal = useModal();
     const feedbackModal = useModal();
     const summaryModal = useModal();
@@ -163,21 +170,91 @@ function AppContent() {
         setActiveDay(activeDay === day ? null : day);
     };
 
+    // Destructive actions apply at once and offer Undo for a few seconds.
+    // The snapshot is the history object from before the action; restoring
+    // it goes through the normal autosave path.
+    const [undo, setUndo] = useState(null); // { message, snapshot, after? } | null
+    const offerUndo = (message, snapshot) => setUndo({ message, snapshot });
+    const handleUndo = () => {
+        if (undo) restoreSnapshot(undo.snapshot);
+        setUndo(null);
+    };
+    const dismissUndo = React.useCallback(() => setUndo(null), []);
+
+    // The snapshot is the whole history from before the action, so restoring
+    // it after a later edit would throw that edit away too. The first
+    // history change after the offer is the action itself; any change after
+    // that withdraws the offer.
+    React.useEffect(() => {
+        if (!undo) return;
+        if (undo.after === undefined) {
+            setUndo(current => (current ? { ...current, after: historySnapshot } : current));
+            return;
+        }
+        if (historySnapshot !== undo.after) setUndo(null);
+    }, [historySnapshot, undo]);
+
     const handleResetDay = (day) => {
-        resetDayModal.open(day);
+        const before = historySnapshot;
+        resetDay(day);
+        offerUndo(t('Day reset to default.', language), before);
     };
 
-    const handleConfirmResetDay = () => {
-        if (resetDayModal.data) {
-            resetDay(resetDayModal.data);
-        }
-        resetDayModal.close();
+    const handleExerciseDeleted = () => {
+        offerUndo(t('Exercise deleted.', language), historySnapshot);
     };
 
     const handleResetWeek = () => {
+        const before = historySnapshot;
         resetWeek();
-        resetModal.close();
         setActiveDay(getToday());
+        offerUndo(t('Week restarted.', language), before);
+    };
+
+    // First run: offer a starting plan once per account. The dismissal is
+    // remembered per user so a fresh device does not ask again after the
+    // plan has been saved.
+    const onboardedKey = user ? `gymAppOnboarded:${user.id}` : null;
+    const [onboardingOpen, setOnboardingOpen] = useState(false);
+    React.useEffect(() => {
+        if (!isFirstRun || !onboardedKey || isLoading) return;
+        let seen = false;
+        try {
+            seen = localStorage.getItem(onboardedKey) === '1';
+        } catch {
+            // Storage blocked: ask once per session instead.
+        }
+        if (!seen) setOnboardingOpen(true);
+    }, [isFirstRun, onboardedKey, isLoading]);
+
+    // keepDefault: the user closed or skipped the chooser, so the default
+    // plan is written to the cloud as is; otherwise a template was applied
+    // and is already dirty. Either way the account ends up with a stored
+    // row, which is what stops a second device from asking again.
+    const finishOnboarding = (keepDefault = true) => {
+        if (keepDefault) persistCurrentPlan();
+        try {
+            if (onboardedKey) localStorage.setItem(onboardedKey, '1');
+        } catch {
+            // Storage blocked: the hook flag still stops a repeat this session.
+        }
+        markOnboarded();
+        setOnboardingOpen(false);
+    };
+
+    const handleOnboardingSelect = (templateId) => {
+        const template = getWorkoutTemplate(templateId);
+        if (template) replaceViewedWeek(template.build());
+        finishOnboarding(!template);
+    };
+
+    const handleJumpToToday = () => {
+        const today = getToday();
+        setActiveDay(today);
+        // Already open: the activeDay effect will not fire, so scroll now.
+        if (activeDay === today && activeDayRef.current) {
+            activeDayRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
     };
 
     const handleCopyLastWeek = () => {
@@ -268,9 +345,9 @@ function AppContent() {
                 maxWidth: '1200px',
                 margin: '32px auto',
                 boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
-            }}>
-                {/* Header */}
-                <div style={{
+            }} className="app-shell">
+                {/* Header (compact on phones via .app-header in index.css) */}
+                <div className="app-header" style={{
                     padding: '40px 32px',
                     background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 20%, #0e7490 40%, #155e75 60%, #164e63 80%, #0f172a 100%)',
                     display: 'flex',
@@ -279,9 +356,10 @@ function AppContent() {
                     gap: '20px',
                     position: 'relative'
                 }}>
-                    <img 
-                        src={mdLogo} 
-                        alt="MD Logo" 
+                    <img
+                        src={mdLogo}
+                        alt="MD Logo"
+                        className="app-logo"
                         style={{
                             width: '150px',
                             height: '150px',
@@ -303,7 +381,7 @@ function AppContent() {
                         }}>
                             {t("Track your weekly fitness progress", language)}
                         </p>
-                        <p style={{
+                        <p className="app-tagline" style={{
                             color: 'rgba(255, 255, 255, 0.8)',
                             fontSize: '14px',
                             margin: '0 0 16px 0',
@@ -495,6 +573,8 @@ function AppContent() {
                                 onUpdateDay={updateDay}
                                 onResetDay={handleResetDay}
                                 onOpenAddExercise={handleOpenAddExercise}
+                                onExerciseDeleted={handleExerciseDeleted}
+                                previousData={previousWeekPlan ? previousWeekPlan[day] : null}
                                 activeDayRef={activeDayRef}
                                 language={language}
                                 readOnly={!isEditable}
@@ -539,7 +619,7 @@ function AppContent() {
                         {isViewingCurrent && (
                         <Button
                             variant={ButtonVariant.DANGER}
-                            onClick={resetModal.open}
+                            onClick={handleResetWeek}
                             fullWidth
                             style={{ maxWidth: '320px' }}
                         >
@@ -622,48 +702,44 @@ function AppContent() {
                             onSave={saveNow}
                             onReload={reload}
                             onOverwrite={saveOverwrite}
+                            onJumpToToday={isViewingCurrent ? handleJumpToToday : undefined}
                             language={language}
                         />
                     )}
                 </div>
             </div>
 
-            {/* Reset Modal */}
-            <Modal
-                isOpen={resetModal.isOpen}
-                onClose={resetModal.close}
-                title={`🔄 ${t("Restart this week?", language)}`}
-            >
-                <p style={{
-                    marginBottom: '24px',
-                    color: '#6b7280',
-                    fontSize: '16px',
-                    lineHeight: '1.6',
-                    margin: '0 0 24px 0'
-                }}>
-                    {t("Completion and logged sets for this week are cleared. Exercises and weights are kept. A new week starts on its own every Monday.", language)}
-                </p>
-                <div style={{ 
-                    display: 'flex', 
-                    flexDirection: 'column',
-                    gap: '12px'
-                }}>
-                    <Button 
-                        variant={ButtonVariant.SECONDARY}
-                        onClick={resetModal.close}
-                        fullWidth
-                    >
-                        {t("Cancel", language)}
-                    </Button>
-                    <Button 
-                        variant={ButtonVariant.DANGER}
-                        onClick={handleResetWeek}
-                        fullWidth
-                    >
-                        {t("Restart Week", language)}
-                    </Button>
-                </div>
-            </Modal>
+            <UndoToast
+                message={undo?.message ?? null}
+                onUndo={handleUndo}
+                onDismiss={dismissUndo}
+                language={language}
+            />
+
+            {/* Newer cloud copy picked up on a silent reload */}
+            <UndoToast
+                message={remoteUpdateAt ? t('Plan updated from another device or by your trainer. Showing the latest.', language) : null}
+                onDismiss={dismissRemoteUpdate}
+                language={language}
+                bottom={undo ? '144px' : '84px'}
+            />
+
+            {/* First-run template chooser */}
+            {onboardingOpen && (
+                <Suspense fallback={lazyFallback}>
+                    <WorkoutTemplateModal
+                        isOpen={onboardingOpen}
+                        onClose={() => finishOnboarding(true)}
+                        onSelect={handleOnboardingSelect}
+                        language={language}
+                        title={t('Welcome! How many days a week can you train?', language)}
+                        intro={t('Pick a plan to start with. Everything can be changed later, and Workout templates under the days brings this list back.', language)}
+                        confirmBeforeApply={false}
+                        secondaryLabel={t('Keep the default plan', language)}
+                        onSecondary={() => finishOnboarding(true)}
+                    />
+                </Suspense>
+            )}
 
             {/* Copy last week Modal */}
             <Modal
@@ -696,43 +772,6 @@ function AppContent() {
                     />
                 </Suspense>
             )}
-
-            {/* Reset Day Modal */}
-            <Modal
-                isOpen={resetDayModal.isOpen}
-                onClose={resetDayModal.close}
-                title={`🔄 ${t("Reset Day", language)}`}
-            >
-                <p style={{
-                    marginBottom: '24px',
-                    color: '#6b7280',
-                    fontSize: '16px',
-                    lineHeight: '1.6',
-                    margin: '0 0 24px 0'
-                }}>
-                    {t("Are you sure you want to reset this day's exercises?", language)}
-                </p>
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '12px'
-                }}>
-                    <Button
-                        variant={ButtonVariant.SECONDARY}
-                        onClick={resetDayModal.close}
-                        fullWidth
-                    >
-                        {t("Cancel", language)}
-                    </Button>
-                    <Button
-                        variant={ButtonVariant.DANGER}
-                        onClick={handleConfirmResetDay}
-                        fullWidth
-                    >
-                        {t("Reset Day", language)}
-                    </Button>
-                </div>
-            </Modal>
 
             {/* Add Exercise Modal */}
             <AddExerciseModal

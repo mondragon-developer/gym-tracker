@@ -27,7 +27,7 @@ El chatbot integrado en esta app debe:
 
 ### Encabezado (parte superior)
 - **Logo y título**: el logo de Gym Tracker con el lema "Registra tu progreso fitness semanal".
-- **Selector de idioma (EN/ES)**: cambia toda la interfaz entre inglés y español al instante. Los nombres de los ejercicios en listas y búsqueda están en inglés; muchos también muestran su nombre en español.
+- **Selector de idioma (EN/ES)**: cambia toda la interfaz entre inglés y español al instante. Los nombres de los ejercicios en las listas se muestran en español cuando existe traducción, y la búsqueda encuentra tanto el nombre en inglés como en español, sin importar acentos.
 - **Menú de perfil**: muestra la cuenta activa y contiene **Cerrar Sesión**. Si no has iniciado sesión, la app muestra primero la pantalla de inicio de sesión (ver Cuentas más abajo).
 - **Botón 🛡️ Admin / 🏋️ Entrenador**: visible solo para administradores y entrenadores; abre su panel de gestión. Los usuarios normales no lo ven.
 
@@ -45,7 +45,7 @@ Cada día de la semana es una tarjeta plegable (acordeón) con el nombre del dí
 
 Dentro de un día:
 - **Agregar Ejercicio** — abre el selector de ejercicios (ver más abajo).
-- **Reiniciar Día** — restaura ese día al plan predeterminado tras una confirmación ("¿Estás seguro de que quieres reiniciar los ejercicios de este día?").
+- **Reiniciar Día** — restaura ese día al plan predeterminado de inmediato; un aviso al pie ofrece **Deshacer** durante unos segundos. Eliminar un ejercicio funciona igual: se va al momento, con Deshacer en el aviso.
 - **✏️ Cambiar grupo muscular** — permite elegir **hasta 3 grupos musculares** para ese día entre: Descanso (Rest), Pecho, Espalda, Hombros, Bíceps, Tríceps, Antebrazos, Piernas, Abdominales, Cardio, Combate. Elige "Rest" para convertirlo en día de descanso. Pulsa **Listo** para confirmar.
 - Si un día no tiene ejercicios muestra "Sin ejercicios para hoy — ¡Agrega un ejercicio para comenzar!".
 
@@ -57,11 +57,11 @@ Cada ejercicio dentro de un día muestra:
 - **Ejercicios de Cardio/Combate**: **Duración** editable en minutos (1–120) y los minutos realmente completados. Sin campo de peso.
 - **✓ Marcar como completado** — pone la fila en verde y suma al progreso semanal. Tócalo de nuevo para volver a incompleto.
 - **✗ Marcar como omitido** — marca el ejercicio como saltado intencionalmente (rojo). Tócalo de nuevo para deshacer.
-- **Editar / Eliminar** — edita los números del ejercicio o elimínalo (eliminar pide confirmación).
+- **Editar / Eliminar** — edita los números del ejercicio o elimínalo; se elimina al momento y el aviso al pie ofrece Deshacer.
 
 ### Modal Agregar Ejercicio
 Se abre con **"Agregar Ejercicio"** en cualquier día:
-1. **Barra de búsqueda** ("Buscar ejercicios...") — escribe el nombre para filtrar al instante, con el texto coincidente resaltado. Importante: la búsqueda usa los nombres en **inglés** (busca "Squats", no "Sentadillas").
+1. **Barra de búsqueda** ("Buscar ejercicios...") — escribe el nombre para filtrar al instante, con el texto coincidente resaltado. La búsqueda encuentra el nombre en **inglés o en español** ("Squats" y "Sentadillas" encuentran Barbell Squats), sin importar acentos ni mayúsculas.
 2. **Filtros** — un desplegable de **grupo muscular** (preseleccionado según el día) y un desplegable de **equipo** (barra, mancuerna, cable, máquinas, peso corporal, ...). Ambos se combinan con la búsqueda.
 3. **Valores por defecto** — antes de agregar, define **Series Objetivo (1–10)** y **Reps Objetivo (1–20)**. Los ejercicios de Cardio/Combate muestran en su lugar un selector de **Duración Objetivo (1–120 minutos)**.
 4. **Pestaña Ejercicio Personalizado** — crea tu propio ejercicio: escribe nombre, series y reps, y pulsa **Agregar al Entrenamiento**. Los ejercicios personalizados no tienen imagen de demostración.
@@ -74,10 +74,10 @@ El botón **📊 Resumen Semanal**, debajo de los días, abre un reporte de la s
 - **Descargar CSV** — exporta el resumen como archivo CSV para Excel/Sheets.
 
 ### Temporizador de descanso (⏱️)
-Debajo de la barra de progreso semanal. Elige un preset (**0:30 / 1:00 / 1:30 / 2:00**) y pulsa **Iniciar**; hay **Pausar**/**Reanudar** y **Reiniciar**, y al terminar suena una señal y aparece el aviso rojo "¡Tiempo!". Sigue corriendo aunque abras o cierres días.
+Debajo de la barra de progreso semanal. Elige un preset (**0:30 / 1:00 / 1:30 / 2:00**) y pulsa **Iniciar**; hay **Pausar**/**Reanudar** y **Reiniciar**. Al terminar, toda la pantalla parpadea en rojo con un mensaje grande ("¡Vamos!" por defecto) y el teléfono vibra; la pantalla sigue parpadeando hasta que la tocas (o pulsas Enter o Escape). También suena una señal corta cuando el teléfono lo permite. El botón **Mensaje** junto al temporizador permite escribir tu propio texto de fin de descanso, que se recuerda en ese dispositivo. Sigue corriendo aunque abras o cierres días.
 
 ### 🔄 Semanas y Reiniciar Esta Semana
-Las semanas son semanas de calendario, de lunes a domingo, y avanzan solas: cada lunes la app abre en la semana nueva **conservando todos tus ejercicios y pesos y reiniciando solo el estado de completado**, para que puedas aplicar sobrecarga progresiva sin rearmar tu plan. La semana terminada queda archivada y visible (solo lectura) en el navegador de semanas. El botón **"Reiniciar Esta Semana"** borra el progreso y las series registradas solo de la semana actual, conservando ejercicios y pesos; un modal pide confirmación antes de cambiar nada.
+Las semanas son semanas de calendario, de lunes a domingo, y avanzan solas: cada lunes la app abre en la semana nueva **conservando todos tus ejercicios y pesos y reiniciando solo el estado de completado**, para que puedas aplicar sobrecarga progresiva sin rearmar tu plan. La semana terminada queda archivada y visible (solo lectura) en el navegador de semanas. El botón **"Reiniciar Esta Semana"** borra el progreso y las series registradas solo de la semana actual, conservando ejercicios y pesos; se aplica de inmediato y un aviso ofrece **Deshacer** durante unos segundos.
 
 ### Plantillas de entrenamiento y Copiar la semana pasada
 Debajo de la lista de días, en la semana actual o en una futura:
@@ -87,6 +87,24 @@ Debajo de la lista de días, en la semana actual o en una futura:
 
 ### Ver la demostración antes de agregar un ejercicio
 En el selector de Agregar Ejercicio, los ejercicios con demostración o instrucciones muestran un botón **▶** a la derecha de la fila. Abre "Cómo hacer este ejercicio" sobre el selector para revisar el movimiento primero; la fila sigue agregando el ejercicio.
+
+### Registrar series y el temporizador a la vez
+Cada ejercicio de fuerza tiene un botón **Registrar serie** que muestra el avance, por ejemplo "Registrar serie 2/4". Cada toque cuenta una serie, arranca el temporizador de descanso con el preajuste elegido y, en la última serie, marca el ejercicio como completado. Escribir el número de Efectivas a mano sigue funcionando.
+
+### Números de la semana pasada y sobrecarga progresiva
+Cuando el mismo ejercicio existía la semana pasada, una línea pequeña bajo los campos dice **Semana pasada: 135 lbs × 8-10 · 4/4 series**. Al lado, un botón **+5 lbs** (o **+2.5 kg**) pone el peso de esta semana en el de la semana pasada más un incremento.
+
+### Notas del día
+Cada día abierto tiene un cuadro de **Notas** arriba, compartido a través del plan: lo que escriba el cliente o cualquiera de sus entrenadores lo ven los demás, y la nota pasa a las semanas siguientes hasta que se cambie. Las semanas pasadas muestran la nota en solo lectura.
+
+### Elección de plan al empezar
+Una cuenta nueva sin plan en ningún lado ve **"¡Bienvenido! ¿Cuántos días a la semana puedes entrenar?"** con las tres plantillas. Elegir una la aplica; **Conservar el plan por defecto** mantiene Push/Pull/Piernas. Aparece una sola vez por cuenta; Plantillas de entrenamiento debajo de los días vuelve a mostrar la lista cuando quieras.
+
+### Unidades de peso
+El selector **lbs / kg** del encabezado convierte de verdad: los pesos se guardan en libras, se muestran y se escriben en la unidad elegida, y el Resumen Semanal y su CSV usan la misma unidad. Un texto como "BW" se deja tal cual.
+
+### Plan cambiado en otro lado
+Cuando la app vuelve al frente y encuentra una copia más nueva en la nube (otro dispositivo o un entrenador), la carga y muestra "El plan se actualizó desde otro dispositivo o por tu entrenador. Se muestra la versión más reciente." Si tenías cambios sin guardar en ese momento, la barra de guardado ofrece Cargar la última versión / Conservar la mía.
 
 ### Ocultar días de descanso
 Un día marcado como Descanso, o sin ejercicios, muestra el botón **"Ocultar este día"** dentro de su panel. Los días ocultos salen de la lista y aparecen en una fila pequeña de "Días ocultos" al final, cada uno con un enlace **Mostrar** para recuperarlo. La elección se conserva en las semanas siguientes, y el entrenador ve la misma disposición para ese cliente.
@@ -192,7 +210,7 @@ Deadlifts (Peso Muerto) 4×6-8 · Front Squats (Sentadillas Frontales) 3×8-10 �
 
 **No me llegó el correo de confirmación/restablecimiento.** Revisa la carpeta de spam. Verifica que el correo sea correcto; puedes reintentar desde la misma pantalla.
 
-**¿Puedo registrar el peso en kg?** El campo de peso dice lbs, pero es un campo numérico libre — puedes escribir tu valor en kg de forma consistente si lo prefieres; la app no convierte unidades.
+**¿Puedo registrar el peso en kg?** Sí. Cambia el selector **lbs / kg** del encabezado: los pesos se guardan en libras y se muestran, escriben y exportan en la unidad que elijas, con conversión real.
 
 **¿Cómo reporto un error o sugiero una función?** Usa "Comparte tu Opinión" al final de la pantalla principal.
 

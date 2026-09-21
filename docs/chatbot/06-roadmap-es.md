@@ -13,9 +13,20 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 - Los entrenadores pueden **enviar invitaciones por correo** desde su panel (campo de invitación por correo); el enlace de registro asigna al cliente automáticamente
 - **Inicio de sesión con Google** (un toque, sin contraseña) además de cuentas con correo/contraseña
 - **Reenvío del correo de confirmación** en la pantalla posterior al registro y tras un error de "correo no confirmado" al iniciar sesión
-- **Selector de unidades kg/lbs** en el encabezado (solo cambia la etiqueta del campo de peso)
+- **Selector de unidades kg/lbs** en el encabezado con conversión real (los pesos se guardan en libras y se muestran y escriben en la unidad elegida)
 - Barra de progreso semanal, 📊 Resumen Semanal con desglose de series por grupo muscular y **exportación CSV del resumen**
 - **Semanas de calendario** (de lunes a domingo) que comienzan solas cada lunes con el plan y los pesos arrastrados; historial semanal con fechas y semanas pasadas de solo lectura; **Reiniciar Esta Semana** borra solo el progreso de la semana actual
+- Botón **Registrar serie** por ejercicio: cuenta la serie, arranca el temporizador y marca el ejercicio hecho en la última serie
+- **Números de la semana pasada** bajo cada ejercicio con un botón de +5 lb / +2.5 kg para la sobrecarga progresiva
+- **Notas del día** compartidas entre el cliente y sus entrenadores, que pasan a las semanas siguientes
+- **Elección de plan al empezar** para cuentas nuevas (una de las tres plantillas o el plan por defecto)
+- **Conversión real kg/lbs**: los pesos se guardan en libras y se muestran, escriben y exportan en la unidad elegida
+- Aviso de **"plan actualizado en otro lado"** cuando se carga una copia más nueva de la nube al volver
+- **Búsqueda en inglés o español**, sin importar acentos, en el selector de ejercicios
+- **Entrada con un pulgar**: los campos de series, reps, peso y minutos tienen botones de menos/más y abren el teclado numérico en el teléfono
+- **Deshacer en vez de confirmar**: eliminar un ejercicio, Reiniciar Día y Reiniciar Esta Semana se aplican al momento con un aviso de Deshacer
+- **Avisos del temporizador**: al terminar el descanso la pantalla parpadea en rojo con un mensaje grande personalizable ("¡Vamos!") hasta que se toca, el teléfono vibra y suena una señal cuando el sonido está permitido
+- **Botón Hoy** en la barra de guardado que salta al día de hoy; encabezado compacto en el teléfono
 - **Plantillas de entrenamiento**: Clásico Push/Pull/Piernas (6 días), Tren superior/inferior con recuperación activa (4 días + miércoles suave), Cuerpo completo 3 días (30-40 min), En casa sin equipo (3 días), Solo mancuernas (4 días); se aplican a la semana que se está viendo desde el tracker o el panel de entrenador
 - **Ejercicios de espalda baja** dentro de Espalda (hiperextensiones, extensiones de espalda, superman, buenos días sentado y con piernas rígidas, hiperextensiones inversas), más movimientos solo con mancuernas y con peso corporal para entrenar en casa
 - **Copiar la semana pasada**: un toque reutiliza los ejercicios, el orden y los pesos de la semana anterior con el progreso en cero

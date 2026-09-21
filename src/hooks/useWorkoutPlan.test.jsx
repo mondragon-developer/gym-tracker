@@ -207,6 +207,74 @@ describe('useWorkoutPlan persistence', () => {
     );
   });
 
+  it('undo before the autosave fires restores the persisted plan and clears the dirty state', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
+    const { result } = await renderPlan();
+    const before = result.current.historySnapshot;
+
+    act(() => { result.current.resetDay('Monday'); });
+    expect(result.current.saveState).toBe(SaveState.DIRTY);
+
+    act(() => { result.current.restoreSnapshot(before); });
+    expect(result.current.isDirty).toBe(false);
+    expect(result.current.saveState).toBe(SaveState.IDLE);
+    expect(result.current.workoutPlan.Monday.name).toBe('Cloud Day');
+
+    await act(async () => { vi.advanceTimersByTime(5000); });
+    expect(mocks.saveWorkoutPlan).not.toHaveBeenCalled();
+  });
+
+  it('flags a first run only when nothing was stored anywhere', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValue(null);
+    const fresh = await renderPlan();
+    expect(fresh.result.current.isFirstRun).toBe(true);
+    act(() => { fresh.result.current.markOnboarded(); });
+    expect(fresh.result.current.isFirstRun).toBe(false);
+    fresh.unmount();
+
+    mocks.getWorkoutPlanRecord.mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
+    const existing = await renderPlan();
+    expect(existing.result.current.isFirstRun).toBe(false);
+  });
+
+  it('reports a newer cloud copy found on a silent reload and exposes last week for the same exercise', async () => {
+    const first = cloudHistory();
+    const second = cloudHistory();
+    second.weeks[second.currentWeekStart].Monday.name = 'Trainer Day';
+    mocks.getWorkoutPlanRecord
+      .mockResolvedValueOnce({ data: first, updatedAt: 'v1' })
+      .mockResolvedValueOnce({ data: second, updatedAt: 'v2' });
+    const { result } = await renderPlan();
+    expect(result.current.remoteUpdateAt).toBeNull();
+
+    await act(async () => {
+      Object.defineProperty(document, 'visibilityState', { value: 'visible', configurable: true });
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+    await waitFor(() => expect(result.current.workoutPlan.Monday.name).toBe('Trainer Day'));
+    expect(result.current.remoteUpdateAt).toBeInstanceOf(Date);
+    act(() => { result.current.dismissRemoteUpdate(); });
+    expect(result.current.remoteUpdateAt).toBeNull();
+
+    // A fresh history has no earlier week, so nothing to compare against.
+    expect(result.current.previousWeekPlan).toBeNull();
+  });
+
+  it('persistCurrentPlan stores the default plan for a first-run user who keeps it', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValue(null);
+    const { result } = await renderPlan();
+    expect(result.current.isFirstRun).toBe(true);
+    expect(result.current.isDirty).toBe(false);
+
+    act(() => { result.current.persistCurrentPlan(); });
+    expect(result.current.isDirty).toBe(true);
+    await act(async () => { vi.advanceTimersByTime(1500); });
+    await waitFor(() => expect(mocks.saveWorkoutPlan).toHaveBeenCalledTimes(1));
+    // First save for this account: an insert, no version stamp.
+    expect(mocks.saveWorkoutPlan.mock.calls[0][1]).toEqual({ expectedUpdatedAt: null });
+    expect(mocks.saveWorkoutPlan.mock.calls[0][0].weeks[result.current.currentWeekStart].Monday.exercises.length).toBeGreaterThan(0);
+  });
+
   it('flushes a pending edit before honoring an app-update reload, and skips the reload when the save fails', async () => {
     mocks.getWorkoutPlanRecord.mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
     const { result } = await renderPlan();

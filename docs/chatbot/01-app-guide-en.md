@@ -27,7 +27,7 @@ The chatbot embedded in this app should:
 
 ### Header (top of the screen)
 - **Logo and title**: the Gym Tracker logo with the tagline "Track your weekly fitness progress".
-- **Language toggle (EN/ES)**: switches the whole interface between English and Spanish instantly. Exercise names in lists and search stay in English; many exercises also display a Spanish name.
+- **Language toggle (EN/ES)**: switches the whole interface between English and Spanish instantly. Exercise names in lists show their Spanish name where one exists, and search matches both the English and the Spanish name, accents ignored.
 - **Profile menu**: shows the signed-in account and contains **Sign Out**. If not signed in, the app shows the sign-in screen first (see Accounts below).
 - **🛡️ Admin / 🏋️ Trainer button**: visible only to admins and trainers; opens their management panel. Regular users never see it.
 
@@ -45,7 +45,7 @@ Each day of the week is a collapsible card (accordion) labeled with the day name
 
 Inside a day:
 - **Add Exercise** — opens the exercise picker (see below).
-- **Reset Day** — restores that single day to the default plan after a confirmation ("Are you sure you want to reset this day's exercises?").
+- **Reset Day** — restores that single day to the default plan at once; a toast at the bottom offers **Undo** for a few seconds. Deleting an exercise works the same way: it goes immediately, with Undo in the toast.
 - **✏️ Change muscle group** — lets you pick **up to 3 muscle groups** for that day from: Rest, Chest, Back, Shoulders, Biceps, Triceps, Forearms, Legs, Abs, Cardio, Combat. Choose "Rest" to make it a rest day. Press **Done** to confirm.
 - If a day has no exercises it shows "No exercises for today — Add an exercise to get started!".
 
@@ -57,11 +57,11 @@ Each exercise inside a day shows:
 - **Cardio/Combat exercises**: editable **Duration** in minutes (1–120) and the minutes actually completed. No weight field.
 - **✓ Mark as completed** — turns the row green and counts toward weekly progress. Tap again to set it back to incomplete.
 - **✗ Mark as skipped** — marks the exercise as intentionally skipped (red). Tap again to undo.
-- **Edit / Delete** — edit the exercise's numbers or remove it (delete asks for confirmation).
+- **Edit / Delete** — edit the exercise's numbers or remove it; delete happens at once and the toast at the bottom offers Undo.
 
 ### Add Exercise modal
 Opened with **"Add Exercise"** on any day:
-1. **Search bar** ("Search exercises...") — type any exercise name for instant filtering with the matching text highlighted. Note: exercise names are searched in **English** (e.g. search "Squats", not "Sentadillas").
+1. **Search bar** ("Search exercises...") — type any exercise name for instant filtering with the matching text highlighted. Search matches the **English or Spanish** name ("Squats" and "Sentadillas" both find Barbell Squats), ignoring accents and case.
 2. **Filters** — a **muscle-group dropdown** (preselected to the day you opened it from) and an **equipment dropdown** (barbell, dumbbell, cable, machines, body weight, ...). Both combine with the search bar.
 3. **Defaults** — before adding, set **Target Sets (1–10)** and **Target Reps (1–20)**. Cardio/Combat exercises show a **Target Duration (1–120 minutes)** selector instead.
 4. **Custom Exercise tab** — create your own exercise: enter a name, sets, and reps, then **Add to Workout**. Custom exercises have no demo image.
@@ -74,10 +74,10 @@ The **📊 Weekly Summary** button below the days opens a report of the current 
 - **Download CSV** — exports the summary as a CSV file for Excel/Sheets.
 
 ### Rest timer (⏱️)
-Below the weekly progress bar. Tap a preset (**0:30 / 1:00 / 1:30 / 2:00**), then **Start**; **Pause**/**Resume** and **Reset** are available, and a short sound plus a red "Time's up!" cue mark the end of the rest. It keeps running while you open or close days.
+Below the weekly progress bar. Tap a preset (**0:30 / 1:00 / 1:30 / 2:00**), then **Start**; **Pause**/**Resume** and **Reset** are available. When the rest ends the whole screen blinks red with a big message ("Let's go!" by default) and the phone vibrates; the screen keeps blinking until you tap it (or press Enter or Escape). A short beep also plays where the phone allows sound. The **Message** button next to the timer lets you type your own end-of-rest text, remembered on that device. It keeps running while you open or close days.
 
 ### 🔄 Weeks and Restart This Week
-Weeks are calendar weeks, Monday to Sunday, and they advance on their own: every Monday the app opens on the new week with **all your exercises and weights carried forward and only the completion status cleared**, so you can apply progressive overload without rebuilding your plan. The finished week is archived and stays viewable (read-only) through the week navigator. The **"Restart This Week"** button clears completion and logged sets for the current week only, keeping exercises and weights; a confirmation modal explains this before anything changes.
+Weeks are calendar weeks, Monday to Sunday, and they advance on their own: every Monday the app opens on the new week with **all your exercises and weights carried forward and only the completion status cleared**, so you can apply progressive overload without rebuilding your plan. The finished week is archived and stays viewable (read-only) through the week navigator. The **"Restart This Week"** button clears completion and logged sets for the current week only, keeping exercises and weights; it applies at once and a toast offers **Undo** for a few seconds.
 
 ### Workout templates and Copy last week
 Under the day list, on the current week or a future week:
@@ -87,6 +87,24 @@ Under the day list, on the current week or a future week:
 
 ### Previewing an exercise before adding it
 In the Add Exercise picker, exercises with a demo or instructions show a **▶** button on the right of the row. It opens "How to do this exercise" on top of the picker so you can check the movement first; the row itself still adds the exercise.
+
+### Logging sets and the rest timer together
+Every strength exercise has a **Log set** button showing progress like "Log set 2/4". Each tap counts one set, starts the rest timer with the preset you chose, and on the last set marks the exercise completed. Typing the Effective number by hand still works.
+
+### Last week's numbers and progressive overload
+When the same exercise existed last week, a small line under the fields reads **Last week: 135 lbs × 8-10 · 4/4 sets**. Next to it, a **+5 lbs** (or **+2.5 kg**) button sets this week's weight to last week's plus one increment.
+
+### Day notes
+Each open day has a **Notes** box at the top, shared through the plan: whatever the client or any of their trainers writes is visible to the others, and the note carries into the following weeks until changed. Past weeks show the note read-only.
+
+### First-run plan chooser
+A brand-new account with no plan anywhere sees **"Welcome! How many days a week can you train?"** with the three templates. Picking one applies it; **Keep the default plan** keeps Push/Pull/Legs. It appears once per account; Workout templates under the days brings the list back any time.
+
+### Weight units
+The **lbs / kg** switch in the header converts for real: weights are stored in pounds, shown and typed in the unit you chose, and the Weekly Summary and its CSV follow the same unit. Text like "BW" is left as is.
+
+### Plan changed elsewhere
+When the app comes back to the front and finds a newer copy in the cloud (another device, or a trainer), it loads it and shows "Plan updated from another device or by your trainer. Showing the latest." If you had unsaved edits at that moment, the save bar offers Load latest / Keep mine instead.
 
 ### Hiding rest days
 A day set to Rest, or with no exercises, shows a **"Hide this day"** button inside its panel. Hidden days leave the list and appear in a small "Hidden days" row at the bottom, each with a **Show** link to bring it back. The choice carries over to the following weeks, and a trainer sees the same layout for that client.
@@ -192,7 +210,7 @@ Deadlifts 4×6-8 · Front Squats 3×8-10 · Lunges 3×12-15 · Leg Extensions 3�
 
 **I didn't get the confirmation/reset email.** Check spam/junk. Make sure the email address is correct; you can retry from the same screen.
 
-**How do I track weight in kg?** The weight field is labeled lbs, but it is a free number field — you can type your kg value consistently if you prefer; the app does not convert units.
+**How do I track weight in kg?** Switch the **lbs / kg** toggle in the header. Weights are stored in pounds and shown, typed and exported in the unit you choose, with real conversion.
 
 **How do I report a bug or suggest a feature?** Use "Share Your Feedback" at the bottom of the main screen.
 

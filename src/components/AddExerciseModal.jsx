@@ -9,7 +9,54 @@ import { getExerciseEquipment, listEquipment, hasExerciseEnrichment } from '../s
 import { hasExerciseMedia } from '../services/ExerciseMediaService.js';
 import ExerciseDemoModal from './ExerciseDemoModal.jsx';
 
-const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+// Accent-insensitive lowercase, so "biceps" finds "Bíceps" and
+// "sentadilla" finds "Sentadillas con Barra".
+const fold = (s) => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+// A library exercise matches when the term appears in its English name or
+// its Spanish name, whatever language the UI is in.
+const matchesTerm = (exercise, term) => {
+    if (!term) return true;
+    return fold(exercise.name).includes(term)
+        || fold(translateExercise(exercise.name, 'es')).includes(term);
+};
+
+// Wraps the accent-insensitive match inside the displayed name. Folding
+// keeps the string length (a precomposed accented letter maps to one base
+// letter), so an index found in the folded name applies to the original;
+// if the lengths ever differ the name is shown without highlight.
+const markMatch = (text, foldedTerm) => {
+    const folded = fold(text);
+    const index = folded.indexOf(foldedTerm);
+    if (index === -1 || folded.length !== text.length) return null;
+    const end = index + foldedTerm.length;
+    return (
+        <>
+            {text.slice(0, index)}
+            <mark style={{ backgroundColor: '#fef3c7', padding: '1px 2px', borderRadius: '2px' }}>
+                {text.slice(index, end)}
+            </mark>
+            {text.slice(end)}
+        </>
+    );
+};
+
+// Highlights the match in the displayed name. When the match came from the
+// other language's name, that name is shown after the displayed one with
+// the match marked, so the user sees why the row matched.
+const highlightMatch = (display, otherLanguageName, foldedTerm) => {
+    if (!foldedTerm) return display;
+    const inDisplay = markMatch(display, foldedTerm);
+    if (inDisplay) return inDisplay;
+    const alt = otherLanguageName && otherLanguageName !== display ? markMatch(otherLanguageName, foldedTerm) : null;
+    if (!alt) return display;
+    return (
+        <>
+            {display}
+            <span style={{ color: '#6b7280', fontWeight: 400, fontSize: '12px' }}> · {alt}</span>
+        </>
+    );
+};
 
 const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -64,8 +111,9 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
     // Filter exercises based on search, selected muscle group, and equipment.
     // An active equipment filter excludes un-enriched exercises: their
     // equipment is unknown, not "other".
+    const foldedTerm = fold(searchTerm.trim());
     const filteredExercises = EXERCISE_DATABASE.filter(ex => {
-        const matchesSearch = ex.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesSearch = matchesTerm(ex, foldedTerm);
         const matchesMuscleGroup = selectedMuscleGroup === 'All' || ex.muscleGroup === selectedMuscleGroup;
         const matchesEquipment = selectedEquipment === 'All' || getExerciseEquipment(ex.id) === selectedEquipment;
         return matchesSearch && matchesMuscleGroup && matchesEquipment;
@@ -518,15 +566,10 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                                     fontSize: '14px',
                                                     marginBottom: '4px'
                                                 }}>
-                                                    {searchTerm && ex.name.toLowerCase().includes(searchTerm.toLowerCase()) ? (
-                                                        <span dangerouslySetInnerHTML={{
-                                                            __html: translateExercise(ex.name, language).replace(
-                                                                new RegExp(`(${escapeRegExp(searchTerm)})`, 'gi'),
-                                                                '<mark style="background-color: #fef3c7; padding: 1px 2px; border-radius: 2px;">$1</mark>'
-                                                            )
-                                                        }} />
-                                                    ) : (
-                                                        translateExercise(ex.name, language)
+                                                    {highlightMatch(
+                                                        translateExercise(ex.name, language),
+                                                        language === 'es' ? ex.name : translateExercise(ex.name, 'es'),
+                                                        foldedTerm
                                                     )}
                                                 </div>
                                                 <div style={{ fontSize: '12px', color: '#6b7280' }}>
