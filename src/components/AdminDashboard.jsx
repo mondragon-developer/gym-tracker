@@ -103,7 +103,9 @@ export default function AdminDashboard({ onBack }) {
   const [viewedWeekStart, setViewedWeekStart] = useState(null);
   const [planLoading, setPlanLoading] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
-  const [saveState, setSaveState] = useState('idle'); // idle | saving | saved
+    const [saveState, setSaveState] = useState('idle'); // idle | saving | saved | conflict
+  // updated_at of the row as loaded; the save refuses to clobber a newer one.
+  const [planUpdatedAt, setPlanUpdatedAt] = useState(null);
   const [activeDay, setActiveDay] = useState(null);
 
   const addExerciseModal = useModal();
@@ -155,11 +157,12 @@ export default function AdminDashboard({ onBack }) {
     try {
       setPlanLoading(true);
       setError('');
-      const raw = await adminService.getWorkoutPlan(user.id);
-      // raw is null when the user has no cloud plan yet; otherwise migrate the
-      // stored blob to the versioned history and edit its current week.
-      const migrated = raw ? WeekPlanService.migrate(raw) : null;
+            const record = await adminService.getWorkoutPlanRecord(user.id);
+      // record is null when the user has no cloud plan yet; otherwise migrate
+      // the stored blob to the versioned history and edit its current week.
+      const migrated = record ? WeekPlanService.migrate(record.data) : null;
       setHistory(migrated);
+      setPlanUpdatedAt(record ? record.updatedAt : null);
       setViewedWeekStart(migrated ? migrated.currentWeekStart : null);
     } catch (err) {
       console.error('Error loading workout plan:', err);
@@ -357,11 +360,19 @@ export default function AdminDashboard({ onBack }) {
     addExerciseModal.close();
   };
 
-  const savePlan = async () => {
+    const savePlan = async ({ overwrite = false } = {}) => {
     try {
       setSaveState('saving');
       setError('');
-      await adminService.saveWorkoutPlan(selectedUser.id, history);
+      const result = await adminService.saveWorkoutPlan(selectedUser.id, history, {
+        expectedUpdatedAt: planUpdatedAt,
+        overwrite
+      });
+      if (!result.ok) {
+        setSaveState('conflict');
+        return;
+      }
+      setPlanUpdatedAt(result.updatedAt);
       setIsDirty(false);
       setSaveState('saved');
     } catch (err) {
@@ -390,6 +401,7 @@ export default function AdminDashboard({ onBack }) {
     try {
       setError('');
       await adminService.deleteWorkoutPlan(selectedUser.id);
+      setPlanUpdatedAt(null);
       setHistory(null);
       setIsDirty(false);
     } catch (err) {
@@ -818,9 +830,23 @@ export default function AdminDashboard({ onBack }) {
                         onConfirm={deleteCloudPlan}
                       />
                     )}
+                                        {saveState === 'conflict' && (
+                      <span role="alert" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', fontSize: '13px', color: 'var(--danger)', fontWeight: 600 }}>
+                        {t("This client's plan changed since you opened it.", language)}
+                        <ConfirmButton
+                          label={t('Load latest', language)}
+                          confirmLabel={t('Discard my edits?', language)}
+                          variant={ButtonVariant.SECONDARY}
+                          onConfirm={() => selectUser(selectedUser)}
+                        />
+                        <Button variant={ButtonVariant.DANGER} onClick={() => savePlan({ overwrite: true })} style={{ fontSize: '13px' }}>
+                          {t('Keep mine', language)}
+                        </Button>
+                      </span>
+                    )}
                     <Button
-                      onClick={savePlan}
-                      disabled={!isDirty || saveState === 'saving'}
+                      onClick={() => savePlan()}
+                      disabled={!isDirty || saveState === 'saving' || saveState === 'conflict'}
                       style={{ fontSize: '13px' }}
                     >
                       {saveState === 'saving'
