@@ -207,6 +207,35 @@ describe('useWorkoutPlan persistence', () => {
     );
   });
 
+  it('flushes a pending edit before honoring an app-update reload, and skips the reload when the save fails', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
+    const { result } = await renderPlan();
+    const reload = vi.fn();
+    const original = window.location;
+    Object.defineProperty(window, 'location', { value: { ...original, reload }, configurable: true });
+
+    try {
+      act(() => {
+        result.current.updateDay('Monday', { ...result.current.workoutPlan.Monday, name: 'Edited' });
+      });
+      const claimed = !window.dispatchEvent(new CustomEvent('gym:app-update-ready', { cancelable: true }));
+      expect(claimed).toBe(true);
+      await waitFor(() => expect(mocks.saveWorkoutPlan).toHaveBeenCalledTimes(1));
+      await waitFor(() => expect(reload).toHaveBeenCalledTimes(1));
+
+      mocks.saveWorkoutPlan.mockResolvedValueOnce({ ok: false, reason: 'error' });
+      act(() => {
+        result.current.updateDay('Tuesday', { ...result.current.workoutPlan.Tuesday, name: 'Again' });
+      });
+      window.dispatchEvent(new CustomEvent('gym:app-update-ready', { cancelable: true }));
+      await waitFor(() => expect(mocks.saveWorkoutPlan).toHaveBeenCalledTimes(2));
+      await act(async () => { vi.advanceTimersByTime(100); });
+      expect(reload).toHaveBeenCalledTimes(1);
+    } finally {
+      Object.defineProperty(window, 'location', { value: original, configurable: true });
+    }
+  });
+
   it('migrates a local plan to the cloud only when no cloud row exists', async () => {
     mocks.getWorkoutPlanRecord.mockResolvedValue(null);
     const local = workoutService.getInitialPlan();
