@@ -70,6 +70,9 @@ R: Sí. Toca **Copiar la semana pasada** debajo de los días y confirma. La sema
 **P: ¿Puedo ver cómo se hace un ejercicio antes de agregarlo?**
 R: Sí. En el selector de Agregar Ejercicio, toca el botón **▶** a la derecha del ejercicio para abrir su demostración. Tocar la fila lo agrega.
 
+**P: No escucho el temporizador de descanso. ¿Cómo sé que terminó?**
+R: La pantalla parpadea en rojo con un mensaje grande ("¡Vamos!") hasta que la tocas, y el teléfono vibra. Los teléfonos en silencio apagan la señal sonora, pero la pantalla parpadeante siempre aparece. Usa el botón **Mensaje** junto al temporizador para cambiar el texto.
+
 **P: ¿Cómo veo semanas pasadas?**
 R: Usa las flechas del navegador de semanas ("Semana del …"). Las semanas pasadas son de solo lectura; toca **Volver a la semana actual** para editar de nuevo.
 

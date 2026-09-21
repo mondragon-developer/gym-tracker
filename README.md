@@ -26,7 +26,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Multi-Muscle Group Selection**: Select up to 3 muscle groups per day with intelligent UI
 
 ### Progress & Tracking
-- **Rest Timer**: Between-sets countdown with presets, pause/resume, and an end-of-rest sound, vibration and screen flash (works on phones set to silent)
+- **Rest Timer**: Between-sets countdown with presets, pause/resume, and an end-of-rest alert that blinks the whole screen with a customizable message until tapped, plus vibration and a beep where sound is allowed
 - **Today Button**: In the save bar, jumps to today's day; the header collapses on phones so the first day is above the fold
 - **Visual Progress Bar**: Real-time weekly completion tracking
 - **Interactive Exercise Management**: 

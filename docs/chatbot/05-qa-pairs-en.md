@@ -70,6 +70,9 @@ A: Yes. Tap **Copy last week** under the days and confirm. The current (or futur
 **Q: Can I see how an exercise is done before adding it?**
 A: Yes. In the Add Exercise picker, tap the **▶** button on the right of an exercise to open its demo. Tapping the row itself adds it.
 
+**Q: I do not hear the rest timer. How do I know the rest is over?**
+A: The screen blinks red with a big message ("Let's go!") until you tap it, and the phone vibrates. Phones on silent mute the beep, but the blinking screen always shows. Use the **Message** button next to the timer to change the text.
+
 **Q: How do I see past weeks?**
 A: Use the arrows in the week navigator ("Week of …"). Past weeks are read-only; tap **Back to current week** to edit again.
 

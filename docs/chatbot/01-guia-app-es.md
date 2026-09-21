@@ -74,7 +74,7 @@ El botón **📊 Resumen Semanal**, debajo de los días, abre un reporte de la s
 - **Descargar CSV** — exporta el resumen como archivo CSV para Excel/Sheets.
 
 ### Temporizador de descanso (⏱️)
-Debajo de la barra de progreso semanal. Elige un preset (**0:30 / 1:00 / 1:30 / 2:00**) y pulsa **Iniciar**; hay **Pausar**/**Reanudar** y **Reiniciar**, y al terminar suena una señal y aparece el aviso rojo "¡Tiempo!". Sigue corriendo aunque abras o cierres días.
+Debajo de la barra de progreso semanal. Elige un preset (**0:30 / 1:00 / 1:30 / 2:00**) y pulsa **Iniciar**; hay **Pausar**/**Reanudar** y **Reiniciar**. Al terminar, toda la pantalla parpadea en rojo con un mensaje grande ("¡Vamos!" por defecto) y el teléfono vibra; la pantalla sigue parpadeando hasta que la tocas (o pulsas Enter o Escape). También suena una señal corta cuando el teléfono lo permite. El botón **Mensaje** junto al temporizador permite escribir tu propio texto de fin de descanso, que se recuerda en ese dispositivo. Sigue corriendo aunque abras o cierres días.
 
 ### 🔄 Semanas y Reiniciar Esta Semana
 Las semanas son semanas de calendario, de lunes a domingo, y avanzan solas: cada lunes la app abre en la semana nueva **conservando todos tus ejercicios y pesos y reiniciando solo el estado de completado**, para que puedas aplicar sobrecarga progresiva sin rearmar tu plan. La semana terminada queda archivada y visible (solo lectura) en el navegador de semanas. El botón **"Reiniciar Esta Semana"** borra el progreso y las series registradas solo de la semana actual, conservando ejercicios y pesos; se aplica de inmediato y un aviso ofrece **Deshacer** durante unos segundos.

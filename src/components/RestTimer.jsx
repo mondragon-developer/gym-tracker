@@ -11,6 +11,8 @@ import { t } from '../translations/ui';
 import { formatSeconds } from '../utils/restTimer.js';
 
 const PRESETS = [30, 60, 90, 120];
+// Per-device custom text for the end-of-rest alert; empty means the default.
+const MESSAGE_KEY = 'gymAppRestMessage';
 
 const AudioCtx = typeof window !== 'undefined'
     ? (window.AudioContext || window.webkitAudioContext)
@@ -134,36 +136,71 @@ export default function RestTimer({ language = 'en' }) {
         return () => clearInterval(timer);
     }, [running]);
 
+    // End-of-rest alert: a full-screen blinking overlay that stays until the
+    // user taps it. Sound is best effort (phones on silent mute Web Audio),
+    // so the overlay plus vibration is the cue that always works.
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [customMessage, setCustomMessage] = useState(() => {
+        try {
+            return localStorage.getItem(MESSAGE_KEY) || '';
+        } catch {
+            return '';
+        }
+    });
+    const [editingMessage, setEditingMessage] = useState(false);
+    const alertMessage = customMessage.trim() || t("Let's go!", language);
+
+    const saveMessage = (value) => {
+        setCustomMessage(value);
+        try {
+            if (value.trim()) localStorage.setItem(MESSAGE_KEY, value);
+            else localStorage.removeItem(MESSAGE_KEY);
+        } catch {
+            // Storage blocked: the message still applies this session.
+        }
+    };
+
+    const dismissAlert = () => setAlertOpen(false);
+
     // Zero is only reachable at the end of a countdown, so this fires the
     // end-of-rest cue exactly once.
-    // Phones on silent mute Web Audio, so the cue is also a vibration and a
-    // short full-screen flash the user cannot miss with the phone face up.
-    const [flash, setFlash] = useState(false);
     useEffect(() => {
         if (remaining === 0) {
             beep(audioRef);
             try {
                 if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
-                    navigator.vibrate([250, 100, 250]);
+                    navigator.vibrate([400, 150, 400, 150, 400]);
                 }
             } catch {
-                // Vibration unsupported or blocked: the other cues still fire.
+                // Vibration unsupported or blocked: the overlay still shows.
             }
-            setFlash(true);
-            const id = setTimeout(() => setFlash(false), 900);
+            setAlertOpen(true);
             setRunning(false);
-            return () => clearTimeout(id);
         }
-        return undefined;
     }, [remaining]);
+
+    // Keyboard users dismiss with Enter, Space or Escape.
+    useEffect(() => {
+        if (!alertOpen) return undefined;
+        const onKey = (e) => {
+            if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
+                e.preventDefault();
+                setAlertOpen(false);
+            }
+        };
+        document.addEventListener('keydown', onKey);
+        return () => document.removeEventListener('keydown', onKey);
+    }, [alertOpen]);
 
     const start = () => {
         unlockAudio(audioRef);
+        setAlertOpen(false);
         setRemaining(r => (r === null || r === 0 ? duration : r));
         setRunning(true);
     };
 
     const reset = () => {
+        setAlertOpen(false);
         setRunning(false);
         setRemaining(null);
     };
@@ -220,7 +257,49 @@ export default function RestTimer({ language = 'en' }) {
                     {t("Time's up!", language)}
                 </span>
             )}
-            {flash && <div className="rest-flash" aria-hidden="true" data-testid="rest-flash" />}
+
+            <button
+                type="button"
+                onClick={() => setEditingMessage(v => !v)}
+                aria-expanded={editingMessage}
+                aria-label={t('End-of-rest message', language)}
+                title={t('End-of-rest message', language)}
+                style={{ ...chipStyle(editingMessage), padding: '6px 8px' }}
+            >
+                {t('Message', language)}
+            </button>
+            {editingMessage && (
+                <input
+                    type="text"
+                    value={customMessage}
+                    onChange={(e) => saveMessage(e.target.value)}
+                    placeholder={t("Let's go!", language)}
+                    maxLength={40}
+                    aria-label={t('End-of-rest message', language)}
+                    style={{
+                        flex: '1 1 140px',
+                        minWidth: 0,
+                        padding: '6px 10px',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                        fontSize: '13px'
+                    }}
+                />
+            )}
+
+            {alertOpen && (
+                <div
+                    className="rest-alert"
+                    role="alertdialog"
+                    aria-live="assertive"
+                    aria-label={alertMessage}
+                    data-testid="rest-alert"
+                    onClick={dismissAlert}
+                >
+                    <div className="rest-alert-text">{alertMessage}</div>
+                    <div className="rest-alert-hint">{t('Tap to dismiss', language)}</div>
+                </div>
+            )}
 
             <div style={{ display: 'flex', gap: '6px', marginLeft: 'auto' }}>
                 <button onClick={running ? () => setRunning(false) : start} style={actionStyle(true)}>

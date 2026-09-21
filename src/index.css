@@ -48,25 +48,48 @@ input:focus-visible,
   }
 }
 
-/* End-of-rest flash: a brief full-screen pulse for phones on silent */
-@keyframes rest-flash {
-  0% { opacity: 0; }
-  20% { opacity: 0.85; }
-  100% { opacity: 0; }
+/* End-of-rest alert: full-screen, blinks until the user taps it. Sound is
+   unreliable on phones, so this is the cue that always shows. */
+@keyframes rest-alert-blink {
+  0%, 45% { background-color: #dc2626; }
+  55%, 100% { background-color: #0f172a; }
 }
 
-.rest-flash {
+.rest-alert {
   position: fixed;
   inset: 0;
-  background: #dc2626;
-  pointer-events: none;
-  z-index: 2000;
-  animation: rest-flash 0.9s ease-out forwards;
+  z-index: 3000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+  cursor: pointer;
+  color: white;
+  text-align: center;
+  animation: rest-alert-blink 1s steps(1, end) infinite;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rest-alert-text {
+  font-size: clamp(40px, 12vw, 96px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+.rest-alert-hint {
+  font-size: 16px;
+  font-weight: 600;
+  opacity: 0.85;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rest-flash {
-    animation-duration: 0.3s;
+  .rest-alert {
+    animation: none;
+    background-color: #dc2626;
   }
 }
 
