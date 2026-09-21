@@ -94,6 +94,7 @@ const Modal = ({
   className = ''
 }) => {
   // Latest onClose without re-registering the listener on every render.
+  const titleId = React.useId();
   const onCloseRef = useRef(onClose);
   useEffect(() => {
     onCloseRef.current = onClose;
@@ -122,8 +123,6 @@ const Modal = ({
   }, [isOpen]);
 
   if (!isOpen) return null;
-
-  const titleId = React.useId();
 
   const handleOverlayClick = (e) => {
     if (closeOnOverlayClick && e.target === e.currentTarget) {
