@@ -8,6 +8,8 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      // main.jsx registers the worker itself so it can poll for updates.
+      injectRegister: false,
       includeAssets: ['favicon.svg', 'pwa-icon.jpeg'],
       manifest: {
         name: 'Gym Tracker',

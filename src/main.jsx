@@ -3,6 +3,25 @@ import { createRoot } from 'react-dom/client'
 import './theme/tokens.css'
 import './index.css'
 import App from './App.jsx'
+import { registerSW } from 'virtual:pwa-register'
+
+// A phone that keeps the app open (or installed as a PWA) only asks for a
+// new build on a fresh load or once a day. Checking again whenever the app
+// comes back to the foreground, and every 30 minutes meanwhile, gets every
+// device onto the latest deploy within minutes; the controllerchange
+// handler below then reloads once the new worker takes over.
+const UPDATE_CHECK_MS = 30 * 60 * 1000;
+registerSW({
+  immediate: true,
+  onRegisteredSW(_url, registration) {
+    if (!registration) return;
+    const check = () => registration.update().catch(() => {});
+    setInterval(check, UPDATE_CHECK_MS);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') check();
+    });
+  }
+});
 
 // Every deploy renames the hashed chunks. A tab (or installed PWA) still
 // running the previous bundle then fails to lazy-load a modal because the
