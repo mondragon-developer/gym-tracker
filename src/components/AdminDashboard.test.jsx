@@ -22,7 +22,8 @@ vi.mock('../services/AdminService', () => ({
       { id: 'trainer-1', email: 'trainer@example.com', role: 'trainer', inviteCode: 'ABC123' },
       { id: 'client-1', email: 'client@example.com', role: 'user' },
     ]),
-    getWorkoutPlan: vi.fn().mockResolvedValue(null),
+    getWorkoutPlanRecord: vi.fn().mockResolvedValue(null),
+    saveWorkoutPlan: vi.fn().mockResolvedValue({ ok: true, updatedAt: 'v2' }),
     listTrainerLinks: vi.fn().mockResolvedValue([]),
     listTrainerInvites: vi.fn().mockResolvedValue([]),
     sendInviteEmail: vi.fn(),
@@ -142,10 +143,13 @@ describe('AdminDashboard import plan', () => {
 
   it('offers Import plan on the current week and disables it on a past week', async () => {
     const current = getWeekStart();
-    adminService.getWorkoutPlan.mockResolvedValueOnce({
-      version: 2,
-      currentWeekStart: current,
-      weeks: { [addWeeks(current, -1)]: restWeek(), [current]: restWeek() },
+    adminService.getWorkoutPlanRecord.mockResolvedValueOnce({
+      data: {
+        version: 2,
+        currentWeekStart: current,
+        weeks: { [addWeeks(current, -1)]: restWeek(), [current]: restWeek() },
+      },
+      updatedAt: 'v1',
     });
     render(<AdminDashboard onBack={() => {}} />);
     fireEvent.click(await screen.findByText('client@example.com'));
@@ -153,5 +157,33 @@ describe('AdminDashboard import plan', () => {
     expect(importButton).not.toBeDisabled();
     fireEvent.click(screen.getByLabelText('Previous week'));
     expect(screen.getByRole('button', { name: 'Import plan' })).toBeDisabled();
+  });
+});
+
+describe('AdminDashboard save conflict', () => {
+  const restWeek = () => Object.fromEntries(DAYS_OF_WEEK.map(day => [day, { name: 'Rest', exercises: [] }]));
+
+  it('refuses to clobber a newer save and offers Load latest or Keep mine', async () => {
+    const current = getWeekStart();
+    adminService.getWorkoutPlanRecord.mockResolvedValueOnce({
+      data: { version: 2, currentWeekStart: current, weeks: { [current]: restWeek() } },
+      updatedAt: 'v1',
+    });
+    adminService.saveWorkoutPlan.mockResolvedValueOnce({ ok: false, reason: 'conflict' });
+    render(<AdminDashboard onBack={() => {}} />);
+    fireEvent.click(await screen.findByText('client@example.com'));
+    await screen.findByRole('button', { name: 'Import plan' });
+    fireEvent.click(screen.getByText('Reset to default'));
+    fireEvent.click(screen.getByText('Confirm reset?'));
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Save changes' }));
+    });
+    expect(adminService.saveWorkoutPlan).toHaveBeenLastCalledWith('client-1', expect.any(Object), { expectedUpdatedAt: 'v1', overwrite: false });
+    expect(await screen.findByRole('alert')).toHaveTextContent("This client's plan changed since you opened it.");
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Keep mine' }));
+    });
+    expect(adminService.saveWorkoutPlan).toHaveBeenLastCalledWith('client-1', expect.any(Object), { expectedUpdatedAt: 'v1', overwrite: true });
+    expect(await screen.findByText(/Saved/)).toBeInTheDocument();
   });
 });

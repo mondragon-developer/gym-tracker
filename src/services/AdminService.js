@@ -149,15 +149,26 @@ class AdminService {
    * @param {string} userId - Target user
    * @returns {Promise<Object|null>} The plan blob, or null if none saved yet
    */
-  async getWorkoutPlan(userId) {
+    async getWorkoutPlan(userId) {
+    const record = await this.getWorkoutPlanRecord(userId);
+    return record ? record.data : null;
+  }
+
+  /**
+   * Same as getWorkoutPlan but also returns the row's updated_at, which
+   * saveWorkoutPlan uses to refuse overwriting a newer save.
+   * @param {string} userId - Target user
+   * @returns {Promise<{data: Object, updatedAt: string}|null>}
+   */
+  async getWorkoutPlanRecord(userId) {
     const { data, error } = await supabase
       .from('workout_plans')
-      .select('data')
+      .select('data, updated_at')
       .eq('user_id', userId)
       .maybeSingle();
 
     if (error) throw error;
-    return data?.data ?? null;
+    return data ? { data: data.data, updatedAt: data.updated_at } : null;
   }
 
   /**
@@ -165,18 +176,44 @@ class AdminService {
    * @param {string} userId - Target user
    * @param {Object} workoutPlan - Plan blob to save
    */
-  async saveWorkoutPlan(userId, workoutPlan) {
-    const { error } = await supabase
+    async saveWorkoutPlan(userId, workoutPlan, { expectedUpdatedAt = null, overwrite = false } = {}) {
+    const now = new Date().toISOString();
+    const row = { user_id: userId, data: workoutPlan, updated_at: now };
+
+    // Mirrors SupabaseStorageService.saveWorkoutPlan: the client may have
+    // edited their plan since the trainer opened it, so a save only lands
+    // when the row still carries the updated_at the trainer loaded.
+    if (expectedUpdatedAt && !overwrite) {
+      const { data, error } = await supabase
+        .from('workout_plans')
+        .update({ data: workoutPlan, updated_at: now })
+        .eq('user_id', userId)
+        .eq('updated_at', expectedUpdatedAt)
+        .select('updated_at');
+      if (error) throw error;
+      if (!data || data.length === 0) return { ok: false, reason: 'conflict' };
+      return { ok: true, updatedAt: data[0].updated_at };
+    }
+
+    if (overwrite) {
+      const { data, error } = await supabase
+        .from('workout_plans')
+        .upsert(row, { onConflict: 'user_id' })
+        .select('updated_at');
+      if (error) throw error;
+      return { ok: true, updatedAt: data?.[0]?.updated_at ?? now };
+    }
+
+    const { data, error } = await supabase
       .from('workout_plans')
-      .upsert(
-        {
-          user_id: userId,
-          data: workoutPlan,
-          updated_at: new Date().toISOString()
-        },
-        { onConflict: 'user_id' }
-      );
-    if (error) throw error;
+      .insert(row)
+      .select('updated_at');
+    if (error) {
+      // 23505 is Postgres unique_violation: a row appeared since the load.
+      if (error.code === '23505') return { ok: false, reason: 'conflict' };
+      throw error;
+    }
+    return { ok: true, updatedAt: data?.[0]?.updated_at ?? now };
   }
 
   /**
