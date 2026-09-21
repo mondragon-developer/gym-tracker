@@ -57,21 +57,19 @@ const highlightMatch = (display, otherLanguageName, foldedTerm) => {
 
 const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
-// Helper function to get muscle group colors
+// Chip colors keyed to the movement family rather than one hue per group,
+// so the picker reads as four tints in both themes: push (blue), pull
+// (indigo), legs and core (teal), time-based work (amber).
+const CHIP_FAMILY = {
+    Chest: 'info', Shoulders: 'info', Triceps: 'info',
+    Back: 'accent-b', Biceps: 'accent-b', Forearms: 'accent-b',
+    Legs: 'done', Abs: 'done',
+    Cardio: 'skipped', Combat: 'skipped'
+};
 const getMuscleGroupColor = (muscleGroup) => {
-    const colors = {
-        'Chest': { bg: '#fee2e2', text: '#dc2626' },
-        'Back': { bg: '#dcfce7', text: '#16a34a' },
-        'Shoulders': { bg: '#dbeafe', text: '#2563eb' },
-        'Biceps': { bg: '#f3e8ff', text: '#9333ea' },
-        'Triceps': { bg: '#fef3c7', text: '#d97706' },
-        'Legs': { bg: '#ecfdf5', text: '#059669' },
-        'Abs': { bg: '#fce7f3', text: '#e11d48' },
-        'Cardio': { bg: '#f0f9ff', text: '#0284c7' },
-        'Combat': { bg: '#fff7ed', text: '#c2410c' },
-        'Forearms': { bg: '#f5f3ff', text: '#7c3aed' }
-    };
-    return colors[muscleGroup] || { bg: '#f3f4f6', text: '#6b7280' };
+    const family = CHIP_FAMILY[muscleGroup];
+    if (!family) return { bg: 'var(--surface-3)', text: 'var(--text-3)', border: 'var(--border)' };
+    return { bg: `var(--${family}-soft)`, text: `var(--${family})`, border: `var(--${family}-border)` };
 };
 
 // Groups whose exercises are time-based (minutes) instead of sets × reps
@@ -603,7 +601,8 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                                     fontSize: '12px',
                                                     backgroundColor: getMuscleGroupColor(ex.muscleGroup).bg,
                                                     color: getMuscleGroupColor(ex.muscleGroup).text,
-                                                    padding: '4px 8px',
+                                                    border: `1px solid ${getMuscleGroupColor(ex.muscleGroup).border}`,
+                                                    padding: '3px 8px',
                                                     borderRadius: '12px',
                                                     fontWeight: '600'
                                                 }}>
