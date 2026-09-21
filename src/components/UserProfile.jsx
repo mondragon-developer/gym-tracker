@@ -9,6 +9,7 @@ import { useLanguage } from '../hooks/useLanguage.js';
 import { t } from '../translations/ui';
 import Button from './ui/Button';
 import { ButtonVariant } from './ui/Button.constants.js';
+import { headerControlStyle, headerControlHover, headerControlRest } from './ui/headerControlStyle.js';
 
 export default function UserProfile() {
   const { user, signOut, joinTrainer, isTrainer, isAdmin } = useAuth();
@@ -41,30 +42,13 @@ export default function UserProfile() {
     <div style={{ position: 'relative' }}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          padding: '8px 12px',
-          backgroundColor: 'rgba(255, 255, 255, 0.15)',
-          border: '1px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '8px',
-          color: 'white',
-          fontSize: '14px',
-          fontWeight: '500',
-          cursor: 'pointer',
-          transition: 'all 0.2s ease'
-        }}
-        onMouseOver={(e) => {
-          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.25)';
-        }}
-        onMouseOut={(e) => {
-          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
-        }}
+                style={{ ...headerControlStyle, padding: '0 14px 0 6px' }}
+        onMouseOver={headerControlHover}
+        onMouseOut={headerControlRest}
       >
-        <div style={{
-          width: '32px',
-          height: '32px',
+                <div style={{
+          width: '30px',
+          height: '30px',
           borderRadius: '50%',
           backgroundColor: 'rgba(255, 255, 255, 0.3)',
           display: 'flex',
