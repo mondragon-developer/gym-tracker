@@ -22,7 +22,7 @@ describe('WorkoutTemplateModal', () => {
         fireEvent.click(screen.getAllByText('Use this plan')[0]);
         fireEvent.click(screen.getByText('Cancel'));
         expect(screen.queryByText('Replace this week?')).toBeNull();
-        expect(screen.getAllByText('Use this plan')).toHaveLength(3);
+        expect(screen.getAllByText('Use this plan')).toHaveLength(5);
         expect(onSelect).not.toHaveBeenCalled();
     });
 
@@ -52,6 +52,7 @@ describe('WorkoutTemplateModal', () => {
     it('translates names and actions to Spanish', () => {
         render(<WorkoutTemplateModal isOpen onClose={() => {}} onSelect={() => {}} language="es" />);
         expect(screen.getByText('Cuerpo completo 3 días (agenda ocupada)')).toBeInTheDocument();
-        expect(screen.getAllByText('Usar este plan')).toHaveLength(3);
+        expect(screen.getAllByText('Usar este plan')).toHaveLength(5);
+        expect(screen.getByText('En casa, sin equipo')).toBeInTheDocument();
     });
 });

@@ -173,13 +173,26 @@ function AppContent() {
     // Destructive actions apply at once and offer Undo for a few seconds.
     // The snapshot is the history object from before the action; restoring
     // it goes through the normal autosave path.
-    const [undo, setUndo] = useState(null); // { message, snapshot } | null
+    const [undo, setUndo] = useState(null); // { message, snapshot, after? } | null
     const offerUndo = (message, snapshot) => setUndo({ message, snapshot });
     const handleUndo = () => {
         if (undo) restoreSnapshot(undo.snapshot);
         setUndo(null);
     };
     const dismissUndo = React.useCallback(() => setUndo(null), []);
+
+    // The snapshot is the whole history from before the action, so restoring
+    // it after a later edit would throw that edit away too. The first
+    // history change after the offer is the action itself; any change after
+    // that withdraws the offer.
+    React.useEffect(() => {
+        if (!undo) return;
+        if (undo.after === undefined) {
+            setUndo(current => (current ? { ...current, after: historySnapshot } : current));
+            return;
+        }
+        if (historySnapshot !== undo.after) setUndo(null);
+    }, [historySnapshot, undo]);
 
     const handleResetDay = (day) => {
         const before = historySnapshot;
@@ -460,6 +473,8 @@ function AppContent() {
                     gap: '12px',
                     flexWrap: 'wrap'
                 }}>
+                    {/* Arrows and label never wrap apart from each other */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'nowrap' }}>
                     <button
                         onClick={goToOlderWeek}
                         disabled={!hasOlderWeek}
@@ -474,7 +489,7 @@ function AppContent() {
                     >
                         ‹
                     </button>
-                    <div style={{ textAlign: 'center', minWidth: '200px' }}>
+                    <div style={{ textAlign: 'center', minWidth: '150px', maxWidth: 'calc(100vw - 140px)' }}>
                         <div style={{ fontSize: '15px', fontWeight: 700, color: '#164e63' }}>
                             {viewedWeekStart && `${t('Week of', language)} ${formatWeekRange(viewedWeekStart, language)}`}
                         </div>
@@ -500,6 +515,7 @@ function AppContent() {
                     >
                         ›
                     </button>
+                    </div>
                     {!isViewingCurrent && (
                         <button
                             onClick={goToCurrentWeek}

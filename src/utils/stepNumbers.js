@@ -17,7 +17,9 @@ export const stepNumbers = (value, delta, { min = 0, max = Infinity, fallback = 
     if (text === '' || parseLeading(text) === null) {
         return format(Math.min(max, Math.max(min, fallback + delta)));
     }
-    return text.replace(/\d+(?:[.,]\d+)?/g, (match) => {
+    // The sign belongs to the number, or "-5" would step as 5 and dodge the
+    // clamp.
+    return text.replace(/-?\d+(?:[.,]\d+)?/g, (match) => {
         const n = parseFloat(match.replace(',', '.'));
         return format(Math.min(max, Math.max(min, n + delta)));
     });

@@ -216,6 +216,34 @@ export const exerciseTranslations = {
     "Grappling Drills": "Ejercicios de Grappling",
     "MMA Conditioning Circuit": "Circuito de Acondicionamiento MMA",
 
+    // Lower back (under Back)
+    "Hyperextensions (Back Extensions)": "Hiperextensiones (Extensiones de Espalda)",
+    "Bodyweight Back Extensions": "Extensiones de Espalda sin Banco",
+    "Superman": "Superman",
+    "Seated Good Mornings": "Buenos Días Sentado",
+    "Reverse Hyperextensions": "Hiperextensiones Inversas",
+    "Stiff-Leg Good Mornings": "Buenos Días con Piernas Rígidas",
+
+    // Dumbbell-only additions
+    "Dumbbell Romanian Deadlifts": "Peso Muerto Rumano con Mancuernas",
+    "Dumbbell Lunges": "Zancadas con Mancuernas",
+    "Dumbbell Step-Ups": "Subidas al Cajón con Mancuernas",
+    "Dumbbell Squats": "Sentadillas con Mancuernas",
+    "Dumbbell Floor Press": "Press en el Suelo con Mancuernas",
+    "Bent-Over Dumbbell Rows": "Remo Inclinado con Mancuernas",
+    "Dumbbell Pullovers": "Pullover con Mancuerna",
+    "Dumbbell Calf Raises": "Elevaciones de Gemelos con Mancuernas",
+    "Dumbbell Rear Delt Raises": "Elevaciones Posteriores con Mancuernas",
+    "Dumbbell Triceps Kickbacks": "Patada de Tríceps con Mancuerna",
+
+    // Home / body-weight additions
+    "Incline Push-Ups": "Flexiones Inclinadas",
+    "Decline Push-Ups": "Flexiones Declinadas",
+    "Glute Kickbacks": "Patada de Glúteo",
+    "Single-Leg Glute Bridges": "Puente de Glúteo a Una Pierna",
+    "Crossover Reverse Lunges": "Zancadas Inversas Cruzadas",
+    "Side Leg Raises": "Elevaciones Laterales de Pierna",
+
     // Common muscle groups and interface
     "All": "Todos",
     "Rest": "Descanso",

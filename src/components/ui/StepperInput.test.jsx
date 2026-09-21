@@ -20,6 +20,12 @@ describe('stepNumbers', () => {
         expect(stepNumbers('abc', -1, { fallback: 3 })).toBe('2');
     });
 
+    it('clamps signed input against the minimum instead of stepping its magnitude', () => {
+        expect(stepNumbers('-5', 1, { min: 0 })).toBe('0');
+        expect(stepNumbers('-5', -1, { min: 0 })).toBe('0');
+        expect(stepNumbers('-5', 1, { min: -10 })).toBe('-4');
+    });
+
     it('keeps decimals sane for weights', () => {
         expect(stepNumbers('22.5', 2.5)).toBe('25');
         expect(stepNumbers('20', -2.5)).toBe('17.5');

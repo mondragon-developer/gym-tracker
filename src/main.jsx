@@ -21,6 +21,25 @@ window.addEventListener('vite:preloadError', (event) => {
   window.location.reload();
 });
 
+// The PWA service worker updates itself in the background, but the page
+// that was already open keeps running the old bundle until it reloads. When
+// a new worker takes control, ask the app to reload: useWorkoutPlan listens
+// for gym:app-update-ready, flushes any unsaved edit first and reloads only
+// once nothing is pending. If no listener claims the event (sign-in screen,
+// error screen), reload right away.
+if (typeof navigator !== 'undefined' && navigator.serviceWorker) {
+  let hadController = Boolean(navigator.serviceWorker.controller);
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadController) {
+      hadController = true;
+      return;
+    }
+    const request = new CustomEvent('gym:app-update-ready', { cancelable: true });
+    const claimed = !window.dispatchEvent(request);
+    if (!claimed) window.location.reload();
+  });
+}
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />

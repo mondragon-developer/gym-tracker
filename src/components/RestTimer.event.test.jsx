@@ -81,6 +81,18 @@ describe('RestTimer end-of-rest alert', () => {
         }
     });
 
+    it('moves focus into the alert and back to the timer when it closes', () => {
+        vi.useFakeTimers();
+        render(<RestTimer />);
+        const preset = screen.getByText('0:30');
+        preset.focus();
+        finishRest();
+        expect(document.activeElement).toBe(screen.getByText('Tap to dismiss'));
+        fireEvent.click(screen.getByText('Tap to dismiss'));
+        expect(screen.queryByTestId('rest-alert')).toBeNull();
+        expect(document.activeElement).toBe(preset);
+    });
+
     it('uses and remembers a custom message', () => {
         vi.useFakeTimers();
         render(<RestTimer language="es" />);

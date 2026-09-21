@@ -25,19 +25,35 @@ const matchesTerm = (exercise, term) => {
 // keeps the string length (a precomposed accented letter maps to one base
 // letter), so an index found in the folded name applies to the original;
 // if the lengths ever differ the name is shown without highlight.
-const highlightMatch = (display, foldedTerm) => {
-    if (!foldedTerm) return display;
-    const folded = fold(display);
+const markMatch = (text, foldedTerm) => {
+    const folded = fold(text);
     const index = folded.indexOf(foldedTerm);
-    if (index === -1 || folded.length !== display.length) return display;
+    if (index === -1 || folded.length !== text.length) return null;
     const end = index + foldedTerm.length;
     return (
         <>
-            {display.slice(0, index)}
+            {text.slice(0, index)}
             <mark style={{ backgroundColor: '#fef3c7', padding: '1px 2px', borderRadius: '2px' }}>
-                {display.slice(index, end)}
+                {text.slice(index, end)}
             </mark>
-            {display.slice(end)}
+            {text.slice(end)}
+        </>
+    );
+};
+
+// Highlights the match in the displayed name. When the match came from the
+// other language's name, that name is shown after the displayed one with
+// the match marked, so the user sees why the row matched.
+const highlightMatch = (display, otherLanguageName, foldedTerm) => {
+    if (!foldedTerm) return display;
+    const inDisplay = markMatch(display, foldedTerm);
+    if (inDisplay) return inDisplay;
+    const alt = otherLanguageName && otherLanguageName !== display ? markMatch(otherLanguageName, foldedTerm) : null;
+    if (!alt) return display;
+    return (
+        <>
+            {display}
+            <span style={{ color: '#6b7280', fontWeight: 400, fontSize: '12px' }}> · {alt}</span>
         </>
     );
 };
@@ -550,7 +566,11 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                                     fontSize: '14px',
                                                     marginBottom: '4px'
                                                 }}>
-                                                    {highlightMatch(translateExercise(ex.name, language), foldedTerm)}
+                                                    {highlightMatch(
+                                                        translateExercise(ex.name, language),
+                                                        language === 'es' ? ex.name : translateExercise(ex.name, 'es'),
+                                                        foldedTerm
+                                                    )}
                                                 </div>
                                                 <div style={{ fontSize: '12px', color: '#6b7280' }}>
                                                     {isDurationGroup(ex.muscleGroup) ?

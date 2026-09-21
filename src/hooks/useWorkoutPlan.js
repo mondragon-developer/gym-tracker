@@ -227,6 +227,20 @@ const useWorkoutPlan = () => {
       }
       load({ silent: true });
     };
+    // A new app build is ready (see main.jsx). Claim the event, flush any
+    // pending edit, and reload only when the save landed; a failed or
+    // conflicting save keeps the current page so nothing is lost.
+    const onUpdateReady = (event) => {
+      event.preventDefault();
+      const pending = historyRef.current && historyRef.current !== persistedRef.current;
+      if (!pending) {
+        window.location.reload();
+        return;
+      }
+      save().then(() => {
+        if (historyRef.current === persistedRef.current) window.location.reload();
+      });
+    };
     const onBeforeUnload = (event) => {
       if (historyRef.current && historyRef.current !== persistedRef.current) {
         save();
@@ -236,9 +250,11 @@ const useWorkoutPlan = () => {
     };
     document.addEventListener('visibilitychange', onVisibility);
     window.addEventListener('beforeunload', onBeforeUnload);
+    window.addEventListener('gym:app-update-ready', onUpdateReady);
     return () => {
       document.removeEventListener('visibilitychange', onVisibility);
       window.removeEventListener('beforeunload', onBeforeUnload);
+      window.removeEventListener('gym:app-update-ready', onUpdateReady);
     };
   }, [save, load]);
 

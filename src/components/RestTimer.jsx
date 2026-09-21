@@ -179,6 +179,25 @@ export default function RestTimer({ language = 'en' }) {
         }
     }, [remaining]);
 
+    // Focus moves into the alert's dismiss button while it is open and goes
+    // back to where it was when it closes, so keyboard and screen-reader
+    // users land on the dialog instead of the timer underneath.
+    const dismissRef = useRef(null);
+    const previousFocusRef = useRef(null);
+    useEffect(() => {
+        if (alertOpen) {
+            previousFocusRef.current = document.activeElement;
+            dismissRef.current?.focus();
+            return undefined;
+        }
+        const previous = previousFocusRef.current;
+        previousFocusRef.current = null;
+        if (previous && typeof previous.focus === 'function' && document.contains(previous)) {
+            previous.focus();
+        }
+        return undefined;
+    }, [alertOpen]);
+
     // Keyboard users dismiss with Enter, Space or Escape.
     useEffect(() => {
         if (!alertOpen) return undefined;
@@ -311,7 +330,14 @@ export default function RestTimer({ language = 'en' }) {
                     onClick={dismissAlert}
                 >
                     <div className="rest-alert-text">{alertMessage}</div>
-                    <div className="rest-alert-hint">{t('Tap to dismiss', language)}</div>
+                    <button
+                        ref={dismissRef}
+                        type="button"
+                        className="rest-alert-button"
+                        onClick={dismissAlert}
+                    >
+                        {t('Tap to dismiss', language)}
+                    </button>
                 </div>
             )}
 

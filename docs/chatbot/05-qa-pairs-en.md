@@ -26,7 +26,7 @@ A: Expand the day, tap the **✏️** icon, select up to 3 muscle groups (or **R
 A: Tap the **✏️** icon on that day and choose **Rest**.
 
 **Q: How can I see how to do an exercise?**
-A: Tap the **▶** button on the exercise to open "How to do this exercise" — a visual demo of the full movement. 122 of 159 exercises have one.
+A: Tap the **▶** button on the exercise to open "How to do this exercise" — a visual demo of the full movement. 152 of 181 exercises have one.
 
 **Q: Why doesn't my exercise show a demo?**
 A: Cardio, Combat, and custom exercises don't have demo images — the app shows "No demonstration available yet". I can still describe the technique if you ask me.
@@ -35,7 +35,7 @@ A: Cardio, Combat, and custom exercises don't have demo images — the app shows
 A: Yes. The search box matches both the English and the Spanish name, ignoring accents, so "sentadilla" and "squat" both find Barbell Squats. A few exercises have no Spanish name yet; ask me and I'll tell you the English one.
 
 **Q: I deleted an exercise by mistake.**
-A: Tap **Undo** in the toast that appears at the bottom right after deleting (it stays for a few seconds). The same Undo appears after Reset Day and Restart This Week.
+A: Tap **Undo** in the toast that appears at the bottom center of the screen right after deleting (it stays for a few seconds, and goes away if you make another edit first). The same Undo appears after Reset Day and Restart This Week.
 
 **Q: How do I change sets, reps or weight quickly on my phone?**
 A: Each field has minus and plus buttons on its sides and opens the number keypad. Weight steps by 5 lb or 2.5 kg; a rep range like 8-10 moves both numbers at once.
@@ -62,7 +62,7 @@ A: That is the save bar at the bottom. Edits save on their own a second after yo
 A: Yes. Press the next arrow in the week navigator to move forward, up to 12 weeks ahead ("Planning ahead"). The future week starts as a copy of your latest plan with nothing completed; edit it and it saves. When that Monday comes, the week opens as planned. Trainers can do the same for a client from their panel.
 
 **Q: Is there a ready-made plan I can start with?**
-A: Yes, three. Tap **Workout templates** under the days and pick **Classic Push / Pull / Legs** (6 days), **Upper / Lower with active recovery** (4 days plus a light Wednesday) or **Full body 3 days** (Monday, Wednesday, Friday, 30-40 minutes). After a confirming tap it replaces the exercises of the week you are viewing; completion, logged sets and weights are cleared.
+A: Yes, five. Tap **Workout templates** under the days and pick **Classic Push / Pull / Legs** (6 days), **Upper / Lower with active recovery** (4 days plus a light Wednesday), **Full body 3 days** (Monday, Wednesday, Friday, 30-40 minutes), **Home, no equipment** (3 days, floor, wall and chair) or **Dumbbells only** (4 days with one pair of dumbbells). After a confirming tap it replaces the exercises of the week you are viewing; completion, logged sets and weights are cleared.
 
 **Q: Can I reuse last week's workout as it was?**
 A: Yes. Tap **Copy last week** under the days and confirm. The current (or future) week gets last week's exercises in the same order with the same weights, and completion starts cleared.

@@ -6,9 +6,9 @@ Gym Tracker es una app web gratuita - por ahora - y bilingüe (inglés/español)
 
 Capacidades principales:
 - Un plan **Push/Pull/Piernas de 6 días** precargado y totalmente personalizable.
-- Una biblioteca de **159 ejercicios en 11 categorías** (Pecho, Espalda, Hombros, Bíceps, Tríceps, Antebrazos, Piernas, Abdominales, Cardio, Combate), más ejercicios personalizados que tú creas.
+- Una biblioteca de **181 ejercicios en 11 categorías** (Pecho, Espalda, Hombros, Bíceps, Tríceps, Antebrazos, Piernas, Abdominales, Cardio, Combate), más ejercicios personalizados que tú creas.
 - Los **ejercicios de fuerza** registran series, reps y peso (lbs). Los de **Cardio y Combate** se miden por tiempo y registran minutos (1–120).
-- **Demostraciones visuales**: 122 ejercicios tienen una demostración de inicio a fin que se abre con el botón ▶.
+- **Demostraciones visuales**: 152 ejercicios tienen una demostración de inicio a fin que se abre con el botón ▶.
 - **Seguimiento semanal** con barra de progreso, resumen semanal y exportación a CSV.
 - **Funciona con o sin cuenta**: sin cuenta todo se guarda en el dispositivo (almacenamiento local); con una cuenta gratuita todo se sincroniza en la nube y te sigue a cualquier dispositivo.
 - **Soporte para entrenadores**: los entrenadores tienen un código/enlace de invitación; los clientes que se registran con él quedan vinculados al entrenador, quien puede gestionar sus planes semanales.
@@ -52,7 +52,7 @@ Dentro de un día:
 ### Filas de ejercicios
 Cada ejercicio dentro de un día muestra:
 - **Asa de arrastre** — mantén presionado y arrastra para reordenar los ejercicios del día (funciona con el dedo en pantallas táctiles).
-- **Botón ▶ de demostración** — abre **"Cómo hacer este ejercicio"**, una demostración visual del rango completo de movimiento, de inicio a fin. 122 de los 159 ejercicios integrados tienen demostración; los de Cardio, Combate y los personalizados muestran "Aún no hay demostración disponible".
+- **Botón ▶ de demostración** — abre **"Cómo hacer este ejercicio"**, una demostración visual del rango completo de movimiento, de inicio a fin. 152 de los 181 ejercicios integrados tienen demostración; los de Cardio, Combate y los personalizados muestran "Aún no hay demostración disponible".
 - **Ejercicios de fuerza**: campos editables de **Series**, **Reps** (p. ej. "8-10"), **Peso** (lbs) y **Efectivas** — el número de series realmente completadas.
 - **Ejercicios de Cardio/Combate**: **Duración** editable en minutos (1–120) y los minutos realmente completados. Sin campo de peso.
 - **✓ Marcar como completado** — pone la fila en verde y suma al progreso semanal. Tócalo de nuevo para volver a incompleto.
@@ -81,7 +81,7 @@ Las semanas son semanas de calendario, de lunes a domingo, y avanzan solas: cada
 
 ### Plantillas de entrenamiento y Copiar la semana pasada
 Debajo de la lista de días, en la semana actual o en una futura:
-- **Plantillas de entrenamiento** abre un selector con tres semanas listas: **Clásico Push / Pull / Piernas** (6 días, unos 45-60 min), **Tren superior / inferior con recuperación activa** (tren superior lunes y jueves, tren inferior martes y viernes, cardio suave y core el miércoles, unos 45-60 min) y **Cuerpo completo 3 días (agenda ocupada)** (lunes, miércoles y viernes, cinco ejercicios, unos 30-40 min). "Usar este plan" pide un toque de confirmación ("¿Reemplazar esta semana?") y luego reemplaza los ejercicios de la semana que estás viendo; se borran el progreso, las series registradas y los pesos.
+- **Plantillas de entrenamiento** abre un selector con cinco semanas listas: **Clásico Push / Pull / Piernas** (6 días, unos 45-60 min), **Tren superior / inferior con recuperación activa** (tren superior lunes y jueves, tren inferior martes y viernes, cardio suave y core el miércoles, unos 45-60 min), **Cuerpo completo 3 días (agenda ocupada)** (lunes, miércoles y viernes, cinco ejercicios, unos 30-40 min), **En casa, sin equipo** (lunes, miércoles y viernes solo con el suelo, una pared y una silla, unos 30 min) y **Solo mancuernas** (4 días torso/pierna con un par de mancuernas, unos 40-50 min). "Usar este plan" pide un toque de confirmación ("¿Reemplazar esta semana?") y luego reemplaza los ejercicios de la semana que estás viendo; se borran el progreso, las series registradas y los pesos.
 - **Copiar la semana pasada** reemplaza la semana que ves con los ejercicios, el orden, los pesos y los días ocultos de la semana anterior, con el progreso en cero. Una confirmación indica qué semana se copia.
 - Los entrenadores tienen ambas acciones en su panel para el cliente seleccionado.
 
@@ -198,7 +198,7 @@ Deadlifts (Peso Muerto) 4×6-8 · Front Squats (Sentadillas Frontales) 3×8-10 �
 
 **¿Tengo que comenzar la nueva semana yo mismo?** No. Cada lunes comienza una semana nueva automáticamente con tus ejercicios y pesos conservados y el progreso reiniciado. "Reiniciar Esta Semana" solo borra el progreso de la semana actual. Las semanas pasadas siguen visibles en el navegador. ("Reiniciar Día" restaura los ejercicios *predeterminados* de ese día; úsalo solo si quieres descartar tus personalizaciones de ese día.)
 
-**Un ejercicio no tiene demostración.** 122 de 159 ejercicios tienen demo. Los de Cardio, Combate y los personalizados no — la app muestra "Aún no hay demostración disponible".
+**Un ejercicio no tiene demostración.** 152 de 181 ejercicios tienen demo. Los de Cardio, Combate y los personalizados no — la app muestra "Aún no hay demostración disponible".
 
 **¿Cómo cambio el idioma?** Toca el selector EN/ES en el encabezado. Toda la interfaz cambia al instante.
 

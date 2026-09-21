@@ -1,6 +1,6 @@
 # Gym Tracker — Exercise Guide (English)
 
-This guide covers all 159 exercises available in the Gym Tracker app (gymworkoutjm.vercel.app). Strength exercises log **Sets, Reps, and Weight (lbs)**. **Cardio** and **Combat** exercises are time-based and log **Duration in minutes (1–120)**. Most gym exercises (122 of 159) include a visual demo: tap the ▶ button on the exercise to open "How to do this exercise", which shows the full range of motion from start to finish. Cardio and Combat exercises have no demo images. To find any exercise, go to **"Add Exercise"** and use the search bar or the muscle-group filter.
+This guide covers all 181 exercises available in the Gym Tracker app (gymworkoutjm.vercel.app). Strength exercises log **Sets, Reps, and Weight (lbs)**. **Cardio** and **Combat** exercises are time-based and log **Duration in minutes (1–120)**. Most gym exercises (152 of 181) include a visual demo: tap the ▶ button on the exercise to open "How to do this exercise", which shows the full range of motion from start to finish. Cardio and Combat exercises have no demo images. To find any exercise, go to **"Add Exercise"** and use the search bar or the muscle-group filter.
 
 **Safety disclaimer:** This guide gives general technique pointers only — it is NOT medical advice. Always use weights you can control through a full range of motion, warm up before training, and stop if you feel sharp pain. Consult a qualified professional (doctor or certified trainer) for pain, injuries, or any health condition.
 
@@ -2088,3 +2088,216 @@ All Combat exercises are time-based in the app: plan rounds in minutes and log m
   - Sloppy technique once the heart rate spikes.
   - No rest structure — conditioning needs rounds, not chaos.
 - **Tip:** Mimic fight structure (5-minute rounds, 1-minute rest) as you advance; keep technique sharp even when exhausted.
+
+## Lower back (filed under Back)
+
+### Hyperextensions (Back Extensions) (Hiperextensiones)
+- **Muscles:** Lower back (erector spinae); glutes and hamstrings assist.
+- **Equipment:** Hyperextension bench (45-degree or horizontal).
+- **How to do it:**
+  1. Set the pad just below your hip bones so the hips can hinge freely.
+  2. Cross your arms on your chest and lower your torso until you feel a stretch in the hamstrings, back flat.
+  3. Rise until your body forms a straight line from head to heels; do not arch past neutral.
+- **Tip:** Squeeze the glutes at the top; hold a plate on your chest once 15 clean reps are easy.
+
+### Bodyweight Back Extensions (Extensiones de Espalda sin Banco)
+- **Muscles:** Lower back; glutes assist.
+- **Equipment:** None, a mat or the floor.
+- **How to do it:**
+  1. Lie face down, hands beside your temples or arms along your sides.
+  2. Lift chest and shoulders a few inches off the floor using the lower back, feet down.
+  3. Pause one second, lower slowly.
+- **Tip:** Small range, no neck craning; 12-20 reps per set.
+
+### Superman (Superman)
+- **Muscles:** Lower back, glutes, rear shoulders.
+- **Equipment:** None.
+- **How to do it:**
+  1. Lie face down with arms extended overhead.
+  2. Raise arms, chest and legs at the same time, squeezing the glutes.
+  3. Hold 2-3 seconds, lower with control.
+- **Tip:** Look at the floor to keep the neck neutral.
+
+### Seated Good Mornings (Buenos Días Sentado)
+- **Muscles:** Lower back; hamstrings and glutes assist less than in the standing version.
+- **Equipment:** Barbell, bench.
+- **How to do it:**
+  1. Sit on a bench with the bar across your upper back, feet wide and flat.
+  2. Hinge forward from the hips with a flat back until the torso is near parallel.
+  3. Return upright by driving the back into the bar.
+- **Tip:** Light weight; this is a control exercise, not a max lift.
+
+### Reverse Hyperextensions (Hiperextensiones Inversas)
+- **Muscles:** Lower back, glutes, hamstrings.
+- **Equipment:** Reverse hyper machine, or a high bench holding the edge.
+- **How to do it:**
+  1. Lie face down with hips at the edge of the pad, legs hanging.
+  2. Raise both legs behind you until they are in line with your torso, squeezing the glutes.
+  3. Lower slowly without swinging.
+- **Tip:** Great low-load option on deadlift-free days; 12-15 reps.
+
+### Stiff-Leg Good Mornings (Buenos Días con Piernas Rígidas)
+- **Muscles:** Hamstrings and lower back.
+- **Equipment:** Barbell.
+- **How to do it:**
+  1. Bar on the upper back, knees almost straight but not locked.
+  2. Hinge at the hips, pushing them back, until the hamstrings stop you.
+  3. Drive the hips forward to stand.
+- **Tip:** Keep the bar tight to the back and the spine neutral throughout.
+
+## Dumbbell-only additions
+
+### Dumbbell Romanian Deadlifts (Peso Muerto Rumano con Mancuernas)
+- **Muscles:** Hamstrings and glutes; lower back stabilizes.
+- **Equipment:** Two dumbbells.
+- **How to do it:**
+  1. Stand with dumbbells in front of the thighs, knees soft.
+  2. Push the hips back and slide the dumbbells down the legs to mid-shin, back flat.
+  3. Squeeze the glutes to return upright.
+- **Tip:** Dumbbells stay close to the legs the whole way.
+
+### Dumbbell Lunges (Zancadas con Mancuernas)
+- **Muscles:** Quads and glutes; hamstrings assist.
+- **Equipment:** Two dumbbells.
+- **How to do it:**
+  1. Step forward and lower until both knees are near 90 degrees.
+  2. Push through the front heel to return.
+  3. Alternate legs or finish one side first.
+- **Tip:** Keep the torso upright and the front knee tracking over the toes.
+
+### Dumbbell Step-Ups (Subidas al Cajón con Mancuernas)
+- **Muscles:** Quads and glutes.
+- **Equipment:** Two dumbbells, a box or bench at knee height.
+- **How to do it:**
+  1. Place one whole foot on the box.
+  2. Drive through that heel to stand on the box without pushing off the floor foot.
+  3. Lower under control and repeat.
+- **Tip:** Lower box for more speed, higher for more glute work.
+
+### Dumbbell Squats (Sentadillas con Mancuernas)
+- **Muscles:** Quads and glutes; core stabilizes.
+- **Equipment:** Two dumbbells held at the sides or at the shoulders.
+- **How to do it:**
+  1. Feet shoulder width, dumbbells at the sides.
+  2. Sit down between the heels until thighs are parallel or lower, chest up.
+  3. Stand by driving the floor away.
+- **Tip:** Holding the dumbbells at the shoulders makes it more like a front squat.
+
+### Dumbbell Floor Press (Press en el Suelo con Mancuernas)
+- **Muscles:** Chest and triceps.
+- **Equipment:** Two dumbbells; no bench needed.
+- **How to do it:**
+  1. Lie on the floor, knees bent, dumbbells over the chest.
+  2. Lower until the upper arms touch the floor, pause briefly.
+  3. Press back up.
+- **Tip:** The floor limits the range, which protects the shoulders; good home substitute for bench press.
+
+### Dumbbell Shoulder Press (Press de Hombros con Mancuernas)
+- **Muscles:** Shoulders (front and side delts); triceps assist.
+- **Equipment:** Two dumbbells, seated or standing.
+- **How to do it:**
+  1. Dumbbells at shoulder height, palms forward.
+  2. Press overhead until the arms are straight.
+  3. Lower to ear level under control.
+- **Tip:** Brace the core standing; do not arch the lower back.
+
+### Bent-Over Dumbbell Rows (Remo Inclinado con Mancuernas)
+- **Muscles:** Upper and middle back, lats; biceps assist.
+- **Equipment:** Two dumbbells.
+- **How to do it:**
+  1. Hinge forward with a flat back, dumbbells hanging below the shoulders.
+  2. Row both dumbbells to the hips, squeezing the shoulder blades.
+  3. Lower slowly.
+- **Tip:** Torso stays still; if it bobs, the weight is too heavy.
+
+### Dumbbell Pullovers (Pullover con Mancuerna)
+- **Muscles:** Chest and lats; triceps assist.
+- **Equipment:** One dumbbell, a bench or the floor.
+- **How to do it:**
+  1. Lie on the bench holding one dumbbell over the chest with both hands.
+  2. Lower it in an arc behind the head with a slight elbow bend until you feel a stretch.
+  3. Pull back over the chest.
+- **Tip:** Keep the ribs down; range comes from the shoulders, not the lower back.
+
+### Dumbbell Calf Raises (Elevaciones de Gemelos con Mancuernas)
+- **Muscles:** Calves.
+- **Equipment:** Dumbbells, a step optional.
+- **How to do it:**
+  1. Stand tall holding the dumbbells, balls of the feet on a step.
+  2. Rise as high as possible, pause.
+  3. Lower slowly below the step for a stretch.
+- **Tip:** Slow reps beat bouncing; 12-20 per set.
+
+### Dumbbell Rear Delt Raises (Elevaciones Posteriores con Mancuernas)
+- **Muscles:** Rear shoulders and upper back.
+- **Equipment:** Two light dumbbells.
+- **How to do it:**
+  1. Hinge forward or lie face down on an incline bench, dumbbells hanging.
+  2. Raise the arms out to the sides with a slight elbow bend until level with the shoulders.
+  3. Lower with control.
+- **Tip:** Light weight, strict form; the rear delts are small.
+
+### Dumbbell Triceps Kickbacks (Patada de Tríceps con Mancuerna)
+- **Muscles:** Triceps.
+- **Equipment:** One or two light dumbbells.
+- **How to do it:**
+  1. Hinge forward, upper arm parallel to the floor and tucked to the side.
+  2. Extend the forearm back until the arm is straight, squeeze.
+  3. Return to 90 degrees without dropping the elbow.
+- **Tip:** The upper arm must not move; this is an isolation exercise.
+
+## Home and body-weight additions
+
+### Incline Push-Ups (Flexiones Inclinadas)
+- **Muscles:** Chest, front shoulders, triceps.
+- **Equipment:** A bench, table or wall for the hands.
+- **How to do it:**
+  1. Hands on the raised surface, body in a straight line.
+  2. Lower the chest to the edge, elbows about 45 degrees from the torso.
+  3. Press back up.
+- **Tip:** The higher the surface, the easier; the beginner path to full push-ups.
+
+### Decline Push-Ups (Flexiones Declinadas)
+- **Muscles:** Upper chest, front shoulders, triceps.
+- **Equipment:** A chair or step for the feet.
+- **How to do it:**
+  1. Feet on the raised surface, hands on the floor under the shoulders.
+  2. Lower the chest toward the floor, core tight.
+  3. Press back to a straight line.
+- **Tip:** Harder than regular push-ups; keep hips from sagging.
+
+### Glute Kickbacks (Patada de Glúteo)
+- **Muscles:** Glutes; hamstrings assist.
+- **Equipment:** None (band optional).
+- **How to do it:**
+  1. On hands and knees, back flat.
+  2. Drive one heel up and back until the thigh is in line with the torso, squeezing the glute.
+  3. Lower without touching the knee down; switch sides after the set.
+- **Tip:** Do not arch the lower back to go higher.
+
+### Single-Leg Glute Bridges (Puente de Glúteo a Una Pierna)
+- **Muscles:** Glutes and hamstrings.
+- **Equipment:** None.
+- **How to do it:**
+  1. Lie on your back, one foot flat, the other leg extended.
+  2. Drive through the planted heel to lift the hips until the body is straight from shoulder to knee.
+  3. Lower slowly; keep the hips level.
+- **Tip:** Pause two seconds at the top.
+
+### Crossover Reverse Lunges (Zancadas Inversas Cruzadas)
+- **Muscles:** Glutes (especially the side), quads; lower back stabilizes.
+- **Equipment:** None.
+- **How to do it:**
+  1. Step one foot back and across behind the other leg, like a curtsy.
+  2. Lower until the front thigh is near parallel.
+  3. Push through the front heel to return.
+- **Tip:** Keep the front knee pointing forward.
+
+### Side Leg Raises (Elevaciones Laterales de Pierna)
+- **Muscles:** Outer hip and glutes; inner thigh on the lying version.
+- **Equipment:** None.
+- **How to do it:**
+  1. Lie on one side, legs stacked, head on the lower arm.
+  2. Raise the top leg toward the ceiling without rolling the hips back.
+  3. Lower slowly; 15-20 reps, then switch sides.
+- **Tip:** Toes pointing forward, not up, keeps the work on the glute.

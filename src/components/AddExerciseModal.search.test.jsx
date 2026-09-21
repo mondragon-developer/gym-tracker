@@ -37,10 +37,19 @@ describe('AddExerciseModal search across languages', () => {
         expect(rowTexts().some(text => text.includes('Sentadillas con Barra'))).toBe(true);
     });
 
-    it('finds exercises by their Spanish name while the UI is in English', () => {
+    it('finds exercises by their Spanish name while the UI is in English, and shows the matched name', () => {
         renderPicker('en');
         search('sentadilla');
         expect(rowTexts().some(text => text.includes('Barbell Squats'))).toBe(true);
         expect(rowTexts().some(text => text.includes('Bench Press'))).toBe(false);
+        const marks = [...document.querySelectorAll('mark')].map(m => m.textContent.toLowerCase());
+        expect(marks).toContain('sentadilla');
+    });
+
+    it('shows the English name marked when a Spanish UI search matches only the English name', () => {
+        renderPicker('es');
+        search('squat');
+        const marks = [...document.querySelectorAll('mark')].map(m => m.textContent.toLowerCase());
+        expect(marks).toContain('squat');
     });
 });
