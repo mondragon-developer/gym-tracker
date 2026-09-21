@@ -1,8 +1,8 @@
 # Gym Tracker — Guía de Ejercicios (Español)
 
-Esta guía cubre los 159 ejercicios disponibles en Gym Tracker. Los ejercicios de fuerza (Pecho, Espalda, Hombros, Bíceps, Tríceps, Antebrazos, Piernas, Abdominales) registran Series, Reps y Peso en libras (lbs). Los ejercicios de Cardio y Combate se miden por tiempo: registras la Duración en minutos (de 1 a 120).
+Esta guía cubre los 181 ejercicios disponibles en Gym Tracker. Los ejercicios de fuerza (Pecho, Espalda, Hombros, Bíceps, Tríceps, Antebrazos, Piernas, Abdominales) registran Series, Reps y Peso en libras (lbs). Los ejercicios de Cardio y Combate se miden por tiempo: registras la Duración en minutos (de 1 a 120).
 
-La mayoría de los ejercicios de gimnasio (122 de 159) tienen demostración visual: toca el botón ▶ del ejercicio para abrir "Cómo hacer este ejercicio", que muestra el rango completo de movimiento de inicio a fin. Los ejercicios de Cardio y Combate no tienen imágenes de demostración.
+La mayoría de los ejercicios de gimnasio (152 de 181) tienen demostración visual: toca el botón ▶ del ejercicio para abrir "Cómo hacer este ejercicio", que muestra el rango completo de movimiento de inicio a fin. Los ejercicios de Cardio y Combate no tienen imágenes de demostración.
 
 Para encontrar cualquier ejercicio, ve a "Agregar Ejercicio" y usa la barra de búsqueda o el filtro por grupo muscular. IMPORTANTE: los nombres de los ejercicios en la app están en inglés, así que busca con el nombre en inglés aunque tu interfaz esté en español.
 
@@ -2071,3 +2071,216 @@ Todos los ejercicios de esta categoría se registran por Duración en minutos (1
   - Transiciones rápidas entre estaciones, como en un combate.
   - Regula el ritmo: el objetivo es terminar todos los rounds.
 - **Consejo:** empieza con rounds de 3 minutos y dos estaciones; alarga a 5 minutos conforme mejore tu condición.
+
+## Espalda baja (dentro de Espalda)
+
+### Hiperextensiones (Hyperextensions (Back Extensions))
+- **Músculos:** espalda baja (erectores); glúteos e isquiotibiales como secundarios.
+- **Equipo:** banco de hiperextensiones (a 45 grados u horizontal).
+- **Cómo hacerlo:**
+  1. Ajusta la almohadilla justo debajo de las caderas para poder flexionar libremente.
+  2. Cruza los brazos sobre el pecho y baja el torso hasta sentir el estiramiento en los isquios, con la espalda recta.
+  3. Sube hasta formar una línea recta de la cabeza a los talones; no arquees más allá de neutro.
+- **Consejo:** aprieta los glúteos arriba; sostén un disco en el pecho cuando 15 reps limpias sean fáciles.
+
+### Extensiones de Espalda sin Banco (Bodyweight Back Extensions)
+- **Músculos:** espalda baja; glúteos como secundarios.
+- **Equipo:** ninguno, una colchoneta o el suelo.
+- **Cómo hacerlo:**
+  1. Acuéstate boca abajo, manos junto a las sienes o brazos a los lados.
+  2. Levanta pecho y hombros unos centímetros usando la espalda baja, con los pies apoyados.
+  3. Pausa un segundo y baja despacio.
+- **Consejo:** rango corto, sin forzar el cuello; 12-20 reps por serie.
+
+### Superman (Superman)
+- **Músculos:** espalda baja, glúteos y hombros posteriores.
+- **Equipo:** ninguno.
+- **Cómo hacerlo:**
+  1. Acuéstate boca abajo con los brazos extendidos al frente.
+  2. Eleva brazos, pecho y piernas a la vez apretando los glúteos.
+  3. Mantén 2-3 segundos y baja con control.
+- **Consejo:** mira al suelo para mantener el cuello neutro.
+
+### Buenos Días Sentado (Seated Good Mornings)
+- **Músculos:** espalda baja; isquios y glúteos participan menos que en la versión de pie.
+- **Equipo:** barra y banco.
+- **Cómo hacerlo:**
+  1. Siéntate con la barra sobre la espalda alta, pies separados y firmes.
+  2. Inclínate desde la cadera con la espalda recta hasta que el torso quede casi paralelo.
+  3. Vuelve empujando la espalda contra la barra.
+- **Consejo:** peso ligero; es un ejercicio de control, no de máximos.
+
+### Hiperextensiones Inversas (Reverse Hyperextensions)
+- **Músculos:** espalda baja, glúteos e isquiotibiales.
+- **Equipo:** máquina de hiperextensión inversa, o un banco alto sujetando el borde.
+- **Cómo hacerlo:**
+  1. Acuéstate boca abajo con las caderas en el borde y las piernas colgando.
+  2. Eleva ambas piernas hacia atrás hasta alinearlas con el torso, apretando los glúteos.
+  3. Baja despacio sin balancear.
+- **Consejo:** buena opción de baja carga en días sin peso muerto; 12-15 reps.
+
+### Buenos Días con Piernas Rígidas (Stiff-Leg Good Mornings)
+- **Músculos:** isquiotibiales y espalda baja.
+- **Equipo:** barra.
+- **Cómo hacerlo:**
+  1. Barra sobre la espalda alta, rodillas casi rectas sin bloquear.
+  2. Flexiona desde la cadera llevándola atrás hasta que los isquios te frenen.
+  3. Empuja la cadera al frente para volver de pie.
+- **Consejo:** barra pegada a la espalda y columna neutra todo el tiempo.
+
+## Adiciones solo con mancuernas
+
+### Peso Muerto Rumano con Mancuernas (Dumbbell Romanian Deadlifts)
+- **Músculos:** isquiotibiales y glúteos; la espalda baja estabiliza.
+- **Equipo:** dos mancuernas.
+- **Cómo hacerlo:**
+  1. De pie con las mancuernas frente a los muslos, rodillas suaves.
+  2. Lleva la cadera atrás y desliza las mancuernas por las piernas hasta media espinilla, espalda recta.
+  3. Aprieta los glúteos para volver arriba.
+- **Consejo:** las mancuernas van pegadas a las piernas todo el recorrido.
+
+### Zancadas con Mancuernas (Dumbbell Lunges)
+- **Músculos:** cuádriceps y glúteos; isquios como secundarios.
+- **Equipo:** dos mancuernas.
+- **Cómo hacerlo:**
+  1. Da un paso al frente y baja hasta que ambas rodillas queden cerca de 90 grados.
+  2. Empuja con el talón delantero para volver.
+  3. Alterna piernas o termina un lado primero.
+- **Consejo:** torso erguido y rodilla delantera alineada con la punta del pie.
+
+### Subidas al Cajón con Mancuernas (Dumbbell Step-Ups)
+- **Músculos:** cuádriceps y glúteos.
+- **Equipo:** dos mancuernas y un cajón o banco a la altura de la rodilla.
+- **Cómo hacerlo:**
+  1. Apoya el pie completo sobre el cajón.
+  2. Empuja con ese talón hasta quedar de pie arriba sin impulsarte con el pie del suelo.
+  3. Baja con control y repite.
+- **Consejo:** cajón más bajo para velocidad, más alto para más glúteo.
+
+### Sentadillas con Mancuernas (Dumbbell Squats)
+- **Músculos:** cuádriceps y glúteos; el core estabiliza.
+- **Equipo:** dos mancuernas a los lados o en los hombros.
+- **Cómo hacerlo:**
+  1. Pies a la anchura de los hombros, mancuernas a los lados.
+  2. Siéntate entre los talones hasta que los muslos queden paralelos o más abajo, pecho arriba.
+  3. Sube empujando el suelo.
+- **Consejo:** con las mancuernas en los hombros se parece más a una sentadilla frontal.
+
+### Press en el Suelo con Mancuernas (Dumbbell Floor Press)
+- **Músculos:** pecho y tríceps.
+- **Equipo:** dos mancuernas; no hace falta banco.
+- **Cómo hacerlo:**
+  1. Acuéstate en el suelo con las rodillas dobladas y las mancuernas sobre el pecho.
+  2. Baja hasta que los brazos toquen el suelo, pausa breve.
+  3. Empuja de vuelta arriba.
+- **Consejo:** el suelo limita el rango y protege los hombros; buen sustituto del press de banca en casa.
+
+### Press de Hombros con Mancuernas (Dumbbell Shoulder Press)
+- **Músculos:** hombros (deltoides anterior y lateral); tríceps como secundario.
+- **Equipo:** dos mancuernas, sentado o de pie.
+- **Cómo hacerlo:**
+  1. Mancuernas a la altura de los hombros, palmas al frente.
+  2. Empuja sobre la cabeza hasta extender los brazos.
+  3. Baja con control hasta la altura de las orejas.
+- **Consejo:** de pie, aprieta el core; no arquees la espalda baja.
+
+### Remo Inclinado con Mancuernas (Bent-Over Dumbbell Rows)
+- **Músculos:** espalda alta y media, dorsales; bíceps como secundario.
+- **Equipo:** dos mancuernas.
+- **Cómo hacerlo:**
+  1. Inclínate desde la cadera con la espalda recta, mancuernas colgando bajo los hombros.
+  2. Rema ambas mancuernas hacia la cadera juntando los omóplatos.
+  3. Baja despacio.
+- **Consejo:** el torso no se mueve; si se balancea, el peso es excesivo.
+
+### Pullover con Mancuerna (Dumbbell Pullovers)
+- **Músculos:** pecho y dorsales; tríceps como secundario.
+- **Equipo:** una mancuerna, banco o suelo.
+- **Cómo hacerlo:**
+  1. Acuéstate sosteniendo una mancuerna sobre el pecho con ambas manos.
+  2. Bájala en arco por detrás de la cabeza con los codos un poco flexionados hasta sentir el estiramiento.
+  3. Tráela de vuelta sobre el pecho.
+- **Consejo:** costillas abajo; el rango sale de los hombros, no de la espalda baja.
+
+### Elevaciones de Gemelos con Mancuernas (Dumbbell Calf Raises)
+- **Músculos:** gemelos.
+- **Equipo:** mancuernas, un escalón opcional.
+- **Cómo hacerlo:**
+  1. De pie con las mancuernas, la punta de los pies en un escalón.
+  2. Sube lo más alto posible y pausa.
+  3. Baja despacio por debajo del escalón para estirar.
+- **Consejo:** reps lentas mejor que rebotar; 12-20 por serie.
+
+### Elevaciones Posteriores con Mancuernas (Dumbbell Rear Delt Raises)
+- **Músculos:** deltoides posterior y espalda alta.
+- **Equipo:** dos mancuernas ligeras.
+- **Cómo hacerlo:**
+  1. Inclínate al frente o acuéstate boca abajo en un banco inclinado, mancuernas colgando.
+  2. Eleva los brazos a los lados con los codos ligeramente flexionados hasta la altura de los hombros.
+  3. Baja con control.
+- **Consejo:** peso ligero y forma estricta; el deltoides posterior es pequeño.
+
+### Patada de Tríceps con Mancuerna (Dumbbell Triceps Kickbacks)
+- **Músculos:** tríceps.
+- **Equipo:** una o dos mancuernas ligeras.
+- **Cómo hacerlo:**
+  1. Inclínate al frente con el brazo pegado al costado y paralelo al suelo.
+  2. Extiende el antebrazo hacia atrás hasta estirar el brazo y aprieta.
+  3. Vuelve a 90 grados sin bajar el codo.
+- **Consejo:** el brazo no se mueve; es un ejercicio de aislamiento.
+
+## Adiciones para casa y peso corporal
+
+### Flexiones Inclinadas (Incline Push-Ups)
+- **Músculos:** pecho, deltoides anterior y tríceps.
+- **Equipo:** un banco, mesa o pared para las manos.
+- **Cómo hacerlo:**
+  1. Manos en la superficie elevada, cuerpo en línea recta.
+  2. Baja el pecho hasta el borde con los codos a unos 45 grados del torso.
+  3. Empuja de vuelta.
+- **Consejo:** cuanto más alta la superficie, más fácil; es el camino de principiante hacia las flexiones completas.
+
+### Flexiones Declinadas (Decline Push-Ups)
+- **Músculos:** pecho superior, deltoides anterior y tríceps.
+- **Equipo:** una silla o escalón para los pies.
+- **Cómo hacerlo:**
+  1. Pies sobre la superficie elevada, manos en el suelo bajo los hombros.
+  2. Baja el pecho hacia el suelo con el core apretado.
+  3. Empuja hasta volver a la línea recta.
+- **Consejo:** más difíciles que las flexiones normales; no dejes caer la cadera.
+
+### Patada de Glúteo (Glute Kickbacks)
+- **Músculos:** glúteos; isquios como secundario.
+- **Equipo:** ninguno (banda opcional).
+- **Cómo hacerlo:**
+  1. En cuatro apoyos con la espalda recta.
+  2. Empuja un talón hacia arriba y atrás hasta alinear el muslo con el torso, apretando el glúteo.
+  3. Baja sin apoyar la rodilla; cambia de lado al terminar la serie.
+- **Consejo:** no arquees la espalda baja para subir más.
+
+### Puente de Glúteo a Una Pierna (Single-Leg Glute Bridges)
+- **Músculos:** glúteos e isquiotibiales.
+- **Equipo:** ninguno.
+- **Cómo hacerlo:**
+  1. Acuéstate boca arriba con un pie apoyado y la otra pierna extendida.
+  2. Empuja con el talón apoyado para elevar la cadera hasta alinear hombro y rodilla.
+  3. Baja despacio; mantén la cadera nivelada.
+- **Consejo:** pausa dos segundos arriba.
+
+### Zancadas Inversas Cruzadas (Crossover Reverse Lunges)
+- **Músculos:** glúteos (sobre todo el lateral) y cuádriceps; la espalda baja estabiliza.
+- **Equipo:** ninguno.
+- **Cómo hacerlo:**
+  1. Lleva un pie atrás y cruzado por detrás de la otra pierna, como una reverencia.
+  2. Baja hasta que el muslo delantero quede casi paralelo.
+  3. Empuja con el talón delantero para volver.
+- **Consejo:** la rodilla delantera apunta siempre al frente.
+
+### Elevaciones Laterales de Pierna (Side Leg Raises)
+- **Músculos:** cadera externa y glúteos; muslo interno en la versión acostada.
+- **Equipo:** ninguno.
+- **Cómo hacerlo:**
+  1. Acuéstate de lado con las piernas juntas y la cabeza sobre el brazo de abajo.
+  2. Eleva la pierna de arriba hacia el techo sin girar la cadera hacia atrás.
+  3. Baja despacio; 15-20 reps y cambia de lado.
+- **Consejo:** con la punta del pie al frente, no hacia arriba, el trabajo se queda en el glúteo.

@@ -26,7 +26,7 @@ R: Expande el día, toca el ícono **✏️**, selecciona hasta 3 grupos muscula
 R: Toca el ícono **✏️** de ese día y elige **Rest**.
 
 **P: ¿Cómo veo cómo se hace un ejercicio?**
-R: Toca el botón **▶** del ejercicio para abrir "Cómo hacer este ejercicio" — una demostración visual del movimiento completo. 122 de 159 ejercicios la tienen.
+R: Toca el botón **▶** del ejercicio para abrir "Cómo hacer este ejercicio" — una demostración visual del movimiento completo. 152 de 181 ejercicios la tienen.
 
 **P: ¿Por qué mi ejercicio no muestra demostración?**
 R: Los ejercicios de Cardio, Combate y los personalizados no tienen imágenes — la app muestra "Aún no hay demostración disponible". Igual puedo describirte la técnica si me preguntas.
@@ -56,7 +56,7 @@ R: Es la barra de guardado al pie. Los cambios se guardan solos un segundo despu
 R: Sí. Pulsa la flecha siguiente del navegador de semanas para avanzar, hasta 12 semanas por adelantado ("Planificando por adelantado"). La semana futura empieza como copia de tu último plan sin nada completado; edítala y se guarda. Cuando llega ese lunes, la semana abre tal como la planificaste. Los entrenadores pueden hacer lo mismo para un cliente desde su panel.
 
 **P: ¿Hay un plan listo con el que pueda empezar?**
-R: Sí, tres. Toca **Plantillas de entrenamiento** debajo de los días y elige **Clásico Push / Pull / Piernas** (6 días), **Tren superior / inferior con recuperación activa** (4 días más un miércoles suave) o **Cuerpo completo 3 días** (lunes, miércoles y viernes, 30-40 minutos). Tras un toque de confirmación reemplaza los ejercicios de la semana que estás viendo; se borran el progreso, las series registradas y los pesos.
+R: Sí, cinco. Toca **Plantillas de entrenamiento** debajo de los días y elige **Clásico Push / Pull / Piernas** (6 días), **Tren superior / inferior con recuperación activa** (4 días más un miércoles suave), **Cuerpo completo 3 días** (lunes, miércoles y viernes, 30-40 minutos), **En casa, sin equipo** (3 días con suelo, pared y silla) o **Solo mancuernas** (4 días con un par de mancuernas). Tras un toque de confirmación reemplaza los ejercicios de la semana que estás viendo; se borran el progreso, las series registradas y los pesos.
 
 **P: ¿Puedo reutilizar el entrenamiento de la semana pasada tal cual?**
 R: Sí. Toca **Copiar la semana pasada** debajo de los días y confirma. La semana actual (o futura) recibe los ejercicios de la semana pasada en el mismo orden y con los mismos pesos, con el progreso en cero.

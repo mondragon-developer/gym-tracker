@@ -3,7 +3,7 @@
  *
  * dbId (EXERCISE_DATABASE.id) -> source folder in the free dataset
  * (yuhonas/free-exercise-db). Each folder holds 0.jpg (start of the movement)
- * and 1.jpg (end). 122 of our 147 exercises are mapped to a correct or
+ * and 1.jpg (end). 152 of our 181 exercises are mapped to a correct or
  * same-movement demo; the rest (a few oddballs and most pure cardio) are
  * intentionally absent and fall back to no demo — better than a wrong one.
  *
@@ -148,5 +148,37 @@ export const MEDIA_FOLDERS = {
   198: 'Battling_Ropes',
   202: 'Bicycling',
   207: 'Sled_Push',
-  210: 'Rope_Jumping'
+  210: 'Rope_Jumping',
+  // Same-movement demos under a different source name
+  86: 'Butterfly',
+  33: 'EZ-Bar_Skullcrusher',
+  136: 'Weighted_Sissy_Squat',
+  141: 'Kettlebell_One-Legged_Deadlift',
+  185: 'Flat_Bench_Lying_Leg_Raise',
+  151: 'Push-Ups_-_Close_Triceps_Position',
+  186: 'Jackknife_Sit-Up',
+  // Lower back (filed under Back), dumbbell-only and home additions
+  223: 'Hyperextensions_Back_Extensions',
+  224: 'Hyperextensions_With_No_Hyperextension_Bench',
+  225: 'Superman',
+  226: 'Seated_Good_Mornings',
+  227: 'Reverse_Hyperextension',
+  228: 'Stiff_Leg_Barbell_Good_Morning',
+  229: 'Stiff-Legged_Dumbbell_Deadlift',
+  230: 'Dumbbell_Lunges',
+  231: 'Dumbbell_Step_Ups',
+  232: 'Dumbbell_Squat',
+  233: 'Dumbbell_Floor_Press',
+  234: 'Dumbbell_Shoulder_Press',
+  235: 'Bent_Over_Two-Dumbbell_Row',
+  236: 'Straight-Arm_Dumbbell_Pullover',
+  237: 'Standing_Dumbbell_Calf_Raise',
+  238: 'Dumbbell_Lying_Rear_Lateral_Raise',
+  239: 'Tricep_Dumbbell_Kickback',
+  240: 'Incline_Push-Up',
+  241: 'Decline_Push-Up',
+  242: 'Glute_Kickback',
+  243: 'Single_Leg_Glute_Bridge',
+  244: 'Crossover_Reverse_Lunge',
+  245: 'Side_Leg_Raises'
 };

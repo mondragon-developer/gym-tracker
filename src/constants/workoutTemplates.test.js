@@ -7,7 +7,7 @@ const validGroups = new Set(INDIVIDUAL_MUSCLE_GROUPS);
 
 describe('workout templates', () => {
   it('exposes the three default plans', () => {
-    expect(WORKOUT_TEMPLATES.map(tpl => tpl.id)).toEqual(['ppl', 'upper-lower', 'full-body-3']);
+    expect(WORKOUT_TEMPLATES.map(tpl => tpl.id)).toEqual(['ppl', 'upper-lower', 'full-body-3', 'home-bodyweight', 'dumbbell-only']);
     expect(getWorkoutTemplate('upper-lower').daysPerWeek).toBe(4);
     expect(getWorkoutTemplate('nope')).toBeNull();
   });
@@ -53,5 +53,20 @@ describe('workout templates', () => {
   it('keeps the busy-schedule plan short', () => {
     const plan = getWorkoutTemplate('full-body-3').build();
     DAYS_OF_WEEK.forEach(day => expect(plan[day].exercises.length).toBeLessThanOrEqual(5));
+  });
+
+  it('home and dumbbell templates only use exercises that match their equipment promise', async () => {
+    const eq = await import('../data/exerciseEquipment.js');
+    const equipment = eq.default ?? eq.EXERCISE_EQUIPMENT ?? Object.values(eq)[0];
+    const allowed = {
+      'home-bodyweight': new Set(['body weight', undefined]),
+      'dumbbell-only': new Set(['dumbbell', 'body weight', undefined])
+    };
+    Object.entries(allowed).forEach(([id, ok]) => {
+      const plan = getWorkoutTemplate(id).build();
+      DAYS_OF_WEEK.forEach(day => plan[day].exercises.forEach(item => {
+        expect(ok.has(equipment[item.dbId]), `${id}: ${item.name} uses ${equipment[item.dbId]}`).toBe(true);
+      }));
+    });
   });
 });

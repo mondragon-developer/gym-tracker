@@ -31,4 +31,10 @@ export const OVERRIDES = {
   209: '2142', // Ski Erg           -> ski ergometer
   202: '2138', // Cycling           -> stationary bike run v. 3
   203: '3224', // Jumping Jacks     -> jack jump
+  126: '3013', // Glute Bridges            -> low glute bridge on floor (our entry is the body-weight bridge; hip thrusts are the barbell one)
+  223: '0489', // Hyperextensions          -> hyperextension (bench back extension)
+  243: '3645', // Single-Leg Glute Bridges -> single leg bridge with outstretched leg
+  111: '0129', // Bench Dips               -> bench dip (knees bent), body weight rather than the weighted variant
+  179: '0003', // Bicycle Crunches         -> air bike (body weight; the band variant matched by name)
+  19: '0334', // Lateral Raises           -> dumbbell lateral raise (name matched the cable variant)
 };
