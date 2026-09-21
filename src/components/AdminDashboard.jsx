@@ -27,6 +27,7 @@ import { DAYS_OF_WEEK } from '../constants/AppConstants.js';
 import DayAccordion from './DayAccordion.jsx';
 import HiddenDaysStrip from './HiddenDaysStrip.jsx';
 import WorkoutTemplateModal from './WorkoutTemplateModal.jsx';
+import ImportPlanModal from './ImportPlanModal.jsx';
 import { getWorkoutTemplate } from '../constants/workoutTemplates.js';
 import AddExerciseModal from './AddExerciseModal.jsx';
 
@@ -317,19 +318,32 @@ export default function AdminDashboard({ onBack }) {
   };
 
   const [templatesOpen, setTemplatesOpen] = useState(false);
-  const applyTemplate = (templateId) => {
-    const template = getWorkoutTemplate(templateId);
-    if (!template) return;
-    setTemplatesOpen(false);
+  const [importOpen, setImportOpen] = useState(false);
+
+  // A client with no cloud plan yet gets a fresh history seeded with the
+  // new week; otherwise the viewed week is replaced in place.
+  const applyWeekPlan = (weekPlan) => {
     if (!history) {
       const fresh = WeekPlanService.migrate(null);
-      setHistory(WeekPlanService.setWeek(fresh, fresh.currentWeekStart, template.build()));
+      setHistory(WeekPlanService.setWeek(fresh, fresh.currentWeekStart, weekPlan));
       setViewedWeekStart(fresh.currentWeekStart);
       setIsDirty(true);
       setSaveState('idle');
       return;
     }
-    editViewedWeek(() => template.build());
+    editViewedWeek(() => weekPlan);
+  };
+
+  const applyTemplate = (templateId) => {
+    const template = getWorkoutTemplate(templateId);
+    if (!template) return;
+    setTemplatesOpen(false);
+    applyWeekPlan(template.build());
+  };
+
+  const applyImportedPlan = (weekPlan) => {
+    setImportOpen(false);
+    applyWeekPlan(weekPlan);
   };
 
   const handleToggleDay = (day) => setActiveDay(prev => (prev === day ? null : day));
@@ -781,6 +795,14 @@ export default function AdminDashboard({ onBack }) {
                         onConfirm={copyPreviousWeek}
                       />
                     )}
+                    <Button
+                      variant={ButtonVariant.SECONDARY}
+                      onClick={() => setImportOpen(true)}
+                      disabled={isPastWeek}
+                      style={{ fontSize: '13px' }}
+                    >
+                      {t('Import plan', language)}
+                    </Button>
                     <ConfirmButton
                       label={t('Reset to default', language)}
                       confirmLabel={t('Confirm reset?', language)}
@@ -851,6 +873,16 @@ export default function AdminDashboard({ onBack }) {
         onSelect={applyTemplate}
         language={language}
       />
+
+      {importOpen && (
+        <ImportPlanModal
+          isOpen={importOpen}
+          onClose={() => setImportOpen(false)}
+          onApply={applyImportedPlan}
+          existingWeek={plan ?? {}}
+          language={language}
+        />
+      )}
 
       {/* Add Exercise Modal — shared with the tracker */}
       <AddExerciseModal
