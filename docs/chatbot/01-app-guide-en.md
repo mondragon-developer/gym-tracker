@@ -27,7 +27,7 @@ The chatbot embedded in this app should:
 
 ### Header (top of the screen)
 - **Logo and title**: the Gym Tracker logo with the tagline "Track your weekly fitness progress".
-- **Language toggle (EN/ES)**: switches the whole interface between English and Spanish instantly. Exercise names in lists and search stay in English; many exercises also display a Spanish name.
+- **Language toggle (EN/ES)**: switches the whole interface between English and Spanish instantly. Exercise names in lists show their Spanish name where one exists, and search matches both the English and the Spanish name, accents ignored.
 - **Profile menu**: shows the signed-in account and contains **Sign Out**. If not signed in, the app shows the sign-in screen first (see Accounts below).
 - **🛡️ Admin / 🏋️ Trainer button**: visible only to admins and trainers; opens their management panel. Regular users never see it.
 
@@ -45,7 +45,7 @@ Each day of the week is a collapsible card (accordion) labeled with the day name
 
 Inside a day:
 - **Add Exercise** — opens the exercise picker (see below).
-- **Reset Day** — restores that single day to the default plan after a confirmation ("Are you sure you want to reset this day's exercises?").
+- **Reset Day** — restores that single day to the default plan at once; a toast at the bottom offers **Undo** for a few seconds. Deleting an exercise works the same way: it goes immediately, with Undo in the toast.
 - **✏️ Change muscle group** — lets you pick **up to 3 muscle groups** for that day from: Rest, Chest, Back, Shoulders, Biceps, Triceps, Forearms, Legs, Abs, Cardio, Combat. Choose "Rest" to make it a rest day. Press **Done** to confirm.
 - If a day has no exercises it shows "No exercises for today — Add an exercise to get started!".
 
@@ -61,7 +61,7 @@ Each exercise inside a day shows:
 
 ### Add Exercise modal
 Opened with **"Add Exercise"** on any day:
-1. **Search bar** ("Search exercises...") — type any exercise name for instant filtering with the matching text highlighted. Note: exercise names are searched in **English** (e.g. search "Squats", not "Sentadillas").
+1. **Search bar** ("Search exercises...") — type any exercise name for instant filtering with the matching text highlighted. Search matches the **English or Spanish** name ("Squats" and "Sentadillas" both find Barbell Squats), ignoring accents and case.
 2. **Filters** — a **muscle-group dropdown** (preselected to the day you opened it from) and an **equipment dropdown** (barbell, dumbbell, cable, machines, body weight, ...). Both combine with the search bar.
 3. **Defaults** — before adding, set **Target Sets (1–10)** and **Target Reps (1–20)**. Cardio/Combat exercises show a **Target Duration (1–120 minutes)** selector instead.
 4. **Custom Exercise tab** — create your own exercise: enter a name, sets, and reps, then **Add to Workout**. Custom exercises have no demo image.
@@ -74,10 +74,10 @@ The **📊 Weekly Summary** button below the days opens a report of the current 
 - **Download CSV** — exports the summary as a CSV file for Excel/Sheets.
 
 ### Rest timer (⏱️)
-Below the weekly progress bar. Tap a preset (**0:30 / 1:00 / 1:30 / 2:00**), then **Start**; **Pause**/**Resume** and **Reset** are available, and a short sound plus a red "Time's up!" cue mark the end of the rest. It keeps running while you open or close days.
+Below the weekly progress bar. Tap a preset (**0:30 / 1:00 / 1:30 / 2:00**), then **Start**; **Pause**/**Resume** and **Reset** are available. When the rest ends the whole screen blinks red with a big message ("Let's go!" by default) and the phone vibrates; the screen keeps blinking until you tap it (or press Enter or Escape). A short beep also plays where the phone allows sound. The **Message** button next to the timer lets you type your own end-of-rest text, remembered on that device. It keeps running while you open or close days.
 
 ### 🔄 Weeks and Restart This Week
-Weeks are calendar weeks, Monday to Sunday, and they advance on their own: every Monday the app opens on the new week with **all your exercises and weights carried forward and only the completion status cleared**, so you can apply progressive overload without rebuilding your plan. The finished week is archived and stays viewable (read-only) through the week navigator. The **"Restart This Week"** button clears completion and logged sets for the current week only, keeping exercises and weights; a confirmation modal explains this before anything changes.
+Weeks are calendar weeks, Monday to Sunday, and they advance on their own: every Monday the app opens on the new week with **all your exercises and weights carried forward and only the completion status cleared**, so you can apply progressive overload without rebuilding your plan. The finished week is archived and stays viewable (read-only) through the week navigator. The **"Restart This Week"** button clears completion and logged sets for the current week only, keeping exercises and weights; it applies at once and a toast offers **Undo** for a few seconds.
 
 ### Workout templates and Copy last week
 Under the day list, on the current week or a future week:

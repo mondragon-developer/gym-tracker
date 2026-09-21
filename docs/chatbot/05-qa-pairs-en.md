@@ -31,8 +31,14 @@ A: Tap the **▶** button on the exercise to open "How to do this exercise" — 
 **Q: Why doesn't my exercise show a demo?**
 A: Cardio, Combat, and custom exercises don't have demo images — the app shows "No demonstration available yet". I can still describe the technique if you ask me.
 
-**Q: I searched in Spanish and found nothing.**
-A: Exercise names in the app are in English — search "Squats" instead of "Sentadillas". Ask me and I'll tell you the English name of any exercise.
+**Q: Can I search exercises in Spanish?**
+A: Yes. The search box matches both the English and the Spanish name, ignoring accents, so "sentadilla" and "squat" both find Barbell Squats. A few exercises have no Spanish name yet; ask me and I'll tell you the English one.
+
+**Q: I deleted an exercise by mistake.**
+A: Tap **Undo** in the toast that appears at the bottom right after deleting (it stays for a few seconds). The same Undo appears after Reset Day and Restart This Week.
+
+**Q: How do I change sets, reps or weight quickly on my phone?**
+A: Each field has minus and plus buttons on its sides and opens the number keypad. Weight steps by 5 lb or 2.5 kg; a rep range like 8-10 moves both numbers at once.
 
 **Q: How do I change the app language?**
 A: Tap the **EN/ES** toggle in the header — the whole interface switches instantly.
@@ -63,6 +69,9 @@ A: Yes. Tap **Copy last week** under the days and confirm. The current (or futur
 
 **Q: Can I see how an exercise is done before adding it?**
 A: Yes. In the Add Exercise picker, tap the **▶** button on the right of an exercise to open its demo. Tapping the row itself adds it.
+
+**Q: I do not hear the rest timer. How do I know the rest is over?**
+A: The screen blinks red with a big message ("Let's go!") until you tap it, and the phone vibrates. Phones on silent mute the beep, but the blinking screen always shows. Use the **Message** button next to the timer to change the text.
 
 **Q: How do I see past weeks?**
 A: Use the arrows in the week navigator ("Week of …"). Past weeks are read-only; tap **Back to current week** to edit again.

@@ -31,8 +31,14 @@ R: Toca el botón **▶** del ejercicio para abrir "Cómo hacer este ejercicio" 
 **P: ¿Por qué mi ejercicio no muestra demostración?**
 R: Los ejercicios de Cardio, Combate y los personalizados no tienen imágenes — la app muestra "Aún no hay demostración disponible". Igual puedo describirte la técnica si me preguntas.
 
-**P: Busqué en español y no encontré nada.**
-R: Los nombres de los ejercicios en la app están en inglés — busca "Squats" en lugar de "Sentadillas". Pregúntame y te digo el nombre en inglés de cualquier ejercicio.
+**P: ¿Puedo buscar ejercicios en español?**
+R: Sí. El buscador encuentra tanto el nombre en inglés como en español, sin importar acentos, así que "sentadilla" y "squat" encuentran Barbell Squats. Algunos ejercicios aún no tienen nombre en español; pregúntame y te digo el nombre en inglés.
+
+**P: Eliminé un ejercicio por error.**
+R: Toca **Deshacer** en el aviso que aparece al pie justo después de eliminar (dura unos segundos). El mismo Deshacer aparece tras Reiniciar Día y Reiniciar Esta Semana.
+
+**P: ¿Cómo cambio series, reps o peso rápido desde el teléfono?**
+R: Cada campo tiene botones de menos y más a los lados y abre el teclado numérico. El peso avanza de 5 lb o 2,5 kg; un rango de reps como 8-10 mueve los dos números a la vez.
 
 **P: ¿Cómo cambio el idioma de la app?**
 R: Toca el selector **EN/ES** en el encabezado — toda la interfaz cambia al instante.
@@ -63,6 +69,9 @@ R: Sí. Toca **Copiar la semana pasada** debajo de los días y confirma. La sema
 
 **P: ¿Puedo ver cómo se hace un ejercicio antes de agregarlo?**
 R: Sí. En el selector de Agregar Ejercicio, toca el botón **▶** a la derecha del ejercicio para abrir su demostración. Tocar la fila lo agrega.
+
+**P: No escucho el temporizador de descanso. ¿Cómo sé que terminó?**
+R: La pantalla parpadea en rojo con un mensaje grande ("¡Vamos!") hasta que la tocas, y el teléfono vibra. Los teléfonos en silencio apagan la señal sonora, pero la pantalla parpadeante siempre aparece. Usa el botón **Mensaje** junto al temporizador para cambiar el texto.
 
 **P: ¿Cómo veo semanas pasadas?**
 R: Usa las flechas del navegador de semanas ("Semana del …"). Las semanas pasadas son de solo lectura; toca **Volver a la semana actual** para editar de nuevo.

@@ -40,7 +40,7 @@ const buttonStyle = (variant, disabled) => ({
   whiteSpace: 'nowrap'
 });
 
-const SaveStatusBar = ({ saveState, lastSavedAt, onSave, onReload, onOverwrite, language = 'en' }) => {
+const SaveStatusBar = ({ saveState, lastSavedAt, onSave, onReload, onOverwrite, onJumpToToday, language = 'en' }) => {
   let message;
   let palette;
   let actions;
@@ -130,9 +130,29 @@ const SaveStatusBar = ({ saveState, lastSavedAt, onSave, onReload, onOverwrite, 
         boxShadow: '0 -6px 16px rgba(15, 23, 42, 0.08)'
       }}
     >
-      <span style={{ color: palette.color, fontSize: '14px', fontWeight: 600 }}>
-        {message}
-      </span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+        {onJumpToToday && (
+          <button
+            type="button"
+            onClick={onJumpToToday}
+            style={{
+              padding: '6px 12px',
+              borderRadius: '999px',
+              border: '1px solid #a5f3fc',
+              backgroundColor: '#ecfeff',
+              color: '#0e7490',
+              fontSize: '13px',
+              fontWeight: 700,
+              cursor: 'pointer'
+            }}
+          >
+            {t('Today', language)}
+          </button>
+        )}
+        <span style={{ color: palette.color, fontSize: '14px', fontWeight: 600 }}>
+          {message}
+        </span>
+      </div>
       <div style={{ display: 'flex', gap: '8px' }}>
         {actions}
       </div>

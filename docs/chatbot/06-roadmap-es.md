@@ -16,6 +16,11 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 - **Selector de unidades kg/lbs** en el encabezado (solo cambia la etiqueta del campo de peso)
 - Barra de progreso semanal, 📊 Resumen Semanal con desglose de series por grupo muscular y **exportación CSV del resumen**
 - **Semanas de calendario** (de lunes a domingo) que comienzan solas cada lunes con el plan y los pesos arrastrados; historial semanal con fechas y semanas pasadas de solo lectura; **Reiniciar Esta Semana** borra solo el progreso de la semana actual
+- **Búsqueda en inglés o español**, sin importar acentos, en el selector de ejercicios
+- **Entrada con un pulgar**: los campos de series, reps, peso y minutos tienen botones de menos/más y abren el teclado numérico en el teléfono
+- **Deshacer en vez de confirmar**: eliminar un ejercicio, Reiniciar Día y Reiniciar Esta Semana se aplican al momento con un aviso de Deshacer
+- **Avisos del temporizador**: al terminar el descanso la pantalla parpadea en rojo con un mensaje grande personalizable ("¡Vamos!") hasta que se toca, el teléfono vibra y suena una señal cuando el sonido está permitido
+- **Botón Hoy** en la barra de guardado que salta al día de hoy; encabezado compacto en el teléfono
 - **Plantillas de entrenamiento**: Clásico Push/Pull/Piernas (6 días), Tren superior/inferior con recuperación activa (4 días + miércoles suave), Cuerpo completo 3 días (30-40 min); se aplican a la semana que se está viendo desde el tracker o el panel de entrenador
 - **Copiar la semana pasada**: un toque reutiliza los ejercicios, el orden y los pesos de la semana anterior con el progreso en cero
 - **Vista previa de la demostración en el selector**: el botón ▶ de una fila abre el cómo-hacerlo antes de agregar el ejercicio

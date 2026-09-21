@@ -16,6 +16,11 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 - **kg/lbs unit toggle** in the header (display-only label for the weight field)
 - Weekly progress bar, 📊 Weekly Summary with sets-per-muscle-group breakdown, and **CSV export of the weekly summary**
 - **Calendar weeks** (Monday to Sunday) that start on their own every Monday with the plan and weights carried forward; dated weekly history with read-only past weeks; **Restart This Week** clears the current week's progress only
+- **Search in English or Spanish**, accent-insensitive, in the exercise picker
+- **One-thumb entry**: sets, reps, weight and minutes fields have minus/plus buttons and open the number keypad on phones
+- **Undo instead of confirm**: deleting an exercise, Reset Day and Restart This Week apply at once with an Undo toast
+- **Rest timer cues**: when the rest ends the screen blinks red with a big customizable message ("Let's go!") until tapped, the phone vibrates, and a beep plays where sound is allowed
+- **Today button** in the save bar jumps to today's day; compact header on phones
 - **Workout templates**: Classic Push/Pull/Legs (6 days), Upper/Lower with active recovery (4 days + light Wednesday), Full body 3 days (30-40 min); applied to the viewed week from the tracker or the trainer panel
 - **Copy last week**: one tap reuses the previous week's exercises, order and weights with completion cleared
 - **Demo preview in the exercise picker**: the ▶ button on a row opens the how-to before the exercise is added

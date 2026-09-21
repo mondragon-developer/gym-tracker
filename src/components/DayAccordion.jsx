@@ -23,7 +23,7 @@ import { translateExercise, translateMuscleGroup } from '../translations/exercis
 /**
  * An accordion component for a single day's workout plan.
  */
-const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, onOpenAddExercise, activeDayRef, language = 'en', readOnly = false, date }) => {
+const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, onOpenAddExercise, onExerciseDeleted, activeDayRef, language = 'en', readOnly = false, date }) => {
     const [showMuscleGroupDropdown, setShowMuscleGroupDropdown] = useState(false);
 
     // Touch sensor with delay so finger drag doesn't fight scroll on mobile.
@@ -49,8 +49,12 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
     };
 
     const handleDeleteExercise = (exerciseId) => {
+        const removed = data.exercises.find(ex => ex.id === exerciseId);
         const updatedExercises = data.exercises.filter(ex => ex.id !== exerciseId);
         onUpdateDay(day, { ...data, exercises: updatedExercises });
+        // Lets the owner offer Undo; called after the update so it can
+        // snapshot the pre-delete state from its own closure.
+        if (removed && typeof onExerciseDeleted === 'function') onExerciseDeleted(day, removed);
     };
     
     const parseSelectedMuscleGroups = (nameString) => {

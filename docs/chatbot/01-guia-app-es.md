@@ -27,7 +27,7 @@ El chatbot integrado en esta app debe:
 
 ### Encabezado (parte superior)
 - **Logo y título**: el logo de Gym Tracker con el lema "Registra tu progreso fitness semanal".
-- **Selector de idioma (EN/ES)**: cambia toda la interfaz entre inglés y español al instante. Los nombres de los ejercicios en listas y búsqueda están en inglés; muchos también muestran su nombre en español.
+- **Selector de idioma (EN/ES)**: cambia toda la interfaz entre inglés y español al instante. Los nombres de los ejercicios en las listas se muestran en español cuando existe traducción, y la búsqueda encuentra tanto el nombre en inglés como en español, sin importar acentos.
 - **Menú de perfil**: muestra la cuenta activa y contiene **Cerrar Sesión**. Si no has iniciado sesión, la app muestra primero la pantalla de inicio de sesión (ver Cuentas más abajo).
 - **Botón 🛡️ Admin / 🏋️ Entrenador**: visible solo para administradores y entrenadores; abre su panel de gestión. Los usuarios normales no lo ven.
 
@@ -45,7 +45,7 @@ Cada día de la semana es una tarjeta plegable (acordeón) con el nombre del dí
 
 Dentro de un día:
 - **Agregar Ejercicio** — abre el selector de ejercicios (ver más abajo).
-- **Reiniciar Día** — restaura ese día al plan predeterminado tras una confirmación ("¿Estás seguro de que quieres reiniciar los ejercicios de este día?").
+- **Reiniciar Día** — restaura ese día al plan predeterminado de inmediato; un aviso al pie ofrece **Deshacer** durante unos segundos. Eliminar un ejercicio funciona igual: se va al momento, con Deshacer en el aviso.
 - **✏️ Cambiar grupo muscular** — permite elegir **hasta 3 grupos musculares** para ese día entre: Descanso (Rest), Pecho, Espalda, Hombros, Bíceps, Tríceps, Antebrazos, Piernas, Abdominales, Cardio, Combate. Elige "Rest" para convertirlo en día de descanso. Pulsa **Listo** para confirmar.
 - Si un día no tiene ejercicios muestra "Sin ejercicios para hoy — ¡Agrega un ejercicio para comenzar!".
 
@@ -61,7 +61,7 @@ Cada ejercicio dentro de un día muestra:
 
 ### Modal Agregar Ejercicio
 Se abre con **"Agregar Ejercicio"** en cualquier día:
-1. **Barra de búsqueda** ("Buscar ejercicios...") — escribe el nombre para filtrar al instante, con el texto coincidente resaltado. Importante: la búsqueda usa los nombres en **inglés** (busca "Squats", no "Sentadillas").
+1. **Barra de búsqueda** ("Buscar ejercicios...") — escribe el nombre para filtrar al instante, con el texto coincidente resaltado. La búsqueda encuentra el nombre en **inglés o en español** ("Squats" y "Sentadillas" encuentran Barbell Squats), sin importar acentos ni mayúsculas.
 2. **Filtros** — un desplegable de **grupo muscular** (preseleccionado según el día) y un desplegable de **equipo** (barra, mancuerna, cable, máquinas, peso corporal, ...). Ambos se combinan con la búsqueda.
 3. **Valores por defecto** — antes de agregar, define **Series Objetivo (1–10)** y **Reps Objetivo (1–20)**. Los ejercicios de Cardio/Combate muestran en su lugar un selector de **Duración Objetivo (1–120 minutos)**.
 4. **Pestaña Ejercicio Personalizado** — crea tu propio ejercicio: escribe nombre, series y reps, y pulsa **Agregar al Entrenamiento**. Los ejercicios personalizados no tienen imagen de demostración.
@@ -74,10 +74,10 @@ El botón **📊 Resumen Semanal**, debajo de los días, abre un reporte de la s
 - **Descargar CSV** — exporta el resumen como archivo CSV para Excel/Sheets.
 
 ### Temporizador de descanso (⏱️)
-Debajo de la barra de progreso semanal. Elige un preset (**0:30 / 1:00 / 1:30 / 2:00**) y pulsa **Iniciar**; hay **Pausar**/**Reanudar** y **Reiniciar**, y al terminar suena una señal y aparece el aviso rojo "¡Tiempo!". Sigue corriendo aunque abras o cierres días.
+Debajo de la barra de progreso semanal. Elige un preset (**0:30 / 1:00 / 1:30 / 2:00**) y pulsa **Iniciar**; hay **Pausar**/**Reanudar** y **Reiniciar**. Al terminar, toda la pantalla parpadea en rojo con un mensaje grande ("¡Vamos!" por defecto) y el teléfono vibra; la pantalla sigue parpadeando hasta que la tocas (o pulsas Enter o Escape). También suena una señal corta cuando el teléfono lo permite. El botón **Mensaje** junto al temporizador permite escribir tu propio texto de fin de descanso, que se recuerda en ese dispositivo. Sigue corriendo aunque abras o cierres días.
 
 ### 🔄 Semanas y Reiniciar Esta Semana
-Las semanas son semanas de calendario, de lunes a domingo, y avanzan solas: cada lunes la app abre en la semana nueva **conservando todos tus ejercicios y pesos y reiniciando solo el estado de completado**, para que puedas aplicar sobrecarga progresiva sin rearmar tu plan. La semana terminada queda archivada y visible (solo lectura) en el navegador de semanas. El botón **"Reiniciar Esta Semana"** borra el progreso y las series registradas solo de la semana actual, conservando ejercicios y pesos; un modal pide confirmación antes de cambiar nada.
+Las semanas son semanas de calendario, de lunes a domingo, y avanzan solas: cada lunes la app abre en la semana nueva **conservando todos tus ejercicios y pesos y reiniciando solo el estado de completado**, para que puedas aplicar sobrecarga progresiva sin rearmar tu plan. La semana terminada queda archivada y visible (solo lectura) en el navegador de semanas. El botón **"Reiniciar Esta Semana"** borra el progreso y las series registradas solo de la semana actual, conservando ejercicios y pesos; se aplica de inmediato y un aviso ofrece **Deshacer** durante unos segundos.
 
 ### Plantillas de entrenamiento y Copiar la semana pasada
 Debajo de la lista de días, en la semana actual o en una futura:
