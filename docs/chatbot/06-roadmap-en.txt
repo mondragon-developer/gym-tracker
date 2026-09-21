@@ -40,19 +40,22 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 - Password recovery by email
 - Trainer accounts with invite codes/links and client plan management; admin dashboard
 - Full English/Spanish interface toggle
-- Installable PWA that works offline
+- Installable PWA that works offline; open tabs and installed apps pick up a new version within minutes
+- **Dark mode** and an accessible color system: System / Light / Dark switch in the header next to the unit toggle, every text and control at WCAG AA contrast in both themes
+- **Import plan from this assistant**: ask for a plan, the answer ends with a GYMPLAN block; tap Copy, then paste anywhere on the app screen (or open Import plan and tap Paste from clipboard); every line is checked against the library, and per day the plan can replace, add to, or skip that day; Undo afterwards. Trainers have the same button in the client editor
+- **Progress tab** in Weekly Summary: volume per week as a chart with a table, and per exercise the volume trend, best weight, last weight and change, with CSV export
+- **Compact day cards** on phones so several exercises fit on one screen
 
 ## Planned (on the roadmap, no dates promised)
 
-- **AI exercise finder** — ask for exercises in plain words ("3 chest exercises with dumbbells") and add the picks to a day in one tap; the picks will come from the app's own library so demos and equipment data apply
-- **Workout analytics** — progress charts and performance metrics over time
+- **Plan link from the coach** — a link in the assistant's answer that opens the app with the plan already loaded, so no copy and paste
+- **More analytics** — per-muscle-group volume, personal records and longer ranges on top of the Progress tab
 - **Animated demos** — upgrading exercise how-tos from still images to looping video/GIF
 - **More workout split templates** — beyond the five included (Push/Pull/Legs, Upper/Lower, Full body 3 days, Home with no equipment, Dumbbells only), for example a 5-day split or a kettlebell week
 - **Social features** — sharing workouts and progress
-- **Export to PDF** (CSV already exists for the weekly summary) and full data backup/restore
+- **Export to PDF** (CSV already exists for the weekly summary and the progress table) and full data backup/restore
 - **Nutrition tracking** — basic meal and calorie logging
 - **Achievements** — milestones and badges
-- **Modern, accessible colors and dark mode** — a refreshed palette that meets WCAG AA contrast in light and dark, status shown with icons and text and not color alone, dark mode following the phone setting with a manual switch
 - **Advanced exercise filtering** — by equipment or difficulty
 
 ## Not in the app (and how to answer)
@@ -64,7 +67,7 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 ## Common feature questions — ready answers
 
 **Q: Can I see charts of my progress?**
-A: Not yet — workout analytics with progress charts are planned. Today you can review past weeks in the navigator and download the weekly summary as CSV to chart it in Excel/Sheets.
+A: Yes. Open **Weekly Summary** and tap the **Progress** tab: volume per week as a chart, and per exercise the trend, best weight, last weight and change. It appears once two weeks have logged sets. **Download progress CSV** exports the same numbers.
 
 **Q: Are the exercise demos videos?**
 A: They're high-quality still sequences showing the full range of motion. Animated video/GIF demos are planned.
@@ -73,7 +76,7 @@ A: They're high-quality still sequences showing the full range of motion. Animat
 A: Yes — the rest timer sits under the weekly progress bar. Pick a preset (0:30, 1:00, 1:30 or 2:00), tap Start, and it beeps when the rest is over. Pause/Resume and Reset are included.
 
 **Q: Is there a dark mode?**
-A: Not yet — theme customization including dark mode is planned.
+A: Yes. The header has a **System / Light / Dark** button next to the unit toggle. System follows your phone's setting.
 
 **Q: Can I export my workouts?**
 A: The weekly summary exports to CSV today (📊 Weekly Summary → Download CSV). PDF export and full backup/restore are planned.

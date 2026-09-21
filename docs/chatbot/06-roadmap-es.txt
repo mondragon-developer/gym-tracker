@@ -40,19 +40,22 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 - Recuperación de contraseña por correo
 - Cuentas de entrenador con códigos/enlaces de invitación y gestión de planes de clientes; panel de administrador
 - Interfaz completa en inglés/español con selector
-- PWA instalable que funciona sin conexión
+- PWA instalable que funciona sin conexión; las pestañas abiertas y la app instalada toman la versión nueva en minutos
+- **Modo oscuro** y un sistema de colores accesible: botón Sistema / Claro / Oscuro en el encabezado junto al selector de unidades, todo el texto y los controles con contraste WCAG AA en ambos temas
+- **Importar plan desde este asistente**: pide un plan, la respuesta termina con un bloque GYMPLAN; toca Copiar y luego pega en cualquier parte de la pantalla de la app (o abre Importar plan y toca Pegar desde el portapapeles); cada línea se comprueba contra la biblioteca, y por día el plan puede reemplazar, añadirse u omitirse; Deshacer después. Los entrenadores tienen el mismo botón en el editor del cliente
+- **Pestaña Progreso** en Resumen Semanal: volumen por semana en gráfica con tabla, y por ejercicio la tendencia del volumen, mejor peso, último peso y cambio, con exportación a CSV
+- **Tarjetas de día compactas** en el teléfono para que varios ejercicios quepan en una pantalla
 
 ## Planeado (en la hoja de ruta, sin fechas prometidas)
 
-- **Buscador de ejercicios con IA** — pedir ejercicios con palabras normales ("3 ejercicios de pecho con mancuernas") y agregar la selección a un día con un toque; la selección saldrá de la biblioteca de la app para que apliquen las demostraciones y los datos de equipo
-- **Analíticas de entrenamiento** — gráficas de progreso y métricas de rendimiento en el tiempo
+- **Enlace del plan desde el coach** — un enlace en la respuesta del asistente que abre la app con el plan ya cargado, sin copiar y pegar
+- **Más analíticas** — volumen por grupo muscular, récords personales y rangos más largos sobre la pestaña Progreso
 - **Demos animadas** — pasar las demostraciones de imágenes fijas a video/GIF en bucle
 - **Más plantillas de rutinas** — además de las cinco incluidas (Push/Pull/Piernas, Torso/Pierna, Cuerpo completo 3 días, En casa sin equipo, Solo mancuernas), por ejemplo una rutina dividida de 5 días o una semana con kettlebell
 - **Funciones sociales** — compartir entrenamientos y progreso
 - **Exportar a PDF** (el CSV ya existe para el resumen semanal) y respaldo/restauración completos de datos
 - **Registro de nutrición** — registro básico de comidas y calorías
 - **Logros** — hitos e insignias
-- **Colores modernos y accesibles con modo oscuro** — una paleta renovada que cumple el contraste WCAG AA en claro y oscuro, estados mostrados con ícono y texto y no solo por color, modo oscuro según el ajuste del teléfono con un interruptor manual
 - **Filtros avanzados de ejercicios** — por equipo o dificultad
 
 ## No está en la app (y cómo responder)
@@ -64,7 +67,7 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 ## Preguntas comunes sobre funciones — respuestas listas
 
 **P: ¿Puedo ver gráficas de mi progreso?**
-R: Aún no — las analíticas con gráficas de progreso están planeadas. Hoy puedes revisar semanas pasadas en el navegador y descargar el resumen semanal en CSV para graficarlo en Excel/Sheets.
+R: Sí. Abre **Resumen Semanal** y toca la pestaña **Progreso**: volumen por semana en una gráfica, y por ejercicio la tendencia, el mejor peso, el último peso y el cambio. Aparece cuando dos semanas tienen series registradas. **Descargar CSV de progreso** exporta los mismos números.
 
 **P: ¿Las demostraciones son videos?**
 R: Son secuencias de imágenes de alta calidad que muestran el rango completo de movimiento. Las demos animadas en video/GIF están planeadas.
@@ -73,7 +76,7 @@ R: Son secuencias de imágenes de alta calidad que muestran el rango completo de
 R: Sí — el temporizador de descanso está debajo de la barra de progreso semanal. Elige un preset (0:30, 1:00, 1:30 o 2:00), toca Iniciar, y suena una señal al terminar el descanso. Incluye Pausar/Reanudar y Reiniciar.
 
 **P: ¿Hay modo oscuro?**
-R: Aún no — la personalización de temas, incluido el modo oscuro, está planeada.
+R: Sí. El encabezado tiene un botón **Sistema / Claro / Oscuro** junto al selector de unidades. Sistema sigue el ajuste de tu teléfono.
 
 **P: ¿Puedo exportar mis entrenamientos?**
 R: El resumen semanal se exporta a CSV hoy (📊 Resumen Semanal → Descargar CSV). La exportación a PDF y el respaldo/restauración completos están planeados.
