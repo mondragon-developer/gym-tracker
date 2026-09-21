@@ -1,10 +1,10 @@
-// Writes docs/chatbot/08-plan-format-en.md and 08-formato-plan-es.md: the
+// Writes docs/chatbot/08-plan-format-en.txt and 08-formato-plan-es.txt: the
 // GYMPLAN v1 format the AI coach must emit so the app's Import plan screen
 // can read it, plus the full bilingual exercise and muscle-group tables the
 // bot copies names from. The prose lives here so a rerun after a library
 // change never loses it. Run with `npm run build:plan-doc`.
 
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, copyFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { EXERCISE_DATABASE } from '../src/constants/index.js';
@@ -150,6 +150,8 @@ ${groupTable('es')}
 
 ${exerciseTable('es')}`;
 
-writeFileSync(join(outDir, '08-plan-format-en.md'), EN, 'utf8');
-writeFileSync(join(outDir, '08-formato-plan-es.md'), ES, 'utf8');
-console.log(`wrote 08-plan-format-en.md and 08-formato-plan-es.md (${EXERCISE_DATABASE.length} exercises)`);
+writeFileSync(join(outDir, '08-plan-format-en.txt'), EN, 'utf8');
+writeFileSync(join(outDir, '08-formato-plan-es.txt'), ES, 'utf8');
+// README.md stays for GitHub; README.txt is the same text for the Chatbase upload.
+copyFileSync(join(outDir, 'README.md'), join(outDir, 'README.txt'));
+console.log(`wrote 08-plan-format-en.txt, 08-formato-plan-es.txt (${EXERCISE_DATABASE.length} exercises) and README.txt`);

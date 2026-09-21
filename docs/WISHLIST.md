@@ -8,7 +8,7 @@ the open decisions, so a future session can start without re-deriving it.
 
 **Status (2026-09-21): superseded.** The paste-import shipped instead: the
 AI coach ends every plan answer with a GYMPLAN v1 block (see
-`docs/chatbot/08-plan-format-en.md`), and **Import plan** under the days
+`docs/chatbot/08-plan-format-en.txt`), and **Import plan** under the days
 builds the week from it, matching names to the library and creating custom
 exercises for the rest. Zero backend, zero API cost. The in-app "Find
 exercises" call described below is only worth revisiting if the copy and
