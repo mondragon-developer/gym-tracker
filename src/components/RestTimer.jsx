@@ -85,9 +85,9 @@ const beep = (ref) => {
 const chipStyle = (active) => ({
     padding: '6px 10px',
     borderRadius: '8px',
-    border: active ? '1px solid #0e7490' : '1px solid #e5e7eb',
-    backgroundColor: active ? '#ecfeff' : 'white',
-    color: active ? '#0e7490' : '#6b7280',
+    border: active ? '1px solid var(--brand-border)' : '1px solid var(--border)',
+    backgroundColor: active ? 'var(--brand-soft)' : 'var(--surface)',
+    color: active ? 'var(--brand)' : 'var(--text-3)',
     fontSize: '13px',
     fontWeight: 600,
     cursor: 'pointer',
@@ -98,8 +98,8 @@ const actionStyle = (primary) => ({
     padding: '6px 14px',
     borderRadius: '8px',
     border: 'none',
-    backgroundColor: primary ? '#0e7490' : '#e5e7eb',
-    color: primary ? 'white' : '#374151',
+    backgroundColor: primary ? 'var(--brand)' : 'var(--surface-3)',
+    color: primary ? 'var(--on-brand)' : 'var(--text-2)',
     fontSize: '13px',
     fontWeight: 600,
     cursor: 'pointer'
@@ -250,11 +250,11 @@ export default function RestTimer({ language = 'en' }) {
             gap: '10px',
             flexWrap: 'wrap',
             padding: '10px 14px',
-            border: done ? '1px solid #fecaca' : '1px solid #e5e7eb',
+            border: done ? '1px solid var(--danger-border)' : '1px solid var(--border)',
             borderRadius: '12px',
-            backgroundColor: done ? '#fef2f2' : '#f8fafc'
+            backgroundColor: done ? 'var(--danger-soft)' : 'var(--surface-2)'
         }}>
-            <span style={{ fontSize: '13px', fontWeight: 600, color: '#374151' }}>
+            <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-2)' }}>
                 ⏱️ {t('Rest timer', language)}
             </span>
 
@@ -277,7 +277,7 @@ export default function RestTimer({ language = 'en' }) {
                     fontVariantNumeric: 'tabular-nums',
                     fontSize: '22px',
                     fontWeight: 700,
-                    color: done ? '#dc2626' : '#0e7490',
+                    color: done ? 'var(--danger)' : 'var(--brand)',
                     minWidth: '64px',
                     textAlign: 'center'
                 }}
@@ -286,7 +286,7 @@ export default function RestTimer({ language = 'en' }) {
             </span>
 
             {done && (
-                <span style={{ fontSize: '13px', fontWeight: 700, color: '#dc2626' }}>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--danger)' }}>
                     {t("Time's up!", language)}
                 </span>
             )}
@@ -313,7 +313,7 @@ export default function RestTimer({ language = 'en' }) {
                         flex: '1 1 140px',
                         minWidth: 0,
                         padding: '6px 10px',
-                        border: '1px solid #e5e7eb',
+                        border: '1px solid var(--border-strong)',
                         borderRadius: '8px',
                         fontSize: '13px'
                     }}

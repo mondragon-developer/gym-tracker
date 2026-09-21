@@ -22,7 +22,7 @@ const overlayStyles = {
   left: 0,
   right: 0,
   bottom: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  backgroundColor: 'var(--overlay)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -31,9 +31,9 @@ const overlayStyles = {
 };
 
 const modalStyles = {
-  backgroundColor: 'white',
+  backgroundColor: 'var(--surface)',
   borderRadius: '12px',
-  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+  boxShadow: '0 25px 50px -12px var(--shadow-strong)',
   maxWidth: '90vw',
   maxHeight: '90vh',
   overflow: 'auto',
@@ -42,13 +42,13 @@ const modalStyles = {
 
 const headerStyles = {
   padding: '24px 24px 0 24px',
-  borderBottom: '1px solid #e5e7eb'
+  borderBottom: '1px solid var(--border)'
 };
 
 const titleStyles = {
   fontSize: '20px',
   fontWeight: '600',
-  color: '#374151',
+  color: 'var(--text)',
   margin: '0 0 16px 0'
 };
 
@@ -66,7 +66,8 @@ const closeButtonStyles = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontSize: '18px'
+  fontSize: '18px',
+  color: 'var(--text-3)'
 };
 
 /**

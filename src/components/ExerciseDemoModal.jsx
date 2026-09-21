@@ -56,7 +56,7 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
             maxWidth: '360px',
             margin: '0 auto',
             aspectRatio: '1 / 1',
-            background: '#f3f4f6',
+            background: 'var(--surface-3)',
             borderRadius: '12px',
             overflow: 'hidden'
           }}>
@@ -78,7 +78,7 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
               />
             ))}
           </div>
-          <p style={{ marginTop: '12px', fontSize: '13px', color: '#6b7280' }}>
+          <p style={{ marginTop: '12px', fontSize: '13px', color: 'var(--text-3)' }}>
             {t('Full range of motion — start to finish', language)}
           </p>
         </div>
@@ -102,16 +102,16 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
             </div>
           )}
 
-          <h4 style={{ margin: '0 0 8px 0', fontSize: '14px', fontWeight: 700, color: '#111827' }}>
+          <h4 style={{ margin: '0 0 8px 0', fontSize: '14px', fontWeight: 700, color: 'var(--text)' }}>
             {t('How to perform', language)}
           </h4>
-          <ol style={{ margin: 0, paddingLeft: '20px', color: '#374151', fontSize: '14px', lineHeight: 1.55 }}>
+          <ol style={{ margin: 0, paddingLeft: '20px', color: 'var(--text-2)', fontSize: '14px', lineHeight: 1.55 }}>
             {steps.map((step, i) => (
               <li key={i} style={{ marginBottom: '6px' }}>{step}</li>
             ))}
           </ol>
 
-          <p style={{ marginTop: '14px', fontSize: '11px', color: '#9ca3af' }}>
+          <p style={{ marginTop: '14px', fontSize: '11px', color: 'var(--text-3)' }}>
             {t('Exercise data from the open exercises-dataset (MIT)', language)}
           </p>
         </div>
@@ -120,11 +120,11 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
       {/* While the enrichment chunk loads for a covered exercise that has no
           animation, show a subtle placeholder instead of the "no demo" message. */}
       {!media && loadingEnrichment && (
-        <p style={{ color: '#9ca3af', margin: 0, fontSize: '13px' }}>…</p>
+        <p style={{ color: 'var(--text-3)', margin: 0, fontSize: '13px' }}>…</p>
       )}
 
       {!media && !steps && !loadingEnrichment && (
-        <p style={{ color: '#6b7280', margin: 0 }}>
+        <p style={{ color: 'var(--text-3)', margin: 0 }}>
           {t('No demonstration available yet', language)}
         </p>
       )}
@@ -134,9 +134,9 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
 
 const chipStyle = {
   fontSize: '12px',
-  color: '#374151',
+  color: 'var(--text-2)',
   padding: '4px 10px',
-  background: 'rgba(107, 114, 128, 0.1)',
+  background: 'var(--surface-3)',
   borderRadius: '6px',
   textTransform: 'capitalize',
 };

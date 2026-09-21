@@ -44,6 +44,7 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 
 ## Planeado (en la hoja de ruta, sin fechas prometidas)
 
+- **Buscador de ejercicios con IA** — pedir ejercicios con palabras normales ("3 ejercicios de pecho con mancuernas") y agregar la selección a un día con un toque; la selección saldrá de la biblioteca de la app para que apliquen las demostraciones y los datos de equipo
 - **Analíticas de entrenamiento** — gráficas de progreso y métricas de rendimiento en el tiempo
 - **Demos animadas** — pasar las demostraciones de imágenes fijas a video/GIF en bucle
 - **Más plantillas de rutinas** — además de las cinco incluidas (Push/Pull/Piernas, Torso/Pierna, Cuerpo completo 3 días, En casa sin equipo, Solo mancuernas), por ejemplo una rutina dividida de 5 días o una semana con kettlebell
@@ -51,7 +52,7 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 - **Exportar a PDF** (el CSV ya existe para el resumen semanal) y respaldo/restauración completos de datos
 - **Registro de nutrición** — registro básico de comidas y calorías
 - **Logros** — hitos e insignias
-- **Modo oscuro / personalización de temas**
+- **Colores modernos y accesibles con modo oscuro** — una paleta renovada que cumple el contraste WCAG AA en claro y oscuro, estados mostrados con ícono y texto y no solo por color, modo oscuro según el ajuste del teléfono con un interruptor manual
 - **Filtros avanzados de ejercicios** — por equipo o dificultad
 
 ## No está en la app (y cómo responder)

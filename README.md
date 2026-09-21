@@ -400,6 +400,7 @@ This project is open source and available under the [MIT License](LICENSE).
 - [x] **Demo preview in the picker**: Check the movement before adding the exercise
 
 ### Planned Features
+- [ ] **AI exercise finder**: Ask in plain words ("3 chest exercises with dumbbells") and add the picks to the selected day in one tap; picks come only from the library so demos and equipment data carry over. Spec in [`docs/WISHLIST.md`](docs/WISHLIST.md)
 - [ ] **Workout analytics**: Progress charts and performance metrics
 - [ ] **Animated demos**: Upgrade the exercise how-tos from stills to looping video/GIF
 - [ ] **Social features**: Share workouts and progress
@@ -410,7 +411,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ### Technical Improvements
 - [ ] **Data export/import**: Backup and restore functionality
-- [ ] **Theme customization**: Dark mode and color themes
+- [ ] **Modern, accessible color system**: One brand accent, neutral surfaces, semantic status colors that pass WCAG 2.2 AA in light and dark, status never by color alone, dark mode following the device setting with a manual override. Tokens and migration plan in [`docs/WISHLIST.md`](docs/WISHLIST.md)
 - [ ] **Advanced search**: Exercise filtering by difficulty
 - [ ] **Performance optimization**: Virtual scrolling for large lists
 

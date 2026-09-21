@@ -42,7 +42,7 @@ const WorkoutTemplateModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title ?? t('Workout templates', language)}>
-      <p style={{ margin: '0 0 16px', color: '#6b7280', fontSize: '14px', lineHeight: 1.5 }}>
+      <p style={{ margin: '0 0 16px', color: 'var(--text-3)', fontSize: '14px', lineHeight: 1.5 }}>
         {intro ?? t('Replaces the exercises of the week you are viewing. Completion, logged sets and weights are cleared.', language)}
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -52,7 +52,7 @@ const WorkoutTemplateModal = ({
             <div
               key={tpl.id}
               style={{
-                border: confirming ? '1px solid #f59e0b' : '1px solid #e5e7eb',
+                border: confirming ? '1px solid var(--skipped-border)' : '1px solid var(--border)',
                 borderRadius: '12px',
                 padding: '14px 16px',
                 display: 'flex',
@@ -61,12 +61,12 @@ const WorkoutTemplateModal = ({
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', alignItems: 'baseline', flexWrap: 'wrap' }}>
-                <span style={{ fontWeight: 700, color: '#164e63', fontSize: '15px' }}>{t(tpl.name, language)}</span>
-                <span style={{ fontSize: '12px', color: '#0e7490', fontWeight: 600, whiteSpace: 'nowrap' }}>
+                <span style={{ fontWeight: 700, color: 'var(--brand)', fontSize: '15px' }}>{t(tpl.name, language)}</span>
+                <span style={{ fontSize: '12px', color: 'var(--brand)', fontWeight: 600, whiteSpace: 'nowrap' }}>
                   {tpl.daysPerWeek} {t('days/week', language)} · {tpl.minutes} {t('min', language)}
                 </span>
               </div>
-              <p style={{ margin: 0, fontSize: '13px', color: '#4b5563', lineHeight: 1.5 }}>
+              <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-2)', lineHeight: 1.5 }}>
                 {t(tpl.description, language)}
               </p>
               <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
@@ -81,7 +81,7 @@ const WorkoutTemplateModal = ({
                   <button
                     type="button"
                     onClick={() => setConfirmingId(null)}
-                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: '#6b7280', fontSize: '13px', fontWeight: 600 }}
+                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-3)', fontSize: '13px', fontWeight: 600 }}
                   >
                     {t('Cancel', language)}
                   </button>
@@ -100,7 +100,7 @@ const WorkoutTemplateModal = ({
             border: 'none',
             background: 'none',
             cursor: 'pointer',
-            color: '#0e7490',
+            color: 'var(--brand)',
             fontSize: '14px',
             fontWeight: 600,
             padding: 0

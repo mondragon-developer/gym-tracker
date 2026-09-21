@@ -10,8 +10,8 @@ import React from 'react';
 import { stepNumbers } from '../../utils/stepNumbers.js';
 
 const buttonStyle = (color, disabled) => ({
-  width: '34px',
-  minWidth: '34px',
+  width: '32px',
+  minWidth: '32px',
   border: 'none',
   background: 'transparent',
   color,
@@ -47,6 +47,7 @@ const StepperInput = ({
 
   return (
     <div
+      className="stepper-input"
       style={{
         display: 'flex',
         alignItems: 'stretch',
@@ -64,6 +65,7 @@ const StepperInput = ({
         onClick={() => bump(-1)}
         aria-label={ariaLabel ? `${ariaLabel} -${step}` : `-${step}`}
         disabled={disabled}
+        className="stepper-button"
         style={buttonStyle(focusColor, disabled)}
       >
         -
@@ -83,16 +85,17 @@ const StepperInput = ({
         placeholder={placeholder}
         aria-label={ariaLabel}
         disabled={disabled}
+        className="stepper-field"
         style={{
           flex: 1,
           minWidth: 0,
           width: '100%',
-          padding: '10px 4px',
+          padding: '9px 2px',
           border: 'none',
           background: 'transparent',
           fontSize: '14px',
           fontWeight: '500',
-          color: '#374151',
+          color: 'var(--text)',
           textAlign: 'center',
           outline: 'none'
         }}
@@ -110,6 +113,7 @@ const StepperInput = ({
         onClick={() => bump(1)}
         aria-label={ariaLabel ? `${ariaLabel} +${step}` : `+${step}`}
         disabled={disabled}
+        className="stepper-button"
         style={buttonStyle(focusColor, disabled)}
       >
         +
