@@ -21,6 +21,21 @@ window.addEventListener('vite:preloadError', (event) => {
   window.location.reload();
 });
 
+// The PWA service worker updates itself in the background, but the page
+// that was already open keeps running the old bundle until it reloads. When
+// a new worker takes control, reload once so the user gets the new build
+// on the next foreground instead of two launches later.
+if (typeof navigator !== 'undefined' && navigator.serviceWorker) {
+  let hadController = Boolean(navigator.serviceWorker.controller);
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadController) {
+      hadController = true;
+      return;
+    }
+    window.location.reload();
+  });
+}
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
