@@ -563,7 +563,7 @@ function AppContent() {
                 </div>
 
                 {/* Progress Section */}
-                <div style={{
+                <div className="app-section" style={{
                     padding: '24px 32px 20px 32px',
                     backgroundColor: 'var(--surface)'
                 }}>
@@ -572,12 +572,12 @@ function AppContent() {
 
                 {/* Rest timer - one shared instance above the day list so it
                     keeps running across day-accordion toggles */}
-                <div style={{ padding: '0 32px 20px', backgroundColor: 'var(--surface)' }}>
+                <div className="app-section" style={{ padding: '0 32px 20px', backgroundColor: 'var(--surface)' }}>
                     <RestTimer language={language} />
                 </div>
 
                 {/* Days Container */}
-                <div style={{ 
+                <div className="app-section" style={{
                     padding: '0 32px 24px',
                     backgroundColor: 'var(--surface)'
                 }}>
