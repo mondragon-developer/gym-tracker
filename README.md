@@ -22,6 +22,11 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Universal Search**: Search exercises across all muscle groups with real-time filtering, matching English or Spanish names and ignoring accents
 - **One-Thumb Entry**: Sets, reps, weight and minutes fields have minus/plus steppers and open the numeric keypad on phones (rep ranges like 8-10 step both ends)
 - **Undo, Not Confirm**: Delete exercise, Reset Day and Restart This Week apply at once and offer Undo in a toast for a few seconds
+- **Log Set**: One tap per set counts it, starts the rest timer, and marks the exercise completed on the last set
+- **Last Week Inline**: Each exercise shows last week's weight, reps and sets for the same movement, with a one-tap +5 lb / +2.5 kg button
+- **Day Notes**: A notes box per day, shared between a client and their trainers through the plan and carried into following weeks
+- **First-Run Chooser**: New accounts pick one of the three templates or keep the default
+- **Updated Elsewhere Notice**: A toast when a newer cloud copy is loaded on return to the app
 - **Custom Exercise Creation**: Add your own exercises with flexible sets/reps configuration
 - **Multi-Muscle Group Selection**: Select up to 3 muscle groups per day with intelligent UI
 
@@ -76,7 +81,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Dynamic Muscle Group Assignment**: Change any day's focus with dropdown selection
 - **Custom Default Settings**: Set preferred sets (1-10) and reps (1-20) for exercises
 - **Exercise Type Detection**: Automatic detection and handling of cardio vs strength exercises
-- **kg/lbs Unit Toggle**: Header switch that labels the weight field in your preferred unit (display-only)
+- **kg/lbs Unit Toggle**: Weights are stored in pounds and shown, typed and exported in the unit you choose (`src/utils/weightUnits.js`)
 - **Reset Options**: Reset a single day to its default exercises, or restart the current week's progress
 - **Default Plan**: New accounts start on the Classic Push/Pull/Legs split with 20+ exercises
 
@@ -192,7 +197,7 @@ npm run build     # Production build to dist/
 npm run preview   # Preview the production build locally
 npm run lint      # Run ESLint
 npm test          # Run the Vitest suite in watch mode
-npm run test:run  # Run the Vitest suite once (228 tests)
+npm run test:run  # Run the Vitest suite once (239 tests)
 ```
 
 ## Usage Guide
@@ -262,7 +267,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 - **Supabase**: Authentication and Postgres cloud database with Row Level Security
 - **@dnd-kit**: Accessible, touch-friendly drag-and-drop for exercise reordering
 - **vite-plugin-pwa**: Installable, offline-capable Progressive Web App
-- **Vitest + Testing Library**: 228-test suite across services, hooks, and components
+- **Vitest + Testing Library**: 239-test suite across services, hooks, and components
 - **Inline Styles**: Component-scoped styling for better maintainability
 - **Lucide React**: Beautiful, consistent icon library
 - **Modern JavaScript**: ES6+ features and best practices

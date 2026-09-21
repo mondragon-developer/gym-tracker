@@ -8,11 +8,35 @@ beforeEach(() => {
 
 afterEach(() => vi.useRealTimers());
 
+const logSet = () => act(() => { window.dispatchEvent(new CustomEvent('gym:rest-start')); });
+
 const finishRest = () => {
     fireEvent.click(screen.getByText('0:30'));
-    fireEvent.click(screen.getByText(/^(Start|Iniciar)$/));
+    logSet();
     act(() => { vi.advanceTimersByTime(30000); });
 };
+
+describe('RestTimer auto start', () => {
+    it('starts counting down from the current preset when a set is logged', () => {
+        vi.useFakeTimers();
+        render(<RestTimer />);
+        fireEvent.click(screen.getByText('1:30'));
+        logSet();
+        expect(screen.getByText('Pause')).toBeInTheDocument();
+        act(() => { vi.advanceTimersByTime(2000); });
+        expect(screen.getByTestId('rest-time')).toHaveTextContent('1:28');
+    });
+
+    it('restarts from the full preset if a set is logged mid-rest', () => {
+        vi.useFakeTimers();
+        render(<RestTimer />);
+        logSet();
+        act(() => { vi.advanceTimersByTime(10000); });
+        expect(screen.getByTestId('rest-time')).toHaveTextContent('0:50');
+        logSet();
+        expect(screen.getByTestId('rest-time')).toHaveTextContent('1:00');
+    });
+});
 
 describe('RestTimer end-of-rest alert', () => {
     it('shows a full-screen alert that stays until tapped', () => {
@@ -29,7 +53,7 @@ describe('RestTimer end-of-rest alert', () => {
         expect(screen.getByText("Time's up!")).toBeInTheDocument();
     });
 
-    it('dismisses with the keyboard and when a new rest starts', () => {
+    it('dismisses with the keyboard and when the next set is logged', () => {
         vi.useFakeTimers();
         render(<RestTimer />);
         finishRest();
@@ -38,7 +62,7 @@ describe('RestTimer end-of-rest alert', () => {
 
         finishRest();
         expect(screen.getByTestId('rest-alert')).toBeInTheDocument();
-        fireEvent.click(screen.getByText('Start'));
+        logSet();
         expect(screen.queryByTestId('rest-alert')).toBeNull();
         expect(screen.getByText('Pause')).toBeInTheDocument();
     });

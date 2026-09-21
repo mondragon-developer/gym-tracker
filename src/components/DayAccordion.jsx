@@ -23,7 +23,12 @@ import { translateExercise, translateMuscleGroup } from '../translations/exercis
 /**
  * An accordion component for a single day's workout plan.
  */
-const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, onOpenAddExercise, onExerciseDeleted, activeDayRef, language = 'en', readOnly = false, date }) => {
+const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, onOpenAddExercise, onExerciseDeleted, previousData = null, activeDayRef, language = 'en', readOnly = false, date }) => {
+    // Same exercise last week, by library id or (custom exercises) by name.
+    const findPrevious = (exercise) => {
+        const list = previousData?.exercises ?? [];
+        return list.find(p => (exercise.dbId ? p.dbId === exercise.dbId : p.name === exercise.name)) ?? null;
+    };
     const [showMuscleGroupDropdown, setShowMuscleGroupDropdown] = useState(false);
 
     // Touch sensor with delay so finger drag doesn't fight scroll on mobile.
@@ -362,6 +367,41 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                     padding: '20px',
                     background: 'linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%)'
                 }}>
+                    {/* Day notes: shared between the client and their trainers
+                        through the plan itself; carried into following weeks. */}
+                    {(!readOnly || data.note) && (
+                        <div style={{ marginBottom: '14px' }}>
+                            <label
+                                htmlFor={`day-note-${day}`}
+                                style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#0e7490', marginBottom: '6px' }}
+                            >
+                                {t('Notes', language)}
+                            </label>
+                            {readOnly ? (
+                                <p style={{ margin: 0, fontSize: '14px', color: '#374151', whiteSpace: 'pre-wrap' }}>{data.note}</p>
+                            ) : (
+                                <textarea
+                                    id={`day-note-${day}`}
+                                    value={data.note ?? ''}
+                                    onChange={(e) => onUpdateDay(day, { ...data, note: e.target.value })}
+                                    placeholder={t('Notes for this day, visible to you and your trainers', language)}
+                                    rows={2}
+                                    style={{
+                                        width: '100%',
+                                        boxSizing: 'border-box',
+                                        padding: '10px 12px',
+                                        border: '1px solid #a5f3fc',
+                                        borderRadius: '10px',
+                                        backgroundColor: '#ecfeff',
+                                        fontSize: '14px',
+                                        color: '#164e63',
+                                        fontFamily: 'inherit',
+                                        resize: 'vertical'
+                                    }}
+                                />
+                            )}
+                        </div>
+                    )}
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -383,6 +423,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                         <ExerciseItem
                                             key={ex.id}
                                             exercise={ex}
+                                            previous={findPrevious(ex)}
                                             onUpdate={handleUpdateExercise}
                                             onDelete={handleDeleteExercise}
                                             language={language}

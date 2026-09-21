@@ -5,13 +5,13 @@ Exact question→answer pairs for the most common user queries. Answers use the 
 ## Using the app
 
 **Q: How do I add an exercise?**
-A: Expand the day, tap **Add Exercise**, then search by name (in English) or filter by muscle group or equipment. Set your Target Sets and Reps (or minutes for Cardio/Combat) and tap **Add to Workout**.
+A: Expand the day, tap **Add Exercise**, then search by name (English or Spanish) or filter by muscle group or equipment. Set your Target Sets and Reps (or minutes for Cardio/Combat) and tap **Add to Workout**.
 
 **Q: How do I create my own exercise?**
 A: Tap **Add Exercise**, switch to the **Custom Exercise** tab, enter a name, sets, and reps, and tap **Add to Workout**. Custom exercises don't have demo images.
 
 **Q: How do I delete an exercise?**
-A: Tap the delete (trash) button on the exercise row and confirm. To reorder instead, press and drag the exercise by its drag handle.
+A: Tap the delete (trash) button on the exercise row; it goes at once and a toast offers Undo for a few seconds. To reorder instead, press and drag the exercise by its drag handle.
 
 **Q: How do I mark an exercise as done?**
 A: Tap the **✓** button on the exercise — it turns green and counts toward your weekly progress. Tap **✗** to mark it skipped instead. Tapping again undoes it.
@@ -72,6 +72,21 @@ A: Yes. In the Add Exercise picker, tap the **▶** button on the right of an ex
 
 **Q: I do not hear the rest timer. How do I know the rest is over?**
 A: The screen blinks red with a big message ("Let's go!") until you tap it, and the phone vibrates. Phones on silent mute the beep, but the blinking screen always shows. Use the **Message** button next to the timer to change the text.
+
+**Q: Do I have to start the rest timer myself after each set?**
+A: No. Tap **Log set** on the exercise: it counts the set and starts the rest timer with your preset. On the last set it also marks the exercise completed.
+
+**Q: How do I know what weight I used last week?**
+A: Under the fields of each exercise, "Last week: 135 lbs × 8-10 · 4/4 sets" shows last week's numbers for the same exercise, and the **+5 lbs** (or **+2.5 kg**) button applies that increase to this week.
+
+**Q: Can my trainer leave me instructions?**
+A: Yes. Each day has a **Notes** box at the top. Notes are part of the plan, so you and your trainers see the same text, and they carry into the next weeks until changed.
+
+**Q: Does the kg switch convert my weights?**
+A: Yes. Weights are stored in pounds and shown, typed and exported in the unit you pick, so 135 lbs reads as 61.2 kg and typing 60 kg stores 132.3 lbs.
+
+**Q: The app says the plan was updated from another device. What happened?**
+A: You or a trainer saved a newer version while this screen was in the background, and the app loaded it when you came back. Nothing was lost; if you had unsaved edits the save bar would have asked Load latest or Keep mine.
 
 **Q: How do I see past weeks?**
 A: Use the arrows in the week navigator ("Week of …"). Past weeks are read-only; tap **Back to current week** to edit again.

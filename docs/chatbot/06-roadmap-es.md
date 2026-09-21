@@ -13,9 +13,15 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 - Los entrenadores pueden **enviar invitaciones por correo** desde su panel (campo de invitación por correo); el enlace de registro asigna al cliente automáticamente
 - **Inicio de sesión con Google** (un toque, sin contraseña) además de cuentas con correo/contraseña
 - **Reenvío del correo de confirmación** en la pantalla posterior al registro y tras un error de "correo no confirmado" al iniciar sesión
-- **Selector de unidades kg/lbs** en el encabezado (solo cambia la etiqueta del campo de peso)
+- **Selector de unidades kg/lbs** en el encabezado con conversión real (los pesos se guardan en libras y se muestran y escriben en la unidad elegida)
 - Barra de progreso semanal, 📊 Resumen Semanal con desglose de series por grupo muscular y **exportación CSV del resumen**
 - **Semanas de calendario** (de lunes a domingo) que comienzan solas cada lunes con el plan y los pesos arrastrados; historial semanal con fechas y semanas pasadas de solo lectura; **Reiniciar Esta Semana** borra solo el progreso de la semana actual
+- Botón **Registrar serie** por ejercicio: cuenta la serie, arranca el temporizador y marca el ejercicio hecho en la última serie
+- **Números de la semana pasada** bajo cada ejercicio con un botón de +5 lb / +2.5 kg para la sobrecarga progresiva
+- **Notas del día** compartidas entre el cliente y sus entrenadores, que pasan a las semanas siguientes
+- **Elección de plan al empezar** para cuentas nuevas (una de las tres plantillas o el plan por defecto)
+- **Conversión real kg/lbs**: los pesos se guardan en libras y se muestran, escriben y exportan en la unidad elegida
+- Aviso de **"plan actualizado en otro lado"** cuando se carga una copia más nueva de la nube al volver
 - **Búsqueda en inglés o español**, sin importar acentos, en el selector de ejercicios
 - **Entrada con un pulgar**: los campos de series, reps, peso y minutos tienen botones de menos/más y abren el teclado numérico en el teléfono
 - **Deshacer en vez de confirmar**: eliminar un ejercicio, Reiniciar Día y Reiniciar Esta Semana se aplican al momento con un aviso de Deshacer
