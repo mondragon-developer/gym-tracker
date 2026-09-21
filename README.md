@@ -18,7 +18,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Smart Exercise System**: 
   - **Strength Training**: Traditional sets, reps, and weight tracking
   - **Cardio Exercises**: Time-based tracking (1-120 minutes) instead of sets/reps
-- **Advanced Exercise Library**: 159 exercises across 11 categories, with equipment filtering
+- **Advanced Exercise Library**: 181 exercises across 11 categories, with equipment filtering
 - **Universal Search**: Search exercises across all muscle groups with real-time filtering
 - **Custom Exercise Creation**: Add your own exercises with flexible sets/reps configuration
 - **Multi-Muscle Group Selection**: Select up to 3 muscle groups per day with intelligent UI
@@ -34,7 +34,8 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Persistent Storage**: Workout data saved automatically — to the cloud when signed in, to local storage otherwise
 - **Save Status Bar**: Sticky footer showing Saved at / Unsaved changes / Saving / Save failed, with a manual Save button. Cloud saves are version-checked, so an edit from another device or a trainer is never overwritten silently (Load latest / Keep mine)
 - **Hidden Rest Days**: Days set to Rest or with no exercises can be hidden from the list and brought back from a "Hidden days" strip; the choice carries into following weeks
-- **Workout Templates**: Three ready-made weeks (Classic Push/Pull/Legs, Upper/Lower with an active-recovery Wednesday, Full body 3 days at 30-40 min) applied to the viewed week from the tracker or the trainer panel (`src/constants/workoutTemplates.js`)
+- **Workout Templates**: Five ready-made weeks (Classic Push/Pull/Legs, Upper/Lower with an active-recovery Wednesday, Full body 3 days at 30-40 min, Home with no equipment, Dumbbells only) applied to the viewed week from the tracker or the trainer panel (`src/constants/workoutTemplates.js`)
+- **Coverage Report**: `npm run report:coverage` lists exercises without a demo, same-movement candidates in the public-domain source, and the dumbbell-only and body-only pools still available (`scripts/enrichment/coverage-report.mjs`)
 - **Copy Last Week**: Reuse the previous week's exercises, order and weights in one tap, with completion cleared
 
 ### Accounts & Cloud Sync
@@ -56,7 +57,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 
 ### Exercise Demonstrations
 - **How-To Guides**: Tap ▶ on an exercise for a start-to-finish demonstration of the movement's full range of motion
-- **122 Exercises Covered**: Self-hosted on Supabase Storage with a graceful fallback when a demo isn't available
+- **152 Exercises Covered**: Self-hosted on Supabase Storage with a graceful fallback when a demo isn't available
 - **Preview Before Adding**: The ▶ button on a row in the Add Exercise picker opens the demo without leaving the picker
 
 ### Bilingual Interface
@@ -165,7 +166,7 @@ src/
 ├── lib/
 │   └── supabase.js             # Shared Supabase client
 ├── translations/       # English/Spanish UI and exercise strings
-├── constants/          # 159 exercises, muscle groups, days
+├── constants/          # 181 exercises, muscle groups, days
 ├── data/               # Generated enrichment indexes + media folder map
 ├── utils/              # dateHelper and other helpers
 ├── test/               # Vitest setup
@@ -189,7 +190,7 @@ npm run build     # Production build to dist/
 npm run preview   # Preview the production build locally
 npm run lint      # Run ESLint
 npm test          # Run the Vitest suite in watch mode
-npm run test:run  # Run the Vitest suite once (209 tests)
+npm run test:run  # Run the Vitest suite once (218 tests)
 ```
 
 ## Usage Guide
@@ -259,7 +260,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 - **Supabase**: Authentication and Postgres cloud database with Row Level Security
 - **@dnd-kit**: Accessible, touch-friendly drag-and-drop for exercise reordering
 - **vite-plugin-pwa**: Installable, offline-capable Progressive Web App
-- **Vitest + Testing Library**: 209-test suite across services, hooks, and components
+- **Vitest + Testing Library**: 218-test suite across services, hooks, and components
 - **Inline Styles**: Component-scoped styling for better maintainability
 - **Lucide React**: Beautiful, consistent icon library
 - **Modern JavaScript**: ES6+ features and best practices
@@ -269,7 +270,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 #### Enhanced Exercise System
 - **Smart exercise detection**: Automatically identifies cardio vs strength exercises
 - **Context-aware UI**: Different interfaces for different exercise types
-- **Comprehensive database**: 159 exercises across 11 categories
+- **Comprehensive database**: 181 exercises across 11 categories
 - **Advanced search**: Real-time filtering with search term highlighting
 
 #### Improved User Experience
@@ -374,7 +375,7 @@ This project is open source and available under the [MIT License](LICENSE).
 - [x] **Bilingual UI**: Full English/Spanish translation with a language toggle
 - [x] **PWA support**: Offline functionality and home-screen installation
 - [x] **Weekly history & dates**: Dated weeks with a navigator and carry-forward on a new week
-- [x] **Exercise demonstrations**: Start-to-finish how-to images for 122 exercises, self-hosted on Supabase
+- [x] **Exercise demonstrations**: Start-to-finish how-to images for 152 exercises, self-hosted on Supabase
 - [x] **Rest timer**: Between-sets countdown with presets, pause/resume, and an end-of-rest cue
 - [x] **Equipment filtering**: Filter the exercise library by equipment (barbell, dumbbell, cable, machines, body weight, ...)
 - [x] **Email invitations**: Trainers email client invite links straight from the app (Supabase Edge Function + custom SMTP)
@@ -394,7 +395,7 @@ This project is open source and available under the [MIT License](LICENSE).
 - [ ] **Workout analytics**: Progress charts and performance metrics
 - [ ] **Animated demos**: Upgrade the exercise how-tos from stills to looping video/GIF
 - [ ] **Social features**: Share workouts and progress
-- [ ] **More templates**: Splits beyond the three included, such as a 5-day split or a home/bodyweight week
+- [ ] **More templates**: Splits beyond the five included, such as a 5-day split or a kettlebell week
 - [ ] **Export functionality**: Export workouts to PDF/CSV
 - [ ] **Nutrition tracking**: Basic meal and calorie logging
 - [ ] **Achievement system**: Workout milestones and badges

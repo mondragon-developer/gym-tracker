@@ -6,9 +6,9 @@ Gym Tracker is a free - for now -, bilingual (English/Spanish) web app for plann
 
 Key capabilities:
 - A pre-loaded **6-day Push/Pull/Legs split** you can fully customize.
-- A library of **159 exercises across 11 categories** (Chest, Back, Shoulders, Biceps, Triceps, Forearms, Legs, Abs, Cardio, Combat), plus custom exercises you create yourself.
+- A library of **181 exercises across 11 categories** (Chest, Back, Shoulders, Biceps, Triceps, Forearms, Legs, Abs, Cardio, Combat), plus custom exercises you create yourself.
 - **Strength exercises** track sets, reps, and weight (lbs). **Cardio and Combat exercises** are time-based and track minutes (1–120).
-- **Visual exercise demonstrations**: 122 exercises have a start-to-finish demo you open with the ▶ button.
+- **Visual exercise demonstrations**: 152 exercises have a start-to-finish demo you open with the ▶ button.
 - **Weekly progress tracking** with a progress bar, weekly summary, and CSV export.
 - **Works with or without an account**: without an account everything saves to the device (local storage); with a free account everything syncs to the cloud and follows you across devices.
 - **Trainer support**: trainers get an invite code/link; clients who sign up with it are linked to the trainer, who can manage their weekly plans.
@@ -52,7 +52,7 @@ Inside a day:
 ### Exercise rows
 Each exercise inside a day shows:
 - **Drag handle** — press and drag to reorder exercises within the day (works with touch).
-- **▶ demo button** — opens **"How to do this exercise"**, a visual demonstration of the full range of motion, start to finish. 122 of the 159 built-in exercises have demos; Cardio, Combat, and custom exercises show "No demonstration available yet".
+- **▶ demo button** — opens **"How to do this exercise"**, a visual demonstration of the full range of motion, start to finish. 152 of the 181 built-in exercises have demos; Cardio, Combat, and custom exercises show "No demonstration available yet".
 - **Strength exercises**: editable **Sets**, **Reps** (e.g. "8-10"), **Weight** (lbs), and **Effective** — the number of sets actually completed.
 - **Cardio/Combat exercises**: editable **Duration** in minutes (1–120) and the minutes actually completed. No weight field.
 - **✓ Mark as completed** — turns the row green and counts toward weekly progress. Tap again to set it back to incomplete.
@@ -81,7 +81,7 @@ Weeks are calendar weeks, Monday to Sunday, and they advance on their own: every
 
 ### Workout templates and Copy last week
 Under the day list, on the current week or a future week:
-- **Workout templates** opens a picker with three ready-made weeks: **Classic Push / Pull / Legs** (6 days, about 45-60 min), **Upper / Lower with active recovery** (upper body Monday and Thursday, lower body Tuesday and Friday, light cardio and core on Wednesday, about 45-60 min) and **Full body 3 days (busy schedule)** (Monday, Wednesday, Friday, five exercises, about 30-40 min). "Use this plan" asks for a confirming tap ("Replace this week?") and then replaces the exercises of the week you are viewing; completion, logged sets and weights are cleared.
+- **Workout templates** opens a picker with five ready-made weeks: **Classic Push / Pull / Legs** (6 days, about 45-60 min), **Upper / Lower with active recovery** (upper body Monday and Thursday, lower body Tuesday and Friday, light cardio and core on Wednesday, about 45-60 min), **Full body 3 days (busy schedule)** (Monday, Wednesday, Friday, five exercises, about 30-40 min), **Home, no equipment** (Monday, Wednesday, Friday with only a floor, a wall and a chair, about 30 min) and **Dumbbells only** (4 days upper/lower with one pair of dumbbells, about 40-50 min). "Use this plan" asks for a confirming tap ("Replace this week?") and then replaces the exercises of the week you are viewing; completion, logged sets and weights are cleared.
 - **Copy last week** replaces the viewed week with the previous week's exercises, order, weights and hidden days, with completion cleared. A confirmation shows which week is copied.
 - Trainers have both actions in their panel for the selected client.
 
@@ -180,7 +180,7 @@ Deadlifts 4×6-8 · Front Squats 3×8-10 · Lunges 3×12-15 · Leg Extensions 3�
 
 **Do I have to start a new week myself?** No. A new week starts automatically every Monday with your exercises and weights carried over and completion cleared. "Restart This Week" only clears the current week's progress. Past weeks stay viewable in the navigator. ("Reset Day" restores that day's *default* exercises, so use it only when you want to discard customizations for that day.)
 
-**An exercise has no demo.** 122 of 159 exercises have demos. Cardio, Combat, and custom exercises don't — the app shows "No demonstration available yet".
+**An exercise has no demo.** 152 of 181 exercises have demos. Cardio, Combat, and custom exercises don't — the app shows "No demonstration available yet".
 
 **How do I change the language?** Tap the EN/ES toggle in the header. The whole interface switches instantly.
 

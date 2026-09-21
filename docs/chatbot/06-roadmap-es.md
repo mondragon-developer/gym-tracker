@@ -5,9 +5,9 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 ## Disponible hoy
 
 - Plan Push/Pull/Piernas de 6 días por defecto, totalmente personalizable por día (hasta 3 etiquetas de grupo muscular, días de descanso)
-- Biblioteca de 159 ejercicios en 11 categorías + creación de ejercicios personalizados
+- Biblioteca de 181 ejercicios en 11 categorías + creación de ejercicios personalizados
 - Registro de fuerza (series/reps/peso) y registro por tiempo para Cardio y Combate (minutos)
-- Demostraciones visuales ▶ para 122 ejercicios (imágenes fijas, rango de movimiento de inicio a fin)
+- Demostraciones visuales ▶ para 152 ejercicios (imágenes fijas, rango de movimiento de inicio a fin)
 - **Filtro por equipo** en la biblioteca de ejercicios (barra, mancuerna, cable, máquinas, peso corporal, ...), combinado con la búsqueda por nombre y el filtro por grupo muscular
 - **Temporizador de descanso** bajo la barra de progreso semanal: presets (0:30-2:00), pausa/reanudar y un sonido al terminar el descanso
 - Los entrenadores pueden **enviar invitaciones por correo** desde su panel (campo de invitación por correo); el enlace de registro asigna al cliente automáticamente
@@ -16,7 +16,8 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 - **Selector de unidades kg/lbs** en el encabezado (solo cambia la etiqueta del campo de peso)
 - Barra de progreso semanal, 📊 Resumen Semanal con desglose de series por grupo muscular y **exportación CSV del resumen**
 - **Semanas de calendario** (de lunes a domingo) que comienzan solas cada lunes con el plan y los pesos arrastrados; historial semanal con fechas y semanas pasadas de solo lectura; **Reiniciar Esta Semana** borra solo el progreso de la semana actual
-- **Plantillas de entrenamiento**: Clásico Push/Pull/Piernas (6 días), Tren superior/inferior con recuperación activa (4 días + miércoles suave), Cuerpo completo 3 días (30-40 min); se aplican a la semana que se está viendo desde el tracker o el panel de entrenador
+- **Plantillas de entrenamiento**: Clásico Push/Pull/Piernas (6 días), Tren superior/inferior con recuperación activa (4 días + miércoles suave), Cuerpo completo 3 días (30-40 min), En casa sin equipo (3 días), Solo mancuernas (4 días); se aplican a la semana que se está viendo desde el tracker o el panel de entrenador
+- **Ejercicios de espalda baja** dentro de Espalda (hiperextensiones, extensiones de espalda, superman, buenos días sentado y con piernas rígidas, hiperextensiones inversas), más movimientos solo con mancuernas y con peso corporal para entrenar en casa
 - **Copiar la semana pasada**: un toque reutiliza los ejercicios, el orden y los pesos de la semana anterior con el progreso en cero
 - **Vista previa de la demostración en el selector**: el botón ▶ de una fila abre el cómo-hacerlo antes de agregar el ejercicio
 - **Planificar por adelantado**: el navegador de semanas avanza hasta 12 semanas en el futuro para usuarios y entrenadores; una semana futura empieza como copia del último plan y se guarda al editarla
@@ -34,7 +35,7 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 
 - **Analíticas de entrenamiento** — gráficas de progreso y métricas de rendimiento en el tiempo
 - **Demos animadas** — pasar las demostraciones de imágenes fijas a video/GIF en bucle
-- **Más plantillas de rutinas** — además de las tres incluidas (Push/Pull/Piernas, Torso/Pierna, Cuerpo completo 3 días), por ejemplo una rutina dividida de 5 días o una semana en casa con peso corporal
+- **Más plantillas de rutinas** — además de las cinco incluidas (Push/Pull/Piernas, Torso/Pierna, Cuerpo completo 3 días, En casa sin equipo, Solo mancuernas), por ejemplo una rutina dividida de 5 días o una semana con kettlebell
 - **Funciones sociales** — compartir entrenamientos y progreso
 - **Exportar a PDF** (el CSV ya existe para el resumen semanal) y respaldo/restauración completos de datos
 - **Registro de nutrición** — registro básico de comidas y calorías

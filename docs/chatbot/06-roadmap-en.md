@@ -5,9 +5,9 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 ## Available today
 
 - 6-day Push/Pull/Legs default plan, fully customizable per day (up to 3 muscle-group labels, Rest days)
-- 159-exercise library in 11 categories + custom exercise creation
+- 181-exercise library in 11 categories + custom exercise creation
 - Strength tracking (sets/reps/weight) and time-based Cardio & Combat tracking (minutes)
-- ▶ visual demonstrations for 122 exercises (still images, start-to-finish range of motion)
+- ▶ visual demonstrations for 152 exercises (still images, start-to-finish range of motion)
 - **Equipment filter** in the exercise library (barbell, dumbbell, cable, machines, body weight, ...), combined with name search and the muscle-group filter
 - **Rest timer** under the weekly progress bar: presets (0:30-2:00), pause/resume, and a sound when the rest ends
 - Trainers can **email client invitations** from their panel (invite-by-email field); the signup link assigns the client automatically
@@ -16,7 +16,8 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 - **kg/lbs unit toggle** in the header (display-only label for the weight field)
 - Weekly progress bar, 📊 Weekly Summary with sets-per-muscle-group breakdown, and **CSV export of the weekly summary**
 - **Calendar weeks** (Monday to Sunday) that start on their own every Monday with the plan and weights carried forward; dated weekly history with read-only past weeks; **Restart This Week** clears the current week's progress only
-- **Workout templates**: Classic Push/Pull/Legs (6 days), Upper/Lower with active recovery (4 days + light Wednesday), Full body 3 days (30-40 min); applied to the viewed week from the tracker or the trainer panel
+- **Workout templates**: Classic Push/Pull/Legs (6 days), Upper/Lower with active recovery (4 days + light Wednesday), Full body 3 days (30-40 min), Home with no equipment (3 days), Dumbbells only (4 days); applied to the viewed week from the tracker or the trainer panel
+- **Lower back exercises** under Back (hyperextensions, back extensions, superman, seated and stiff-leg good mornings, reverse hyperextensions), plus more dumbbell-only and body-weight movements for home training
 - **Copy last week**: one tap reuses the previous week's exercises, order and weights with completion cleared
 - **Demo preview in the exercise picker**: the ▶ button on a row opens the how-to before the exercise is added
 - **Planning ahead**: the week navigator goes up to 12 weeks into the future for users and trainers; a future week starts as a copy of the latest plan and is saved once edited
@@ -34,7 +35,7 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 
 - **Workout analytics** — progress charts and performance metrics over time
 - **Animated demos** — upgrading exercise how-tos from still images to looping video/GIF
-- **More workout split templates** — beyond the three included (Push/Pull/Legs, Upper/Lower, Full body 3 days), for example a 5-day split or a home/bodyweight week
+- **More workout split templates** — beyond the five included (Push/Pull/Legs, Upper/Lower, Full body 3 days, Home with no equipment, Dumbbells only), for example a 5-day split or a kettlebell week
 - **Social features** — sharing workouts and progress
 - **Export to PDF** (CSV already exists for the weekly summary) and full data backup/restore
 - **Nutrition tracking** — basic meal and calorie logging
