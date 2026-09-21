@@ -653,7 +653,7 @@ function AppContent() {
                                 width: '100%',
                                 maxWidth: '320px',
                                 padding: '14px 28px',
-                                background: 'var(--accent-a)',
+                                background: 'var(--brand)',
                                 border: 'none',
                                 borderRadius: '12px',
                                 color: 'var(--text-inverse)',
@@ -672,12 +672,12 @@ function AppContent() {
                             onMouseOver={(e) => {
                                 e.currentTarget.style.transform = 'translateY(-2px)';
                                 e.currentTarget.style.boxShadow = '0 8px 20px var(--shadow)';
-                                e.currentTarget.style.background = 'var(--accent-a-border)';
+                                e.currentTarget.style.background = 'var(--brand-strong)';
                             }}
                             onMouseOut={(e) => {
                                 e.currentTarget.style.transform = 'translateY(0)';
                                 e.currentTarget.style.boxShadow = '0 4px 14px var(--shadow)';
-                                e.currentTarget.style.background = 'var(--accent-a)';
+                                e.currentTarget.style.background = 'var(--brand)';
                             }}
                         >
                             <svg 
@@ -700,8 +700,8 @@ function AppContent() {
                                 position: 'absolute',
                                 top: '8px',
                                 right: '12px',
-                                background: 'var(--accent-a-soft)',
-                                color: 'var(--accent-a)',
+                                background: 'var(--brand-soft)',
+                                color: 'var(--brand)',
                                 fontSize: '10px',
                                 padding: '2px 8px',
                                 borderRadius: '10px',
