@@ -80,7 +80,7 @@ R: No. Toca **Registrar serie** en el ejercicio: cuenta la serie y arranca el te
 R: Bajo los campos de cada ejercicio, "Semana pasada: 135 lbs × 8-10 · 4/4 series" muestra los números de la semana pasada para el mismo ejercicio, y el botón **+5 lbs** (o **+2.5 kg**) aplica ese aumento a esta semana.
 
 **P: ¿Mi entrenador puede dejarme indicaciones?**
-R: Sí. Cada día tiene un cuadro de **Notas** arriba. Las notas son parte del plan, así que tú y tus entrenadores ven el mismo texto, y pasan a las semanas siguientes hasta que se cambien.
+R: Sí. Abre el día y toca **+ Añadir nota** arriba; cuando ya hay una nota, el cuadro queda abierto. Las notas son parte del plan, así que tú y tus entrenadores ven el mismo texto, y pasan a las semanas siguientes hasta que se cambien.
 
 **P: ¿El selector de kg convierte mis pesos?**
 R: Sí. Los pesos se guardan en libras y se muestran, escriben y exportan en la unidad que elijas, así que 135 lbs se lee como 61.2 kg y escribir 60 kg guarda 132.3 lbs.

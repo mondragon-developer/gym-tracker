@@ -41,10 +41,10 @@ Justo debajo del encabezado:
 Muestra "Progreso Semanal" con **X de Y ejercicios completados** y un porcentaje que se llena en tiempo real al marcar ejercicios. Al llegar al 100% celebra con "¡Semana Completa!".
 
 ### Tarjetas de días (Lunes–Domingo)
-Cada día de la semana es una tarjeta plegable (acordeón) con el nombre del día, su fecha y sus grupos musculares (por ejemplo "Chest & Shoulders & Triceps"). Toca un día para expandirlo y ver sus ejercicios.
+Cada día de la semana es una tarjeta plegable (acordeón) con el nombre del día, su fecha y sus grupos musculares (por ejemplo "Chest & Shoulders & Triceps"). Un contador pequeño a la derecha muestra cuántos ejercicios del día están hechos (por ejemplo "2/5"). Toca un día para expandirlo y ver sus ejercicios; la página completa se desplaza, así que todos los ejercicios del día abierto quedan a la vista.
 
 Dentro de un día:
-- **Agregar Ejercicio** — abre el selector de ejercicios (ver más abajo).
+- **Agregar Ejercicio** — abre el selector de ejercicios (ver más abajo). Está al final del día abierto, junto a **Reiniciar Día**.
 - **Reiniciar Día** — restaura ese día al plan predeterminado de inmediato; un aviso al pie ofrece **Deshacer** durante unos segundos. Eliminar un ejercicio funciona igual: se va al momento, con Deshacer en el aviso.
 - **✏️ Cambiar grupo muscular** — permite elegir **hasta 3 grupos musculares** para ese día entre: Descanso (Rest), Pecho, Espalda, Hombros, Bíceps, Tríceps, Antebrazos, Piernas, Abdominales, Cardio, Combate. Elige "Rest" para convertirlo en día de descanso. Pulsa **Listo** para confirmar.
 - Si un día no tiene ejercicios muestra "Sin ejercicios para hoy — ¡Agrega un ejercicio para comenzar!".
@@ -53,11 +53,11 @@ Dentro de un día:
 Cada ejercicio dentro de un día muestra:
 - **Asa de arrastre** — mantén presionado y arrastra para reordenar los ejercicios del día (funciona con el dedo en pantallas táctiles).
 - **Botón ▶ de demostración** — abre **"Cómo hacer este ejercicio"**, una demostración visual del rango completo de movimiento, de inicio a fin. 152 de los 181 ejercicios integrados tienen demostración; los de Cardio, Combate y los personalizados muestran "Aún no hay demostración disponible".
-- **Ejercicios de fuerza**: campos editables de **Series**, **Reps** (p. ej. "8-10"), **Peso** (lbs) y **Efectivas** — el número de series realmente completadas.
+- **Ejercicios de fuerza**: campos editables de **Series**, **Reps** (p. ej. "8-10") y **Peso** (lbs) en una fila, con **Efectivas** (el número de series realmente completadas) y el botón **Registrar serie** debajo. Cada campo tiene botones - y + para cambiarlo con un solo dedo.
 - **Ejercicios de Cardio/Combate**: **Duración** editable en minutos (1–120) y los minutos realmente completados. Sin campo de peso.
-- **✓ Marcar como completado** — pone la fila en verde y suma al progreso semanal. Tócalo de nuevo para volver a incompleto.
-- **✗ Marcar como omitido** — marca el ejercicio como saltado intencionalmente (rojo). Tócalo de nuevo para deshacer.
-- **Editar / Eliminar** — edita los números del ejercicio o elimínalo; se elimina al momento y el aviso al pie ofrece Deshacer.
+- **✓ Marcar como completado** — pone la tarjeta en verde y suma al progreso semanal. Tócalo de nuevo para volver a incompleto.
+- **✗ Marcar como omitido** — marca el ejercicio como saltado intencionalmente (tarjeta roja). Tócalo de nuevo para deshacer.
+- **Eliminar (icono de papelera)** — quita el ejercicio al momento; el aviso al pie ofrece Deshacer. Los números se editan directamente en los campos, no hay un botón de editar aparte.
 
 ### Modal Agregar Ejercicio
 Se abre con **"Agregar Ejercicio"** en cualquier día:
@@ -95,7 +95,7 @@ Cada ejercicio de fuerza tiene un botón **Registrar serie** que muestra el avan
 Cuando el mismo ejercicio existía la semana pasada, una línea pequeña bajo los campos dice **Semana pasada: 135 lbs × 8-10 · 4/4 series**. Al lado, un botón **+5 lbs** (o **+2.5 kg**) pone el peso de esta semana en el de la semana pasada más un incremento.
 
 ### Notas del día
-Cada día abierto tiene un cuadro de **Notas** arriba, compartido a través del plan: lo que escriba el cliente o cualquiera de sus entrenadores lo ven los demás, y la nota pasa a las semanas siguientes hasta que se cambie. Las semanas pasadas muestran la nota en solo lectura.
+Cada día abierto tiene un cuadro de **Notas** arriba. Si el día aún no tiene nota, solo aparece un enlace pequeño **+ Añadir nota**; tócalo para abrir el cuadro. Las notas se comparten a través del plan: lo que escriba el cliente o cualquiera de sus entrenadores lo ven los demás, y la nota pasa a las semanas siguientes hasta que se cambie. Las semanas pasadas muestran la nota en solo lectura, y solo cuando existe.
 
 ### Elección de plan al empezar
 Una cuenta nueva sin plan en ningún lado ve **"¡Bienvenido! ¿Cuántos días a la semana puedes entrenar?"** con las tres plantillas. Elegir una la aplica; **Conservar el plan por defecto** mantiene Push/Pull/Piernas. Aparece una sola vez por cuenta; Plantillas de entrenamiento debajo de los días vuelve a mostrar la lista cuando quieras.

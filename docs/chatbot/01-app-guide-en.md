@@ -41,10 +41,10 @@ Directly under the header:
 Shows "Weekly Progress" with **X of Y exercises completed** and a percentage that fills in real time as exercises are marked complete. At 100% it celebrates with "Week Complete!".
 
 ### Day cards (Monday–Sunday)
-Each day of the week is a collapsible card (accordion) labeled with the day name, its date, and its muscle groups (for example "Chest & Shoulders & Triceps"). Tap a day to expand it and see its exercises.
+Each day of the week is a collapsible card (accordion) labeled with the day name, its date, and its muscle groups (for example "Chest & Shoulders & Triceps"). A small counter on the right shows how many of that day's exercises are done (for example "2/5"). Tap a day to expand it and see its exercises; the whole page scrolls, so every exercise of the open day is visible.
 
 Inside a day:
-- **Add Exercise** — opens the exercise picker (see below).
+- **Add Exercise** — opens the exercise picker (see below). It sits at the bottom of the open day, next to **Reset Day**.
 - **Reset Day** — restores that single day to the default plan at once; a toast at the bottom offers **Undo** for a few seconds. Deleting an exercise works the same way: it goes immediately, with Undo in the toast.
 - **✏️ Change muscle group** — lets you pick **up to 3 muscle groups** for that day from: Rest, Chest, Back, Shoulders, Biceps, Triceps, Forearms, Legs, Abs, Cardio, Combat. Choose "Rest" to make it a rest day. Press **Done** to confirm.
 - If a day has no exercises it shows "No exercises for today — Add an exercise to get started!".
@@ -53,11 +53,11 @@ Inside a day:
 Each exercise inside a day shows:
 - **Drag handle** — press and drag to reorder exercises within the day (works with touch).
 - **▶ demo button** — opens **"How to do this exercise"**, a visual demonstration of the full range of motion, start to finish. 152 of the 181 built-in exercises have demos; Cardio, Combat, and custom exercises show "No demonstration available yet".
-- **Strength exercises**: editable **Sets**, **Reps** (e.g. "8-10"), **Weight** (lbs), and **Effective** — the number of sets actually completed.
+- **Strength exercises**: editable **Sets**, **Reps** (e.g. "8-10") and **Weight** (lbs) in one row, with **Effective** (the number of sets actually completed) and the **Log set** button underneath. Each field has - and + buttons for one-thumb changes.
 - **Cardio/Combat exercises**: editable **Duration** in minutes (1–120) and the minutes actually completed. No weight field.
-- **✓ Mark as completed** — turns the row green and counts toward weekly progress. Tap again to set it back to incomplete.
-- **✗ Mark as skipped** — marks the exercise as intentionally skipped (red). Tap again to undo.
-- **Edit / Delete** — edit the exercise's numbers or remove it; delete happens at once and the toast at the bottom offers Undo.
+- **✓ Mark as completed** — turns the card green and counts toward weekly progress. Tap again to set it back to incomplete.
+- **✗ Mark as skipped** — marks the exercise as intentionally skipped (red card). Tap again to undo.
+- **Delete (trash icon)** — removes the exercise at once; the toast at the bottom offers Undo. Numbers are edited directly in the fields, there is no separate edit button.
 
 ### Add Exercise modal
 Opened with **"Add Exercise"** on any day:
@@ -95,7 +95,7 @@ Every strength exercise has a **Log set** button showing progress like "Log set 
 When the same exercise existed last week, a small line under the fields reads **Last week: 135 lbs × 8-10 · 4/4 sets**. Next to it, a **+5 lbs** (or **+2.5 kg**) button sets this week's weight to last week's plus one increment.
 
 ### Day notes
-Each open day has a **Notes** box at the top, shared through the plan: whatever the client or any of their trainers writes is visible to the others, and the note carries into the following weeks until changed. Past weeks show the note read-only.
+Each open day has a **Notes** box at the top. When the day has no note yet, only a small **+ Add note** link shows; tap it to open the box. Notes are shared through the plan: whatever the client or any of their trainers writes is visible to the others, and the note carries into the following weeks until changed. Past weeks show the note read-only, and only when there is one.
 
 ### First-run plan chooser
 A brand-new account with no plan anywhere sees **"Welcome! How many days a week can you train?"** with the three templates. Picking one applies it; **Keep the default plan** keeps Push/Pull/Legs. It appears once per account; Workout templates under the days brings the list back any time.

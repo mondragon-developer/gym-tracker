@@ -80,7 +80,7 @@ A: No. Tap **Log set** on the exercise: it counts the set and starts the rest ti
 A: Under the fields of each exercise, "Last week: 135 lbs × 8-10 · 4/4 sets" shows last week's numbers for the same exercise, and the **+5 lbs** (or **+2.5 kg**) button applies that increase to this week.
 
 **Q: Can my trainer leave me instructions?**
-A: Yes. Each day has a **Notes** box at the top. Notes are part of the plan, so you and your trainers see the same text, and they carry into the next weeks until changed.
+A: Yes. Open the day and tap **+ Add note** at the top; once a note exists the box stays open. Notes are part of the plan, so you and your trainers see the same text, and they carry into the next weeks until changed.
 
 **Q: Does the kg switch convert my weights?**
 A: Yes. Weights are stored in pounds and shown, typed and exported in the unit you pick, so 135 lbs reads as 61.2 kg and typing 60 kg stores 132.3 lbs.
