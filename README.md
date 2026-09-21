@@ -398,20 +398,25 @@ This project is open source and available under the [MIT License](LICENSE).
 - [x] **Workout templates**: Classic Push/Pull/Legs, Upper/Lower with active recovery, Full body 3 days
 - [x] **Copy last week**: One-tap reuse of the previous week's exercises, order and weights
 - [x] **Demo preview in the picker**: Check the movement before adding the exercise
+- [x] **Compact day cards**: Phone layout shows about four exercises per screen; empty notes collapse to one line
+- [x] **Accessible color system with dark mode**: Token sheet checked at WCAG 2.2 AA in both themes (`npm run check:contrast`), System / Light / Dark switch in the header, zero axe violations on the main screens
+- [x] **Import plan from the AI coach**: The chatbot ends plan answers with a GYMPLAN block; paste it anywhere in the app (or use Paste from clipboard) to preview every line against the library, choose Replace / Add / Skip per day, and apply with Undo. Trainers get the same in the client editor
+- [x] **Progress tab**: Weekly Summary charts volume per week and per exercise (best and last weight, change) with CSV export
+- [x] **Trainer save conflict check**: A trainer's Save changes refuses to overwrite a client's newer plan; Load latest or Keep mine
+- [x] **Foreground update check**: Open tabs and installed PWAs pick up a new deploy within minutes
 
 ### Planned Features
-- [ ] **AI exercise finder**: Ask in plain words ("3 chest exercises with dumbbells") and add the picks to the selected day in one tap; picks come only from the library so demos and equipment data carry over. Spec in [`docs/WISHLIST.md`](docs/WISHLIST.md)
-- [ ] **Workout analytics**: Progress charts and performance metrics
+- [ ] **Plan link from the coach**: A link in the chatbot's answer that opens the app with the plan prefilled, removing the copy step
+- [ ] **More analytics**: Per-muscle-group volume, personal records, longer ranges on top of the Progress tab
 - [ ] **Animated demos**: Upgrade the exercise how-tos from stills to looping video/GIF
 - [ ] **Social features**: Share workouts and progress
 - [ ] **More templates**: Splits beyond the five included, such as a 5-day split or a kettlebell week
-- [ ] **Export functionality**: Export workouts to PDF/CSV
+- [ ] **Export to PDF**: CSV already exists for the weekly summary and the progress table
 - [ ] **Nutrition tracking**: Basic meal and calorie logging
 - [ ] **Achievement system**: Workout milestones and badges
 
 ### Technical Improvements
-- [ ] **Data export/import**: Backup and restore functionality
-- [ ] **Modern, accessible color system**: One brand accent, neutral surfaces, semantic status colors that pass WCAG 2.2 AA in light and dark, status never by color alone, dark mode following the device setting with a manual override. Tokens and migration plan in [`docs/WISHLIST.md`](docs/WISHLIST.md)
+- [ ] **Data export/import**: Backup, restore and account deletion. Plan in [`docs/WISHLIST.md`](docs/WISHLIST.md)
 - [ ] **Advanced search**: Exercise filtering by difficulty
 - [ ] **Performance optimization**: Virtual scrolling for large lists
 

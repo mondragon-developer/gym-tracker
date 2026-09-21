@@ -67,6 +67,8 @@ through the normal autosave. The trainer panel can do the same for a client.
 
 ## 2. Modern, accessible color system (and dark mode from it)
 
+**Status (2026-09-21): shipped.** Tokens in `src/theme/tokens.css`, `npm run check:contrast`, theme switch, picker chips on families (#22, #29), axe pass with zero WCAG AA violations in both themes (#30). Not done from the spec: `prefers-contrast: more` only flattens the header; the muscle-group day headers use one color per state, not per family.
+
 **What the user sees.** A calmer, current look: one brand accent, a neutral
 scale for surfaces and text, and semantic colors for done, skipped, warning
 and danger. Less gradient, more whitespace, the same layout. Every text and
@@ -124,6 +126,8 @@ color-blindness simulator.
 
 ## 3. Week-over-week progress
 
+**Status (2026-09-21): shipped** as the Progress tab in Weekly Summary (#31): weekly volume chart and table, per-exercise sparkline, best and last weight, change, CSV. Volume is done sets x lower reps x weight. Next steps if wanted: per-muscle-group volume, personal records, range picker.
+
 Volume and top weight per exercise across stored weeks, from data already in
 the history object. Chart per exercise and a weekly volume total; export
 stays CSV. This is the roadmap's "analytics" item.
@@ -140,6 +144,8 @@ A 5-day split and a kettlebell week, once the library has enough kettlebell
 movements with demos (`npm run report:coverage` shows the pool).
 
 ## 6. Conflict check on trainer saves
+
+**Status (2026-09-21): shipped** (#28).
 
 **What goes wrong.** `AdminService.saveWorkoutPlan` upserts a client's plan
 without `expectedUpdatedAt`, so a trainer's "Save changes" is last-write-wins
