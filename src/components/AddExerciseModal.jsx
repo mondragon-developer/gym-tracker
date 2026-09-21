@@ -348,6 +348,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                         <div style={{ marginBottom: '12px' }}>
                             <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'var(--text-2)', marginBottom: '8px' }}>{t("Filter by Muscle Group", language)}</label>
                             <select
+aria-label={t("Filter by Muscle Group", language)}
                                 value={selectedMuscleGroup}
                                 onChange={(e) => setSelectedMuscleGroup(e.target.value)}
                                 style={{
@@ -371,6 +372,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                         <div style={{ marginBottom: '12px' }}>
                             <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'var(--text-2)', marginBottom: '8px' }}>{t("Filter by Equipment", language)}</label>
                             <select
+aria-label={t("Filter by Equipment", language)}
                                 aria-label={t("Filter by Equipment", language)}
                                 value={selectedEquipment}
                                 onChange={(e) => setSelectedEquipment(e.target.value)}
@@ -408,6 +410,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                     <div>
                                         <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: 'var(--text-3)', marginBottom: '6px' }}>{t("Duration (minutes)", language)}</label>
                                         <select
+aria-label={t("Duration (minutes)", language)}
                                             value={defaultSets}
                                             onChange={(e) => setDefaultSets(e.target.value)}
                                             style={{
@@ -433,6 +436,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                     <div>
                                         <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: 'var(--text-3)', marginBottom: '6px' }}>{t("Sets", language)}</label>
                                         <select
+aria-label={t("Sets", language)}
                                             value={defaultSets}
                                             onChange={(e) => setDefaultSets(e.target.value)}
                                             style={{
@@ -454,6 +458,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                     <div>
                                         <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: 'var(--text-3)', marginBottom: '6px' }}>{t("Min Reps", language)}</label>
                                         <select
+aria-label={t("Min Reps", language)}
                                             value={defaultRepsMin}
                                             onChange={(e) => setDefaultRepsMin(e.target.value)}
                                             style={{
@@ -475,6 +480,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                     <div>
                                         <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: 'var(--text-3)', marginBottom: '6px' }}>{t("Max Reps", language)}</label>
                                         <select
+aria-label={t("Max Reps", language)}
                                             value={defaultRepsMax}
                                             onChange={(e) => setDefaultRepsMax(e.target.value)}
                                             style={{

@@ -362,8 +362,8 @@ function AppContent() {
         );
     }
 
-    return (
-        <div style={{
+        return (
+        <main style={{
             minHeight: '100vh',
             backgroundColor: 'var(--surface)',
             color: 'var(--text-2)',
@@ -401,14 +401,14 @@ function AppContent() {
                         textAlign: 'center',
                         width: '100%'
                     }}>
-                        <p style={{
+                        <h1 style={{
                             color: 'white',
                             fontSize: '16px',
                             margin: '0 0 4px 0',
                             fontWeight: '500'
                         }}>
                             {t("Track your weekly fitness progress", language)}
-                        </p>
+                        </h1>
                         <p className="app-tagline" style={{
                             color: 'rgba(255, 255, 255, 0.8)',
                             fontSize: '14px',
@@ -854,8 +854,8 @@ function AppContent() {
                         language={language}
                     />
                 </Suspense>
-            )}
-        </div>
+                        )}
+        </main>
     );
 }
 

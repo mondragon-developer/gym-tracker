@@ -123,6 +123,8 @@ const Modal = ({
 
   if (!isOpen) return null;
 
+  const titleId = React.useId();
+
   const handleOverlayClick = (e) => {
     if (closeOnOverlayClick && e.target === e.currentTarget) {
       onClose();
@@ -131,15 +133,18 @@ const Modal = ({
 
   const modal = (
     <div style={overlayStyles} onClick={handleOverlayClick}>
-      <div 
-        style={{ ...modalStyles, ...style }} 
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={title ? titleId : undefined}
+        style={{ ...modalStyles, ...style }}
         className={className}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header with title and close button */}
         {(title || showCloseButton) && (
           <div style={headerStyles}>
-            {title && <h2 style={titleStyles}>{title}</h2>}
+            {title && <h2 id={titleId} style={titleStyles}>{title}</h2>}
             {showCloseButton && (
               <Button
                 variant={ButtonVariant.SECONDARY}

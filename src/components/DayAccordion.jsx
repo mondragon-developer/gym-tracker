@@ -161,72 +161,87 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                 transition: 'all 0.3s ease'
             }}
         >
-            {/*
-              Header uses role=button (not <button>) because the muscle-group editor
-              renders nested interactive children, and <button> inside <button> is
-              invalid HTML. Keyboard handler + aria-expanded keep it accessible.
+                        {/*
+              The whole header row toggles on click, but the accessible control is
+              the inner <button>: the muscle-group editor next to it is a button
+              too, and a button cannot contain another one.
             */}
             <div
-                role="button"
-                tabIndex={0}
-                aria-expanded={isOpen}
-                aria-controls={`day-panel-${day}`}
                 className="day-header"
                 style={{
                     padding: '14px 18px',
                     cursor: 'pointer',
                     display: 'flex',
-                    justifyContent: 'space-between',
                     alignItems: 'center',
                     gap: '10px',
+                    position: 'relative',
                     transition: 'all 0.3s ease',
                     ...headerStyle
                 }}
                 onClick={() => onToggle(day)}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        onToggle(day);
-                    }
-                }}
             >
-                <div style={{ flex: 1, minWidth: 0 }}>
+                <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    aria-controls={`day-panel-${day}`}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onToggle(day);
+                    }}
+                    style={{
+                        flex: 1,
+                        minWidth: 0,
+                        textAlign: 'left',
+                        background: 'none',
+                        border: 'none',
+                        padding: 0,
+                        color: 'inherit',
+                        font: 'inherit',
+                        cursor: 'pointer'
+                    }}
+                >
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
                         <span className="day-title" style={{ fontWeight: 'bold', fontSize: '18px', lineHeight: 1.2 }}>{t(day, language)}</span>
                         {date && (
-                            <span style={{ fontSize: '12px', opacity: 0.85, fontWeight: 500 }}>{date}</span>
+                            <span style={{ fontSize: '12px', fontWeight: 500 }}>{date}</span>
                         )}
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', position: 'relative', marginTop: '2px' }} className="muscle-group-dropdown">
-                        <span style={{ fontSize: '13px', opacity: 0.95, fontWeight: '500' }}>{translateMuscleGroup(data.name, language)}</span>
-                        {!readOnly && (
+                    <div style={{ fontSize: '13px', fontWeight: '500', marginTop: '2px' }}>{translateMuscleGroup(data.name, language)}</div>
+                </button>
+                {!readOnly && (
+                    <div className="muscle-group-dropdown" style={{ display: 'flex', alignItems: 'center' }}>
                         <button
+                            type="button"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setShowMuscleGroupDropdown(!showMuscleGroupDropdown);
                             }}
+                            aria-label={t('Change muscle group', language)}
+                            aria-expanded={showMuscleGroupDropdown}
                             style={{
                                 background: 'var(--day-chip-bg)',
                                 border: 'none',
-                                borderRadius: '6px',
-                                padding: '4px',
+                                borderRadius: '8px',
+                                minWidth: '28px',
+                                minHeight: '28px',
+                                padding: 0,
                                 cursor: 'pointer',
                                 display: 'flex',
                                 alignItems: 'center',
+                                justifyContent: 'center',
                                 color: 'var(--on-day)',
                                 transition: 'all 0.2s ease'
                             }}
-                            title="Change muscle group"
+                            title={t('Change muscle group', language)}
                         >
                             <Edit3 size={14} />
                         </button>
-                        )}
-                        {!readOnly && showMuscleGroupDropdown && (
-                            <div style={{
+                                                {showMuscleGroupDropdown && (
+                            <div onClick={(e) => e.stopPropagation()} style={{
                                 position: 'absolute',
                                 top: '100%',
-                                left: 0,
-                                right: 0,
+                                left: '18px',
+                                right: '18px',
                                 minWidth: '240px',
                                 background: 'var(--surface)',
                                 border: '2px solid var(--info-border)',
@@ -349,7 +364,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                             </div>
                         )}
                     </div>
-                </div>
+                )}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
                     {exerciseCount > 0 && (
                         <span style={{
