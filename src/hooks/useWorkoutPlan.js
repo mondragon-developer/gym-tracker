@@ -280,7 +280,14 @@ const useWorkoutPlan = () => {
   // path, and if nothing was saved in between the pending save is dropped
   // because the restored object is the persisted one.
   const restoreSnapshot = (snapshot) => {
-    if (snapshot) setHistory(snapshot);
+    if (!snapshot) return;
+    setHistory(snapshot);
+    // Undo before the debounce fired: nothing changed on disk, so drop the
+    // pending save and clear the dirty label the effect will not touch.
+    if (snapshot === persistedRef.current) {
+      clearTimeout(timerRef.current);
+      setSaveState(SaveState.IDLE);
+    }
   };
 
   const previousWeekStart = history && viewedWeekStart

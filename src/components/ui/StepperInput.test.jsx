@@ -38,6 +38,17 @@ describe('StepperInput', () => {
         expect(onChange).toHaveBeenLastCalledWith('9-11');
     });
 
+    it('keeps the buttons in the tab order and steps with the arrow keys', () => {
+        const onChange = vi.fn();
+        render(<StepperInput value="3" onChange={onChange} ariaLabel="Sets" {...theme} />);
+        expect(screen.getByLabelText('Sets -1')).not.toHaveAttribute('tabindex', '-1');
+        expect(screen.getByLabelText('Sets +1')).not.toHaveAttribute('tabindex', '-1');
+        fireEvent.keyDown(screen.getByLabelText('Sets'), { key: 'ArrowUp' });
+        expect(onChange).toHaveBeenLastCalledWith('4');
+        fireEvent.keyDown(screen.getByLabelText('Sets'), { key: 'ArrowDown' });
+        expect(onChange).toHaveBeenLastCalledWith('2');
+    });
+
     it('uses the numeric keyboard hint and respects max', () => {
         const onChange = vi.fn();
         render(<StepperInput value="4" onChange={onChange} max={4} ariaLabel="Sets" inputMode="numeric" {...theme} />);

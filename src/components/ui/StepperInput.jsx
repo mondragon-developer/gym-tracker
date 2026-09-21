@@ -63,7 +63,6 @@ const StepperInput = ({
         type="button"
         onClick={() => bump(-1)}
         aria-label={ariaLabel ? `${ariaLabel} -${step}` : `-${step}`}
-        tabIndex={-1}
         disabled={disabled}
         style={buttonStyle(focusColor, disabled)}
       >
@@ -74,6 +73,13 @@ const StepperInput = ({
         inputMode={inputMode}
         value={value ?? ''}
         onChange={(e) => onChange(e.target.value)}
+        onKeyDown={(e) => {
+          // Keyboard users step with the arrows without leaving the field.
+          if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            bump(e.key === 'ArrowUp' ? 1 : -1);
+          }
+        }}
         placeholder={placeholder}
         aria-label={ariaLabel}
         disabled={disabled}
@@ -103,7 +109,6 @@ const StepperInput = ({
         type="button"
         onClick={() => bump(1)}
         aria-label={ariaLabel ? `${ariaLabel} +${step}` : `+${step}`}
-        tabIndex={-1}
         disabled={disabled}
         style={buttonStyle(focusColor, disabled)}
       >

@@ -207,6 +207,23 @@ describe('useWorkoutPlan persistence', () => {
     );
   });
 
+  it('undo before the autosave fires restores the persisted plan and clears the dirty state', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
+    const { result } = await renderPlan();
+    const before = result.current.historySnapshot;
+
+    act(() => { result.current.resetDay('Monday'); });
+    expect(result.current.saveState).toBe(SaveState.DIRTY);
+
+    act(() => { result.current.restoreSnapshot(before); });
+    expect(result.current.isDirty).toBe(false);
+    expect(result.current.saveState).toBe(SaveState.IDLE);
+    expect(result.current.workoutPlan.Monday.name).toBe('Cloud Day');
+
+    await act(async () => { vi.advanceTimersByTime(5000); });
+    expect(mocks.saveWorkoutPlan).not.toHaveBeenCalled();
+  });
+
   it('migrates a local plan to the cloud only when no cloud row exists', async () => {
     mocks.getWorkoutPlanRecord.mockResolvedValue(null);
     const local = workoutService.getInitialPlan();

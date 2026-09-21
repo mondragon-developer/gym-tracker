@@ -9,8 +9,6 @@ import { getExerciseEquipment, listEquipment, hasExerciseEnrichment } from '../s
 import { hasExerciseMedia } from '../services/ExerciseMediaService.js';
 import ExerciseDemoModal from './ExerciseDemoModal.jsx';
 
-const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
 // Accent-insensitive lowercase, so "biceps" finds "Bíceps" and
 // "sentadilla" finds "Sentadillas con Barra".
 const fold = (s) => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -21,6 +19,27 @@ const matchesTerm = (exercise, term) => {
     if (!term) return true;
     return fold(exercise.name).includes(term)
         || fold(translateExercise(exercise.name, 'es')).includes(term);
+};
+
+// Wraps the accent-insensitive match inside the displayed name. Folding
+// keeps the string length (a precomposed accented letter maps to one base
+// letter), so an index found in the folded name applies to the original;
+// if the lengths ever differ the name is shown without highlight.
+const highlightMatch = (display, foldedTerm) => {
+    if (!foldedTerm) return display;
+    const folded = fold(display);
+    const index = folded.indexOf(foldedTerm);
+    if (index === -1 || folded.length !== display.length) return display;
+    const end = index + foldedTerm.length;
+    return (
+        <>
+            {display.slice(0, index)}
+            <mark style={{ backgroundColor: '#fef3c7', padding: '1px 2px', borderRadius: '2px' }}>
+                {display.slice(index, end)}
+            </mark>
+            {display.slice(end)}
+        </>
+    );
 };
 
 const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -531,16 +550,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                                     fontSize: '14px',
                                                     marginBottom: '4px'
                                                 }}>
-                                                    {searchTerm && translateExercise(ex.name, language).toLowerCase().includes(searchTerm.trim().toLowerCase()) ? (
-                                                        <span dangerouslySetInnerHTML={{
-                                                            __html: translateExercise(ex.name, language).replace(
-                                                                new RegExp(`(${escapeRegExp(searchTerm.trim())})`, 'gi'),
-                                                                '<mark style="background-color: #fef3c7; padding: 1px 2px; border-radius: 2px;">$1</mark>'
-                                                            )
-                                                        }} />
-                                                    ) : (
-                                                        translateExercise(ex.name, language)
-                                                    )}
+                                                    {highlightMatch(translateExercise(ex.name, language), foldedTerm)}
                                                 </div>
                                                 <div style={{ fontSize: '12px', color: '#6b7280' }}>
                                                     {isDurationGroup(ex.muscleGroup) ?

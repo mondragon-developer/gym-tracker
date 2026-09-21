@@ -43,6 +43,20 @@ describe('RestTimer end-of-rest alert', () => {
         expect(screen.getByText('Pause')).toBeInTheDocument();
     });
 
+    it('vibrates when the rest ends, where the device supports it', () => {
+        vi.useFakeTimers();
+        const vibrate = vi.fn(() => true);
+        Object.defineProperty(navigator, 'vibrate', { value: vibrate, configurable: true });
+        try {
+            render(<RestTimer />);
+            finishRest();
+            expect(vibrate).toHaveBeenCalledTimes(1);
+            expect(vibrate.mock.calls[0][0]).toEqual([400, 150, 400, 150, 400]);
+        } finally {
+            delete navigator.vibrate;
+        }
+    });
+
     it('uses and remembers a custom message', () => {
         vi.useFakeTimers();
         render(<RestTimer language="es" />);

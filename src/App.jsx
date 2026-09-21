@@ -325,7 +325,7 @@ function AppContent() {
                         }}>
                             {t("Track your weekly fitness progress", language)}
                         </p>
-                        <p style={{
+                        <p className="app-tagline" style={{
                             color: 'rgba(255, 255, 255, 0.8)',
                             fontSize: '14px',
                             margin: '0 0 16px 0',

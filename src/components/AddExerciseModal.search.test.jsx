@@ -22,11 +22,13 @@ describe('AddExerciseModal search across languages', () => {
         expect(rows.some(text => text.includes('Press de Banca'))).toBe(false);
     });
 
-    it('ignores accents and case', () => {
+    it('ignores accents and case, and highlights the accented match', () => {
         renderPicker('es');
         search('JALON AL PECHO');
         expect(rowTexts().some(text => text.includes('Jalón al Pecho'))).toBe(true);
         expect(screen.queryByText(/No exercises found|No se encontraron ejercicios/)).toBeNull();
+        const marks = [...document.querySelectorAll('mark')].map(m => m.textContent);
+        expect(marks).toContain('Jalón al Pecho');
     });
 
     it('still finds exercises by their English name in Spanish', () => {
