@@ -395,6 +395,8 @@ function AppContent() {
                     gap: '12px',
                     flexWrap: 'wrap'
                 }}>
+                    {/* Arrows and label never wrap apart from each other */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'nowrap' }}>
                     <button
                         onClick={goToOlderWeek}
                         disabled={!hasOlderWeek}
@@ -409,7 +411,7 @@ function AppContent() {
                     >
                         ‹
                     </button>
-                    <div style={{ textAlign: 'center', minWidth: '200px' }}>
+                    <div style={{ textAlign: 'center', minWidth: '150px', maxWidth: 'calc(100vw - 140px)' }}>
                         <div style={{ fontSize: '15px', fontWeight: 700, color: '#164e63' }}>
                             {viewedWeekStart && `${t('Week of', language)} ${formatWeekRange(viewedWeekStart, language)}`}
                         </div>
@@ -435,6 +437,7 @@ function AppContent() {
                     >
                         ›
                     </button>
+                    </div>
                     {!isViewingCurrent && (
                         <button
                             onClick={goToCurrentWeek}
