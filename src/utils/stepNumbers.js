@@ -17,9 +17,9 @@ export const stepNumbers = (value, delta, { min = 0, max = Infinity, fallback = 
     if (text === '' || parseLeading(text) === null) {
         return format(Math.min(max, Math.max(min, fallback + delta)));
     }
-    // The sign belongs to the number, or "-5" would step as 5 and dodge the
-    // clamp.
-    return text.replace(/-?\d+(?:[.,]\d+)?/g, (match) => {
+    // A leading minus is a sign ("-5"), but the dash inside a range ("8-10")
+    // is a separator, so only a minus not preceded by a digit counts.
+    return text.replace(/(?<![\d.,])-?\d+(?:[.,]\d+)?/g, (match) => {
         const n = parseFloat(match.replace(',', '.'));
         return format(Math.min(max, Math.max(min, n + delta)));
     });

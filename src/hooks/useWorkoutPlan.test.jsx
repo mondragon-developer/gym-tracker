@@ -273,6 +273,8 @@ describe('useWorkoutPlan persistence', () => {
     // First save for this account: an insert, no version stamp.
     expect(mocks.saveWorkoutPlan.mock.calls[0][1]).toEqual({ expectedUpdatedAt: null });
     expect(mocks.saveWorkoutPlan.mock.calls[0][0].weeks[result.current.currentWeekStart].Monday.exercises.length).toBeGreaterThan(0);
+  });
+
   it('flushes a pending edit before honoring an app-update reload, and skips the reload when the save fails', async () => {
     mocks.getWorkoutPlanRecord.mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
     const { result } = await renderPlan();
