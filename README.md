@@ -400,6 +400,7 @@ This project is open source and available under the [MIT License](LICENSE).
 - [x] **Demo preview in the picker**: Check the movement before adding the exercise
 
 ### Planned Features
+- [ ] **AI exercise finder**: Ask in plain words ("3 chest exercises with dumbbells") and add the picks to the selected day in one tap; picks come only from the library so demos and equipment data carry over. Spec in [`docs/WISHLIST.md`](docs/WISHLIST.md)
 - [ ] **Workout analytics**: Progress charts and performance metrics
 - [ ] **Animated demos**: Upgrade the exercise how-tos from stills to looping video/GIF
 - [ ] **Social features**: Share workouts and progress
