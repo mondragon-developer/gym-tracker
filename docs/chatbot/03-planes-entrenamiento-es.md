@@ -1,6 +1,6 @@
 # Gym Tracker — Calentamiento y Planes Semanales (Español)
 
-Este documento le da al chatbot respuestas listas para "¿cómo caliento?" y "¿cómo organizo mi semana si puedo entrenar 3 / 4 / 5 / 6 días?". Todos los ejercicios mencionados existen en la app Gym Tracker — búscalos por su **nombre en inglés** en "Agregar Ejercicio". Son **plantillas generales**, no programas personalizados, y nada de esto es consejo médico: ante dolor, lesiones o condiciones de salud, consulta a un médico o profesional certificado antes de seguir cualquier plan.
+Este documento le da al chatbot respuestas listas para "¿cómo caliento?" y "¿cómo organizo mi semana si puedo entrenar 3 / 4 / 5 / 6 días?". Todos los ejercicios mencionados existen en la app Gym Tracker — búscalos por su nombre en español o en inglés en "Agregar Ejercicio", o pega el bloque GYMPLAN de cada plan en **Importar plan**. Son **plantillas generales**, no programas personalizados, y nada de esto es consejo médico: ante dolor, lesiones o condiciones de salud, consulta a un médico o profesional certificado antes de seguir cualquier plan.
 
 Dos datos de la app que importan para la configuración:
 - La etiqueta de grupos musculares de un día (botón ✏️, hasta 3 grupos, o "Rest"/Descanso) es **solo una etiqueta** — puedes agregar cualquier ejercicio a cualquier día. El selector de ejercicios se prefiltra al grupo del día, pero la pestaña **Todos** muestra todo.
@@ -40,6 +40,35 @@ Para armarlo a mano: pon martes, jueves, sábado (y domingo) en **Rest** con el 
 
 **Día C (viernes):** Leg Press 3×12-15 · Dumbbell Press 3×8-12 · Bent-Over Barbell Rows 3×8-10 · Lateral Raises 3×12-15 · Barbell Curls 2×10-12 · Rope Pushdowns 2×10-12
 
+Listo para pegar en **Importar plan** (debajo de los días):
+
+```
+GYMPLAN v1
+Lunes: Piernas y Pecho y Espalda
+- Sentadillas con Barra 3x8-10
+- Press de Banca con Barra 3x8-10
+- Remo Sentado en Polea 3x10-12
+- Press sobre Cabeza 2x10-12
+- Plancha 3x30-60s
+Martes: Descanso
+Miércoles: Piernas y Pecho y Espalda
+- Peso Muerto 3x6-8
+- Press Inclinado con Mancuernas 3x10-12
+- Jalón al Pecho 3x10-12
+- Zancadas 3x12-15
+- Elevaciones de Piernas 3x12-15
+Jueves: Descanso
+Viernes: Piernas y Pecho y Espalda
+- Prensa de Piernas 3x12-15
+- Press con Mancuernas 3x8-12
+- Remo con Barra Inclinado 3x8-10
+- Elevaciones Laterales 3x12-15
+- Curl con Barra 2x10-12
+- Extensión con Cuerda 2x10-12
+Sábado: Descanso
+Domingo: Descanso
+```
+
 ## Torso/pierna 4 días (lunes / martes / jueves / viernes)
 
 Un toque: **Plantillas de entrenamiento** → **Tren superior / inferior con recuperación activa** aplica esta división con un miércoles suave de bici y core ya incluido. La plantilla dentro de la app es la versión canónica; ajústala después de aplicarla si prefieres los números de abajo.
@@ -53,6 +82,41 @@ Para armarlo a mano: miércoles, sábado y domingo → Descanso (o cardio suave,
 **Torso B (jueves):** Incline Dumbbell Press 4×8-12 · Pull-ups 3×6-10 (o Lat Pulldowns) · Arnold Press 3×10-12 · Seated Cable Rows 3×10-12 · Hammer Curls 2×12-15 · Skull Crushers 2×10-12
 
 **Pierna B (viernes):** Deadlifts 3×5-8 · Front Squats 3×8-10 · Lying Leg Curls 3×12-15 · Seated Calf Raises 3×15-20 · Hanging Leg Raises 3×10-15
+
+Listo para pegar en **Importar plan** (debajo de los días):
+
+```
+GYMPLAN v1
+Lunes: Pecho y Espalda y Hombros
+- Press de Banca con Barra 4x6-10
+- Remo con Barra Inclinado 4x8-10
+- Press sobre Cabeza 3x8-10
+- Jalón al Pecho 3x10-12
+- Curl con Barra 2x10-12
+- Extensión con Cuerda 2x10-12
+Martes: Piernas y Abdominales
+- Sentadillas con Barra 4x6-10
+- Peso Muerto Rumano 3x8-12
+- Prensa de Piernas 3x12-15
+- Elevaciones de Pantorrilla 4x15-20
+- Plancha 3x30-60s
+Miércoles: Descanso
+Jueves: Pecho y Espalda y Hombros
+- Press Inclinado con Mancuernas 4x8-12
+- Dominadas 3x6-10
+- Press Arnold 3x10-12
+- Remo Sentado en Polea 3x10-12
+- Curl Martillo 2x12-15
+- Rompe Cráneos 2x10-12
+Viernes: Piernas y Abdominales
+- Peso Muerto 3x5-8
+- Sentadillas Frontales 3x8-10
+- Curl Femoral Acostado 3x12-15
+- Elevaciones de Pantorrilla Sentado 3x15-20
+- Elevaciones de Piernas Colgado 3x10-15
+Sábado: Descanso
+Domingo: Descanso
+```
 
 ## Rutina dividida 5 días (lunes a viernes)
 
@@ -68,6 +132,44 @@ Un enfoque por día; fin de semana de descanso. Etiqueta cada día con su grupo.
 
 **Viernes — Brazos + Antebrazos:** Close-Grip Bench Press 4×8-12 · Barbell Curls 4×8-12 · Rope Pushdowns 3×10-15 · Hammer Curls 3×10-15 · Wrist Curls 2×15-20 · Dead Hangs 2× (aguante máximo cómodo)
 
+Listo para pegar en **Importar plan** (debajo de los días):
+
+```
+GYMPLAN v1
+Lunes: Pecho
+- Press de Banca con Barra 4x6-10
+- Press Inclinado con Mancuernas 3x8-12
+- Aperturas en Polea 3x12-15
+- Flexiones 2xmax
+Martes: Espalda
+- Peso Muerto 3x5-8
+- Dominadas 3x6-10
+- Remo Sentado en Polea 3x10-12
+- Jalón a la Cara 3x15-20
+- Encogimientos con Barra 2x12-15
+Miércoles: Hombros y Abdominales
+- Press Militar 4x6-10
+- Elevaciones Laterales 4x12-15
+- Aperturas Inversas en Máquina 3x12-15
+- Abdominales en Polea 3x12-15
+- Plancha 2x30-60s
+Jueves: Piernas
+- Sentadillas con Barra 4x6-10
+- Peso Muerto Rumano 3x8-12
+- Extensiones de Cuádriceps 3x12-15
+- Curl Femoral Acostado 3x12-15
+- Elevaciones de Pantorrilla 4x15-20
+Viernes: Bíceps y Tríceps y Antebrazos
+- Press de Banca Cerrado 4x8-12
+- Curl con Barra 4x8-12
+- Extensión con Cuerda 3x10-15
+- Curl Martillo 3x10-15
+- Curl de Muñeca 2x15-20
+- Colgarse 2xmax
+Sábado: Descanso
+Domingo: Descanso
+```
+
 ## Push/Pull/Piernas 6 días — el plan por defecto de la app
 
 La app viene con este plan ya cargado (Empuje lun/jue, Jalón mar/vie, Piernas mié/sáb, domingo descanso — listado completo en la Guía de la App). No hay nada que configurar: está ahí desde el primer uso. Para volver a él después de personalizar, usa **Reiniciar Día** en un día o **Reiniciar Semana** — advertencia: reiniciar descarta tus personalizaciones y restaura el plan predeterminado.
@@ -81,6 +183,36 @@ Todos estos existen en la app y requieren poco o ningún equipo. Ejemplo de patr
 **Día B:** Jumping Jacks 5 min · Walking Lunges 3×12-15 · Diamond Push-Ups 3× hasta el límite · Bird Dog 3×10 por lado · Bicycle Crunches 3×15-20 · Mountain Climbers 3×30s
 
 **Día C:** Burpees 3×10-15 · Step-Ups 3×12-15 · Bench Dips 3×10-15 (silla firme) · Dead Bug 3×10 por lado · Side Plank 2× por lado (20–40s) · Jump Rope 10 min
+
+Listo para pegar en **Importar plan** (debajo de los días):
+
+```
+GYMPLAN v1
+Lunes: Pecho y Espalda y Piernas
+- Flexiones 3xmax
+- Remo Invertido 3x8-12
+- Puente de Glúteos 3x15-20
+- Sentadilla en Pared 3x30-60s
+- Plancha 3x30-60s
+Martes: Descanso
+Miércoles: Cardio y Piernas y Abdominales
+- Saltos de Tijera 5 min
+- Zancadas Caminando 3x12-15
+- Flexiones Diamante 3xmax
+- Perro de Caza 3x10
+- Abdominales Bicicleta 3x15-20
+- Escaladores 3x30s
+Jueves: Descanso
+Viernes: Cardio y Piernas y Abdominales
+- Burpees 5 min
+- Subidas al Cajón 3x12-15
+- Fondos en Banco 3x10-15
+- Bicho Muerto 3x10
+- Plancha Lateral 2x20-40s
+- Saltar la Cuerda 10 min
+Sábado: Descanso
+Domingo: Descanso
+```
 
 Si tienes barra de dominadas, agrega Pull-ups o Dead Hangs cualquier día.
 

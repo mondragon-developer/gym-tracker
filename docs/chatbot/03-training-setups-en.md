@@ -40,6 +40,35 @@ To build it by hand instead: set Tuesday, Thursday, Saturday (and Sunday) to **R
 
 **Day C (Friday):** Leg Press 3×12-15 · Dumbbell Press 3×8-12 · Bent-Over Barbell Rows 3×8-10 · Lateral Raises 3×12-15 · Barbell Curls 2×10-12 · Rope Pushdowns 2×10-12
 
+Ready to paste into **Import plan** (under the days):
+
+```
+GYMPLAN v1
+Monday: Legs & Chest & Back
+- Barbell Squats 3x8-10
+- Barbell Bench Press 3x8-10
+- Seated Cable Rows 3x10-12
+- Overhead Press 2x10-12
+- Plank 3x30-60s
+Tuesday: Rest
+Wednesday: Legs & Chest & Back
+- Deadlifts 3x6-8
+- Incline Dumbbell Press 3x10-12
+- Lat Pulldowns 3x10-12
+- Lunges 3x12-15
+- Leg Raises 3x12-15
+Thursday: Rest
+Friday: Legs & Chest & Back
+- Leg Press 3x12-15
+- Dumbbell Press 3x8-12
+- Bent-Over Barbell Rows 3x8-10
+- Lateral Raises 3x12-15
+- Barbell Curls 2x10-12
+- Rope Pushdowns 2x10-12
+Saturday: Rest
+Sunday: Rest
+```
+
 ## 4-day upper/lower (Monday / Tuesday / Thursday / Friday)
 
 One tap: **Workout templates** → **Upper / Lower with active recovery** applies this split with a light bike-and-core Wednesday already in place. The in-app template is the canonical version; adjust it after applying if you prefer the numbers below.
@@ -53,6 +82,41 @@ Building it by hand: Wednesday, Saturday, Sunday → Rest (or light cardio, see 
 **Upper B (Thursday):** Incline Dumbbell Press 4×8-12 · Pull-ups 3×6-10 (or Lat Pulldowns) · Arnold Press 3×10-12 · Seated Cable Rows 3×10-12 · Hammer Curls 2×12-15 · Skull Crushers 2×10-12
 
 **Lower B (Friday):** Deadlifts 3×5-8 · Front Squats 3×8-10 · Lying Leg Curls 3×12-15 · Seated Calf Raises 3×15-20 · Hanging Leg Raises 3×10-15
+
+Ready to paste into **Import plan** (under the days):
+
+```
+GYMPLAN v1
+Monday: Chest & Back & Shoulders
+- Barbell Bench Press 4x6-10
+- Bent-Over Barbell Rows 4x8-10
+- Overhead Press 3x8-10
+- Lat Pulldowns 3x10-12
+- Barbell Curls 2x10-12
+- Rope Pushdowns 2x10-12
+Tuesday: Legs & Abs
+- Barbell Squats 4x6-10
+- Romanian Deadlifts 3x8-12
+- Leg Press 3x12-15
+- Standing Calf Raises 4x15-20
+- Plank 3x30-60s
+Wednesday: Rest
+Thursday: Chest & Back & Shoulders
+- Incline Dumbbell Press 4x8-12
+- Pull-ups 3x6-10
+- Arnold Press 3x10-12
+- Seated Cable Rows 3x10-12
+- Hammer Curls 2x12-15
+- Skull Crushers 2x10-12
+Friday: Legs & Abs
+- Deadlifts 3x5-8
+- Front Squats 3x8-10
+- Lying Leg Curls 3x12-15
+- Seated Calf Raises 3x15-20
+- Hanging Leg Raises 3x10-15
+Saturday: Rest
+Sunday: Rest
+```
 
 ## 5-day muscle-group split (Monday–Friday)
 
@@ -68,6 +132,44 @@ One focus per day; weekend rest. Label each day with its group.
 
 **Friday — Arms + Forearms:** Close-Grip Bench Press 4×8-12 · Barbell Curls 4×8-12 · Rope Pushdowns 3×10-15 · Hammer Curls 3×10-15 · Wrist Curls 2×15-20 · Dead Hangs 2× (max comfortable hold)
 
+Ready to paste into **Import plan** (under the days):
+
+```
+GYMPLAN v1
+Monday: Chest
+- Barbell Bench Press 4x6-10
+- Incline Dumbbell Press 3x8-12
+- Cable Flyes 3x12-15
+- Push-Ups 2xmax
+Tuesday: Back
+- Deadlifts 3x5-8
+- Pull-ups 3x6-10
+- Seated Cable Rows 3x10-12
+- Face Pulls 3x15-20
+- Barbell Shrugs 2x12-15
+Wednesday: Shoulders & Abs
+- Military Press 4x6-10
+- Lateral Raises 4x12-15
+- Reverse Pec Deck Flyes 3x12-15
+- Cable Crunches 3x12-15
+- Plank 2x30-60s
+Thursday: Legs
+- Barbell Squats 4x6-10
+- Romanian Deadlifts 3x8-12
+- Leg Extensions 3x12-15
+- Lying Leg Curls 3x12-15
+- Standing Calf Raises 4x15-20
+Friday: Biceps & Triceps & Forearms
+- Close-Grip Bench Press 4x8-12
+- Barbell Curls 4x8-12
+- Rope Pushdowns 3x10-15
+- Hammer Curls 3x10-15
+- Wrist Curls 2x15-20
+- Dead Hangs 2xmax
+Saturday: Rest
+Sunday: Rest
+```
+
 ## 6-day Push/Pull/Legs — the app's default
 
 The app ships with this exact plan already loaded (Push Mon/Thu, Pull Tue/Fri, Legs Wed/Sat, Sunday rest — full listing in the App Guide). Nothing to configure: it's there on first launch. To return to it after customizing, use **Reset Day** on a single day or **Reset Week** — warning: reset discards your customizations and restores the default plan.
@@ -81,6 +183,36 @@ All these exist in the app and need little or no equipment. Example 3-day patter
 **Day B:** Jumping Jacks 5 min · Walking Lunges 3×12-15 · Diamond Push-Ups 3× to limit · Bird Dog 3×10 per side · Bicycle Crunches 3×15-20 · Mountain Climbers 3×30s
 
 **Day C:** Burpees 3×10-15 · Step-Ups 3×12-15 · Bench Dips 3×10-15 (sturdy chair) · Dead Bug 3×10 per side · Side Plank 2× per side (20–40s) · Jump Rope 10 min
+
+Ready to paste into **Import plan** (under the days):
+
+```
+GYMPLAN v1
+Monday: Chest & Back & Legs
+- Push-Ups 3xmax
+- Inverted Rows 3x8-12
+- Glute Bridges 3x15-20
+- Wall Sits 3x30-60s
+- Plank 3x30-60s
+Tuesday: Rest
+Wednesday: Cardio & Legs & Abs
+- Jumping Jacks 5 min
+- Walking Lunges 3x12-15
+- Diamond Push-Ups 3xmax
+- Bird Dog 3x10
+- Bicycle Crunches 3x15-20
+- Mountain Climbers 3x30s
+Thursday: Rest
+Friday: Cardio & Legs & Abs
+- Burpees 5 min
+- Step-Ups 3x12-15
+- Bench Dips 3x10-15
+- Dead Bug 3x10
+- Side Plank 2x20-40s
+- Jump Rope 10 min
+Saturday: Rest
+Sunday: Rest
+```
 
 If you have a pull-up bar, add Pull-ups or Dead Hangs on any day.
 

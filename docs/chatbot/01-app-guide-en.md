@@ -85,6 +85,9 @@ Under the day list, on the current week or a future week:
 - **Copy last week** replaces the viewed week with the previous week's exercises, order, weights and hidden days, with completion cleared. A confirmation shows which week is copied.
 - Trainers have both actions in their panel for the selected client.
 
+### Import plan from the AI coach
+Ask this assistant for a plan (for example "make me a 4-day plan"). The answer ends with a `GYMPLAN v1` block. Tap **Copy** on the answer, open **Import plan** under the days, paste, and tap **Preview**. Every line gets a badge: **Library** (matched to a built-in exercise, demo included), **Custom** (created as a custom exercise) or **Choose** (pick the right exercise from a short list). Pick **Replace whole week** (days not in the block become Rest) or **Merge into week** (they stay as they are), and per day **Replace day**, **Add to day** or **Skip**. **Apply to this week** asks for a second tap, then the week is built at once and **Undo** appears at the bottom for a few seconds. Works on the current week and on planned-ahead weeks; trainers have the same button in the client editor.
+
 ### Previewing an exercise before adding it
 In the Add Exercise picker, exercises with a demo or instructions show a **▶** button on the right of the row. It opens "How to do this exercise" on top of the picker so you can check the movement first; the row itself still adds the exercise.
 
