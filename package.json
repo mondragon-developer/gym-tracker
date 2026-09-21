@@ -12,7 +12,8 @@
     "test:run": "vitest run",
     "build:enrichment": "node scripts/enrichment/build-enrichment.mjs",
     "upload:media": "node --env-file=.env scripts/upload-exercise-media.mjs",
-    "report:coverage": "node scripts/enrichment/coverage-report.mjs"
+    "report:coverage": "node scripts/enrichment/coverage-report.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

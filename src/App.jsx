@@ -17,6 +17,7 @@ const AdminDashboard = React.lazy(() => import('./components/AdminDashboard'));
 const WeeklySummaryModal = React.lazy(() => import('./components/WeeklySummaryModal'));
 import LanguageToggle from './components/LanguageToggle';
 import UnitsToggle from './components/UnitsToggle';
+import ThemeToggle from './components/ThemeToggle';
 import UserProfile from './components/UserProfile';
 import AuthWrapper from './components/AuthWrapper';
 import Modal from './components/ui/Modal.jsx';
@@ -24,6 +25,7 @@ import Button from './components/ui/Button.jsx';
 import { ButtonVariant } from './components/ui/Button.constants.js';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { UnitsProvider } from './contexts/UnitsContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { useLanguage } from './hooks/useLanguage.js';
 import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from './hooks/useAuth.js';
@@ -40,6 +42,22 @@ import { getWorkoutTemplate } from './constants/workoutTemplates.js';
 // Lazy: only loads when the user opens the template picker.
 const WorkoutTemplateModal = React.lazy(() => import('./components/WorkoutTemplateModal'));
 import mdLogo from './assets/mdlogo.jpeg';
+
+// Flat overrides for the week-level action buttons; the Button variants
+// still carry their own shadow, so it is switched off here.
+const neutralActionStyle = {
+    maxWidth: '320px',
+    background: 'var(--surface-3)',
+    color: 'var(--text-2)',
+    boxShadow: 'none'
+};
+const dangerActionStyle = {
+    maxWidth: '320px',
+    background: 'var(--danger-soft)',
+    color: 'var(--danger)',
+    border: '1px solid var(--danger-border)',
+    boxShadow: 'none'
+};
 
 /**
  * Main Application Component Content
@@ -92,8 +110,8 @@ function AppContent() {
     const lazyFallback = (
         <div style={{
             position: 'fixed', bottom: '24px', left: '50%', transform: 'translateX(-50%)',
-            padding: '8px 14px', borderRadius: '10px', backgroundColor: '#0e7490',
-            color: 'white', fontSize: '13px', fontWeight: 600, zIndex: 1000
+            padding: '8px 14px', borderRadius: '10px', backgroundColor: 'var(--brand)',
+            color: 'var(--on-brand)', fontSize: '13px', fontWeight: 600, zIndex: 1000
         }}>
             {t('Loading...', language)}
         </div>
@@ -293,12 +311,12 @@ function AppContent() {
         return (
             <div style={{
                 minHeight: '100vh',
-                backgroundColor: 'white',
+                backgroundColor: 'var(--surface)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
             }}>
-                <div style={{ fontSize: '24px', color: '#6b7280' }}>Loading...</div>
+                <div style={{ fontSize: '24px', color: 'var(--text-3)' }}>Loading...</div>
             </div>
         );
     }
@@ -307,14 +325,14 @@ function AppContent() {
         return (
             <div style={{
                 minHeight: '100vh',
-                backgroundColor: 'white',
+                backgroundColor: 'var(--surface)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexDirection: 'column',
                 gap: '16px'
             }}>
-                <div style={{ fontSize: '24px', color: '#ef4444' }}>Error: {error}</div>
+                <div style={{ fontSize: '24px', color: 'var(--danger)' }}>Error: {error}</div>
                 <Button onClick={() => window.location.reload()}>Reload App</Button>
             </div>
         );
@@ -324,12 +342,12 @@ function AppContent() {
         return (
             <div style={{
                 minHeight: '100vh',
-                backgroundColor: 'white',
+                backgroundColor: 'var(--surface)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
             }}>
-                <div style={{ fontSize: '24px', color: '#6b7280' }}>No workout plan available</div>
+                <div style={{ fontSize: '24px', color: 'var(--text-3)' }}>No workout plan available</div>
             </div>
         );
     }
@@ -337,19 +355,19 @@ function AppContent() {
     return (
         <div style={{
             minHeight: '100vh',
-            backgroundColor: 'white',
-            color: '#374151',
+            backgroundColor: 'var(--surface)',
+            color: 'var(--text-2)',
             fontFamily: 'system-ui, -apple-system, sans-serif'
         }}>
             <div style={{
                 maxWidth: '1200px',
                 margin: '32px auto',
-                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+                boxShadow: '0 25px 50px -12px var(--shadow-strong)'
             }} className="app-shell">
                 {/* Header (compact on phones via .app-header in index.css) */}
                 <div className="app-header" style={{
                     padding: '40px 32px',
-                    background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 20%, #0e7490 40%, #155e75 60%, #164e63 80%, #0f172a 100%)',
+                    background: 'var(--header-bg)',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -366,7 +384,7 @@ function AppContent() {
                             objectFit: 'cover',
                             borderRadius: '50%',
                             border: '5px solid rgba(255, 255, 255, 0.4)',
-                            boxShadow: '0 8px 25px rgba(0, 0, 0, 0.4), 0 0 30px rgba(6, 182, 212, 0.3)'
+                            boxShadow: '0 8px 25px var(--shadow-strong), 0 0 30px var(--shadow)'
                         }}
                     />
                     <div style={{
@@ -398,6 +416,7 @@ function AppContent() {
                         }}>
                             <LanguageToggle />
                             <UnitsToggle />
+                            <ThemeToggle />
                             <UserProfile />
                             {(isAdmin || isTrainer) && (
                                 <button
@@ -443,9 +462,9 @@ function AppContent() {
                             gap: '12px',
                             fontSize: '14px',
                             fontWeight: 600,
-                            color: trainerJoinNotice === 'joined' ? '#047857' : '#b91c1c',
-                            backgroundColor: trainerJoinNotice === 'joined' ? '#ecfdf5' : '#fef2f2',
-                            border: `1px solid ${trainerJoinNotice === 'joined' ? '#a7f3d0' : '#fecaca'}`
+                            color: trainerJoinNotice === 'joined' ? 'var(--done)' : 'var(--danger)',
+                            backgroundColor: trainerJoinNotice === 'joined' ? 'var(--done-soft)' : 'var(--danger-soft)',
+                            border: `1px solid ${trainerJoinNotice === 'joined' ? 'var(--done-border)' : 'var(--danger-border)'}`
                         }}
                     >
                         <span>
@@ -466,7 +485,7 @@ function AppContent() {
                 {/* Week navigator — shows the viewed week's dates and steps through history */}
                 <div style={{
                     padding: '16px 32px 0 32px',
-                    backgroundColor: 'white',
+                    backgroundColor: 'var(--surface)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -482,18 +501,18 @@ function AppContent() {
                         title={t('Previous week', language)}
                         style={{
                             width: '36px', height: '36px', borderRadius: '10px',
-                            border: '1px solid #e5e7eb', backgroundColor: 'white',
-                            color: hasOlderWeek ? '#0e7490' : '#d1d5db',
+                            border: '1px solid var(--border)', backgroundColor: 'var(--surface)',
+                            color: hasOlderWeek ? 'var(--brand)' : 'var(--border)',
                             fontSize: '18px', cursor: hasOlderWeek ? 'pointer' : 'not-allowed'
                         }}
                     >
                         ‹
                     </button>
                     <div style={{ textAlign: 'center', minWidth: '150px', maxWidth: 'calc(100vw - 140px)' }}>
-                        <div style={{ fontSize: '15px', fontWeight: 700, color: '#164e63' }}>
+                        <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--brand)' }}>
                             {viewedWeekStart && `${t('Week of', language)} ${formatWeekRange(viewedWeekStart, language)}`}
                         </div>
-                        <div style={{ fontSize: '12px', fontWeight: 600, color: isViewingCurrent ? '#059669' : isFutureWeek ? '#0e7490' : '#b45309' }}>
+                        <div style={{ fontSize: '12px', fontWeight: 600, color: isViewingCurrent ? 'var(--done)' : isFutureWeek ? 'var(--brand)' : 'var(--skipped)' }}>
                             {isViewingCurrent
                                 ? t('Current week', language)
                                 : isFutureWeek
@@ -508,8 +527,8 @@ function AppContent() {
                         title={t('Next week', language)}
                         style={{
                             width: '36px', height: '36px', borderRadius: '10px',
-                            border: '1px solid #e5e7eb', backgroundColor: 'white',
-                            color: hasNewerWeek ? '#0e7490' : '#d1d5db',
+                            border: '1px solid var(--border)', backgroundColor: 'var(--surface)',
+                            color: hasNewerWeek ? 'var(--brand)' : 'var(--border)',
                             fontSize: '18px', cursor: hasNewerWeek ? 'pointer' : 'not-allowed'
                         }}
                     >
@@ -521,8 +540,8 @@ function AppContent() {
                             onClick={goToCurrentWeek}
                             style={{
                                 padding: '8px 14px', borderRadius: '10px', border: 'none',
-                                background: 'linear-gradient(90deg, #06b6d4 0%, #0e7490 100%)',
-                                color: 'white', fontSize: '13px', fontWeight: 600, cursor: 'pointer'
+                                background: 'var(--brand)',
+                                color: 'var(--on-brand)', fontSize: '13px', fontWeight: 600, cursor: 'pointer'
                             }}
                         >
                             {t('Back to current week', language)}
@@ -535,8 +554,8 @@ function AppContent() {
                         title={t('Weekly Summary', language)}
                         style={{
                             padding: '8px 14px', borderRadius: '10px',
-                            border: '1px solid #e5e7eb', backgroundColor: 'white',
-                            color: '#0e7490', fontSize: '13px', fontWeight: 600, cursor: 'pointer'
+                            border: '1px solid var(--border)', backgroundColor: 'var(--surface)',
+                            color: 'var(--brand)', fontSize: '13px', fontWeight: 600, cursor: 'pointer'
                         }}
                     >
                         📊 {t('Weekly Summary', language)}
@@ -546,21 +565,21 @@ function AppContent() {
                 {/* Progress Section */}
                 <div style={{
                     padding: '24px 32px 20px 32px',
-                    backgroundColor: 'white'
+                    backgroundColor: 'var(--surface)'
                 }}>
                     <ProgressBar workoutPlan={workoutPlan} language={language} />
                 </div>
 
                 {/* Rest timer - one shared instance above the day list so it
                     keeps running across day-accordion toggles */}
-                <div style={{ padding: '0 32px 20px', backgroundColor: 'white' }}>
+                <div style={{ padding: '0 32px 20px', backgroundColor: 'var(--surface)' }}>
                     <RestTimer language={language} />
                 </div>
 
                 {/* Days Container */}
                 <div style={{ 
                     padding: '0 32px 24px',
-                    backgroundColor: 'white'
+                    backgroundColor: 'var(--surface)'
                 }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                         {DAYS_OF_WEEK.filter(day => !workoutPlan[day]?.hidden).map(day => (
@@ -602,7 +621,7 @@ function AppContent() {
                             variant={ButtonVariant.SECONDARY}
                             onClick={templatesModal.open}
                             fullWidth
-                            style={{ maxWidth: '320px' }}
+                            style={neutralActionStyle}
                         >
                             {t("Workout templates", language)}
                         </Button>
@@ -611,7 +630,7 @@ function AppContent() {
                             variant={ButtonVariant.SECONDARY}
                             onClick={copyWeekModal.open}
                             fullWidth
-                            style={{ maxWidth: '320px' }}
+                            style={neutralActionStyle}
                         >
                             {t("Copy last week", language)}
                         </Button>
@@ -621,7 +640,7 @@ function AppContent() {
                             variant={ButtonVariant.DANGER}
                             onClick={handleResetWeek}
                             fullWidth
-                            style={{ maxWidth: '320px' }}
+                            style={dangerActionStyle}
                         >
                             🔄 {t("Restart This Week", language)}
                         </Button>
@@ -634,10 +653,10 @@ function AppContent() {
                                 width: '100%',
                                 maxWidth: '320px',
                                 padding: '14px 28px',
-                                background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                                background: 'var(--accent-a)',
                                 border: 'none',
                                 borderRadius: '12px',
-                                color: 'white',
+                                color: 'var(--text-inverse)',
                                 fontSize: '16px',
                                 fontWeight: '600',
                                 cursor: 'pointer',
@@ -646,19 +665,19 @@ function AppContent() {
                                 justifyContent: 'center',
                                 gap: '10px',
                                 transition: 'all 0.3s ease',
-                                boxShadow: '0 4px 14px rgba(139, 92, 246, 0.25)',
+                                boxShadow: '0 4px 14px var(--shadow)',
                                 position: 'relative',
                                 overflow: 'hidden'
                             }}
                             onMouseOver={(e) => {
                                 e.currentTarget.style.transform = 'translateY(-2px)';
-                                e.currentTarget.style.boxShadow = '0 8px 20px rgba(139, 92, 246, 0.35)';
-                                e.currentTarget.style.background = 'linear-gradient(135deg, #9333ea 0%, #8b5cf6 100%)';
+                                e.currentTarget.style.boxShadow = '0 8px 20px var(--shadow)';
+                                e.currentTarget.style.background = 'var(--accent-a-border)';
                             }}
                             onMouseOut={(e) => {
                                 e.currentTarget.style.transform = 'translateY(0)';
-                                e.currentTarget.style.boxShadow = '0 4px 14px rgba(139, 92, 246, 0.25)';
-                                e.currentTarget.style.background = 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)';
+                                e.currentTarget.style.boxShadow = '0 4px 14px var(--shadow)';
+                                e.currentTarget.style.background = 'var(--accent-a)';
                             }}
                         >
                             <svg 
@@ -681,8 +700,8 @@ function AppContent() {
                                 position: 'absolute',
                                 top: '8px',
                                 right: '12px',
-                                background: 'rgba(255, 255, 255, 0.2)',
-                                color: 'white',
+                                background: 'var(--accent-a-soft)',
+                                color: 'var(--accent-a)',
                                 fontSize: '10px',
                                 padding: '2px 8px',
                                 borderRadius: '10px',
@@ -747,7 +766,7 @@ function AppContent() {
                 onClose={copyWeekModal.close}
                 title={t("Copy last week?", language)}
             >
-                <p style={{ color: '#6b7280', fontSize: '16px', lineHeight: '1.6', margin: '0 0 24px 0' }}>
+                <p style={{ color: 'var(--text-3)', fontSize: '16px', lineHeight: '1.6', margin: '0 0 24px 0' }}>
                     {t("This week's exercises, order and weights are replaced with last week's. Completion starts cleared.", language)}
                     {previousWeekStart && ` (${t('Week of', language)} ${formatWeekRange(previousWeekStart, language)})`}
                 </p>
@@ -812,17 +831,19 @@ function AppContent() {
 /**
  * Main App Component with Providers
  * Wraps the AppContent with all necessary context providers
- * Order: LanguageProvider -> UnitsProvider -> AuthProvider -> AuthWrapper -> AppContent
+ * Order: LanguageProvider -> UnitsProvider -> ThemeProvider -> AuthProvider -> AuthWrapper -> AppContent
  */
 export default function App() {
     return (
         <LanguageProvider>
             <UnitsProvider>
-                <AuthProvider>
-                    <AuthWrapper>
-                        <AppContent />
-                    </AuthWrapper>
-                </AuthProvider>
+                <ThemeProvider>
+                    <AuthProvider>
+                        <AuthWrapper>
+                            <AppContent />
+                        </AuthWrapper>
+                    </AuthProvider>
+                </ThemeProvider>
             </UnitsProvider>
         </LanguageProvider>
     );

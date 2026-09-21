@@ -92,7 +92,7 @@ const StepperInput = ({
           background: 'transparent',
           fontSize: '14px',
           fontWeight: '500',
-          color: '#374151',
+          color: 'var(--text)',
           textAlign: 'center',
           outline: 'none'
         }}

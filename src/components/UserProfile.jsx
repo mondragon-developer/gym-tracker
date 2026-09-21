@@ -116,31 +116,31 @@ export default function UserProfile() {
               top: 'calc(100% + 8px)',
               right: 0,
               minWidth: '240px',
-              backgroundColor: 'white',
+              backgroundColor: 'var(--surface)',
               borderRadius: '12px',
-              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.2)',
+              boxShadow: '0 10px 40px var(--shadow-strong)',
               overflow: 'hidden',
               zIndex: 1000,
-              border: '1px solid #e5e7eb'
+              border: '1px solid var(--border)'
             }}
           >
             {/* User Info */}
             <div style={{
               padding: '16px',
-              borderBottom: '1px solid #e5e7eb'
+              borderBottom: '1px solid var(--border)'
             }}>
               <p style={{
                 margin: '0 0 4px 0',
                 fontSize: '14px',
                 fontWeight: '600',
-                color: '#111827'
+                color: 'var(--text)'
               }}>
                 {user.user_metadata?.name || 'User'}
               </p>
               <p style={{
                 margin: 0,
                 fontSize: '13px',
-                color: '#6b7280',
+                color: 'var(--text-3)',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis'
               }}>
@@ -150,10 +150,10 @@ export default function UserProfile() {
 
             {/* Trainer code: link this account to one more trainer */}
             {!isTrainer && !isAdmin && (
-              <form onSubmit={handleJoinTrainer} style={{ padding: '12px 16px', borderBottom: '1px solid #e5e7eb' }}>
+              <form onSubmit={handleJoinTrainer} style={{ padding: '12px 16px', borderBottom: '1px solid var(--border)' }}>
                 <label
                   htmlFor="profile-trainer-code"
-                  style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#6b7280', marginBottom: '6px' }}
+                  style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--text-2)', marginBottom: '6px' }}
                 >
                   {t('Trainer code', language)}
                 </label>
@@ -168,10 +168,11 @@ export default function UserProfile() {
                       flex: 1,
                       minWidth: 0,
                       padding: '8px 10px',
-                      border: '1px solid #d1d5db',
+                      border: '1px solid var(--border-strong)',
                       borderRadius: '8px',
                       fontSize: '14px',
-                      color: '#111827',
+                      backgroundColor: 'var(--surface)',
+                      color: 'var(--text)',
                       textTransform: 'uppercase'
                     }}
                   />
@@ -185,12 +186,12 @@ export default function UserProfile() {
                   </Button>
                 </div>
                 {joinState === 'joined' && (
-                  <p style={{ margin: '8px 0 0', fontSize: '12px', color: '#047857', fontWeight: 600 }}>
+                  <p style={{ margin: '8px 0 0', fontSize: '12px', color: 'var(--done)', fontWeight: 600 }}>
                     {t('Connected to your trainer.', language)}
                   </p>
                 )}
                 {joinState === 'invalid' && (
-                  <p style={{ margin: '8px 0 0', fontSize: '12px', color: '#b91c1c', fontWeight: 600 }}>
+                  <p style={{ margin: '8px 0 0', fontSize: '12px', color: 'var(--danger)', fontWeight: 600 }}>
                     {t('That trainer code is not valid.', language)}
                   </p>
                 )}

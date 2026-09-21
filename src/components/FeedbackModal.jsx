@@ -113,7 +113,7 @@ const FeedbackModal = ({ isOpen, onClose, language = 'en' }) => {
                         marginBottom: '4px',
                         fontSize: '14px',
                         fontWeight: '500',
-                        color: '#374151'
+                        color: 'var(--text-2)'
                     }}>
                         {t("Name", language)}
                     </label>
@@ -134,7 +134,7 @@ const FeedbackModal = ({ isOpen, onClose, language = 'en' }) => {
                         marginBottom: '4px',
                         fontSize: '14px',
                         fontWeight: '500',
-                        color: '#374151'
+                        color: 'var(--text-2)'
                     }}>
                         {t("Email", language)}
                     </label>
@@ -155,7 +155,7 @@ const FeedbackModal = ({ isOpen, onClose, language = 'en' }) => {
                         marginBottom: '4px',
                         fontSize: '14px',
                         fontWeight: '500',
-                        color: '#374151'
+                        color: 'var(--text-2)'
                     }}>
                         {t("Message", language)}
                     </label>
@@ -171,21 +171,21 @@ const FeedbackModal = ({ isOpen, onClose, language = 'en' }) => {
                             width: '100%',
                             padding: '12px 16px',
                             fontSize: '16px',
-                            border: '2px solid #d1d5db',
+                            border: '2px solid var(--border-strong)',
                             borderRadius: '8px',
-                            backgroundColor: 'white',
+                            backgroundColor: 'var(--surface)',
                             transition: 'all 0.2s ease',
                             resize: 'vertical',
                             fontFamily: 'inherit',
-                            color: '#374151',
+                            color: 'var(--text)',
                             outline: 'none'
                         }}
                         onFocus={(e) => {
-                            e.target.style.borderColor = '#3b82f6';
-                            e.target.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+                            e.target.style.borderColor = 'var(--focus)';
+                            e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--focus) 25%, transparent)';
                         }}
                         onBlur={(e) => {
-                            e.target.style.borderColor = '#d1d5db';
+                            e.target.style.borderColor = 'var(--border-strong)';
                             e.target.style.boxShadow = 'none';
                         }}
                     />
@@ -194,8 +194,8 @@ const FeedbackModal = ({ isOpen, onClose, language = 'en' }) => {
                 {submitStatus === 'success' && (
                     <div style={{
                         padding: '12px',
-                        backgroundColor: '#d1fae5',
-                        color: '#065f46',
+                        backgroundColor: 'var(--done-soft)',
+                        color: 'var(--done)',
                         borderRadius: '8px',
                         textAlign: 'center',
                         fontWeight: '500'
@@ -207,8 +207,8 @@ const FeedbackModal = ({ isOpen, onClose, language = 'en' }) => {
                 {submitStatus === 'error' && (
                     <div style={{
                         padding: '12px',
-                        backgroundColor: '#fee2e2',
-                        color: '#991b1b',
+                        backgroundColor: 'var(--danger-soft)',
+                        color: 'var(--danger)',
                         borderRadius: '8px',
                         textAlign: 'center',
                         fontWeight: '500'

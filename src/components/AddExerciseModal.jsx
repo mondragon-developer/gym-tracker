@@ -33,7 +33,7 @@ const markMatch = (text, foldedTerm) => {
     return (
         <>
             {text.slice(0, index)}
-            <mark style={{ backgroundColor: '#fef3c7', padding: '1px 2px', borderRadius: '2px' }}>
+            <mark style={{ backgroundColor: 'var(--skipped-soft)', color: 'var(--text)', padding: '1px 2px', borderRadius: '2px' }}>
                 {text.slice(index, end)}
             </mark>
             {text.slice(end)}
@@ -53,7 +53,7 @@ const highlightMatch = (display, otherLanguageName, foldedTerm) => {
     return (
         <>
             {display}
-            <span style={{ color: '#6b7280', fontWeight: 400, fontSize: '12px' }}> · {alt}</span>
+            <span style={{ color: 'var(--text-3)', fontWeight: 400, fontSize: '12px' }}> · {alt}</span>
         </>
     );
 };
@@ -192,9 +192,9 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} title={`💪 ${t("Add New Exercise", language)}`}>
-            <div style={{ backgroundColor: 'white', padding: '16px', borderRadius: '8px' }}>
+            <div style={{ backgroundColor: 'var(--surface)', padding: '16px', borderRadius: '8px' }}>
                 {/* Tab Navigation */}
-                <div style={{ display: 'flex', backgroundColor: '#f3f4f6', borderRadius: '8px', padding: '8px', marginBottom: '16px' }}>
+                <div style={{ display: 'flex', backgroundColor: 'var(--surface-3)', borderRadius: '8px', padding: '8px', marginBottom: '16px' }}>
                     <button 
                         onClick={() => setIsCustom(false)} 
                         style={{
@@ -205,8 +205,8 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                             fontWeight: '500',
                             border: 'none',
                             cursor: 'pointer',
-                            backgroundColor: !isCustom ? '#3b82f6' : 'transparent',
-                            color: !isCustom ? 'white' : '#4b5563'
+                            backgroundColor: !isCustom ? 'var(--brand)' : 'transparent',
+                            color: !isCustom ? 'var(--on-brand)' : 'var(--text-3)'
                         }}
                     >
                         📚 {t("Popular", language)}
@@ -221,8 +221,8 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                             fontWeight: '500',
                             border: 'none',
                             cursor: 'pointer',
-                            backgroundColor: isCustom ? '#8b5cf6' : 'transparent',
-                            color: isCustom ? 'white' : '#4b5563'
+                            backgroundColor: isCustom ? 'var(--brand)' : 'transparent',
+                            color: isCustom ? 'var(--on-brand)' : 'var(--text-3)'
                         }}
                     >
                         ✏️ {t("Custom Exercise", language)}
@@ -231,9 +231,9 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
 
                 {isCustom ? (
                     // Custom Exercise Form
-                    <div style={{ backgroundColor: '#f9fafb', padding: '16px', borderRadius: '8px', border: '1px solid #d1d5db' }}>
+                    <div style={{ backgroundColor: 'var(--surface-2)', padding: '16px', borderRadius: '8px', border: '1px solid var(--border)' }}>
                         <div style={{ marginBottom: '16px' }}>
-                            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>{t("Exercise name", language)}</label>
+                            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'var(--text-2)', marginBottom: '8px' }}>{t("Exercise name", language)}</label>
                             <input
                                 type="text"
                                 value={customName}
@@ -245,9 +245,9 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                 style={{
                                     width: '100%',
                                     padding: '12px',
-                                    border: '1px solid #d1d5db',
+                                    border: '1px solid var(--border-strong)',
                                     borderRadius: '8px',
-                                    backgroundColor: 'white',
+                                    backgroundColor: 'var(--surface)',
                                     fontSize: '14px',
                                     boxSizing: 'border-box'
                                 }}
@@ -256,7 +256,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                         
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
                             <div>
-                                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>{t("Target Sets", language)}</label>
+                                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'var(--text-2)', marginBottom: '8px' }}>{t("Target Sets", language)}</label>
                                 <input 
                                     type="text" 
                                     value={customSets} 
@@ -265,16 +265,16 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                     style={{
                                         width: '100%',
                                         padding: '12px',
-                                        border: '1px solid #d1d5db',
+                                        border: '1px solid var(--border-strong)',
                                         borderRadius: '8px',
-                                        backgroundColor: 'white',
+                                        backgroundColor: 'var(--surface)',
                                         fontSize: '14px',
                                         boxSizing: 'border-box'
                                     }}
                                 />
                             </div>
                             <div>
-                                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>{t("Target Reps", language)}</label>
+                                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'var(--text-2)', marginBottom: '8px' }}>{t("Target Reps", language)}</label>
                                 <input 
                                     type="text" 
                                     value={customReps} 
@@ -283,9 +283,9 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                     style={{
                                         width: '100%',
                                         padding: '12px',
-                                        border: '1px solid #d1d5db',
+                                        border: '1px solid var(--border-strong)',
                                         borderRadius: '8px',
-                                        backgroundColor: 'white',
+                                        backgroundColor: 'var(--surface)',
                                         fontSize: '14px',
                                         boxSizing: 'border-box'
                                     }}
@@ -299,10 +299,10 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                 style={{
                                     padding: '10px 12px',
                                     marginBottom: '12px',
-                                    backgroundColor: '#fee2e2',
-                                    color: '#991b1b',
+                                    backgroundColor: 'var(--danger-soft)',
+                                    color: 'var(--danger)',
                                     borderRadius: '8px',
-                                    border: '1px solid #fecaca',
+                                    border: '1px solid var(--danger-border)',
                                     fontSize: '13px',
                                     fontWeight: '500'
                                 }}
@@ -314,8 +314,8 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                             onClick={handleAddCustom}
                             style={{
                                 width: '100%',
-                                backgroundColor: '#10b981',
-                                color: 'white',
+                                backgroundColor: 'var(--brand)',
+                                color: 'var(--on-brand)',
                                 padding: '12px',
                                 borderRadius: '8px',
                                 fontWeight: '600',
@@ -340,9 +340,9 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                 style={{
                                     width: '100%',
                                     padding: '12px',
-                                    border: '1px solid #d1d5db',
+                                    border: '1px solid var(--border-strong)',
                                     borderRadius: '8px',
-                                    backgroundColor: 'white',
+                                    backgroundColor: 'var(--surface)',
                                     fontSize: '14px',
                                     boxSizing: 'border-box'
                                 }}
@@ -351,16 +351,16 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                         
                         {/* Muscle Group Filter */}
                         <div style={{ marginBottom: '12px' }}>
-                            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>{t("Filter by Muscle Group", language)}</label>
+                            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'var(--text-2)', marginBottom: '8px' }}>{t("Filter by Muscle Group", language)}</label>
                             <select
                                 value={selectedMuscleGroup}
                                 onChange={(e) => setSelectedMuscleGroup(e.target.value)}
                                 style={{
                                     width: '100%',
                                     padding: '12px',
-                                    border: '1px solid #d1d5db',
+                                    border: '1px solid var(--border-strong)',
                                     borderRadius: '8px',
-                                    backgroundColor: 'white',
+                                    backgroundColor: 'var(--surface)',
                                     fontSize: '14px',
                                     boxSizing: 'border-box',
                                     cursor: 'pointer'
@@ -374,7 +374,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
 
                         {/* Equipment Filter (options from the enrichment map) */}
                         <div style={{ marginBottom: '12px' }}>
-                            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>{t("Filter by Equipment", language)}</label>
+                            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'var(--text-2)', marginBottom: '8px' }}>{t("Filter by Equipment", language)}</label>
                             <select
                                 aria-label={t("Filter by Equipment", language)}
                                 value={selectedEquipment}
@@ -382,9 +382,9 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                 style={{
                                     width: '100%',
                                     padding: '12px',
-                                    border: '1px solid #d1d5db',
+                                    border: '1px solid var(--border-strong)',
                                     borderRadius: '8px',
-                                    backgroundColor: 'white',
+                                    backgroundColor: 'var(--surface)',
                                     fontSize: '14px',
                                     boxSizing: 'border-box',
                                     cursor: 'pointer'
@@ -399,28 +399,28 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                         
                         {/* Default Configuration */}
                         <div style={{
-                            backgroundColor: '#f8fafc',
+                            backgroundColor: 'var(--surface-2)',
                             padding: '16px',
                             borderRadius: '8px',
-                            border: '1px solid #e2e8f0',
+                            border: '1px solid var(--border)',
                             marginBottom: '12px'
                         }}>
-                            <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: '#374151', marginBottom: '12px' }}>{t("Default Configuration for Selected Exercises", language)}</label>
+                            <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: 'var(--text-2)', marginBottom: '12px' }}>{t("Default Configuration for Selected Exercises", language)}</label>
                             
                             {isDurationGroup(selectedMuscleGroup) ? (
                                 // Cardio/combat configuration
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '12px' }}>
                                     <div>
-                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#6b7280', marginBottom: '6px' }}>{t("Duration (minutes)", language)}</label>
+                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: 'var(--text-3)', marginBottom: '6px' }}>{t("Duration (minutes)", language)}</label>
                                         <select
                                             value={defaultSets}
                                             onChange={(e) => setDefaultSets(e.target.value)}
                                             style={{
                                                 width: '100%',
                                                 padding: '8px',
-                                                border: '1px solid #d1d5db',
+                                                border: '1px solid var(--border-strong)',
                                                 borderRadius: '6px',
-                                                backgroundColor: 'white',
+                                                backgroundColor: 'var(--surface)',
                                                 fontSize: '14px',
                                                 boxSizing: 'border-box',
                                                 cursor: 'pointer'
@@ -436,16 +436,16 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                 // Regular exercise configuration
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
                                     <div>
-                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#6b7280', marginBottom: '6px' }}>{t("Sets", language)}</label>
+                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: 'var(--text-3)', marginBottom: '6px' }}>{t("Sets", language)}</label>
                                         <select
                                             value={defaultSets}
                                             onChange={(e) => setDefaultSets(e.target.value)}
                                             style={{
                                                 width: '100%',
                                                 padding: '8px',
-                                                border: '1px solid #d1d5db',
+                                                border: '1px solid var(--border-strong)',
                                                 borderRadius: '6px',
-                                                backgroundColor: 'white',
+                                                backgroundColor: 'var(--surface)',
                                                 fontSize: '14px',
                                                 boxSizing: 'border-box',
                                                 cursor: 'pointer'
@@ -457,16 +457,16 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                         </select>
                                     </div>
                                     <div>
-                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#6b7280', marginBottom: '6px' }}>{t("Min Reps", language)}</label>
+                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: 'var(--text-3)', marginBottom: '6px' }}>{t("Min Reps", language)}</label>
                                         <select
                                             value={defaultRepsMin}
                                             onChange={(e) => setDefaultRepsMin(e.target.value)}
                                             style={{
                                                 width: '100%',
                                                 padding: '8px',
-                                                border: '1px solid #d1d5db',
+                                                border: '1px solid var(--border-strong)',
                                                 borderRadius: '6px',
-                                                backgroundColor: 'white',
+                                                backgroundColor: 'var(--surface)',
                                                 fontSize: '14px',
                                                 boxSizing: 'border-box',
                                                 cursor: 'pointer'
@@ -478,16 +478,16 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                         </select>
                                     </div>
                                     <div>
-                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#6b7280', marginBottom: '6px' }}>{t("Max Reps", language)}</label>
+                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: 'var(--text-3)', marginBottom: '6px' }}>{t("Max Reps", language)}</label>
                                         <select
                                             value={defaultRepsMax}
                                             onChange={(e) => setDefaultRepsMax(e.target.value)}
                                             style={{
                                                 width: '100%',
                                                 padding: '8px',
-                                                border: '1px solid #d1d5db',
+                                                border: '1px solid var(--border-strong)',
                                                 borderRadius: '6px',
-                                                backgroundColor: 'white',
+                                                backgroundColor: 'var(--surface)',
                                                 fontSize: '14px',
                                                 boxSizing: 'border-box',
                                                 cursor: 'pointer'
@@ -505,11 +505,11 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                         {/* Results Info */}
                         <div style={{
                             fontSize: '14px',
-                            color: '#1d4ed8',
-                            backgroundColor: '#dbeafe',
+                            color: 'var(--info)',
+                            backgroundColor: 'var(--info-soft)',
                             padding: '12px',
                             borderRadius: '8px',
-                            border: '1px solid #93c5fd',
+                            border: '1px solid var(--info-border)',
                             marginBottom: '12px',
                             display: 'flex',
                             justifyContent: 'space-between',
@@ -527,10 +527,10 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                         <div style={{
                             maxHeight: '250px',
                             overflowY: 'auto',
-                            backgroundColor: '#f9fafb',
+                            backgroundColor: 'var(--surface-2)',
                             padding: '12px',
                             borderRadius: '8px',
-                            border: '1px solid #d1d5db'
+                            border: '1px solid var(--border)'
                         }}>
                             {filteredExercises.length > 0 ? (
                                 filteredExercises.map(ex => (
@@ -539,30 +539,30 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                         onClick={() => handleAdd(ex)} 
                                         style={{
                                             padding: '12px',
-                                            backgroundColor: 'white',
+                                            backgroundColor: 'var(--surface)',
                                             borderRadius: '8px',
                                             cursor: 'pointer',
-                                            border: '1px solid #e5e7eb',
+                                            border: '1px solid var(--border)',
                                             marginBottom: '8px',
-                                            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                                            boxShadow: '0 1px 3px var(--shadow)',
                                             transition: 'all 0.2s ease'
                                         }}
                                         onMouseOver={(e) => {
-                                            e.currentTarget.style.backgroundColor = '#f3f4f6';
+                                            e.currentTarget.style.backgroundColor = 'var(--surface-2)';
                                             e.currentTarget.style.transform = 'translateY(-1px)';
-                                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+                                            e.currentTarget.style.boxShadow = '0 4px 12px var(--shadow)';
                                         }}
                                         onMouseOut={(e) => {
-                                            e.currentTarget.style.backgroundColor = 'white';
+                                            e.currentTarget.style.backgroundColor = 'var(--surface)';
                                             e.currentTarget.style.transform = 'translateY(0)';
-                                            e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                                            e.currentTarget.style.boxShadow = '0 1px 3px var(--shadow)';
                                         }}
                                     >
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                             <div style={{ flex: 1, minWidth: 0 }}>
                                                 <div style={{ 
                                                     fontWeight: '600', 
-                                                    color: '#111827', 
+                                                    color: 'var(--text)', 
                                                     fontSize: '14px',
                                                     marginBottom: '4px'
                                                 }}>
@@ -572,7 +572,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                                         foldedTerm
                                                     )}
                                                 </div>
-                                                <div style={{ fontSize: '12px', color: '#6b7280' }}>
+                                                <div style={{ fontSize: '12px', color: 'var(--text-3)' }}>
                                                     {isDurationGroup(ex.muscleGroup) ?
                                                         `${t("Target Duration (minutes)", language)}: ${defaultSets}` :
                                                         `${t("Target Sets", language)}: ${defaultSets} × ${defaultRepsMin === defaultRepsMax ? defaultRepsMin : `${defaultRepsMin}-${defaultRepsMax}`} ${t("reps", language)}`
@@ -590,9 +590,9 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                                         width: '34px',
                                                         height: '34px',
                                                         borderRadius: '50%',
-                                                        border: '1px solid #a5f3fc',
-                                                        backgroundColor: '#ecfeff',
-                                                        color: '#0e7490',
+                                                        border: '1px solid var(--brand-border)',
+                                                        backgroundColor: 'var(--brand-soft)',
+                                                        color: 'var(--brand)',
                                                         cursor: 'pointer',
                                                         fontSize: '14px',
                                                         fontWeight: 700
@@ -614,7 +614,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                                 </span>
                                                 <span style={{
                                                     fontSize: '18px',
-                                                    color: '#10b981'
+                                                    color: 'var(--brand)'
                                                 }}>➕</span>
                                             </div>
                                         </div>
@@ -624,12 +624,12 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                 <div style={{
                                     textAlign: 'center',
                                     padding: '32px',
-                                    backgroundColor: 'white',
+                                    backgroundColor: 'var(--surface)',
                                     borderRadius: '6px'
                                 }}>
                                     <div style={{ fontSize: '32px', marginBottom: '8px' }}>🔍</div>
-                                    <p style={{ color: '#6b7280', margin: '0 0 4px 0' }}>{t("No exercises found", language)}</p>
-                                    <p style={{ fontSize: '12px', color: '#9ca3af', margin: '0' }}>{t("Try a different search term", language)}</p>
+                                    <p style={{ color: 'var(--text-3)', margin: '0 0 4px 0' }}>{t("No exercises found", language)}</p>
+                                    <p style={{ fontSize: '12px', color: 'var(--text-3)', margin: '0' }}>{t("Try a different search term", language)}</p>
                                 </div>
                             )}
                         </div>

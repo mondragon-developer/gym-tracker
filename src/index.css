@@ -10,7 +10,8 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #e9f7be;
+  background-color: var(--bg-page);
+  color: var(--text);
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -29,7 +30,7 @@ body {
 button:focus-visible,
 input:focus-visible,
 [role="button"]:focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
 
@@ -51,8 +52,8 @@ input:focus-visible,
 /* End-of-rest alert: full-screen, blinks until the user taps it. Sound is
    unreliable on phones, so this is the cue that always shows. */
 @keyframes rest-alert-blink {
-  0%, 45% { background-color: #dc2626; }
-  55%, 100% { background-color: #0f172a; }
+  0%, 45% { background-color: var(--danger); }
+  55%, 100% { background-color: var(--toast-bg); }
 }
 
 .rest-alert {
@@ -66,7 +67,7 @@ input:focus-visible,
   gap: 16px;
   padding: 24px;
   cursor: pointer;
-  color: white;
+  color: var(--toast-text);
   text-align: center;
   animation: rest-alert-blink 1s steps(1, end) infinite;
   -webkit-tap-highlight-color: transparent;
@@ -77,29 +78,29 @@ input:focus-visible,
   font-weight: 900;
   line-height: 1.05;
   letter-spacing: 0.02em;
-  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 4px 24px var(--shadow-strong);
 }
 
 .rest-alert-button {
   font-size: 16px;
   font-weight: 700;
-  color: white;
-  background: rgba(255, 255, 255, 0.18);
-  border: 2px solid rgba(255, 255, 255, 0.7);
+  color: inherit;
+  background: color-mix(in srgb, currentColor 18%, transparent);
+  border: 2px solid currentColor;
   border-radius: 999px;
   padding: 12px 24px;
   cursor: pointer;
 }
 
 .rest-alert-button:focus-visible {
-  outline: 3px solid white;
+  outline: 3px solid currentColor;
   outline-offset: 3px;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .rest-alert {
     animation: none;
-    background-color: #dc2626;
+    background-color: var(--danger);
   }
 }
 

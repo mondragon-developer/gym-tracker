@@ -20,9 +20,9 @@ export default function GoogleSignInButton() {
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '4px 0' }}>
-        <div style={{ flex: 1, height: '1px', backgroundColor: '#e5e7eb' }} />
-        <span style={{ color: '#9ca3af', fontSize: '13px' }}>{t('or', language)}</span>
-        <div style={{ flex: 1, height: '1px', backgroundColor: '#e5e7eb' }} />
+        <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border)' }} />
+        <span style={{ color: 'var(--text-3)', fontSize: '13px' }}>{t('or', language)}</span>
+        <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border)' }} />
       </div>
       <Button
         type="button"
@@ -30,7 +30,7 @@ export default function GoogleSignInButton() {
         onClick={signInWithGoogle}
         fullWidth
       >
-        <span style={{ fontWeight: 800, color: '#4285F4' }}>G</span>
+        <span style={{ fontWeight: 800, color: 'var(--info)' }}>G</span>
         &nbsp;{t('Continue with Google', language)}
       </Button>
     </div>

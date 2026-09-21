@@ -21,17 +21,17 @@ const thStyle = {
   padding: '8px 10px',
   fontSize: '12px',
   fontWeight: 700,
-  color: '#164e63',
-  backgroundColor: '#ecfeff',
-  borderBottom: '2px solid #a5f3fc',
+  color: 'var(--brand)',
+  backgroundColor: 'var(--brand-soft)',
+  borderBottom: '2px solid var(--brand-border)',
   whiteSpace: 'nowrap'
 };
 
 const tdStyle = {
   padding: '7px 10px',
   fontSize: '13px',
-  color: '#374151',
-  borderBottom: '1px solid #f3f4f6'
+  color: 'var(--text-2)',
+  borderBottom: '1px solid var(--border)'
 };
 
 const numTd = { ...tdStyle, textAlign: 'center' };
@@ -42,14 +42,14 @@ function StatTile({ label, value }) {
   return (
     <div style={{
       flex: '1 1 110px',
-      backgroundColor: '#f9fafb',
-      border: '1px solid #e5e7eb',
+      backgroundColor: 'var(--surface-2)',
+      border: '1px solid var(--border)',
       borderRadius: '10px',
       padding: '10px 12px',
       textAlign: 'center'
     }}>
-      <div style={{ fontSize: '22px', fontWeight: 700, color: '#0e7490' }}>{value}</div>
-      <div style={{ fontSize: '12px', color: '#6b7280' }}>{label}</div>
+      <div style={{ fontSize: '22px', fontWeight: 700, color: 'var(--brand)' }}>{value}</div>
+      <div style={{ fontSize: '12px', color: 'var(--text-3)' }}>{label}</div>
     </div>
   );
 }
@@ -99,7 +99,7 @@ export default function WeeklySummaryModal({ isOpen, onClose, workoutPlan, weekS
           flexWrap: 'wrap',
           gap: '8px'
         }}>
-          <span style={{ fontSize: '14px', fontWeight: 600, color: '#164e63' }}>
+          <span style={{ fontSize: '14px', fontWeight: 600, color: 'var(--brand)' }}>
             {t('Week of', language)} {weekLabel}
           </span>
           <Button variant={ButtonVariant.SECONDARY} onClick={downloadCsv} style={{ fontSize: '13px' }}>
@@ -121,7 +121,7 @@ export default function WeeklySummaryModal({ isOpen, onClose, workoutPlan, weekS
         {/* Sets per muscle group */}
         {summary.byMuscle.length > 0 && (
           <div>
-            <h3 style={{ fontSize: '14px', margin: '0 0 8px 0', color: '#374151' }}>
+            <h3 style={{ fontSize: '14px', margin: '0 0 8px 0', color: 'var(--text-2)' }}>
               {t('Sets per muscle group', language)}
             </h3>
             <div style={{ overflowX: 'auto' }}>
@@ -151,7 +151,7 @@ export default function WeeklySummaryModal({ isOpen, onClose, workoutPlan, weekS
 
         {/* Full week table, grouped by day */}
         <div>
-          <h3 style={{ fontSize: '14px', margin: '0 0 8px 0', color: '#374151' }}>
+          <h3 style={{ fontSize: '14px', margin: '0 0 8px 0', color: 'var(--text-2)' }}>
             {t('Week detail', language)}
           </h3>
           <div style={{ overflowX: 'auto' }}>
@@ -176,9 +176,9 @@ export default function WeeklySummaryModal({ isOpen, onClose, workoutPlan, weekS
                       <tr>
                         <td colSpan={7} style={{
                           ...tdStyle,
-                          backgroundColor: '#f9fafb',
+                          backgroundColor: 'var(--surface-2)',
                           fontWeight: 700,
-                          color: '#164e63'
+                          color: 'var(--brand)'
                         }}>
                           {t(day, language)} — {translateMuscleGroup(dayRows[0].focus, language)}
                         </td>
