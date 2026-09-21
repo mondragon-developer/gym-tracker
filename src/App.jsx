@@ -81,6 +81,7 @@ function AppContent() {
         updateDay,
         replaceViewedWeek,
         historySnapshot,
+        currentWeekStart,
         restoreSnapshot,
         persistCurrentPlan,
         copyFromPreviousWeek,
@@ -851,6 +852,8 @@ function AppContent() {
                         onClose={summaryModal.close}
                         workoutPlan={workoutPlan}
                         weekStart={viewedWeekStart}
+                        history={historySnapshot}
+                        currentWeekStart={currentWeekStart}
                         language={language}
                     />
                 </Suspense>
