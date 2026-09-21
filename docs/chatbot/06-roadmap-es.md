@@ -44,6 +44,7 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 
 ## Planeado (en la hoja de ruta, sin fechas prometidas)
 
+- **Buscador de ejercicios con IA** — pedir ejercicios con palabras normales ("3 ejercicios de pecho con mancuernas") y agregar la selección a un día con un toque; la selección saldrá de la biblioteca de la app para que apliquen las demostraciones y los datos de equipo
 - **Analíticas de entrenamiento** — gráficas de progreso y métricas de rendimiento en el tiempo
 - **Demos animadas** — pasar las demostraciones de imágenes fijas a video/GIF en bucle
 - **Más plantillas de rutinas** — además de las cinco incluidas (Push/Pull/Piernas, Torso/Pierna, Cuerpo completo 3 días, En casa sin equipo, Solo mancuernas), por ejemplo una rutina dividida de 5 días o una semana con kettlebell

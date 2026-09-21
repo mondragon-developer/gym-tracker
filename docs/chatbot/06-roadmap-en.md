@@ -44,6 +44,7 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 
 ## Planned (on the roadmap, no dates promised)
 
+- **AI exercise finder** — ask for exercises in plain words ("3 chest exercises with dumbbells") and add the picks to a day in one tap; the picks will come from the app's own library so demos and equipment data apply
 - **Workout analytics** — progress charts and performance metrics over time
 - **Animated demos** — upgrading exercise how-tos from still images to looping video/GIF
 - **More workout split templates** — beyond the five included (Push/Pull/Legs, Upper/Lower, Full body 3 days, Home with no equipment, Dumbbells only), for example a 5-day split or a kettlebell week
