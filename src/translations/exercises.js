@@ -244,6 +244,30 @@ export const exerciseTranslations = {
     "Crossover Reverse Lunges": "Zancadas Inversas Cruzadas",
     "Side Leg Raises": "Elevaciones Laterales de Pierna",
 
+    // Catalog names that only had a variant key above; kept both so old
+    // plans and the bot's table both resolve.
+    "Farmer's Walk": "Paseo del Granjero",
+    "Dips": "Fondos",
+    "Towel Pull-Ups": "Dominadas con Toalla",
+    "Barbell Hip Thrusts": "Empuje de Cadera",
+    "Squats (Wide Stance)": "Sentadillas (Postura Amplia)",
+    "Step-Ups": "Subidas al Cajón",
+    "Cable Kickbacks": "Patada de Glúteo en Polea",
+    "Deadlifts": "Peso Muerto",
+    "Glute-Ham Raises (GHR)": "Elevaciones Glúteo-Femoral (GHR)",
+    "Nordic Ham Curls": "Curl Nórdico",
+    "Standing Calf Raises": "Elevaciones de Pantorrilla",
+    "Calf Press on Leg Machine": "Press de Pantorrilla en Prensa",
+    "Ab Wheel Rollouts": "Rueda Abdominal",
+    "V-Ups": "Abdominales en V",
+    "Pallof Press": "Press Pallof",
+    "Hollow Body Hold": "Cuerpo Hueco (Hollow Hold)",
+    "Wood Choppers": "Leñador",
+    "Scissor Kicks": "Tijeras",
+    "Assault Bike": "Bicicleta Assault",
+    "Ski Erg": "Ski Erg",
+    "Jump Rope HIIT": "Saltar la Cuerda HIIT",
+
     // Common muscle groups and interface
     "All": "Todos",
     "Rest": "Descanso",

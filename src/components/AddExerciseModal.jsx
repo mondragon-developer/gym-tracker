@@ -8,10 +8,7 @@ import { translateEquipment } from '../translations/exerciseTerms';
 import { getExerciseEquipment, listEquipment, hasExerciseEnrichment } from '../services/ExerciseEnrichmentService.js';
 import { hasExerciseMedia } from '../services/ExerciseMediaService.js';
 import ExerciseDemoModal from './ExerciseDemoModal.jsx';
-
-// Accent-insensitive lowercase, so "biceps" finds "Bíceps" and
-// "sentadilla" finds "Sentadillas con Barra".
-const fold = (s) => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+import { fold } from '../utils/textFold.js';
 
 // A library exercise matches when the term appears in its English name or
 // its Spanish name, whatever language the UI is in.
