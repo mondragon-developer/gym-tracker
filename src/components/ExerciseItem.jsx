@@ -7,6 +7,7 @@ import { hasExerciseMedia } from '../services/ExerciseMediaService.js';
 import { hasExerciseEnrichment } from '../services/ExerciseEnrichmentService.js';
 import ExerciseDemoModal from './ExerciseDemoModal.jsx';
 import StepperInput from './ui/StepperInput.jsx';
+import { toDisplayWeight, fromDisplayWeight, weightStep, bumpStoredWeight, formatWeight, isNumericWeight } from '../utils/weightUnits.js';
 import { t } from '../translations/ui';
 import { translateExercise } from '../translations/exercises';
 import { useUnits } from '../hooks/useUnits.js';
@@ -14,7 +15,17 @@ import { useUnits } from '../hooks/useUnits.js';
 /**
  * Displays a single exercise item, allowing for edits, status changes, and deletion.
  */
-const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en', readOnly = false }) => {
+// Fires the shared rest timer (RestTimer listens on window) after a set is
+// logged, so the user never has to reach for the Start button mid-workout.
+const startRestTimer = () => {
+    try {
+        window.dispatchEvent(new CustomEvent('gym:rest-start'));
+    } catch {
+        // No window (tests) or CustomEvent unsupported: the timer is optional.
+    }
+};
+
+const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language = 'en', readOnly = false }) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
         id: exercise.id,
     });
@@ -29,6 +40,29 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en', readOnly 
 
     const handleStatusChange = (newStatus) => {
         handleUpdate('status', exercise.status === newStatus ? 'incomplete' : newStatus);
+    };
+
+    // One tap per set: counts it, marks the exercise done on the last one,
+    // and starts the rest timer.
+    const targetSets = parseInt(exercise.sets, 10) || 0;
+    const doneSets = parseInt(exercise.effectiveSets, 10) || 0;
+    const allSetsDone = targetSets > 0 && doneSets >= targetSets;
+    const logSet = () => {
+        const next = targetSets > 0 ? Math.min(targetSets, doneSets + 1) : doneSets + 1;
+        const completed = targetSets > 0 && next >= targetSets;
+        onUpdate(exercise.id, {
+            ...exercise,
+            effectiveSets: String(next),
+            status: completed ? 'completed' : (exercise.status === 'skipped' ? 'incomplete' : exercise.status)
+        });
+        startRestTimer();
+    };
+
+    // Last week's numbers for the same exercise, plus a one-tap bump that
+    // applies progressive overload to this week's weight.
+    const hasPrevious = Boolean(previous && (previous.weight || previous.reps || previous.effectiveSets));
+    const bumpFromPrevious = () => {
+        handleUpdate('weight', bumpStoredWeight(previous.weight, unit));
     };
 
     const getStatusStyles = () => {
@@ -328,9 +362,9 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en', readOnly 
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                                 <label style={{ fontSize: '12px', fontWeight: '600', color: '#6366f1' }}>{t("Weight", language)} ({unit})</label>
                                 <StepperInput
-                                    value={exercise.weight}
-                                    onChange={v => handleUpdate('weight', v)}
-                                    step={unit === 'kg' ? 2.5 : 5} min={0} max={2000} fallback={0} inputMode="decimal" placeholder={unit}
+                                    value={toDisplayWeight(exercise.weight, unit)}
+                                    onChange={v => handleUpdate('weight', fromDisplayWeight(v, unit))}
+                                    step={weightStep(unit)} min={0} max={2000} fallback={0} inputMode="decimal" placeholder={unit}
                                     ariaLabel={t("Weight", language)}
                                     background="linear-gradient(90deg, #e0e7ff 0%, #c7d2fe 100%)"
                                     borderColor="#818cf8"
@@ -356,6 +390,61 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, language = 'en', readOnly 
                         </>
                     )}
                 </div>
+
+                {!isCardio() && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', marginTop: '10px' }}>
+                        {!readOnly && (
+                            <button
+                                type="button"
+                                onClick={logSet}
+                                disabled={allSetsDone}
+                                aria-label={`${t("Log set", language)} ${Math.min(doneSets + 1, targetSets || doneSets + 1)}${targetSets ? ` / ${targetSets}` : ''}`}
+                                style={{
+                                    padding: '10px 16px',
+                                    borderRadius: '12px',
+                                    border: 'none',
+                                    background: allSetsDone
+                                        ? 'linear-gradient(90deg, #d1fae5 0%, #a7f3d0 100%)'
+                                        : 'linear-gradient(90deg, #10b981 0%, #059669 100%)',
+                                    color: allSetsDone ? '#047857' : 'white',
+                                    fontWeight: 700,
+                                    fontSize: '14px',
+                                    cursor: allSetsDone ? 'default' : 'pointer'
+                                }}
+                            >
+                                {t("Log set", language)} {Math.min(doneSets, targetSets || doneSets)}{targetSets ? `/${targetSets}` : ''}
+                            </button>
+                        )}
+                        {hasPrevious && (
+                            <span style={{ fontSize: '12px', color: '#6b7280', display: 'inline-flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                                <span>
+                                    {t("Last week", language)}: {isNumericWeight(previous.weight) ? formatWeight(previous.weight, unit) : (previous.weight || '')}
+                                    {previous.reps ? ` × ${previous.reps}` : ''}
+                                    {previous.effectiveSets ? ` · ${previous.effectiveSets}/${previous.sets || '?'} ${t("Sets", language).toLowerCase()}` : ''}
+                                </span>
+                                {!readOnly && isNumericWeight(previous.weight) && (
+                                    <button
+                                        type="button"
+                                        onClick={bumpFromPrevious}
+                                        title={`${formatWeight(previous.weight, unit)} + ${weightStep(unit)} ${unit}`}
+                                        style={{
+                                            border: '1px solid #c7d2fe',
+                                            backgroundColor: '#eef2ff',
+                                            color: '#4338ca',
+                                            borderRadius: '999px',
+                                            padding: '3px 10px',
+                                            fontSize: '12px',
+                                            fontWeight: 700,
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        +{weightStep(unit)} {unit}
+                                    </button>
+                                )}
+                            </span>
+                        )}
+                    </div>
+                )}
                 </fieldset>
             </div>
 

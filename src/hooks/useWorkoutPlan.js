@@ -45,6 +45,12 @@ const useWorkoutPlan = () => {
   const [error, setError] = useState(null);
   const [saveState, setSaveState] = useState(SaveState.IDLE);
   const [lastSavedAt, setLastSavedAt] = useState(null);
+  // True when this account had no stored plan anywhere at load time, so the
+  // app can offer a starting template once.
+  const [isFirstRun, setIsFirstRun] = useState(false);
+  // Set when a silent reload found a newer cloud copy than the one loaded
+  // (another device, or a trainer), so the UI can say the plan changed.
+  const [remoteUpdateAt, setRemoteUpdateAt] = useState(null);
 
   // Refs let the async save/load paths read the latest values without
   // re-subscribing effects (which is what caused the spurious writes before).
@@ -98,6 +104,11 @@ const useWorkoutPlan = () => {
       }
 
       if (seq !== loadSeqRef.current) return;
+
+      if (silent && version && versionRef.current && version !== versionRef.current) {
+        setRemoteUpdateAt(new Date());
+      }
+      if (!silent) setIsFirstRun(raw === null);
 
       const migrated = WeekPlanService.migrate(raw);
       persistedRef.current = migrated;
@@ -294,6 +305,7 @@ const useWorkoutPlan = () => {
     ? WeekPlanService.previousWeekOf(history, viewedWeekStart)
     : null;
   const hasPreviousWeek = Boolean(previousWeekStart);
+  const previousWeekPlan = previousWeekStart ? history.weeks[previousWeekStart] ?? null : null;
 
   const copyFromPreviousWeek = () => {
     if (!isEditable || !previousWeekStart) return;
@@ -335,6 +347,11 @@ const useWorkoutPlan = () => {
     copyFromPreviousWeek,
     hasPreviousWeek,
     previousWeekStart,
+    previousWeekPlan,
+    isFirstRun,
+    markOnboarded: () => setIsFirstRun(false),
+    remoteUpdateAt,
+    dismissRemoteUpdate: () => setRemoteUpdateAt(null),
     // Persistence status and controls
     saveState,
     isDirty,

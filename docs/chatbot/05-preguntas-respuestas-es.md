@@ -5,13 +5,13 @@ Pares exactos de pregunta→respuesta para las consultas más comunes. Las respu
 ## Uso de la app
 
 **P: ¿Cómo agrego un ejercicio?**
-R: Expande el día, toca **Agregar Ejercicio**, y busca por nombre (en inglés) o filtra por grupo muscular o por equipo. Define las Series y Reps Objetivo (o minutos para Cardio/Combate) y toca **Agregar al Entrenamiento**.
+R: Expande el día, toca **Agregar Ejercicio**, y busca por nombre (en inglés o en español) o filtra por grupo muscular o por equipo. Define las Series y Reps Objetivo (o minutos para Cardio/Combate) y toca **Agregar al Entrenamiento**.
 
 **P: ¿Cómo creo mi propio ejercicio?**
 R: Toca **Agregar Ejercicio**, cambia a la pestaña **Ejercicio Personalizado**, escribe nombre, series y reps, y toca **Agregar al Entrenamiento**. Los ejercicios personalizados no tienen demostración.
 
 **P: ¿Cómo elimino un ejercicio?**
-R: Toca el botón de eliminar (basura) en la fila del ejercicio y confirma. Para reordenar, mantén presionada el asa de arrastre y mueve el ejercicio.
+R: Toca el botón de eliminar (basura) en la fila del ejercicio; se elimina al momento y un aviso ofrece Deshacer durante unos segundos. Para reordenar, mantén presionada el asa de arrastre y mueve el ejercicio.
 
 **P: ¿Cómo marco un ejercicio como hecho?**
 R: Toca el botón **✓** del ejercicio — se pone verde y suma a tu progreso semanal. Toca **✗** para marcarlo como omitido. Tocar de nuevo lo deshace.
@@ -72,6 +72,21 @@ R: Sí. En el selector de Agregar Ejercicio, toca el botón **▶** a la derecha
 
 **P: No escucho el temporizador de descanso. ¿Cómo sé que terminó?**
 R: La pantalla parpadea en rojo con un mensaje grande ("¡Vamos!") hasta que la tocas, y el teléfono vibra. Los teléfonos en silencio apagan la señal sonora, pero la pantalla parpadeante siempre aparece. Usa el botón **Mensaje** junto al temporizador para cambiar el texto.
+
+**P: ¿Tengo que arrancar el temporizador de descanso yo mismo después de cada serie?**
+R: No. Toca **Registrar serie** en el ejercicio: cuenta la serie y arranca el temporizador con tu preajuste. En la última serie también marca el ejercicio como completado.
+
+**P: ¿Cómo sé qué peso usé la semana pasada?**
+R: Bajo los campos de cada ejercicio, "Semana pasada: 135 lbs × 8-10 · 4/4 series" muestra los números de la semana pasada para el mismo ejercicio, y el botón **+5 lbs** (o **+2.5 kg**) aplica ese aumento a esta semana.
+
+**P: ¿Mi entrenador puede dejarme indicaciones?**
+R: Sí. Cada día tiene un cuadro de **Notas** arriba. Las notas son parte del plan, así que tú y tus entrenadores ven el mismo texto, y pasan a las semanas siguientes hasta que se cambien.
+
+**P: ¿El selector de kg convierte mis pesos?**
+R: Sí. Los pesos se guardan en libras y se muestran, escriben y exportan en la unidad que elijas, así que 135 lbs se lee como 61.2 kg y escribir 60 kg guarda 132.3 lbs.
+
+**P: La app dice que el plan se actualizó desde otro dispositivo. ¿Qué pasó?**
+R: Tú o un entrenador guardaron una versión más nueva mientras esta pantalla estaba en segundo plano, y la app la cargó al volver. No se perdió nada; si tenías cambios sin guardar, la barra de guardado habría preguntado Cargar la última versión o Conservar la mía.
 
 **P: ¿Cómo veo semanas pasadas?**
 R: Usa las flechas del navegador de semanas ("Semana del …"). Las semanas pasadas son de solo lectura; toca **Volver a la semana actual** para editar de nuevo.
@@ -138,7 +153,7 @@ R: Ábrela en el navegador del teléfono y usa "Agregar a pantalla de inicio" (i
 R: Sí — es una app web instalable que funciona sin conexión, guardando localmente y sincronizando cuando vuelves a estar en línea con sesión iniciada.
 
 **P: ¿Puedo usar kilogramos?**
-R: El campo de peso dice lbs pero acepta cualquier número — puedes escribir kg de forma consistente si prefieres. La app no convierte unidades. Todavía no hay selector de unidades.
+R: Sí. Cambia el selector **lbs / kg** del encabezado. Los pesos se guardan en libras y se muestran, escriben y exportan en la unidad que elijas; 135 lbs se lee como 61.2 kg.
 
 **P: Encontré un error / tengo una idea para la app.**
 R: Usa el botón **Comparte tu Opinión** al final de la pantalla principal — llega directo al desarrollador.

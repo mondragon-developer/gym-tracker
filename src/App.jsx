@@ -65,6 +65,11 @@ function AppContent() {
         copyFromPreviousWeek,
         hasPreviousWeek,
         previousWeekStart,
+        previousWeekPlan,
+        isFirstRun,
+        markOnboarded,
+        remoteUpdateAt,
+        dismissRemoteUpdate,
         saveState,
         lastSavedAt,
         saveNow,
@@ -190,6 +195,38 @@ function AppContent() {
         resetWeek();
         setActiveDay(getToday());
         offerUndo(t('Week restarted.', language), before);
+    };
+
+    // First run: offer a starting plan once per account. The dismissal is
+    // remembered per user so a fresh device does not ask again after the
+    // plan has been saved.
+    const onboardedKey = user ? `gymAppOnboarded:${user.id}` : null;
+    const [onboardingOpen, setOnboardingOpen] = useState(false);
+    React.useEffect(() => {
+        if (!isFirstRun || !onboardedKey || isLoading) return;
+        let seen = false;
+        try {
+            seen = localStorage.getItem(onboardedKey) === '1';
+        } catch {
+            // Storage blocked: ask once per session instead.
+        }
+        if (!seen) setOnboardingOpen(true);
+    }, [isFirstRun, onboardedKey, isLoading]);
+
+    const finishOnboarding = () => {
+        try {
+            if (onboardedKey) localStorage.setItem(onboardedKey, '1');
+        } catch {
+            // Storage blocked: the hook flag still stops a repeat this session.
+        }
+        markOnboarded();
+        setOnboardingOpen(false);
+    };
+
+    const handleOnboardingSelect = (templateId) => {
+        const template = getWorkoutTemplate(templateId);
+        if (template) replaceViewedWeek(template.build());
+        finishOnboarding();
     };
 
     const handleJumpToToday = () => {
@@ -515,6 +552,7 @@ function AppContent() {
                                 onResetDay={handleResetDay}
                                 onOpenAddExercise={handleOpenAddExercise}
                                 onExerciseDeleted={handleExerciseDeleted}
+                                previousData={previousWeekPlan ? previousWeekPlan[day] : null}
                                 activeDayRef={activeDayRef}
                                 language={language}
                                 readOnly={!isEditable}
@@ -655,6 +693,31 @@ function AppContent() {
                 onDismiss={dismissUndo}
                 language={language}
             />
+
+            {/* Newer cloud copy picked up on a silent reload */}
+            <UndoToast
+                message={remoteUpdateAt ? t('Plan updated from another device or by your trainer. Showing the latest.', language) : null}
+                onDismiss={dismissRemoteUpdate}
+                language={language}
+                bottom={undo ? '144px' : '84px'}
+            />
+
+            {/* First-run template chooser */}
+            {onboardingOpen && (
+                <Suspense fallback={lazyFallback}>
+                    <WorkoutTemplateModal
+                        isOpen={onboardingOpen}
+                        onClose={finishOnboarding}
+                        onSelect={handleOnboardingSelect}
+                        language={language}
+                        title={t('Welcome! How many days a week can you train?', language)}
+                        intro={t('Pick a plan to start with. Everything can be changed later, and Workout templates under the days brings this list back.', language)}
+                        confirmBeforeApply={false}
+                        secondaryLabel={t('Keep the default plan', language)}
+                        onSecondary={finishOnboarding}
+                    />
+                </Suspense>
+            )}
 
             {/* Copy last week Modal */}
             <Modal

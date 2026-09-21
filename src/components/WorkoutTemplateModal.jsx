@@ -1,8 +1,10 @@
 /**
  * WorkoutTemplateModal
  * Lets the user pick one of the ready-made weekly plans. Applying one
- * replaces the viewed week, so each card asks for a second click before
- * reporting the choice; the caller decides which week the plan replaces.
+ * replaces the viewed week, so by default each card asks for a second click
+ * before reporting the choice; the caller decides which week the plan
+ * replaces. First-run onboarding reuses it with its own title, no confirm
+ * step, and a "keep the default" secondary action.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -12,7 +14,17 @@ import { ButtonVariant } from './ui/Button.constants.js';
 import { WORKOUT_TEMPLATES } from '../constants/workoutTemplates.js';
 import { t } from '../translations/ui';
 
-const WorkoutTemplateModal = ({ isOpen, onClose, onSelect, language = 'en' }) => {
+const WorkoutTemplateModal = ({
+  isOpen,
+  onClose,
+  onSelect,
+  language = 'en',
+  title,
+  intro,
+  confirmBeforeApply = true,
+  secondaryLabel,
+  onSecondary
+}) => {
   // Card waiting for its confirming click; reset whenever the modal closes.
   const [confirmingId, setConfirmingId] = useState(null);
   useEffect(() => {
@@ -20,7 +32,7 @@ const WorkoutTemplateModal = ({ isOpen, onClose, onSelect, language = 'en' }) =>
   }, [isOpen]);
 
   const handleClick = (templateId) => {
-    if (confirmingId === templateId) {
+    if (!confirmBeforeApply || confirmingId === templateId) {
       setConfirmingId(null);
       onSelect(templateId);
       return;
@@ -29,9 +41,9 @@ const WorkoutTemplateModal = ({ isOpen, onClose, onSelect, language = 'en' }) =>
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={t('Workout templates', language)}>
+    <Modal isOpen={isOpen} onClose={onClose} title={title ?? t('Workout templates', language)}>
       <p style={{ margin: '0 0 16px', color: '#6b7280', fontSize: '14px', lineHeight: 1.5 }}>
-        {t('Replaces the exercises of the week you are viewing. Completion, logged sets and weights are cleared.', language)}
+        {intro ?? t('Replaces the exercises of the week you are viewing. Completion, logged sets and weights are cleared.', language)}
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         {WORKOUT_TEMPLATES.map(tpl => {
@@ -79,6 +91,24 @@ const WorkoutTemplateModal = ({ isOpen, onClose, onSelect, language = 'en' }) =>
           );
         })}
       </div>
+      {secondaryLabel && (
+        <button
+          type="button"
+          onClick={onSecondary ?? onClose}
+          style={{
+            marginTop: '16px',
+            border: 'none',
+            background: 'none',
+            cursor: 'pointer',
+            color: '#0e7490',
+            fontSize: '14px',
+            fontWeight: 600,
+            padding: 0
+          }}
+        >
+          {secondaryLabel}
+        </button>
+      )}
     </Modal>
   );
 };

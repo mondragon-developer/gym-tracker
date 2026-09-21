@@ -10,7 +10,7 @@ import { t } from '../translations/ui';
 
 const AUTO_HIDE_MS = 6000;
 
-const UndoToast = ({ message, onUndo, onDismiss, language = 'en' }) => {
+const UndoToast = ({ message, onUndo, onDismiss, language = 'en', bottom = '84px' }) => {
   useEffect(() => {
     if (!message) return undefined;
     const id = setTimeout(onDismiss, AUTO_HIDE_MS);
@@ -26,7 +26,7 @@ const UndoToast = ({ message, onUndo, onDismiss, language = 'en' }) => {
       style={{
         position: 'fixed',
         left: '50%',
-        bottom: '84px',
+        bottom,
         transform: 'translateX(-50%)',
         zIndex: 1100,
         display: 'flex',
@@ -43,21 +43,23 @@ const UndoToast = ({ message, onUndo, onDismiss, language = 'en' }) => {
       }}
     >
       <span>{message}</span>
-      <button
-        type="button"
-        onClick={onUndo}
-        style={{
-          border: 'none',
-          background: 'none',
-          color: '#67e8f9',
-          fontWeight: 700,
-          fontSize: '14px',
-          cursor: 'pointer',
-          padding: 0
-        }}
-      >
-        {t('Undo', language)}
-      </button>
+      {typeof onUndo === 'function' && (
+        <button
+          type="button"
+          onClick={onUndo}
+          style={{
+            border: 'none',
+            background: 'none',
+            color: '#67e8f9',
+            fontWeight: 700,
+            fontSize: '14px',
+            cursor: 'pointer',
+            padding: 0
+          }}
+        >
+          {t('Undo', language)}
+        </button>
+      )}
     </div>
   );
 };

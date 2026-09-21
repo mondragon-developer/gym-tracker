@@ -13,6 +13,8 @@ import { t } from '../translations/ui';
 import { translateExercise, translateMuscleGroup } from '../translations/exercises';
 import { formatWeekRange } from '../utils/dateHelper.js';
 import { DAYS_OF_WEEK } from '../constants/AppConstants.js';
+import { useUnits } from '../hooks/useUnits.js';
+import { toDisplayWeight } from '../utils/weightUnits.js';
 
 const thStyle = {
   textAlign: 'left',
@@ -53,10 +55,16 @@ function StatTile({ label, value }) {
 }
 
 export default function WeeklySummaryModal({ isOpen, onClose, workoutPlan, weekStart, language }) {
-  const summary = useMemo(
-    () => (workoutPlan ? WeekSummaryService.buildSummary(workoutPlan) : null),
-    [workoutPlan]
-  );
+  const { unit } = useUnits();
+  // Weights are stored in pounds; show and export them in the chosen unit.
+  const summary = useMemo(() => {
+    if (!workoutPlan) return null;
+    const built = WeekSummaryService.buildSummary(workoutPlan);
+    return {
+      ...built,
+      rows: built.rows.map(row => ({ ...row, weight: toDisplayWeight(row.weight, unit) }))
+    };
+  }, [workoutPlan, unit]);
 
   if (!summary) return null;
 
@@ -154,7 +162,7 @@ export default function WeeklySummaryModal({ isOpen, onClose, workoutPlan, weekS
                   <th style={thStyle}>{t('Muscle group', language)}</th>
                   <th style={{ ...thStyle, textAlign: 'center' }}>{t('Sets', language)}</th>
                   <th style={{ ...thStyle, textAlign: 'center' }}>{t('Reps', language)}</th>
-                  <th style={{ ...thStyle, textAlign: 'center' }}>{t('Weight', language)}</th>
+                  <th style={{ ...thStyle, textAlign: 'center' }}>{t('Weight', language)} ({unit})</th>
                   <th style={{ ...thStyle, textAlign: 'center' }}>{t('Sets done', language)}</th>
                   <th style={{ ...thStyle, textAlign: 'center' }}>{t('Status', language)}</th>
                 </tr>

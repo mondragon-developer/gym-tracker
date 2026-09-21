@@ -13,9 +13,15 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 - Trainers can **email client invitations** from their panel (invite-by-email field); the signup link assigns the client automatically
 - **Google sign-in** (one tap, no password) alongside email/password accounts
 - **Resend confirmation email** action on the post-signup screen and after an "email not confirmed" sign-in error
-- **kg/lbs unit toggle** in the header (display-only label for the weight field)
+- **kg/lbs unit toggle** in the header with real conversion (weights stored in pounds, shown and typed in the chosen unit)
 - Weekly progress bar, 📊 Weekly Summary with sets-per-muscle-group breakdown, and **CSV export of the weekly summary**
 - **Calendar weeks** (Monday to Sunday) that start on their own every Monday with the plan and weights carried forward; dated weekly history with read-only past weeks; **Restart This Week** clears the current week's progress only
+- **Log set** button per exercise: counts the set, starts the rest timer, marks the exercise done on the last set
+- **Last week's numbers** under each exercise with a one-tap +5 lb / +2.5 kg progressive-overload button
+- **Day notes** shared between a client and their trainers, carried into following weeks
+- **First-run plan chooser** for new accounts (pick one of the three templates or keep the default)
+- **Real kg/lbs conversion**: weights stored in pounds, shown, typed and exported in the chosen unit
+- **"Plan updated elsewhere" notice** when a newer cloud copy is loaded on return
 - **Search in English or Spanish**, accent-insensitive, in the exercise picker
 - **One-thumb entry**: sets, reps, weight and minutes fields have minus/plus buttons and open the number keypad on phones
 - **Undo instead of confirm**: deleting an exercise, Reset Day and Restart This Week apply at once with an Undo toast

@@ -205,6 +205,20 @@ export default function RestTimer({ language = 'en' }) {
         setRemaining(null);
     };
 
+    // Logging a set anywhere on the page starts the rest with the current
+    // preset (see ExerciseItem). Re-registered when the preset changes so
+    // the handler sees the latest duration.
+    useEffect(() => {
+        const onRestStart = () => {
+            setAlertOpen(false);
+            unlockAudio(audioRef);
+            setRemaining(duration);
+            setRunning(true);
+        };
+        window.addEventListener('gym:rest-start', onRestStart);
+        return () => window.removeEventListener('gym:rest-start', onRestStart);
+    }, [duration]);
+
     const pickPreset = (seconds) => {
         setDuration(seconds);
         if (!running) setRemaining(null);

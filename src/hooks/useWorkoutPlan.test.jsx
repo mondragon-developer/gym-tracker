@@ -222,6 +222,40 @@ describe('useWorkoutPlan persistence', () => {
 
     await act(async () => { vi.advanceTimersByTime(5000); });
     expect(mocks.saveWorkoutPlan).not.toHaveBeenCalled();
+  it('flags a first run only when nothing was stored anywhere', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValue(null);
+    const fresh = await renderPlan();
+    expect(fresh.result.current.isFirstRun).toBe(true);
+    act(() => { fresh.result.current.markOnboarded(); });
+    expect(fresh.result.current.isFirstRun).toBe(false);
+    fresh.unmount();
+
+    mocks.getWorkoutPlanRecord.mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
+    const existing = await renderPlan();
+    expect(existing.result.current.isFirstRun).toBe(false);
+  });
+
+  it('reports a newer cloud copy found on a silent reload and exposes last week for the same exercise', async () => {
+    const first = cloudHistory();
+    const second = cloudHistory();
+    second.weeks[second.currentWeekStart].Monday.name = 'Trainer Day';
+    mocks.getWorkoutPlanRecord
+      .mockResolvedValueOnce({ data: first, updatedAt: 'v1' })
+      .mockResolvedValueOnce({ data: second, updatedAt: 'v2' });
+    const { result } = await renderPlan();
+    expect(result.current.remoteUpdateAt).toBeNull();
+
+    await act(async () => {
+      Object.defineProperty(document, 'visibilityState', { value: 'visible', configurable: true });
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+    await waitFor(() => expect(result.current.workoutPlan.Monday.name).toBe('Trainer Day'));
+    expect(result.current.remoteUpdateAt).toBeInstanceOf(Date);
+    act(() => { result.current.dismissRemoteUpdate(); });
+    expect(result.current.remoteUpdateAt).toBeNull();
+
+    // A fresh history has no earlier week, so nothing to compare against.
+    expect(result.current.previousWeekPlan).toBeNull();
   });
 
   it('migrates a local plan to the cloud only when no cloud row exists', async () => {
