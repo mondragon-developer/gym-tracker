@@ -234,7 +234,8 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '14px' }}>
                         <div style={fieldStyle}>
                             <label style={labelStyle('var(--skipped)')}>{t("Duration", language)} (min)</label>
-                            <select
+                                                        <select
+                                aria-label={t("Duration", language)}
                                 value={exercise.sets || '30'}
                                 onChange={e => handleUpdate('sets', e.target.value)}
                                 style={{

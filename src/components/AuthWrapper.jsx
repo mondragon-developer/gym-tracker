@@ -61,29 +61,33 @@ export default function AuthWrapper({ children }) {
 
   // A reset-email link signs the user in with a recovery session; force them
   // to choose a new password before showing the app.
-  if (isPasswordRecovery) {
-    return <UpdatePassword />;
+    if (isPasswordRecovery) {
+    return <main><UpdatePassword /></main>;
   }
 
   // Show sign in / sign up / forgot password if not authenticated
   if (!user) {
-    if (mode === 'signup') {
+        if (mode === 'signup') {
       return (
-        <SignUp
-          onToggleMode={() => setMode('signin')}
-          initialTrainerCode={inviteCode}
-          trainerInvite={trainerInvite}
-        />
+        <main>
+          <SignUp
+            onToggleMode={() => setMode('signin')}
+            initialTrainerCode={inviteCode}
+            trainerInvite={trainerInvite}
+          />
+        </main>
       );
     }
     if (mode === 'forgot') {
-      return <ForgotPassword onBackToSignIn={() => setMode('signin')} />;
+      return <main><ForgotPassword onBackToSignIn={() => setMode('signin')} /></main>;
     }
     return (
-      <SignIn
-        onToggleMode={() => setMode('signup')}
-        onForgotPassword={() => setMode('forgot')}
-      />
+      <main>
+        <SignIn
+          onToggleMode={() => setMode('signup')}
+          onForgotPassword={() => setMode('forgot')}
+        />
+      </main>
     );
   }
 
