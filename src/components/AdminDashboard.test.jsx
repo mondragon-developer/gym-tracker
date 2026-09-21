@@ -20,7 +20,9 @@ vi.mock('../services/AdminService', () => ({
   adminService: {
     listUsers: vi.fn().mockResolvedValue([
       { id: 'trainer-1', email: 'trainer@example.com', role: 'trainer', inviteCode: 'ABC123' },
+      { id: 'client-1', email: 'client@example.com', role: 'user' },
     ]),
+    getWorkoutPlan: vi.fn().mockResolvedValue(null),
     listTrainerLinks: vi.fn().mockResolvedValue([]),
     listTrainerInvites: vi.fn().mockResolvedValue([]),
     sendInviteEmail: vi.fn(),
@@ -29,6 +31,8 @@ vi.mock('../services/AdminService', () => ({
 
 // The mocked module, used to set per-test behavior of sendInviteEmail.
 import { adminService } from '../services/AdminService';
+import { getWeekStart, addWeeks } from '../utils/dateHelper.js';
+import { DAYS_OF_WEEK } from '../constants/AppConstants.js';
 
 // NOTE: fake timers are enabled only AFTER the async render settles - waitFor
 // (used by findBy*) polls with setInterval, which frozen timers would stall.
@@ -130,5 +134,24 @@ describe('AdminDashboard invite by email', () => {
     fireEvent.click(screen.getByRole('button', { name: /Send invite/ }));
 
     expect(await screen.findByText('Could not send the invitation. Please try again.')).toBeInTheDocument();
+  });
+});
+
+describe('AdminDashboard import plan', () => {
+  const restWeek = () => Object.fromEntries(DAYS_OF_WEEK.map(day => [day, { name: 'Rest', exercises: [] }]));
+
+  it('offers Import plan on the current week and disables it on a past week', async () => {
+    const current = getWeekStart();
+    adminService.getWorkoutPlan.mockResolvedValueOnce({
+      version: 2,
+      currentWeekStart: current,
+      weeks: { [addWeeks(current, -1)]: restWeek(), [current]: restWeek() },
+    });
+    render(<AdminDashboard onBack={() => {}} />);
+    fireEvent.click(await screen.findByText('client@example.com'));
+    const importButton = await screen.findByRole('button', { name: 'Import plan' });
+    expect(importButton).not.toBeDisabled();
+    fireEvent.click(screen.getByLabelText('Previous week'));
+    expect(screen.getByRole('button', { name: 'Import plan' })).toBeDisabled();
   });
 });
