@@ -3,7 +3,7 @@
  * Refactored to follow SOLID principles with proper separation of concerns
  */
 
-import React, { useState, useRef, Suspense } from 'react';
+import React, { useState, useRef, useEffect, Suspense } from 'react';
 import useWorkoutPlan from './hooks/useWorkoutPlan.js';
 import useModal from './hooks/useModal.js';
 import ProgressBar from './components/ProgressBar';
@@ -44,6 +44,7 @@ const WorkoutTemplateModal = React.lazy(() => import('./components/WorkoutTempla
 // Lazy: only loads when the user pastes a plan from the AI coach.
 const ImportPlanModal = React.lazy(() => import('./components/ImportPlanModal'));
 import mdLogo from './assets/mdlogo.jpeg';
+import { looksLikePlan } from './utils/planImport.js';
 
 // Flat overrides for the week-level action buttons; the Button variants
 // still carry their own shadow, so it is switched off here.
@@ -283,6 +284,24 @@ function AppContent() {
         copyFromPreviousWeek();
         copyWeekModal.close();
     };
+
+    // A plan pasted anywhere outside a text field opens the importer on it,
+    // so the phone flow is Copy in the chat, paste, confirm.
+    useEffect(() => {
+        if (!isEditable) return undefined;
+        const onPaste = (event) => {
+            const target = event.target;
+            const inField = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable);
+            if (inField || importModal.isOpen) return;
+            const text = event.clipboardData ? event.clipboardData.getData('text/plain') : '';
+            if (!looksLikePlan(text)) return;
+            event.preventDefault();
+            importModal.open(text);
+        };
+        document.addEventListener('paste', onPaste);
+        return () => document.removeEventListener('paste', onPaste);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isEditable, importModal.isOpen]);
 
     const handleImportPlan = (plan) => {
         const before = historySnapshot;
@@ -638,7 +657,7 @@ function AppContent() {
                         </Button>
                         <Button
                             variant={ButtonVariant.SECONDARY}
-                            onClick={importModal.open}
+                            onClick={() => importModal.open()}
                             fullWidth
                             style={neutralActionStyle}
                         >
@@ -819,6 +838,7 @@ function AppContent() {
                         onClose={importModal.close}
                         onApply={handleImportPlan}
                         existingWeek={workoutPlan}
+                        initialText={typeof importModal.data === 'string' ? importModal.data : ''}
                         language={language}
                     />
                 </Suspense>

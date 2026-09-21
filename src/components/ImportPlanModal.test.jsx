@@ -97,3 +97,28 @@ describe('ImportPlanModal', () => {
         expect(screen.getByRole('button', { name: 'Combinar con la semana' })).toBeInTheDocument();
     });
 });
+
+
+describe('ImportPlanModal shortcuts', () => {
+    it('previews text handed in from a paste elsewhere on the page', () => {
+        renderModal({ initialText: PLAN });
+        expect(screen.getAllByText('Library')).toHaveLength(3);
+        expect(screen.queryByLabelText('Paste the plan here')).toBeNull();
+    });
+
+    it('reads the clipboard on one tap and previews it', async () => {
+        const readText = vi.fn().mockResolvedValue(PLAN);
+        Object.assign(navigator, { clipboard: { readText } });
+        renderModal();
+        fireEvent.click(screen.getByRole('button', { name: 'Paste from clipboard' }));
+        expect(await screen.findByText('Choose')).toBeInTheDocument();
+        expect(readText).toHaveBeenCalledTimes(1);
+    });
+
+    it('explains when the clipboard cannot be read', async () => {
+        Object.assign(navigator, { clipboard: { readText: vi.fn().mockRejectedValue(new Error('denied')) } });
+        renderModal();
+        fireEvent.click(screen.getByRole('button', { name: 'Paste from clipboard' }));
+        expect(await screen.findByRole('status')).toHaveTextContent('Could not read the clipboard here.');
+    });
+});
