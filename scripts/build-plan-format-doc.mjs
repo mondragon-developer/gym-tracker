@@ -4,7 +4,7 @@
 // bot copies names from. The prose lives here so a rerun after a library
 // change never loses it. Run with `npm run build:plan-doc`.
 
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, copyFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { EXERCISE_DATABASE } from '../src/constants/index.js';
@@ -152,4 +152,6 @@ ${exerciseTable('es')}`;
 
 writeFileSync(join(outDir, '08-plan-format-en.txt'), EN, 'utf8');
 writeFileSync(join(outDir, '08-formato-plan-es.txt'), ES, 'utf8');
-console.log(`wrote 08-plan-format-en.txt and 08-formato-plan-es.txt (${EXERCISE_DATABASE.length} exercises)`);
+// README.md stays for GitHub; README.txt is the same text for the Chatbase upload.
+copyFileSync(join(outDir, 'README.md'), join(outDir, 'README.txt'));
+console.log(`wrote 08-plan-format-en.txt, 08-formato-plan-es.txt (${EXERCISE_DATABASE.length} exercises) and README.txt`);
