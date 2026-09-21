@@ -19,12 +19,15 @@ A modern, responsive React-based gym workout tracking application that helps you
   - **Strength Training**: Traditional sets, reps, and weight tracking
   - **Cardio Exercises**: Time-based tracking (1-120 minutes) instead of sets/reps
 - **Advanced Exercise Library**: 159 exercises across 11 categories, with equipment filtering
-- **Universal Search**: Search exercises across all muscle groups with real-time filtering
+- **Universal Search**: Search exercises across all muscle groups with real-time filtering, matching English or Spanish names and ignoring accents
+- **One-Thumb Entry**: Sets, reps, weight and minutes fields have minus/plus steppers and open the numeric keypad on phones (rep ranges like 8-10 step both ends)
+- **Undo, Not Confirm**: Delete exercise, Reset Day and Restart This Week apply at once and offer Undo in a toast for a few seconds
 - **Custom Exercise Creation**: Add your own exercises with flexible sets/reps configuration
 - **Multi-Muscle Group Selection**: Select up to 3 muscle groups per day with intelligent UI
 
 ### Progress & Tracking
-- **Rest Timer**: Between-sets countdown with presets, pause/resume, and an end-of-rest sound
+- **Rest Timer**: Between-sets countdown with presets, pause/resume, and an end-of-rest sound, vibration and screen flash (works on phones set to silent)
+- **Today Button**: In the save bar, jumps to today's day; the header collapses on phones so the first day is above the fold
 - **Visual Progress Bar**: Real-time weekly completion tracking
 - **Interactive Exercise Management**: 
   - Mark exercises as completed, skipped, or incomplete
@@ -189,7 +192,7 @@ npm run build     # Production build to dist/
 npm run preview   # Preview the production build locally
 npm run lint      # Run ESLint
 npm test          # Run the Vitest suite in watch mode
-npm run test:run  # Run the Vitest suite once (209 tests)
+npm run test:run  # Run the Vitest suite once (222 tests)
 ```
 
 ## Usage Guide
@@ -259,7 +262,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 - **Supabase**: Authentication and Postgres cloud database with Row Level Security
 - **@dnd-kit**: Accessible, touch-friendly drag-and-drop for exercise reordering
 - **vite-plugin-pwa**: Installable, offline-capable Progressive Web App
-- **Vitest + Testing Library**: 209-test suite across services, hooks, and components
+- **Vitest + Testing Library**: 222-test suite across services, hooks, and components
 - **Inline Styles**: Component-scoped styling for better maintainability
 - **Lucide React**: Beautiful, consistent icon library
 - **Modern JavaScript**: ES6+ features and best practices

@@ -11,6 +11,18 @@ import ExerciseDemoModal from './ExerciseDemoModal.jsx';
 
 const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
+// Accent-insensitive lowercase, so "biceps" finds "Bíceps" and
+// "sentadilla" finds "Sentadillas con Barra".
+const fold = (s) => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+// A library exercise matches when the term appears in its English name or
+// its Spanish name, whatever language the UI is in.
+const matchesTerm = (exercise, term) => {
+    if (!term) return true;
+    return fold(exercise.name).includes(term)
+        || fold(translateExercise(exercise.name, 'es')).includes(term);
+};
+
 const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
 // Helper function to get muscle group colors
@@ -64,8 +76,9 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
     // Filter exercises based on search, selected muscle group, and equipment.
     // An active equipment filter excludes un-enriched exercises: their
     // equipment is unknown, not "other".
+    const foldedTerm = fold(searchTerm.trim());
     const filteredExercises = EXERCISE_DATABASE.filter(ex => {
-        const matchesSearch = ex.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesSearch = matchesTerm(ex, foldedTerm);
         const matchesMuscleGroup = selectedMuscleGroup === 'All' || ex.muscleGroup === selectedMuscleGroup;
         const matchesEquipment = selectedEquipment === 'All' || getExerciseEquipment(ex.id) === selectedEquipment;
         return matchesSearch && matchesMuscleGroup && matchesEquipment;
@@ -518,10 +531,10 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                                                     fontSize: '14px',
                                                     marginBottom: '4px'
                                                 }}>
-                                                    {searchTerm && ex.name.toLowerCase().includes(searchTerm.toLowerCase()) ? (
+                                                    {searchTerm && translateExercise(ex.name, language).toLowerCase().includes(searchTerm.trim().toLowerCase()) ? (
                                                         <span dangerouslySetInnerHTML={{
                                                             __html: translateExercise(ex.name, language).replace(
-                                                                new RegExp(`(${escapeRegExp(searchTerm)})`, 'gi'),
+                                                                new RegExp(`(${escapeRegExp(searchTerm.trim())})`, 'gi'),
                                                                 '<mark style="background-color: #fef3c7; padding: 1px 2px; border-radius: 2px;">$1</mark>'
                                                             )
                                                         }} />

@@ -136,11 +136,25 @@ export default function RestTimer({ language = 'en' }) {
 
     // Zero is only reachable at the end of a countdown, so this fires the
     // end-of-rest cue exactly once.
+    // Phones on silent mute Web Audio, so the cue is also a vibration and a
+    // short full-screen flash the user cannot miss with the phone face up.
+    const [flash, setFlash] = useState(false);
     useEffect(() => {
         if (remaining === 0) {
             beep(audioRef);
+            try {
+                if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+                    navigator.vibrate([250, 100, 250]);
+                }
+            } catch {
+                // Vibration unsupported or blocked: the other cues still fire.
+            }
+            setFlash(true);
+            const id = setTimeout(() => setFlash(false), 900);
             setRunning(false);
+            return () => clearTimeout(id);
         }
+        return undefined;
     }, [remaining]);
 
     const start = () => {
@@ -206,6 +220,7 @@ export default function RestTimer({ language = 'en' }) {
                     {t("Time's up!", language)}
                 </span>
             )}
+            {flash && <div className="rest-flash" aria-hidden="true" data-testid="rest-flash" />}
 
             <div style={{ display: 'flex', gap: '6px', marginLeft: 'auto' }}>
                 <button onClick={running ? () => setRunning(false) : start} style={actionStyle(true)}>

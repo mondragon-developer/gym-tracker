@@ -48,9 +48,52 @@ input:focus-visible,
   }
 }
 
-/* Responsive typography */
+/* End-of-rest flash: a brief full-screen pulse for phones on silent */
+@keyframes rest-flash {
+  0% { opacity: 0; }
+  20% { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+
+.rest-flash {
+  position: fixed;
+  inset: 0;
+  background: #dc2626;
+  pointer-events: none;
+  z-index: 2000;
+  animation: rest-flash 0.9s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rest-flash {
+    animation-duration: 0.3s;
+  }
+}
+
+/* Phones: compact chrome so the first day is above the fold.
+   Components style inline, so these overrides need !important. */
 @media (max-width: 640px) {
   body {
     font-size: 14px;
+    padding: 8px;
+  }
+
+  .app-shell {
+    margin: 8px auto !important;
+  }
+
+  .app-header {
+    padding: 14px 16px !important;
+    gap: 10px !important;
+  }
+
+  .app-logo {
+    width: 64px !important;
+    height: 64px !important;
+    border-width: 3px !important;
+  }
+
+  .app-tagline {
+    margin-bottom: 6px !important;
   }
 }

@@ -89,6 +89,11 @@ export const uiTranslations = {
         "Full body 3 days (busy schedule)": "Full body 3 days (busy schedule)",
         "Monday, Wednesday and Friday. Five exercises per session, about 30-40 minutes.": "Monday, Wednesday and Friday. Five exercises per session, about 30-40 minutes.",
         "Hide this day": "Hide this day",
+        "Undo": "Undo",
+        "Today": "Today",
+        "Exercise deleted.": "Exercise deleted.",
+        "Day reset to default.": "Day reset to default.",
+        "Week restarted.": "Week restarted.",
         "Hidden days:": "Hidden days:",
         "Show": "Show",
 
@@ -393,6 +398,11 @@ export const uiTranslations = {
         "Full body 3 days (busy schedule)": "Cuerpo completo 3 días (agenda ocupada)",
         "Monday, Wednesday and Friday. Five exercises per session, about 30-40 minutes.": "Lunes, miércoles y viernes. Cinco ejercicios por sesión, unos 30-40 minutos.",
         "Hide this day": "Ocultar este día",
+        "Undo": "Deshacer",
+        "Today": "Hoy",
+        "Exercise deleted.": "Ejercicio eliminado.",
+        "Day reset to default.": "Día restablecido al plan por defecto.",
+        "Week restarted.": "Semana reiniciada.",
         "Hidden days:": "Días ocultos:",
         "Show": "Mostrar",
 

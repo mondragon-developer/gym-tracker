@@ -275,6 +275,14 @@ const useWorkoutPlan = () => {
     editViewedWeek(() => plan);
   };
 
+  // Undo support: callers keep the history object from before a destructive
+  // action and hand it back. Restoring goes through the normal dirty/autosave
+  // path, and if nothing was saved in between the pending save is dropped
+  // because the restored object is the persisted one.
+  const restoreSnapshot = (snapshot) => {
+    if (snapshot) setHistory(snapshot);
+  };
+
   const previousWeekStart = history && viewedWeekStart
     ? WeekPlanService.previousWeekOf(history, viewedWeekStart)
     : null;
@@ -315,6 +323,8 @@ const useWorkoutPlan = () => {
     resetDay,
     resetWeek,
     replaceViewedWeek,
+    historySnapshot: history,
+    restoreSnapshot,
     copyFromPreviousWeek,
     hasPreviousWeek,
     previousWeekStart,
