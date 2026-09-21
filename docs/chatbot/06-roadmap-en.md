@@ -52,7 +52,7 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 - **Export to PDF** (CSV already exists for the weekly summary) and full data backup/restore
 - **Nutrition tracking** — basic meal and calorie logging
 - **Achievements** — milestones and badges
-- **Dark mode / theme customization**
+- **Modern, accessible colors and dark mode** — a refreshed palette that meets WCAG AA contrast in light and dark, status shown with icons and text and not color alone, dark mode following the phone setting with a manual switch
 - **Advanced exercise filtering** — by equipment or difficulty
 
 ## Not in the app (and how to answer)

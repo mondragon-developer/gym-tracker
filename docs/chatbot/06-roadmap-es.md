@@ -52,7 +52,7 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 - **Exportar a PDF** (el CSV ya existe para el resumen semanal) y respaldo/restauración completos de datos
 - **Registro de nutrición** — registro básico de comidas y calorías
 - **Logros** — hitos e insignias
-- **Modo oscuro / personalización de temas**
+- **Colores modernos y accesibles con modo oscuro** — una paleta renovada que cumple el contraste WCAG AA en claro y oscuro, estados mostrados con ícono y texto y no solo por color, modo oscuro según el ajuste del teléfono con un interruptor manual
 - **Filtros avanzados de ejercicios** — por equipo o dificultad
 
 ## No está en la app (y cómo responder)

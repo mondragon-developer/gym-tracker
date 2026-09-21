@@ -411,7 +411,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ### Technical Improvements
 - [ ] **Data export/import**: Backup and restore functionality
-- [ ] **Theme customization**: Dark mode and color themes
+- [ ] **Modern, accessible color system**: One brand accent, neutral surfaces, semantic status colors that pass WCAG 2.2 AA in light and dark, status never by color alone, dark mode following the device setting with a manual override. Tokens and migration plan in [`docs/WISHLIST.md`](docs/WISHLIST.md)
 - [ ] **Advanced search**: Exercise filtering by difficulty
 - [ ] **Performance optimization**: Virtual scrolling for large lists
 

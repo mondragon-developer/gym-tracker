@@ -56,16 +56,66 @@ mancuernas", see three dumbbell chest exercises from the library with demos,
 tap once, and find them on the selected day with default sets and reps, saved
 through the normal autosave. The trainer panel can do the same for a client.
 
-## 2. Week-over-week progress
+## 2. Modern, accessible color system (and dark mode from it)
+
+**What the user sees.** A calmer, current look: one brand accent, a neutral
+scale for surfaces and text, and semantic colors for done, skipped, warning
+and danger. Less gradient, more whitespace, the same layout. Every text and
+control passes WCAG 2.2 AA in both light and dark, and dark mode follows
+the phone setting with a manual override next to the unit toggle.
+
+**Rules.**
+- Contrast: 4.5:1 for text, 3:1 for icons, borders of inputs, focus rings
+  and the progress bar fill. Check the exact pairs, not by eye; the
+  `dataviz` and axe-core checks in the repo's a11y skills cover it.
+- Status is never color alone: completed, skipped and incomplete keep an
+  icon and a label, and the day header keeps its text state. Pick a
+  done/skipped pair that survives red-green color blindness (teal and
+  amber, not green and red).
+- Focus ring visible on every interactive element on every background,
+  including the blinking rest alert and the dark toast.
+- Touch targets stay at least 44 by 44 px (the stepper buttons and the
+  small "Show" links in the hidden-days strip need a check).
+- No new emojis as icons; where a glyph is needed use the lucide set already
+  installed, so it inherits the token color.
+- Respect `prefers-reduced-motion` and `prefers-contrast: more` (drop the
+  gradients entirely, thicken borders).
+
+**Proposed tokens** (starting point, to be verified with a contrast tool):
+- Brand: teal `#0e7490` on light, `#22d3ee` on dark, for primary buttons,
+  links and the Today pill.
+- Surfaces: white / `#f8fafc` cards on light; `#0f172a` / `#1e293b` on dark.
+- Text: `#0f172a` primary and `#475569` secondary on light; `#f1f5f9` and
+  `#cbd5e1` on dark.
+- Done `#0f766e`, skipped `#b45309`, danger `#b91c1c`, on tinted surfaces
+  `#ccfbf1`, `#fef3c7`, `#fee2e2` (light) with dark counterparts.
+- Muscle-group colors on day headers: reduce to two or three accents keyed
+  to push / pull / legs / rest rather than one per group.
+
+**How to get there in this codebase.** Components style inline with
+literal hex values (about 60 distinct colors in `src/`). Plan:
+1. Add `src/theme/tokens.css` defining the variables on `:root`, redefined
+   under `prefers-color-scheme: dark` and under `[data-theme="dark"]`;
+   `body` gets an explicit background.
+2. Add a `ThemeContext` like `UnitsContext` storing light / dark / system.
+3. Migrate component by component, replacing literals with `var(--...)`
+   inside the existing inline style objects; no CSS framework needed. Start
+   with the shared pieces: `Button`, `Modal`, `SaveStatusBar`, `UndoToast`,
+   `StepperInput`, then `DayAccordion` and `ExerciseItem`, then the rest.
+4. Run the web-visual-walk skill on the tracker and the trainer panel in
+   both themes before shipping; fix every contrast and target finding.
+5. Update the PWA `theme_color` and the screenshots in the README.
+
+**Done when.** Light and dark both pass axe with no contrast violations, the
+manual toggle persists, the day cards and exercise rows read the same at a
+glance, and the muscle-group and status colors are distinguishable with a
+color-blindness simulator.
+
+## 3. Week-over-week progress
 
 Volume and top weight per exercise across stored weeks, from data already in
 the history object. Chart per exercise and a weekly volume total; export
 stays CSV. This is the roadmap's "analytics" item.
-
-## 3. Dark mode
-
-Components style inline, so this needs color tokens first, then a theme
-toggle stored like the unit preference. Mechanical but wide.
 
 ## 4. Backup, restore, and account deletion
 
