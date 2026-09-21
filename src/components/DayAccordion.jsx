@@ -30,6 +30,11 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
         return list.find(p => (exercise.dbId ? p.dbId === exercise.dbId : p.name === exercise.name)) ?? null;
     };
     const [showMuscleGroupDropdown, setShowMuscleGroupDropdown] = useState(false);
+    // Empty notes collapse to a one-line button so exercises sit higher on
+    // phones; a day with a note always shows the textarea.
+    const [noteOpen, setNoteOpen] = useState(false);
+    const showNote = Boolean(data.note) || noteOpen;
+
 
     // Touch sensor with delay so finger drag doesn't fight scroll on mobile.
     const sensors = useSensors(
@@ -166,12 +171,14 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                 tabIndex={0}
                 aria-expanded={isOpen}
                 aria-controls={`day-panel-${day}`}
+                className="day-header"
                 style={{
-                    padding: '20px',
+                    padding: '14px 18px',
                     cursor: 'pointer',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    gap: '10px',
                     transition: 'all 0.3s ease',
                     ...headerStyle
                 }}
@@ -183,27 +190,15 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                     }
                 }}
             >
-                <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
-                        <span style={{ fontWeight: 'bold', fontSize: '20px' }}>{t(day, language)}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
+                        <span className="day-title" style={{ fontWeight: 'bold', fontSize: '18px', lineHeight: 1.2 }}>{t(day, language)}</span>
                         {date && (
-                            <span style={{ fontSize: '13px', opacity: 0.85, fontWeight: 500 }}>{date}</span>
-                        )}
-                        {exerciseCount > 0 && (
-                            <span style={{
-                                backgroundColor: 'rgba(255, 255, 255, 0.25)',
-                                fontSize: '12px',
-                                fontWeight: '600',
-                                padding: '4px 12px',
-                                borderRadius: '12px',
-                                backdropFilter: 'blur(4px)'
-                            }}>
-                                {completedCount}/{exerciseCount}
-                            </span>
+                            <span style={{ fontSize: '12px', opacity: 0.85, fontWeight: 500 }}>{date}</span>
                         )}
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', position: 'relative' }} className="muscle-group-dropdown">
-                        <span style={{ fontSize: '14px', opacity: 0.95, fontWeight: '500' }}>{translateMuscleGroup(data.name, language)}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', position: 'relative', marginTop: '2px' }} className="muscle-group-dropdown">
+                        <span style={{ fontSize: '13px', opacity: 0.95, fontWeight: '500' }}>{translateMuscleGroup(data.name, language)}</span>
                         {!readOnly && (
                         <button
                             onClick={(e) => {
@@ -230,8 +225,9 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                             <div style={{
                                 position: 'absolute',
                                 top: '100%',
-                                left: '20px',
-                                right: '20px',
+                                left: 0,
+                                right: 0,
+                                minWidth: '240px',
                                 background: 'white',
                                 border: '2px solid #3b82f6',
                                 borderRadius: '12px',
@@ -278,7 +274,8 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                                 }
                                             }}
                                             style={{
-                                                width: '100%',
+                                                width: 'calc(100% - 16px)',
+                                                boxSizing: 'border-box',
                                                 padding: '12px 16px',
                                                 border: 'none',
                                                 background: isSelected ? '#dbeafe' : 'transparent',
@@ -353,27 +350,58 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                         )}
                     </div>
                 </div>
-                <ChevronDown 
-                    style={{
-                        transition: 'transform 0.3s ease',
-                        transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
-                    }} 
-                    size={22} 
-                />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+                    {exerciseCount > 0 && (
+                        <span style={{
+                            backgroundColor: 'rgba(255, 255, 255, 0.25)',
+                            fontSize: '12px',
+                            fontWeight: '600',
+                            padding: '3px 10px',
+                            borderRadius: '12px',
+                            backdropFilter: 'blur(4px)'
+                        }}>
+                            {completedCount}/{exerciseCount}
+                        </span>
+                    )}
+                    <ChevronDown
+                        style={{
+                            transition: 'transform 0.3s ease',
+                            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
+                        }}
+                        size={22}
+                    />
+                </div>
             </div>
             
             {isOpen && (
-                <div id={`day-panel-${day}`} style={{
-                    padding: '20px',
+                <div id={`day-panel-${day}`} className="day-panel" style={{
+                    padding: '14px 16px 16px',
                     background: 'linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%)'
                 }}>
                     {/* Day notes: shared between the client and their trainers
                         through the plan itself; carried into following weeks. */}
-                    {(!readOnly || data.note) && (
-                        <div style={{ marginBottom: '14px' }}>
+                    {!readOnly && !showNote && (
+                        <button
+                            type="button"
+                            onClick={() => setNoteOpen(true)}
+                            style={{
+                                background: 'none',
+                                border: 'none',
+                                padding: '0 0 10px',
+                                fontSize: '12px',
+                                fontWeight: 700,
+                                color: '#0e7490',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            + {t('Add note', language)}
+                        </button>
+                    )}
+                    {(readOnly ? Boolean(data.note) : showNote) && (
+                        <div style={{ marginBottom: '12px' }}>
                             <label
                                 htmlFor={`day-note-${day}`}
-                                style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#0e7490', marginBottom: '6px' }}
+                                style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#0e7490', marginBottom: '4px' }}
                             >
                                 {t('Notes', language)}
                             </label>
@@ -386,10 +414,11 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                     onChange={(e) => onUpdateDay(day, { ...data, note: e.target.value })}
                                     placeholder={t('Notes for this day, visible to you and your trainers', language)}
                                     rows={2}
+                                    autoFocus={noteOpen && !data.note}
                                     style={{
                                         width: '100%',
                                         boxSizing: 'border-box',
-                                        padding: '10px 12px',
+                                        padding: '8px 10px',
                                         border: '1px solid #a5f3fc',
                                         borderRadius: '10px',
                                         backgroundColor: '#ecfeff',
@@ -402,12 +431,10 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                             )}
                         </div>
                     )}
-                    <div style={{
+                    <div className="day-exercises" style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '16px',
-                        maxHeight: '400px',
-                        overflowY: 'auto'
+                        gap: '10px'
                     }}>
                         {data.exercises.length > 0 ? (
                             <DndContext
@@ -435,12 +462,12 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                         ) : (
                             <div style={{
                                 textAlign: 'center',
-                                padding: '48px',
+                                padding: '28px 16px',
                                 background: 'linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%)',
                                 borderRadius: '12px',
                                 border: '2px dashed #60a5fa'
                             }}>
-                                <div style={{ fontSize: '48px', marginBottom: '12px' }}>💤</div>
+                                <div style={{ fontSize: '36px', marginBottom: '8px' }}>💤</div>
                                 <p style={{ color: '#2563eb', fontWeight: '600', marginBottom: '8px', margin: '0 0 8px 0' }}>{t("No exercises for today", language)}</p>
                                 <p style={{ fontSize: '14px', color: '#60a5fa', margin: '0' }}>{t("Add an exercise to get started!", language)}</p>
                             </div>
@@ -451,19 +478,22 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '12px',
-                        paddingTop: '20px',
+                        gap: '10px',
+                        paddingTop: '12px',
                         borderTop: '2px solid #e5e7eb',
-                        marginTop: '16px'
+                        marginTop: '12px'
                     }}>
+                        <div style={{ display: 'flex', gap: '10px' }}>
                         <button
                             onClick={() => onOpenAddExercise(day)}
                             style={{
+                                flex: 1,
+                                minWidth: 0,
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 gap: '8px',
-                                padding: '16px 24px',
+                                padding: '12px 16px',
                                 background: 'linear-gradient(90deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%)',
                                 color: 'white',
                                 fontWeight: '600',
@@ -483,23 +513,24 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                 e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
                             }}
                         >
-                            <Plus size={20} /> {t("Add Exercise", language)}
+                            <Plus size={18} /> {t("Add Exercise", language)}
                         </button>
-                        <button 
-                            onClick={() => onResetDay(day)} 
+                        <button
+                            onClick={() => onResetDay(day)}
                             style={{
+                                flexShrink: 0,
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                gap: '8px',
-                                padding: '16px 24px',
+                                gap: '6px',
+                                padding: '12px 14px',
                                 background: 'linear-gradient(90deg, #d1d5db 0%, #9ca3af 100%)',
                                 color: '#374151',
                                 fontWeight: '600',
                                 borderRadius: '12px',
                                 border: 'none',
                                 cursor: 'pointer',
-                                fontSize: '16px',
+                                fontSize: '14px',
                                 boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
                                 transition: 'all 0.3s ease'
                             }}
@@ -514,12 +545,13 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                         >
                             🔄 {t("Reset Day", language)}
                         </button>
+                        </div>
                         {canHide && (
                             <button
                                 type="button"
                                 onClick={() => onUpdateDay(day, { ...data, hidden: true })}
                                 style={{
-                                    padding: '10px 16px',
+                                    padding: '8px 16px',
                                     background: 'none',
                                     color: '#64748b',
                                     fontWeight: '600',
