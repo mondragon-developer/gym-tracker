@@ -41,6 +41,8 @@ import UndoToast from './components/UndoToast.jsx';
 import { getWorkoutTemplate } from './constants/workoutTemplates.js';
 // Lazy: only loads when the user opens the template picker.
 const WorkoutTemplateModal = React.lazy(() => import('./components/WorkoutTemplateModal'));
+// Lazy: only loads when the user pastes a plan from the AI coach.
+const ImportPlanModal = React.lazy(() => import('./components/ImportPlanModal'));
 import mdLogo from './assets/mdlogo.jpeg';
 
 // Flat overrides for the week-level action buttons; the Button variants
@@ -119,6 +121,7 @@ function AppContent() {
 
     const copyWeekModal = useModal();
     const templatesModal = useModal();
+    const importModal = useModal();
     const addExerciseModal = useModal();
     const feedbackModal = useModal();
     const summaryModal = useModal();
@@ -278,6 +281,13 @@ function AppContent() {
     const handleCopyLastWeek = () => {
         copyFromPreviousWeek();
         copyWeekModal.close();
+    };
+
+    const handleImportPlan = (plan) => {
+        const before = historySnapshot;
+        replaceViewedWeek(plan);
+        importModal.close();
+        offerUndo(t('Plan imported.', language), before);
     };
 
     const handleSelectTemplate = (templateId) => {
@@ -625,6 +635,14 @@ function AppContent() {
                         >
                             {t("Workout templates", language)}
                         </Button>
+                        <Button
+                            variant={ButtonVariant.SECONDARY}
+                            onClick={importModal.open}
+                            fullWidth
+                            style={neutralActionStyle}
+                        >
+                            {t("Import plan", language)}
+                        </Button>
                         {hasPreviousWeek && (
                         <Button
                             variant={ButtonVariant.SECONDARY}
@@ -787,6 +805,19 @@ function AppContent() {
                         isOpen={templatesModal.isOpen}
                         onClose={templatesModal.close}
                         onSelect={handleSelectTemplate}
+                        language={language}
+                    />
+                </Suspense>
+            )}
+
+            {/* Import plan Modal, code-split, mounted only while open */}
+            {importModal.isOpen && (
+                <Suspense fallback={lazyFallback}>
+                    <ImportPlanModal
+                        isOpen={importModal.isOpen}
+                        onClose={importModal.close}
+                        onApply={handleImportPlan}
+                        existingWeek={workoutPlan}
                         language={language}
                     />
                 </Suspense>
