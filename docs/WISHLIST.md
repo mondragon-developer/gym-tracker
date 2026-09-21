@@ -66,8 +66,9 @@ the phone setting with a manual override next to the unit toggle.
 
 **Rules.**
 - Contrast: 4.5:1 for text, 3:1 for icons, borders of inputs, focus rings
-  and the progress bar fill. Check the exact pairs, not by eye; the
-  `dataviz` and axe-core checks in the repo's a11y skills cover it.
+  and the progress bar fill. Check the exact pairs, not by eye: a
+  contrast checker such as the WebAIM tool for the token table, and
+  axe DevTools on the rendered app.
 - Status is never color alone: completed, skipped and incomplete keep an
   icon and a label, and the day header keeps its text state. Pick a
   done/skipped pair that survives red-green color blindness (teal and
@@ -92,7 +93,7 @@ the phone setting with a manual override next to the unit toggle.
 - Muscle-group colors on day headers: reduce to two or three accents keyed
   to push / pull / legs / rest rather than one per group.
 
-**How to get there in this codebase.** Components style inline with
+**How to get there in this codebase.** Components are styled inline with
 literal hex values (about 60 distinct colors in `src/`). Plan:
 1. Add `src/theme/tokens.css` defining the variables on `:root`, redefined
    under `prefers-color-scheme: dark` and under `[data-theme="dark"]`;
@@ -102,8 +103,9 @@ literal hex values (about 60 distinct colors in `src/`). Plan:
    inside the existing inline style objects; no CSS framework needed. Start
    with the shared pieces: `Button`, `Modal`, `SaveStatusBar`, `UndoToast`,
    `StepperInput`, then `DayAccordion` and `ExerciseItem`, then the rest.
-4. Run the web-visual-walk skill on the tracker and the trainer panel in
-   both themes before shipping; fix every contrast and target finding.
+4. Run axe DevTools plus a manual pass (focus rings, 24px targets, zoom
+   to 200%) on the tracker and the trainer panel in both themes before
+   shipping; fix every contrast and target finding.
 5. Update the PWA `theme_color` and the screenshots in the README.
 
 **Done when.** Light and dark both pass axe with no contrast violations, the
