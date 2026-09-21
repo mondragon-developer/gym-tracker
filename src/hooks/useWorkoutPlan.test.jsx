@@ -222,6 +222,8 @@ describe('useWorkoutPlan persistence', () => {
 
     await act(async () => { vi.advanceTimersByTime(5000); });
     expect(mocks.saveWorkoutPlan).not.toHaveBeenCalled();
+  });
+
   it('flags a first run only when nothing was stored anywhere', async () => {
     mocks.getWorkoutPlanRecord.mockResolvedValue(null);
     const fresh = await renderPlan();
@@ -256,6 +258,21 @@ describe('useWorkoutPlan persistence', () => {
 
     // A fresh history has no earlier week, so nothing to compare against.
     expect(result.current.previousWeekPlan).toBeNull();
+  });
+
+  it('persistCurrentPlan stores the default plan for a first-run user who keeps it', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValue(null);
+    const { result } = await renderPlan();
+    expect(result.current.isFirstRun).toBe(true);
+    expect(result.current.isDirty).toBe(false);
+
+    act(() => { result.current.persistCurrentPlan(); });
+    expect(result.current.isDirty).toBe(true);
+    await act(async () => { vi.advanceTimersByTime(1500); });
+    await waitFor(() => expect(mocks.saveWorkoutPlan).toHaveBeenCalledTimes(1));
+    // First save for this account: an insert, no version stamp.
+    expect(mocks.saveWorkoutPlan.mock.calls[0][1]).toEqual({ expectedUpdatedAt: null });
+    expect(mocks.saveWorkoutPlan.mock.calls[0][0].weeks[result.current.currentWeekStart].Monday.exercises.length).toBeGreaterThan(0);
   });
 
   it('migrates a local plan to the cloud only when no cloud row exists', async () => {

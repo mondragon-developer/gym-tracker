@@ -62,6 +62,7 @@ function AppContent() {
         replaceViewedWeek,
         historySnapshot,
         restoreSnapshot,
+        persistCurrentPlan,
         copyFromPreviousWeek,
         hasPreviousWeek,
         previousWeekStart,
@@ -213,7 +214,12 @@ function AppContent() {
         if (!seen) setOnboardingOpen(true);
     }, [isFirstRun, onboardedKey, isLoading]);
 
-    const finishOnboarding = () => {
+    // keepDefault: the user closed or skipped the chooser, so the default
+    // plan is written to the cloud as is; otherwise a template was applied
+    // and is already dirty. Either way the account ends up with a stored
+    // row, which is what stops a second device from asking again.
+    const finishOnboarding = (keepDefault = true) => {
+        if (keepDefault) persistCurrentPlan();
         try {
             if (onboardedKey) localStorage.setItem(onboardedKey, '1');
         } catch {
@@ -226,7 +232,7 @@ function AppContent() {
     const handleOnboardingSelect = (templateId) => {
         const template = getWorkoutTemplate(templateId);
         if (template) replaceViewedWeek(template.build());
-        finishOnboarding();
+        finishOnboarding(!template);
     };
 
     const handleJumpToToday = () => {
@@ -707,14 +713,14 @@ function AppContent() {
                 <Suspense fallback={lazyFallback}>
                     <WorkoutTemplateModal
                         isOpen={onboardingOpen}
-                        onClose={finishOnboarding}
+                        onClose={() => finishOnboarding(true)}
                         onSelect={handleOnboardingSelect}
                         language={language}
                         title={t('Welcome! How many days a week can you train?', language)}
                         intro={t('Pick a plan to start with. Everything can be changed later, and Workout templates under the days brings this list back.', language)}
                         confirmBeforeApply={false}
                         secondaryLabel={t('Keep the default plan', language)}
-                        onSecondary={finishOnboarding}
+                        onSecondary={() => finishOnboarding(true)}
                     />
                 </Suspense>
             )}

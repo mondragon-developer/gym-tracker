@@ -71,7 +71,7 @@ export default function WeeklySummaryModal({ isOpen, onClose, workoutPlan, weekS
   const weekLabel = weekStart ? formatWeekRange(weekStart, language) : '';
 
   const downloadCsv = () => {
-    const csv = WeekSummaryService.toCsv(summary, weekLabel, language);
+    const csv = WeekSummaryService.toCsv(summary, weekLabel, language, unit);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');

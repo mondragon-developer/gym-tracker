@@ -290,6 +290,13 @@ const useWorkoutPlan = () => {
   // action and hand it back. Restoring goes through the normal dirty/autosave
   // path, and if nothing was saved in between the pending save is dropped
   // because the restored object is the persisted one.
+  // Stores the plan as it is (a new object reference makes it dirty), used
+  // when a first-run user keeps the default so the cloud gets a row and the
+  // next device does not ask again.
+  const persistCurrentPlan = () => {
+    setHistory(prev => (prev ? { ...prev } : prev));
+  };
+
   const restoreSnapshot = (snapshot) => {
     if (!snapshot) return;
     setHistory(snapshot);
@@ -344,6 +351,7 @@ const useWorkoutPlan = () => {
     replaceViewedWeek,
     historySnapshot: history,
     restoreSnapshot,
+    persistCurrentPlan,
     copyFromPreviousWeek,
     hasPreviousWeek,
     previousWeekStart,

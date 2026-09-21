@@ -412,7 +412,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                                     cursor: allSetsDone ? 'default' : 'pointer'
                                 }}
                             >
-                                {t("Log set", language)} {Math.min(doneSets, targetSets || doneSets)}{targetSets ? `/${targetSets}` : ''}
+                                {t("Log set", language)} {allSetsDone ? targetSets : Math.min(doneSets + 1, targetSets || doneSets + 1)}{targetSets ? `/${targetSets}` : ''}
                             </button>
                         )}
                         {hasPrevious && (

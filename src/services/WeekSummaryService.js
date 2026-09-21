@@ -113,7 +113,7 @@ class WeekSummaryService {
    * @param {string} language - UI language for headers and names
    * @returns {string} CSV text
    */
-  static toCsv(summary, weekLabel, language = 'en') {
+  static toCsv(summary, weekLabel, language = 'en', unit = '') {
     const esc = WeekSummaryService.csvEscape;
     const lines = [];
 
@@ -121,7 +121,9 @@ class WeekSummaryService {
     lines.push('');
     lines.push([
       t('Day', language), t('Exercise', language), t('Muscle group', language),
-      t('Sets', language), t('Reps', language), t('Weight', language),
+      t('Sets', language), t('Reps', language),
+      // Rows arrive already converted, so the header must say which unit.
+      unit ? `${t('Weight', language)} (${unit})` : t('Weight', language),
       t('Sets done', language), t('Status', language)
     ].map(esc).join(','));
 
