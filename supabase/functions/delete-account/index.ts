@@ -54,11 +54,13 @@ Deno.serve(async (req) => {
 
   const service = createClient(supabaseUrl, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
 
-  const { data: profile } = await service
+  // Fails closed: if the role cannot be read, an admin could slip through.
+  const { data: profile, error: profileError } = await service
     .from('profiles')
     .select('role')
     .eq('id', user.id)
     .maybeSingle();
+  if (profileError) return json(500, { error: 'Could not check the account' });
   if (profile?.role === 'admin') return json(403, { error: 'admin' });
 
   const { error: deleteError } = await service.auth.admin.deleteUser(user.id);

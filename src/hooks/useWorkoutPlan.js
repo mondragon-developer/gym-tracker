@@ -345,11 +345,14 @@ const useWorkoutPlan = () => {
 
   // Stores a whole plan on any importable week and shows that week, so the
   // user sees what landed. Undo steps back to before it like any edit.
+  // Returns false when the week is no longer importable (the calendar rolled
+  // past it while the preview was open), so the caller does not claim success.
   const replaceWeek = (weekStart, plan) => {
-    if (!history || !importableWeeks.includes(weekStart)) return;
+    if (!history || !importableWeeks.includes(weekStart)) return false;
     recordUndo(weekStart);
     setHistory(prev => (prev ? WeekPlanService.setWeek(prev, weekStart, plan) : prev));
     setViewedWeekStart(weekStart);
+    return true;
   };
 
   // Undo support: callers keep the history object from before a destructive

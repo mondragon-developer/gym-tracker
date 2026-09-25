@@ -371,9 +371,10 @@ function AppContent() {
 
     const handleImportPlan = (plan, weekStart) => {
         const before = historySnapshot;
-        replaceWeek(weekStart, plan);
+        const applied = replaceWeek(weekStart, plan);
         importModal.close();
-        offerUndo(t('Plan imported.', language), before);
+        if (applied) offerUndo(t('Plan imported.', language), before);
+        else setNotice(t('That week is no longer open for planning. Import the plan again.', language));
     };
 
     const handleSelectTemplate = (templateId) => {

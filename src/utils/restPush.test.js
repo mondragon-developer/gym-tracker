@@ -49,13 +49,20 @@ describe('scheduleRestPush', () => {
 
     beforeEach(() => invoke.mockClear());
 
-    it('sends the subscription and end time, and returns the id', async () => {
-        invoke.mockResolvedValue({ data: { id: 'r1' }, error: null });
-        const endsAt = Date.now() + 60_000;
-        await expect(scheduleRestPush(sub, endsAt, 'Go', 'Time')).resolves.toBe('r1');
-        expect(invoke).toHaveBeenCalledWith('rest-timer-push', {
-            body: { action: 'schedule', endsAt, subscription: sub.toJSON(), title: 'Go', body: 'Time' }
-        });
+    // The time left, not the phone's clock time: a phone clock that is off
+    // must not move the push.
+    it('sends the subscription and the time left, and returns the id', async () => {
+        vi.useFakeTimers();
+        try {
+            invoke.mockResolvedValue({ data: { id: 'r1' }, error: null });
+            const endsAt = Date.now() + 60_000;
+            await expect(scheduleRestPush(sub, endsAt, 'Go', 'Time')).resolves.toBe('r1');
+            expect(invoke).toHaveBeenCalledWith('rest-timer-push', {
+                body: { action: 'schedule', delayMs: 60_000, subscription: sub.toJSON(), title: 'Go', body: 'Time' }
+            });
+        } finally {
+            vi.useRealTimers();
+        }
     });
 
     it('skips rests longer than the function can wait, and a missing subscription', async () => {

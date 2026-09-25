@@ -372,7 +372,6 @@ aria-label={t("Filter by Muscle Group", language)}
                         <div style={{ marginBottom: '12px' }}>
                             <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'var(--text-2)', marginBottom: '8px' }}>{t("Filter by Equipment", language)}</label>
                             <select
-aria-label={t("Filter by Equipment", language)}
                                 aria-label={t("Filter by Equipment", language)}
                                 value={selectedEquipment}
                                 onChange={(e) => setSelectedEquipment(e.target.value)}

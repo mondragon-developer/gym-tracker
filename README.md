@@ -121,7 +121,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 
 4. **Set up the database**
 
-   In the Supabase SQL editor, run these files in order: `supabase/schema.sql`, `supabase/admin.sql`, `supabase/trainers.sql`, `supabase/trainer-invites.sql`, `supabase/multi-trainer.sql`. All are idempotent. See [`SUPABASE_SETUP.md`](SUPABASE_SETUP.md) for the full walkthrough, including how to promote your account to admin.
+   In the Supabase SQL editor, run these files in order: `supabase/schema.sql`, `supabase/admin.sql`, `supabase/trainers.sql`, `supabase/trainer-invites.sql`, `supabase/multi-trainer.sql`, `supabase/rest-timer-push.sql`, `supabase/account-activity.sql`. All are idempotent. Two Edge Functions back the rest-timer notification (`rest-timer-push`, needs the VAPID secrets) and self-service account deletion (`delete-account`); deploy steps are in their READMEs under `supabase/functions/`. See [`SUPABASE_SETUP.md`](SUPABASE_SETUP.md) for the full walkthrough, including how to promote your account to admin.
 
 5. **Start the development server**
    ```bash
@@ -198,7 +198,7 @@ npm run build     # Production build to dist/
 npm run preview   # Preview the production build locally
 npm run lint      # Run ESLint
 npm test          # Run the Vitest suite in watch mode
-npm run test:run  # Run the Vitest suite once (252 tests)
+npm run test:run  # Run the Vitest suite once (405 tests)
 ```
 
 ## Usage Guide
@@ -268,7 +268,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 - **Supabase**: Authentication and Postgres cloud database with Row Level Security
 - **@dnd-kit**: Accessible, touch-friendly drag-and-drop for exercise reordering
 - **vite-plugin-pwa**: Installable, offline-capable Progressive Web App
-- **Vitest + Testing Library**: 252-test suite across services, hooks, and components
+- **Vitest + Testing Library**: 405-test suite across services, hooks, and components
 - **Inline Styles**: Component-scoped styling for better maintainability
 - **Lucide React**: Beautiful, consistent icon library
 - **Modern JavaScript**: ES6+ features and best practices
@@ -404,6 +404,10 @@ This project is open source and available under the [MIT License](LICENSE).
 - [x] **Progress tab**: Weekly Summary charts volume per week and per exercise (best and last weight, change) with CSV export
 - [x] **Trainer save conflict check**: A trainer's Save changes refuses to overwrite a client's newer plan; Load latest or Keep mine
 - [x] **Foreground update check**: Open tabs and installed PWAs pick up a new deploy within minutes
+- [x] **Rest timer in the background**: Keeps real time when the app is hidden; an end-of-rest notification is pushed from the server, which reaches iPhone home screen apps too
+- [x] **Coach plan bar**: When the AI coach writes a plan, a bar at the top offers Import, with the target week chosen in the preview (up to 12 weeks ahead)
+- [x] **Session Undo**: The save bar steps back any change, one at a time, for as long as the app is open
+- [x] **Backup, restore and account deletion**: Profile menu; the admin dashboard also shows each account's last use
 
 ### Planned Features
 - [ ] **Plan link from the coach**: A link in the chatbot's answer that opens the app with the plan prefilled, removing the copy step
@@ -416,7 +420,7 @@ This project is open source and available under the [MIT License](LICENSE).
 - [ ] **Achievement system**: Workout milestones and badges
 
 ### Technical Improvements
-- [ ] **Data export/import**: Backup, restore and account deletion. Plan in [`docs/WISHLIST.md`](docs/WISHLIST.md)
+- [ ] **Inactive free accounts**: Warn at 60 and 83 days, delete at 90, once paid tiers exist. Plan in [`docs/WISHLIST.md`](docs/WISHLIST.md)
 - [ ] **Advanced search**: Exercise filtering by difficulty
 - [ ] **Performance optimization**: Virtual scrolling for large lists
 

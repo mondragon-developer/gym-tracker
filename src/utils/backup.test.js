@@ -4,6 +4,8 @@ import WeekPlanService from '../services/WeekPlanService.js';
 
 const TODAY = new Date(2026, 8, 25);
 
+const countAll = (week) => Object.values(week).reduce((sum, day) => sum + (day?.exercises?.length ?? 0), 0);
+
 const sampleHistory = () => {
     const history = WeekPlanService.migrate(null, TODAY);
     const week = history.weeks[history.currentWeekStart];
@@ -42,6 +44,16 @@ describe('backup files', () => {
         expect(parseBackup(JSON.stringify({ hello: 'world' }), TODAY).ok).toBe(false);
         expect(parseBackup(JSON.stringify({ app: 'gym-tracker', kind: 'backup', version: 1, history: { weeks: { '2026-09-21': { note: 'x' } } } }), TODAY).error)
             .toBe('This backup has no workout weeks in it.');
+    });
+
+    it('drops entries that are not exercises from a hand-edited file', () => {
+        const backup = buildBackup(sampleHistory(), TODAY);
+        const monday = backup.history.weeks[backup.history.currentWeekStart].Monday;
+        monday.exercises.push(null, 'text', { sets: '3' }, { name: '  ' });
+        const result = parseBackup(JSON.stringify(backup), TODAY);
+        expect(result.ok).toBe(true);
+        expect(result.history.weeks[backup.history.currentWeekStart].Monday.exercises.map(e => e.name)).toEqual(['Sled Push']);
+        expect(result.summary.exercises).toBe(countAll(result.history.weeks[backup.history.currentWeekStart]));
     });
 
     it('rejects a backup from a newer format', () => {

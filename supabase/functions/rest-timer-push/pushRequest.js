@@ -33,10 +33,16 @@ const clip = (value, max) => String(value ?? '').trim().slice(0, max);
  * @returns {{ ok: true, value: object } | { ok: false, error: string }}
  */
 export const parseSchedule = (body, now = Date.now()) => {
-  const endsAt = Number(body?.endsAt);
-  if (!Number.isFinite(endsAt)) return { ok: false, error: 'endsAt must be a timestamp' };
-  const delay = endsAt - now;
-  if (delay <= 0 || delay > MAX_DELAY_MS) return { ok: false, error: 'endsAt out of range' };
+  // The app sends the time left, so a phone clock that is off does not move
+  // the push; endsAt is still accepted from builds sent before that.
+  const delayMs = Number(body?.delayMs);
+  const legacyEndsAt = Number(body?.endsAt);
+  let delay;
+  if (Number.isFinite(delayMs)) delay = Math.round(delayMs);
+  else if (Number.isFinite(legacyEndsAt)) delay = legacyEndsAt - now;
+  else return { ok: false, error: 'delayMs must be a number' };
+  if (delay <= 0 || delay > MAX_DELAY_MS) return { ok: false, error: 'Delay out of range' };
+  const endsAt = now + delay;
 
   const sub = body?.subscription;
   const endpoint = sub?.endpoint;
