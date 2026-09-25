@@ -42,7 +42,7 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 - Interfaz completa en inglés/español con selector
 - PWA instalable que funciona sin conexión; las pestañas abiertas y la app instalada toman la versión nueva en minutos
 - **Modo oscuro** y un sistema de colores accesible: botón Sistema / Claro / Oscuro en el encabezado junto al selector de unidades, todo el texto y los controles con contraste WCAG AA en ambos temas
-- **Importar plan desde este asistente**: pide un plan, la respuesta termina con un bloque GYMPLAN; toca Copiar y luego pega en cualquier parte de la pantalla de la app (o abre Importar plan y toca Pegar desde el portapapeles); cada línea se comprueba contra la biblioteca, y por día el plan puede reemplazar, añadirse u omitirse; Deshacer después. Los entrenadores tienen el mismo botón en el editor del cliente
+- **Importar plan desde este asistente**: pide un plan, la respuesta termina con un bloque GYMPLAN; una barra arriba de la app ofrece Importar (la vista previa se abre con el plan cargado) o Copiar; pegar en cualquier parte de la pantalla de la app también funciona; cada línea se comprueba contra la biblioteca, y por día el plan puede reemplazar, añadirse u omitirse; Deshacer después. Los entrenadores tienen el mismo botón en el editor del cliente
 - **Pestaña Progreso** en Resumen Semanal: volumen por semana en gráfica con tabla, y por ejercicio la tendencia del volumen, mejor peso, último peso y cambio, con exportación a CSV
 - **Tarjetas de día compactas** en el teléfono para que varios ejercicios quepan en una pantalla
 

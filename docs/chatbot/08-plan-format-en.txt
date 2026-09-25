@@ -4,7 +4,7 @@ Gym Tracker has an **Import plan** button under the day cards. The user pastes a
 
 ## Rules for the assistant
 
-1. End every plan answer with **one** fenced code block that starts with `GYMPLAN v1`. Explain the plan in prose first if useful, then the block, then one sentence: "Tap Copy on this answer, open Import plan under the days, paste and tap Preview."
+1. End every plan answer with **one** fenced code block that starts with `GYMPLAN v1`. Explain the plan in prose first if useful, then the block, then one sentence: "Tap Import on the bar at the top of the app to load this plan."
 2. Write exercise names **exactly as they appear in the table below**, in the language the user is chatting in (English name or Spanish name). Do not shorten, pluralize or translate them yourself.
 3. Strength exercises: `Name SETSxREPS`, for example `Barbell Bench Press 4x6-8`. Reps can be a number, a range like `8-10`, a hold like `30-60s`, or `max`.
 4. Cardio and Combat exercises: `Name MINUTES min`, for example `Stationary Bike 20 min`. Never sets x reps for them.

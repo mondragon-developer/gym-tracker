@@ -85,6 +85,23 @@ export const looksLikePlan = (text) => {
 };
 
 /**
+ * The GYMPLAN block out of a whole coach reply: from the header to the
+ * closing code fence, or to the end when the block is not fenced. Returns
+ * null when the reply has no header, so ordinary answers that mention a
+ * weekday are not offered as plans.
+ * @param {string} text
+ * @returns {string|null}
+ */
+export const extractPlanBlock = (text) => {
+    const lines = String(text ?? '').split(/\r?\n/);
+    const start = lines.findIndex(line => HEADER.test(normalizeLine(line)));
+    if (start === -1) return null;
+    const fence = lines.findIndex((line, i) => i > start && /^\s*```/.test(line));
+    const block = lines.slice(start, fence === -1 ? lines.length : fence);
+    return block.map(line => line.replace(/^\s*```\w*\s*/, '')).join('\n').trim();
+};
+
+/**
  * @param {string} text the pasted block, with any prose around it
  * @returns {{ version: number|null, days: object, errors: Array, warnings: Array }}
  */
