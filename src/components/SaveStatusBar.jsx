@@ -40,7 +40,7 @@ const buttonStyle = (variant, disabled) => ({
   whiteSpace: 'nowrap'
 });
 
-const SaveStatusBar = ({ saveState, lastSavedAt, onSave, onReload, onOverwrite, onJumpToToday, language = 'en' }) => {
+const SaveStatusBar = ({ saveState, lastSavedAt, onSave, onReload, onOverwrite, onJumpToToday, onUndo, language = 'en' }) => {
   let message;
   let palette;
   let actions;
@@ -154,6 +154,17 @@ const SaveStatusBar = ({ saveState, lastSavedAt, onSave, onReload, onOverwrite, 
         </span>
       </div>
       <div style={{ display: 'flex', gap: '8px' }}>
+        {onUndo && (
+          <button
+            type="button"
+            onClick={onUndo}
+            aria-label={t('Undo last change', language)}
+            title={t('Undo last change', language)}
+            style={buttonStyle('secondary', false)}
+          >
+            {t('Undo', language)}
+          </button>
+        )}
         {actions}
       </div>
     </div>

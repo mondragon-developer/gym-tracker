@@ -57,7 +57,7 @@ Each exercise inside a day shows:
 - **Cardio/Combat exercises**: editable **Duration** in minutes (1–120) and the minutes actually completed. No weight field.
 - **✓ Mark as completed** — turns the card green and counts toward weekly progress. Tap again to set it back to incomplete.
 - **✗ Mark as skipped** — marks the exercise as intentionally skipped (red card). Tap again to undo.
-- **Delete (trash icon)** — removes the exercise at once; the toast at the bottom offers Undo. Numbers are edited directly in the fields, there is no separate edit button.
+- **Delete (trash icon)** — removes the exercise at once; the toast at the bottom offers Undo. Any change can also be taken back later with **Undo** in the save bar at the bottom, one change at a time, for as long as the app stays open (the steps are dropped if a newer copy arrives from another device or your trainer). Numbers are edited directly in the fields, there is no separate edit button.
 
 ### Add Exercise modal
 Opened with **"Add Exercise"** on any day:

@@ -319,3 +319,92 @@ describe('useWorkoutPlan persistence', () => {
     expect(result.current.saveState).toBe(SaveState.IDLE);
   });
 });
+
+describe('useWorkoutPlan session undo', () => {
+  beforeEach(() => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    mocks.getWorkoutPlanRecord.mockReset();
+    mocks.saveWorkoutPlan.mockReset();
+    mocks.localGet.mockReset().mockReturnValue(null);
+    mocks.saveWorkoutPlan.mockResolvedValue({ ok: true, updatedAt: 'v1' });
+    mocks.getWorkoutPlanRecord.mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
+  });
+
+  afterEach(() => {
+    delete document.visibilityState;
+    vi.useRealTimers();
+  });
+
+  const rename = (result, day, name) => {
+    act(() => { result.current.updateDay(day, { ...result.current.workoutPlan[day], name }); });
+  };
+
+  it('has nothing to undo right after loading', async () => {
+    const { result } = await renderPlan();
+    expect(result.current.canUndo).toBe(false);
+  });
+
+  it('steps back one edit at a time, even after the edits were saved', async () => {
+    const { result } = await renderPlan();
+    rename(result, 'Monday', 'First');
+    await act(async () => { vi.advanceTimersByTime(2000); });
+    rename(result, 'Tuesday', 'Second');
+    await act(async () => { vi.advanceTimersByTime(5000); });
+    expect(mocks.saveWorkoutPlan).toHaveBeenCalled();
+
+    act(() => { result.current.undoLast(); });
+    expect(result.current.workoutPlan.Tuesday.name).not.toBe('Second');
+    expect(result.current.workoutPlan.Monday.name).toBe('First');
+
+    act(() => { result.current.undoLast(); });
+    expect(result.current.workoutPlan.Monday.name).toBe('Cloud Day');
+    expect(result.current.canUndo).toBe(false);
+  });
+
+  it('counts quick edits to the same day as one step', async () => {
+    const { result } = await renderPlan();
+    rename(result, 'Monday', 'P');
+    rename(result, 'Monday', 'Pu');
+    rename(result, 'Monday', 'Push');
+    act(() => { result.current.undoLast(); });
+    expect(result.current.workoutPlan.Monday.name).toBe('Cloud Day');
+    expect(result.current.canUndo).toBe(false);
+  });
+
+  it('undoes a restart of the week', async () => {
+    const { result } = await renderPlan();
+    const before = result.current.historySnapshot;
+    act(() => { result.current.resetWeek(); });
+    act(() => { result.current.undoLast(); });
+    expect(result.current.historySnapshot).toBe(before);
+  });
+
+  it('does not repeat a step the Undo toast already restored', async () => {
+    const { result } = await renderPlan();
+    rename(result, 'Monday', 'First');
+    await act(async () => { vi.advanceTimersByTime(2000); });
+    const beforeReset = result.current.historySnapshot;
+    act(() => { result.current.resetDay('Monday'); });
+    act(() => { result.current.restoreSnapshot(beforeReset); });
+    expect(result.current.workoutPlan.Monday.name).toBe('First');
+    act(() => { result.current.undoLast(); });
+    expect(result.current.workoutPlan.Monday.name).toBe('Cloud Day');
+  });
+
+  it('drops the steps when a newer copy arrives from another device', async () => {
+    const second = cloudHistory();
+    second.weeks[second.currentWeekStart].Monday.name = 'Trainer Day';
+    const { result } = await renderPlan();
+    rename(result, 'Tuesday', 'Mine');
+    await act(async () => { vi.advanceTimersByTime(5000); });
+    expect(result.current.canUndo).toBe(true);
+
+    mocks.getWorkoutPlanRecord.mockResolvedValueOnce({ data: second, updatedAt: 'v2' });
+    await act(async () => {
+      Object.defineProperty(document, 'visibilityState', { value: 'visible', configurable: true });
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+    await waitFor(() => expect(result.current.workoutPlan.Monday.name).toBe('Trainer Day'));
+    expect(result.current.canUndo).toBe(false);
+  });
+});
