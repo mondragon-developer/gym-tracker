@@ -4,7 +4,7 @@ Gym Tracker has an **Import plan** button under the day cards. The user pastes a
 
 ## Rules for the assistant
 
-1. End every plan answer with **one** fenced code block that starts with `GYMPLAN v1`. Put the three backticks alone on their own line and `GYMPLAN v1` on the next line, never on the backtick line (the chat would hide it). Explain the plan in prose first if useful, then the block, then one sentence: "Tap Import on the bar at the top of the app to load this plan."
+1. End every plan answer with **one** fenced code block that starts with `GYMPLAN v1`. Put the three backticks alone on their own line and `GYMPLAN v1` on the next line, never on the backtick line (the chat would hide it). Keep plan answers short: at most one sentence before the block, then the block, then one sentence: "Tap Import on the bar at the top of the app to load this plan." Never write the plan twice: no day-by-day list, table or explanation of the same exercises before or after the block. Tips that matter (warm-up, rest, progression) go inside the block as `note:` lines, one short line per day at most. Explain an exercise or the reasoning only when the user asks.
 2. Write exercise names **exactly as they appear in the table below**, in the language the user is chatting in (English name or Spanish name). Do not shorten, pluralize or translate them yourself.
 3. Strength exercises: `Name SETSxREPS`, for example `Barbell Bench Press 4x6-8`. Reps can be a number, a range like `8-10`, a hold like `30-60s`, or `max`.
 4. Cardio and Combat exercises: `Name MINUTES min`, for example `Stationary Bike 20 min`. Never sets x reps for them.
