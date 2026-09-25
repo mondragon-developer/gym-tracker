@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parsePlanText, buildWeekFromImport, normalizeLine, looksLikePlan, IMPORT_PRESETS, DAY_MODES } from './planImport.js';
+import { parsePlanText, buildWeekFromImport, normalizeLine, looksLikePlan, extractPlanBlock, IMPORT_PRESETS, DAY_MODES } from './planImport.js';
 import { EXERCISE_DATABASE } from '../constants/index.js';
 import { DAYS_OF_WEEK, INDIVIDUAL_MUSCLE_GROUPS } from '../constants/AppConstants.js';
 
@@ -241,5 +241,33 @@ describe('looksLikePlan', () => {
         expect(looksLikePlan('Nice work today, keep it up!')).toBe(false);
         expect(looksLikePlan('')).toBe(false);
         expect(looksLikePlan(null)).toBe(false);
+    });
+});
+
+describe('extractPlanBlock', () => {
+    it('takes the fenced block out of a coach reply', () => {
+        const reply = [
+            'Here is your week:',
+            '```',
+            'GYMPLAN v1',
+            'Monday: Chest',
+            '- Barbell Bench Press 4x8',
+            '```',
+            'Paste it into Import plan.'
+        ].join('\n');
+        expect(extractPlanBlock(reply)).toBe('GYMPLAN v1\nMonday: Chest\n- Barbell Bench Press 4x8');
+    });
+
+    it('runs to the end when the block is not fenced', () => {
+        expect(extractPlanBlock('Sure.\nGYMPLAN v1\nTuesday: Rest')).toBe('GYMPLAN v1\nTuesday: Rest');
+    });
+
+    it('finds a header wrapped in markdown bold', () => {
+        expect(extractPlanBlock('**GYMPLAN v1**\nMonday: Legs')).toBe('**GYMPLAN v1**\nMonday: Legs');
+    });
+
+    it('returns null for an answer without a plan header', () => {
+        expect(extractPlanBlock('On Monday do Barbell Bench Press 4x8.')).toBeNull();
+        expect(extractPlanBlock(undefined)).toBeNull();
     });
 });

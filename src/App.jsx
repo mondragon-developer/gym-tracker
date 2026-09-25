@@ -38,6 +38,8 @@ import RestTimer from './components/RestTimer.jsx';
 import SaveStatusBar from './components/SaveStatusBar.jsx';
 import HiddenDaysStrip from './components/HiddenDaysStrip.jsx';
 import UndoToast from './components/UndoToast.jsx';
+import CoachPlanBar from './components/CoachPlanBar.jsx';
+import useCoachPlan, { closeCoachChat } from './hooks/useCoachPlan.js';
 import { getWorkoutTemplate } from './constants/workoutTemplates.js';
 // Lazy: only loads when the user opens the template picker.
 const WorkoutTemplateModal = React.lazy(() => import('./components/WorkoutTemplateModal'));
@@ -302,6 +304,18 @@ function AppContent() {
         return () => document.removeEventListener('paste', onPaste);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isEditable, importModal.isOpen]);
+
+    const coachPlan = useCoachPlan();
+
+    // Past weeks are read-only, so a plan from the coach lands on the
+    // current week. The chat is closed first: on phones it covers the
+    // screen and would hide the preview.
+    const handleImportCoachPlan = (text) => {
+        closeCoachChat();
+        coachPlan.dismiss();
+        if (!isEditable) goToCurrentWeek();
+        importModal.open(text);
+    };
 
     const handleImportPlan = (plan) => {
         const before = historySnapshot;
@@ -770,6 +784,13 @@ function AppContent() {
                 message={undo?.message ?? null}
                 onUndo={handleUndo}
                 onDismiss={dismissUndo}
+                language={language}
+            />
+
+            <CoachPlanBar
+                plan={importModal.isOpen ? null : coachPlan.plan}
+                onImport={handleImportCoachPlan}
+                onDismiss={coachPlan.dismiss}
                 language={language}
             />
 
