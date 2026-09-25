@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import RestTimer from './RestTimer.jsx';
 
@@ -16,6 +16,10 @@ const advance = (ms) => {
 };
 
 describe('RestTimer', () => {
+    beforeEach(() => {
+        localStorage.clear();
+    });
+
     afterEach(() => {
         vi.useRealTimers();
     });

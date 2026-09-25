@@ -2,8 +2,8 @@
  * Rest Timer
  * Compact between-sets countdown for the gym floor: preset chips, start /
  * pause / reset, and a beep plus visual cue when the time is up.
- * Self-contained: no backend, no persistence. Mounted once above the day
- * list so it survives day-accordion toggles.
+ * Self-contained: no backend. Mounted once above the day list so it
+ * survives day-accordion toggles.
  */
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -13,6 +13,76 @@ import { formatSeconds } from '../utils/restTimer.js';
 const PRESETS = [30, 60, 90, 120];
 // Per-device custom text for the end-of-rest alert; empty means the default.
 const MESSAGE_KEY = 'gymAppRestMessage';
+// End time of a running rest, so a page the phone discarded while the user
+// was in another app can pick the countdown (or the alert) back up.
+const ENDS_AT_KEY = 'gymAppRestEndsAt';
+// A rest that ended longer ago than this is stale on reopen: no alert.
+const LATE_ALERT_MS = 10 * 60 * 1000;
+const NOTIFICATION_TAG = 'rest-timer';
+const VIBRATION = [400, 150, 400, 150, 400];
+
+const secondsLeft = (endsAt) => Math.max(0, Math.ceil((endsAt - Date.now()) / 1000));
+
+const readSavedRest = () => {
+    try {
+        const endsAt = Number(localStorage.getItem(ENDS_AT_KEY));
+        if (!endsAt) return null;
+        const left = secondsLeft(endsAt);
+        if (left > 0) return { endsAt, remaining: left };
+        if (Date.now() - endsAt < LATE_ALERT_MS) return { endsAt: null, remaining: 0 };
+    } catch {
+        // Storage blocked: start idle.
+    }
+    return null;
+};
+
+const hasNotifications = () => typeof window !== 'undefined' && 'Notification' in window;
+
+// iOS freezes a web app's scripts as soon as it leaves the screen, installed
+// or not, so a notification raised by the page never fires there; only a
+// server push could. iPadOS reports itself as a Mac with touch.
+const isIOS = () => typeof navigator !== 'undefined' && (
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+);
+
+// Asked from Start or a logged set, which are user gestures. Skipped on iOS,
+// where the permission would not buy anything (see isIOS).
+const askNotificationPermission = () => {
+    try {
+        if (hasNotifications() && !isIOS() && Notification.permission === 'default') {
+            const pending = Notification.requestPermission();
+            if (pending && typeof pending.catch === 'function') pending.catch(() => {});
+        }
+    } catch {
+        // Blocked or unsupported: the in-app alert still works.
+    }
+};
+
+// Pages cannot draw over other apps, so while the app is in the background
+// the end of the rest is a system notification (sound and vibration follow
+// the phone's notification settings). The full-screen alert is waiting when
+// the user comes back or taps it (see public/rest-timer-sw.js).
+const showRestNotification = (title, body) => {
+    if (!hasNotifications() || Notification.permission !== 'granted') return;
+    if (!navigator.serviceWorker) return;
+    navigator.serviceWorker.ready.then(reg => reg.showNotification(title, {
+        body,
+        tag: NOTIFICATION_TAG,
+        renotify: true,
+        requireInteraction: true,
+        vibrate: VIBRATION,
+        icon: '/pwa-icon.jpeg'
+    })).catch(() => {});
+};
+
+const closeRestNotification = () => {
+    if (typeof navigator === 'undefined' || !navigator.serviceWorker) return;
+    navigator.serviceWorker.ready
+        .then(reg => reg.getNotifications({ tag: NOTIFICATION_TAG }))
+        .then(list => list.forEach(n => n.close()))
+        .catch(() => {});
+};
 
 const AudioCtx = typeof window !== 'undefined'
     ? (window.AudioContext || window.webkitAudioContext)
@@ -107,9 +177,14 @@ const actionStyle = (primary) => ({
 
 export default function RestTimer({ language = 'en' }) {
     const [duration, setDuration] = useState(60);
+    const [saved] = useState(readSavedRest);
     // remaining === null means idle: the display then shows the preset itself.
-    const [remaining, setRemaining] = useState(null);
-    const [running, setRunning] = useState(false);
+    const [remaining, setRemaining] = useState(saved ? saved.remaining : null);
+    // Set while counting down. The display is derived from the clock rather
+    // than decremented per tick, because phones stop timers on a page in the
+    // background and a decrementing count would resume where it froze.
+    const [endsAt, setEndsAt] = useState(saved ? saved.endsAt : null);
+    const running = endsAt !== null;
     const audioRef = useRef(null);
 
     // Browsers cap the number of live AudioContexts per page; release ours
@@ -129,12 +204,37 @@ export default function RestTimer({ language = 'en' }) {
     const done = remaining === 0;
 
     useEffect(() => {
-        if (!running) return;
-        const timer = setInterval(() => {
-            setRemaining(r => (r > 0 ? r - 1 : 0));
-        }, 1000);
-        return () => clearInterval(timer);
-    }, [running]);
+        if (endsAt === null) return undefined;
+        const sync = () => setRemaining(secondsLeft(endsAt));
+        const timer = setInterval(sync, 250);
+        const onVisible = () => {
+            if (document.visibilityState === 'visible') sync();
+        };
+        document.addEventListener('visibilitychange', onVisible);
+        window.addEventListener('pageshow', sync);
+        window.addEventListener('focus', sync);
+        return () => {
+            clearInterval(timer);
+            document.removeEventListener('visibilitychange', onVisible);
+            window.removeEventListener('pageshow', sync);
+            window.removeEventListener('focus', sync);
+        };
+    }, [endsAt]);
+
+    useEffect(() => {
+        try {
+            if (endsAt === null) localStorage.removeItem(ENDS_AT_KEY);
+            else localStorage.setItem(ENDS_AT_KEY, String(endsAt));
+        } catch {
+            // Storage blocked: the countdown still runs, it just cannot
+            // survive the page being discarded.
+        }
+    }, [endsAt]);
+
+    const runFor = (seconds) => {
+        setRemaining(seconds);
+        setEndsAt(Date.now() + seconds * 1000);
+    };
 
     // End-of-rest alert: a full-screen blinking overlay that stays until the
     // user taps it. Sound is best effort (phones on silent mute Web Audio),
@@ -162,6 +262,15 @@ export default function RestTimer({ language = 'en' }) {
 
     const dismissAlert = () => setAlertOpen(false);
 
+    // The zero effect below runs only when remaining changes, so it reads
+    // the current message and language through a ref.
+    const notifyTextRef = useRef(null);
+    notifyTextRef.current = { title: alertMessage, body: t("Time's up!", language) };
+
+    useEffect(() => {
+        if (!alertOpen) closeRestNotification();
+    }, [alertOpen]);
+
     // Zero is only reachable at the end of a countdown, so this fires the
     // end-of-rest cue exactly once.
     useEffect(() => {
@@ -169,13 +278,17 @@ export default function RestTimer({ language = 'en' }) {
             beep(audioRef);
             try {
                 if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
-                    navigator.vibrate([400, 150, 400, 150, 400]);
+                    navigator.vibrate(VIBRATION);
                 }
             } catch {
                 // Vibration unsupported or blocked: the overlay still shows.
             }
+            if (document.visibilityState === 'hidden') {
+                const { title, body } = notifyTextRef.current;
+                showRestNotification(title, body);
+            }
             setAlertOpen(true);
-            setRunning(false);
+            setEndsAt(null);
         }
     }, [remaining]);
 
@@ -213,14 +326,19 @@ export default function RestTimer({ language = 'en' }) {
 
     const start = () => {
         unlockAudio(audioRef);
+        askNotificationPermission();
         setAlertOpen(false);
-        setRemaining(r => (r === null || r === 0 ? duration : r));
-        setRunning(true);
+        runFor(remaining === null || remaining === 0 ? duration : remaining);
+    };
+
+    const pause = () => {
+        if (endsAt !== null) setRemaining(secondsLeft(endsAt));
+        setEndsAt(null);
     };
 
     const reset = () => {
         setAlertOpen(false);
-        setRunning(false);
+        setEndsAt(null);
         setRemaining(null);
     };
 
@@ -231,8 +349,9 @@ export default function RestTimer({ language = 'en' }) {
         const onRestStart = () => {
             setAlertOpen(false);
             unlockAudio(audioRef);
+            askNotificationPermission();
             setRemaining(duration);
-            setRunning(true);
+            setEndsAt(Date.now() + duration * 1000);
         };
         window.addEventListener('gym:rest-start', onRestStart);
         return () => window.removeEventListener('gym:rest-start', onRestStart);
@@ -342,7 +461,7 @@ export default function RestTimer({ language = 'en' }) {
             )}
 
             <div style={{ display: 'flex', gap: '6px', marginLeft: 'auto' }}>
-                <button onClick={running ? () => setRunning(false) : start} style={actionStyle(true)}>
+                <button onClick={running ? pause : start} style={actionStyle(true)}>
                     {running ? t('Pause', language) : t('Start', language)}
                 </button>
                 <button onClick={reset} style={actionStyle(false)}>
