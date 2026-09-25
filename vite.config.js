@@ -35,6 +35,7 @@ export default defineConfig({
         // fires controllerchange, which main.jsx turns into a safe reload.
         skipWaiting: true,
         clientsClaim: true,
+        importScripts: ['rest-timer-sw.js'],
       },
     }),
   ],
