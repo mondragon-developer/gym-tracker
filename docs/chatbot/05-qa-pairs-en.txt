@@ -77,7 +77,7 @@ A: Yes. In the Add Exercise picker, tap the **▶** button on the right of an ex
 A: The screen blinks red with a big message ("Let's go!") until you tap it, and the phone vibrates. Phones on silent mute the beep, but the blinking screen always shows. Use the **Message** button next to the timer to change the text.
 
 **Q: Does the rest timer work if I switch to another app or change my music?**
-A: Yes. The timer keeps real time in the background, and the red screen is waiting the moment you come back to the app. On Android, if you allowed notifications, the phone also shows a notification with sound when the rest ends; tapping it opens the red screen. iPhone pauses web apps in the background, so there is no notification on iPhone yet. The red screen itself cannot appear on top of other apps; that is a phone rule for web apps.
+A: Yes. The timer keeps real time in the background, and the red screen is waiting the moment you come back to the app. If you allowed notifications, the phone also shows a notification with sound when the rest ends; tapping it opens the red screen. On iPhone, add the app to the home screen first (Safari, Share, Add to Home Screen, iOS 16.4 or newer), open it from there and allow notifications on the first Start; in Safari itself iPhone cannot show it. The red screen itself cannot appear on top of other apps; that is a phone rule for web apps.
 
 **Q: Do I have to start the rest timer myself after each set?**
 A: No. Tap **Log set** on the exercise: it counts the set and starts the rest timer with your preset. On the last set it also marks the exercise completed.

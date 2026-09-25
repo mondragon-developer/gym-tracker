@@ -77,7 +77,7 @@ R: Sí. En el selector de Agregar Ejercicio, toca el botón **▶** a la derecha
 R: La pantalla parpadea en rojo con un mensaje grande ("¡Vamos!") hasta que la tocas, y el teléfono vibra. Los teléfonos en silencio apagan la señal sonora, pero la pantalla parpadeante siempre aparece. Usa el botón **Mensaje** junto al temporizador para cambiar el texto.
 
 **P: ¿El temporizador de descanso funciona si cambio de app o de música?**
-R: Sí. El temporizador lleva el tiempo real en segundo plano, y la pantalla roja te espera en cuanto vuelves a la app. En Android, si permitiste notificaciones, el teléfono también muestra una notificación con sonido al terminar el descanso; al tocarla se abre la pantalla roja. El iPhone pausa las apps web en segundo plano, así que por ahora no hay notificación en iPhone. La pantalla roja no puede aparecer encima de otras apps; es una regla del teléfono para las apps web.
+R: Sí. El temporizador lleva el tiempo real en segundo plano, y la pantalla roja te espera en cuanto vuelves a la app. Si permitiste notificaciones, el teléfono también muestra una notificación con sonido al terminar el descanso; al tocarla se abre la pantalla roja. En iPhone, primero agrega la app a la pantalla de inicio (Safari, Compartir, Agregar a inicio, iOS 16.4 o más nuevo), ábrela desde ahí y permite notificaciones en el primer Iniciar; en Safari el iPhone no puede mostrarla. La pantalla roja no puede aparecer encima de otras apps; es una regla del teléfono para las apps web.
 
 **P: ¿Tengo que arrancar el temporizador de descanso yo mismo después de cada serie?**
 R: No. Toca **Registrar serie** en el ejercicio: cuenta la serie y arranca el temporizador con tu preajuste. En la última serie también marca el ejercicio como completado.
