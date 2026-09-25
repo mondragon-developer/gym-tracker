@@ -125,18 +125,24 @@ const Button = ({
     ...style
   };
 
+  // A caller's style wins over the variant hover color, and leaving restores
+  // the merged style: restoring the bare variant turned a soft danger button
+  // solid red after the first hover (or tap, on phones). currentTarget, not
+  // target, so hovering an icon inside the button styles the button.
   const handleMouseEnter = (e) => {
     if (!disabled) {
-      Object.assign(e.target.style, hoverEffects[variant]);
+      const hover = { ...hoverEffects[variant] };
+      if (style.background) delete hover.background;
+      Object.assign(e.currentTarget.style, hover);
     }
   };
 
   const handleMouseLeave = (e) => {
     if (!disabled) {
-      Object.assign(e.target.style, {
-        transform: 'scale(1)',
-        background: variantStyles[variant].background,
-        boxShadow: variantStyles[variant].boxShadow
+      Object.assign(e.currentTarget.style, {
+        transform: buttonStyles.transform || 'scale(1)',
+        background: buttonStyles.background,
+        boxShadow: buttonStyles.boxShadow
       });
     }
   };

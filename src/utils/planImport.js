@@ -34,8 +34,11 @@ const SETS_REPS = /^(.*?)[\s:]+(\d{1,2})\s*(?:sets?|series)?\s*x?\s*(\d{1,3}(?:\
 const MINUTES = /^(.*?)[\s:]+(\d{1,3})\s*(?:min|mins|minutes|minutos)\s*$/i;
 
 // Chat clients turn "-" into dashes and "x" into a multiplication sign,
-// and copied markdown carries bullets, bold and code fences.
+// and copied markdown carries bullets, bold and code fences. A header on
+// the fence line itself (```GYMPLAN v1) is kept: markdown reads it as the
+// block's language, so the chat hides it, but it is still the header.
 export const normalizeLine = (line) => String(line ?? '')
+    .replace(/^\s*```\s*(?=gymplan\b)/i, '')
     .replace(/\u00a0/g, ' ')
     .replace(/[\u2013\u2014\u2212\u2011]/g, '-')
     .replace(/[\u00d7\u2715]/g, 'x')
@@ -98,7 +101,8 @@ export const extractPlanBlock = (text) => {
     if (start === -1) return null;
     const fence = lines.findIndex((line, i) => i > start && /^\s*```/.test(line));
     const block = lines.slice(start, fence === -1 ? lines.length : fence);
-    return block.map(line => line.replace(/^\s*```\w*\s*/, '')).join('\n').trim();
+    block[0] = block[0].replace(/^\s*```\s*/, '');
+    return block.join('\n').trim();
 };
 
 /**
@@ -116,7 +120,7 @@ export const parsePlanText = (text) => {
     lines.forEach((raw, index) => {
         const lineNo = index + 1;
         const line = normalizeLine(raw);
-        if (!line || /^```/.test(raw.trim())) return;
+        if (!line || (/^```/.test(raw.trim()) && !HEADER.test(line))) return;
 
         const header = line.match(HEADER);
         if (header) {
