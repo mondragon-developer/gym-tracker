@@ -25,7 +25,7 @@ const menuItemStyle = {
   cursor: 'pointer'
 };
 
-export default function UserProfile({ onBackup, onRestore }) {
+export default function UserProfile({ onBackup, onRestore, onDeleteAccount }) {
   const { user, signOut, joinTrainer, isTrainer, isAdmin } = useAuth();
   const { language } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
@@ -208,6 +208,19 @@ export default function UserProfile({ onBackup, onRestore }) {
                     {t('Restore from backup', language)}
                   </button>
                 )}
+              </div>
+            )}
+
+            {/* Admins are demoted first so the last admin cannot vanish. */}
+            {onDeleteAccount && !isAdmin && (
+              <div style={{ padding: '4px 0', borderBottom: '1px solid var(--border)' }}>
+                <button
+                  type="button"
+                  style={{ ...menuItemStyle, color: 'var(--danger)' }}
+                  onClick={() => { setIsOpen(false); onDeleteAccount(); }}
+                >
+                  {t('Delete my account', language)}
+                </button>
               </div>
             )}
 

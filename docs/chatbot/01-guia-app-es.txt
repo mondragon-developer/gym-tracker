@@ -28,7 +28,7 @@ El chatbot integrado en esta app debe:
 ### Encabezado (parte superior)
 - **Logo y título**: el logo de Gym Tracker con el lema "Registra tu progreso fitness semanal".
 - **Selector de idioma (EN/ES)**: cambia toda la interfaz entre inglés y español al instante. Los nombres de los ejercicios en las listas se muestran en español cuando existe traducción, y la búsqueda encuentra tanto el nombre en inglés como en español, sin importar acentos.
-- **Menú de perfil**: muestra la cuenta activa y contiene **Guardar copia de mis datos**, **Restaurar desde una copia** y **Cerrar Sesión**. Si no has iniciado sesión, la app muestra primero la pantalla de inicio de sesión (ver Cuentas más abajo).
+- **Menú de perfil**: muestra la cuenta activa y contiene **Guardar copia de mis datos**, **Restaurar desde una copia**, **Eliminar mi cuenta** y **Cerrar Sesión**. Si no has iniciado sesión, la app muestra primero la pantalla de inicio de sesión (ver Cuentas más abajo).
 - **Botón 🛡️ Admin / 🏋️ Entrenador**: visible solo para administradores y entrenadores; abre su panel de gestión. Los usuarios normales no lo ven.
 
 ### Navegador de semanas
@@ -109,6 +109,9 @@ El selector **lbs / kg** del encabezado convierte de verdad: los pesos se guarda
 ### Copia de seguridad y restauración
 Menú de perfil → **Guardar copia de mis datos** guarda un archivo con un nombre como `gym-tracker-backup-2026-09-25.json` en tus descargas (en el teléfono, la app Archivos o Descargas). Contiene todas tus semanas, con ejercicios, pesos, series, notas, días ocultos y tus ejercicios personalizados. Guárdalo en un lugar seguro, por ejemplo tu correo o tu nube.
 Menú de perfil → **Restaurar desde una copia** pide ese archivo, muestra cuándo se guardó y cuántas semanas y ejercicios tiene, y restaura tras un segundo toque (**¿Reemplazar todas mis semanas?**). Restaurar reemplaza todas tus semanas en esta cuenta por las del archivo; la semana actual se toma de la copia automáticamente. Justo después aparece **Deshacer**, y el Deshacer de la barra de guardado también retrocede. Un archivo que no es una copia de Gym Tracker se rechaza con un mensaje y nada cambia.
+
+### Eliminar tu cuenta
+Menú de perfil → **Eliminar mi cuenta** borra la cuenta para siempre: el acceso, todas las semanas de entrenamiento, los ejercicios personalizados y los ajustes. No se puede deshacer, por eso la pantalla ofrece **Guardar copia de mis datos primero**. Escribe DELETE en la casilla para activar el botón. Los entrenadores que eliminan su cuenta quedan desvinculados de sus clientes; los clientes conservan sus propios entrenamientos. Los clientes que eliminan la suya simplemente desaparecen de la lista de sus entrenadores. Las cuentas de administrador no se eliminan así; primero hay que cambiar el rol a usuario. Después de eliminarla, la app vuelve a la pantalla de inicio de sesión y el mismo correo puede registrarse de nuevo como cuenta nueva.
 
 ### Plan cambiado en otro lado
 Cuando la app vuelve al frente y encuentra una copia más nueva en la nube (otro dispositivo o un entrenador), la carga y muestra "El plan se actualizó desde otro dispositivo o por tu entrenador. Se muestra la versión más reciente." Si tenías cambios sin guardar en ese momento, la barra de guardado ofrece Cargar la última versión / Conservar la mía.

@@ -28,6 +28,7 @@ import DayAccordion from './DayAccordion.jsx';
 import HiddenDaysStrip from './HiddenDaysStrip.jsx';
 import WorkoutTemplateModal from './WorkoutTemplateModal.jsx';
 import ImportPlanModal from './ImportPlanModal.jsx';
+import { activityLabel, isInactive } from '../utils/activity.js';
 import { getWorkoutTemplate } from '../constants/workoutTemplates.js';
 import AddExerciseModal from './AddExerciseModal.jsx';
 
@@ -87,6 +88,8 @@ export default function AdminDashboard({ onBack }) {
   const { language } = useLanguage();
 
   const [users, setUsers] = useState([]);
+  // Admin view: only accounts past the inactivity warning point.
+  const [onlyInactive, setOnlyInactive] = useState(false);
   const [links, setLinks] = useState([]); // trainer/client pairs
   const [usersLoading, setUsersLoading] = useState(true);
   const [error, setError] = useState('');
@@ -174,7 +177,8 @@ export default function AdminDashboard({ onBack }) {
 
   // Trainers see their own profile row through RLS; the client list should
   // only show the people they coach. The super admin list shows everyone.
-  const visibleUsers = isTrainer ? users.filter(u => u.id !== currentUser?.id) : users;
+  const listedUsers = isTrainer ? users.filter(u => u.id !== currentUser?.id) : users;
+  const visibleUsers = isAdmin && onlyInactive ? listedUsers.filter(u => isInactive(u.lastActiveAt)) : listedUsers;
   const trainers = users.filter(u => u.role === 'trainer');
   const myProfile = users.find(u => u.id === currentUser?.id);
 
@@ -601,6 +605,12 @@ export default function AdminDashboard({ onBack }) {
             <div style={{ padding: '16px', borderBottom: '1px solid var(--border)', fontWeight: 600 }}>
               {isTrainer ? t('Clients', language) : t('Users', language)}{' '}
               {usersLoading ? '' : `(${visibleUsers.length})`}
+              {isAdmin && (
+                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '8px', fontSize: '13px', fontWeight: 500, color: 'var(--text-2)' }}>
+                  <input type="checkbox" checked={onlyInactive} onChange={(e) => setOnlyInactive(e.target.checked)} />
+                  {t('Inactive 60+ days only', language)}
+                </label>
+              )}
             </div>
             {usersLoading ? (
               <p style={{ padding: '16px', margin: 0, color: 'var(--text-3)' }}>
@@ -650,6 +660,11 @@ export default function AdminDashboard({ onBack }) {
                           : t('user', language)}
                       {user.id === currentUser?.id ? ` · ${t('you', language)}` : ''}
                     </span>
+                    {isAdmin && (
+                      <span style={{ display: 'block', fontSize: '12px', color: isInactive(user.lastActiveAt) ? 'var(--danger)' : 'var(--text-3)' }}>
+                        {activityLabel(user.lastActiveAt, language)}
+                      </span>
+                    )}
                   </button>
                   {/* Role + trainer assignment are super-admin only; admins
                       cannot demote themselves — prevents locking everyone out */}

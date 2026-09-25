@@ -17,7 +17,7 @@ class AdminService {
   async listUsers() {
     const { data, error } = await supabase
       .from('profiles')
-      .select('id, email, role, invite_code, created_at')
+      .select('id, email, role, invite_code, created_at, last_active_at')
       .order('created_at', { ascending: true });
 
     if (error) throw error;
@@ -26,7 +26,8 @@ class AdminService {
       email: row.email ?? '',
       role: row.role ?? 'user',
       inviteCode: row.invite_code ?? null,
-      createdAt: row.created_at
+      createdAt: row.created_at,
+      lastActiveAt: row.last_active_at ?? null
     }));
   }
 

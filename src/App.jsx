@@ -47,9 +47,12 @@ const WorkoutTemplateModal = React.lazy(() => import('./components/WorkoutTempla
 const ImportPlanModal = React.lazy(() => import('./components/ImportPlanModal'));
 // Lazy: only loads when the user restores a backup.
 const RestoreBackupModal = React.lazy(() => import('./components/RestoreBackupModal'));
+// Lazy: only loads when the user opens account deletion.
+const DeleteAccountModal = React.lazy(() => import('./components/DeleteAccountModal'));
 import mdLogo from './assets/mdlogo.jpeg';
 import { looksLikePlan } from './utils/planImport.js';
 import { downloadBackup } from './utils/backup.js';
+import { touchLastActive } from './services/AccountService.js';
 
 // Flat overrides for the week-level action buttons; the Button variants
 // still carry their own shadow, so it is switched off here.
@@ -74,7 +77,7 @@ const dangerActionStyle = {
  */
 function AppContent() {
     const { language } = useLanguage();
-    const { isAdmin, isTrainer, user, role, roleLoaded, joinTrainer } = useAuth();
+    const { isAdmin, isTrainer, user, role, roleLoaded, joinTrainer, signOut } = useAuth();
     const [showAdmin, setShowAdmin] = useState(false);
     // Custom hooks for state management (Single Responsibility)
     const {
@@ -136,6 +139,7 @@ function AppContent() {
     const templatesModal = useModal();
     const importModal = useModal();
     const restoreModal = useModal();
+    const deleteAccountModal = useModal();
     const addExerciseModal = useModal();
     const feedbackModal = useModal();
     const summaryModal = useModal();
@@ -343,6 +347,21 @@ function AppContent() {
             : t('Could not save the backup on this device.', language));
     };
 
+    // Last use of the app, for the admin's inactive-accounts view. Opening
+    // the app is the signal; sign-in alone misses installed apps that stay
+    // signed in for months.
+    const userId = user?.id ?? null;
+    useEffect(() => {
+        if (userId) touchLastActive(userId);
+    }, [userId]);
+
+    // The account is gone on the server; signing out clears the local
+    // session and lands on the sign-in screen.
+    const handleAccountDeleted = () => {
+        deleteAccountModal.close();
+        signOut();
+    };
+
     const handleRestoreBackup = (restored) => {
         const before = historySnapshot;
         restoreHistory(restored);
@@ -494,7 +513,7 @@ function AppContent() {
                             <LanguageToggle />
                             <UnitsToggle />
                             <ThemeToggle />
-                            <UserProfile onBackup={handleBackup} onRestore={restoreModal.open} />
+                            <UserProfile onBackup={handleBackup} onRestore={restoreModal.open} onDeleteAccount={deleteAccountModal.open} />
                             {(isAdmin || isTrainer) && (
                                 <button
                                     onClick={() => setShowAdmin(true)}
@@ -914,6 +933,19 @@ function AppContent() {
                         isOpen={restoreModal.isOpen}
                         onClose={restoreModal.close}
                         onRestore={handleRestoreBackup}
+                        language={language}
+                    />
+                </Suspense>
+            )}
+
+            {deleteAccountModal.isOpen && (
+                <Suspense fallback={lazyFallback}>
+                    <DeleteAccountModal
+                        isOpen={deleteAccountModal.isOpen}
+                        onClose={deleteAccountModal.close}
+                        onBackup={handleBackup}
+                        onDeleted={handleAccountDeleted}
+                        isTrainer={isTrainer}
                         language={language}
                     />
                 </Suspense>
