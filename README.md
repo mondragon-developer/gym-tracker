@@ -410,7 +410,6 @@ This project is open source and available under the [MIT License](LICENSE).
 - [x] **Backup, restore and account deletion**: Profile menu; the admin dashboard also shows each account's last use
 
 ### Planned Features
-- [ ] **Plan link from the coach**: A link in the chatbot's answer that opens the app with the plan prefilled, removing the copy step
 - [ ] **More analytics**: Per-muscle-group volume, personal records, longer ranges on top of the Progress tab
 - [ ] **Animated demos**: Upgrade the exercise how-tos from stills to looping video/GIF
 - [ ] **Social features**: Share workouts and progress
