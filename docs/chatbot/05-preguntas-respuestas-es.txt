@@ -38,7 +38,7 @@ R: Los ejercicios de Cardio, Combate y los personalizados no tienen imágenes �
 R: Sí. El buscador encuentra tanto el nombre en inglés como en español, sin importar acentos, así que "sentadilla" y "squat" encuentran Barbell Squats. Algunos ejercicios aún no tienen nombre en español; pregúntame y te digo el nombre en inglés.
 
 **P: Eliminé un ejercicio por error.**
-R: Toca **Deshacer** en el aviso que aparece al pie, centrado, justo después de eliminar (dura unos segundos y desaparece si haces otro cambio antes). El mismo Deshacer aparece tras Reiniciar Día y Reiniciar Esta Semana.
+R: Toca **Deshacer** en el aviso que aparece al pie, centrado, justo después de eliminar (dura unos segundos y desaparece si haces otro cambio antes). El mismo Deshacer aparece tras Reiniciar Día y Reiniciar Esta Semana. ¿Se fue el aviso? El botón **Deshacer** de la barra de guardado, abajo, retrocede un cambio a la vez (un borrado, una serie, un peso, una importación, un reinicio) mientras la app siga abierta; escribir en un mismo día cuenta como un solo cambio.
 
 **P: ¿Cómo cambio series, reps o peso rápido desde el teléfono?**
 R: Cada campo tiene botones de menos y más a los lados y abre el teclado numérico. El peso avanza de 5 lb o 2,5 kg; un rango de reps como 8-10 mueve los dos números a la vez.

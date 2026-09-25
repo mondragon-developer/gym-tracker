@@ -38,7 +38,7 @@ A: Cardio, Combat, and custom exercises don't have demo images — the app shows
 A: Yes. The search box matches both the English and the Spanish name, ignoring accents, so "sentadilla" and "squat" both find Barbell Squats. A few exercises have no Spanish name yet; ask me and I'll tell you the English one.
 
 **Q: I deleted an exercise by mistake.**
-A: Tap **Undo** in the toast that appears at the bottom center of the screen right after deleting (it stays for a few seconds, and goes away if you make another edit first). The same Undo appears after Reset Day and Restart This Week.
+A: Tap **Undo** in the toast that appears at the bottom center of the screen right after deleting (it stays for a few seconds, and goes away if you make another edit first). The same Undo appears after Reset Day and Restart This Week. Missed the toast? The **Undo** button in the save bar at the bottom steps back one change at a time (a delete, a set, a weight, an import, a restart) for as long as the app stays open; typing in one day counts as one change.
 
 **Q: How do I change sets, reps or weight quickly on my phone?**
 A: Each field has minus and plus buttons on its sides and opens the number keypad. Weight steps by 5 lb or 2.5 kg; a rep range like 8-10 moves both numbers at once.

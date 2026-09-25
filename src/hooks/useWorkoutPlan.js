@@ -35,6 +35,11 @@ export const SaveState = {
   CONFLICT: 'conflict'
 };
 
+// Steps kept for the session Undo button, and how close together two edits
+// to the same day must be to count as one step.
+const UNDO_LIMIT = 50;
+const UNDO_MERGE_MS = 1500;
+
 const useWorkoutPlan = () => {
   const { user } = useAuth();
   const userId = user?.id ?? null;
@@ -62,6 +67,13 @@ const useWorkoutPlan = () => {
   const savingRef = useRef(false);
   const conflictRef = useRef(false);
   const loadSeqRef = useRef(0);
+
+  // Session undo: the history from before each user edit, newest last. It
+  // lives in memory only, so it covers what this user did since opening the
+  // app. Edits to the same day in quick succession (typing a weight) are one
+  // step.
+  const undoStackRef = useRef([]);
+  const [undoDepth, setUndoDepth] = useState(0);
 
   useEffect(() => { historyRef.current = history; }, [history]);
   useEffect(() => { userIdRef.current = userId; }, [userId]);
@@ -111,6 +123,13 @@ const useWorkoutPlan = () => {
       if (!silent) setIsFirstRun(raw === null);
 
       const migrated = WeekPlanService.migrate(raw);
+      // A silent reload of our own save keeps the steps. A different account
+      // or a newer copy from another device or a trainer drops them, since
+      // undoing to an older snapshot would erase those changes.
+      if (!silent || (version && versionRef.current && version !== versionRef.current)) {
+        undoStackRef.current = [];
+        setUndoDepth(0);
+      }
       persistedRef.current = migrated;
       versionRef.current = version;
       conflictRef.current = false;
@@ -273,9 +292,25 @@ const useWorkoutPlan = () => {
 
   // Edits land on the viewed week. A previewed future week is stored on its
   // first edit, which is also what makes it save.
-  const editViewedWeek = (updater) => {
+  const recordUndo = (weekStart, mergeKey = null) => {
+    const snapshot = historyRef.current;
+    if (!snapshot) return;
+    const stack = undoStackRef.current;
+    const top = stack[stack.length - 1];
+    const now = Date.now();
+    if (mergeKey && top && top.mergeKey === mergeKey && top.weekStart === weekStart && now - top.at < UNDO_MERGE_MS) {
+      top.at = now;
+      return;
+    }
+    stack.push({ snapshot, weekStart, mergeKey, at: now });
+    if (stack.length > UNDO_LIMIT) stack.shift();
+    setUndoDepth(stack.length);
+  };
+
+  const editViewedWeek = (updater, mergeKey = null) => {
     if (!isEditable) return;
     const weekStart = viewedWeekStart;
+    recordUndo(weekStart, mergeKey);
     setHistory(prev => {
       if (!prev) return prev;
       const base = WeekPlanService.resolveWeek(prev, weekStart);
@@ -285,7 +320,7 @@ const useWorkoutPlan = () => {
   };
 
   const updateDay = (day, dayData) => {
-    editViewedWeek(prev => ({ ...prev, [day]: dayData }));
+    editViewedWeek(prev => ({ ...prev, [day]: dayData }), day);
   };
 
   const addExercise = (day, exerciseData) => {
@@ -315,6 +350,13 @@ const useWorkoutPlan = () => {
 
   const restoreSnapshot = (snapshot) => {
     if (!snapshot) return;
+    // An Undo toast restores the same history the stack recorded for that
+    // action; drop the step so the Undo button does not repeat it.
+    const stack = undoStackRef.current;
+    if (stack.length && stack[stack.length - 1].snapshot === snapshot) {
+      stack.pop();
+      setUndoDepth(stack.length);
+    }
     setHistory(snapshot);
     // Undo before the debounce fired: nothing changed on disk, so drop the
     // pending save and clear the dirty label the effect will not touch.
@@ -333,15 +375,28 @@ const useWorkoutPlan = () => {
   const copyFromPreviousWeek = () => {
     if (!isEditable || !previousWeekStart) return;
     const weekStart = viewedWeekStart;
+    recordUndo(weekStart);
     setHistory(prev => (prev ? WeekPlanService.copyWeek(prev, previousWeekStart, weekStart) : prev));
   };
 
   // "Restart This Week": clear the current week's progress, keeping the plan.
   const resetWeek = () => {
     if (!history) return;
+    recordUndo(viewedWeekStart);
     const next = WeekPlanService.startNewWeek(history);
     setHistory(next);
     setViewedWeekStart(next.currentWeekStart);
+  };
+
+  // Steps back to the history from before the last edit and shows the week
+  // it happened on, so the user sees what came back.
+  const undoLast = () => {
+    const entry = undoStackRef.current[undoStackRef.current.length - 1];
+    if (!entry) return;
+    restoreSnapshot(entry.snapshot);
+    if (WeekPlanService.listNavigableWeeks(entry.snapshot).includes(entry.weekStart)) {
+      setViewedWeekStart(entry.weekStart);
+    }
   };
 
   const goToOlderWeek = () => {
@@ -367,6 +422,8 @@ const useWorkoutPlan = () => {
     replaceViewedWeek,
     historySnapshot: history,
     restoreSnapshot,
+    canUndo: undoDepth > 0,
+    undoLast,
     persistCurrentPlan,
     copyFromPreviousWeek,
     hasPreviousWeek,

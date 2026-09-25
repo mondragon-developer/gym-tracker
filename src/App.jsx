@@ -86,6 +86,8 @@ function AppContent() {
         historySnapshot,
         currentWeekStart,
         restoreSnapshot,
+        canUndo,
+        undoLast,
         persistCurrentPlan,
         copyFromPreviousWeek,
         hasPreviousWeek,
@@ -205,6 +207,13 @@ function AppContent() {
         setUndo(null);
     };
     const dismissUndo = React.useCallback(() => setUndo(null), []);
+
+    // The save bar's Undo steps back one edit at a time for the whole
+    // session; a pending toast for the same action goes with it.
+    const handleUndoLast = () => {
+        setUndo(null);
+        undoLast();
+    };
 
     // The snapshot is the whole history from before the action, so restoring
     // it after a later edit would throw that edit away too. The first
@@ -774,6 +783,7 @@ function AppContent() {
                             onReload={reload}
                             onOverwrite={saveOverwrite}
                             onJumpToToday={isViewingCurrent ? handleJumpToToday : undefined}
+                            onUndo={canUndo ? handleUndoLast : undefined}
                             language={language}
                         />
                     )}

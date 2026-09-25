@@ -57,7 +57,7 @@ Cada ejercicio dentro de un día muestra:
 - **Ejercicios de Cardio/Combate**: **Duración** editable en minutos (1–120) y los minutos realmente completados. Sin campo de peso.
 - **✓ Marcar como completado** — pone la tarjeta en verde y suma al progreso semanal. Tócalo de nuevo para volver a incompleto.
 - **✗ Marcar como omitido** — marca el ejercicio como saltado intencionalmente (tarjeta roja). Tócalo de nuevo para deshacer.
-- **Eliminar (icono de papelera)** — quita el ejercicio al momento; el aviso al pie ofrece Deshacer. Los números se editan directamente en los campos, no hay un botón de editar aparte.
+- **Eliminar (icono de papelera)** — quita el ejercicio al momento; el aviso al pie ofrece Deshacer. Cualquier cambio también se puede revertir después con **Deshacer** en la barra de guardado de abajo, un cambio a la vez, mientras la app siga abierta (los pasos se descartan si llega una copia más nueva desde otro dispositivo o tu entrenador). Los números se editan directamente en los campos, no hay un botón de editar aparte.
 
 ### Modal Agregar Ejercicio
 Se abre con **"Agregar Ejercicio"** en cualquier día:
