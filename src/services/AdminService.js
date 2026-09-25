@@ -15,10 +15,19 @@ class AdminService {
    * @returns {Promise<Array<{id: string, email: string, role: string, inviteCode: string|null, createdAt: string}>>}
    */
   async listUsers() {
-    const { data, error } = await supabase
+    let { data, error } = await supabase
       .from('profiles')
-      .select('id, email, role, invite_code, created_at')
+      .select('id, email, role, invite_code, created_at, last_active_at')
       .order('created_at', { ascending: true });
+
+    // 42703: last_active_at not there yet (account-activity.sql not run).
+    // The lists still load, without activity, instead of coming up empty.
+    if (error?.code === '42703') {
+      ({ data, error } = await supabase
+        .from('profiles')
+        .select('id, email, role, invite_code, created_at')
+        .order('created_at', { ascending: true }));
+    }
 
     if (error) throw error;
     return (data ?? []).map(row => ({
@@ -26,7 +35,8 @@ class AdminService {
       email: row.email ?? '',
       role: row.role ?? 'user',
       inviteCode: row.invite_code ?? null,
-      createdAt: row.created_at
+      createdAt: row.created_at,
+      lastActiveAt: row.last_active_at ?? null
     }));
   }
 

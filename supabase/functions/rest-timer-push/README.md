@@ -31,7 +31,8 @@ Android gets the same push.
 - The Free plan stops a function 150 s after it starts, so the longest rest
   that gets a push is 140 s (`MAX_DELAY_MS`). All presets (up to 2:00) fit.
   Longer rests still get the in-app alert when the user comes back.
-- One invocation per rest plus one per cancel.
+- One invocation per rest plus one per cancel; at most 6 schedules a minute per user.
+- Leaving the app in the last 3 seconds of a rest schedules the push again; on iPhone the page may freeze before that request goes out, so that one rest can end without a notification (the red screen still waits).
 - Delivery timing is up to Apple and Google; usually within a second or two.
 
 ## Smoke test

@@ -110,4 +110,40 @@ describe('RestTimer server push', () => {
         expect(push.ensurePushSubscription).not.toHaveBeenCalled();
         expect(push.scheduleRestPush).not.toHaveBeenCalled();
     });
+
+    it('remembers the push across a reload so Pause can still cancel it', async () => {
+        const first = render(<RestTimer />);
+        await startThirty();
+        const saved = JSON.parse(localStorage.getItem('gymAppRestPush'));
+        expect(saved.id).toBe('push-1');
+        first.unmount();
+
+        render(<RestTimer />);
+        fireEvent.click(screen.getByRole('button', { name: 'Pause' }));
+        expect(push.cancelRestPush).toHaveBeenCalledWith('push-1');
+        expect(localStorage.getItem('gymAppRestPush')).toBeNull();
+    });
+
+    it('cancels the push a few seconds early while the app is on screen', async () => {
+        render(<RestTimer />);
+        await startThirty();
+        await act(async () => { vi.advanceTimersByTime(26_000); });
+        expect(push.cancelRestPush).not.toHaveBeenCalled();
+        await act(async () => { vi.advanceTimersByTime(1_500); });
+        expect(push.cancelRestPush).toHaveBeenCalledWith('push-1');
+    });
+
+    it('schedules again when the user leaves the app after the early cancel', async () => {
+        window.Notification = { permission: 'granted', requestPermission: vi.fn() };
+        render(<RestTimer />);
+        await startThirty();
+        await act(async () => { vi.advanceTimersByTime(28_000); });
+        expect(push.scheduleRestPush).toHaveBeenCalledTimes(1);
+
+        Object.defineProperty(document, 'visibilityState', { value: 'hidden', configurable: true });
+        await act(async () => { document.dispatchEvent(new Event('visibilitychange')); });
+        await flush();
+        expect(push.scheduleRestPush).toHaveBeenCalledTimes(2);
+        expect(window.Notification.requestPermission).not.toHaveBeenCalled();
+    });
 });

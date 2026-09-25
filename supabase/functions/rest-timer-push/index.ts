@@ -5,7 +5,7 @@
 // page never fires there; a Web Push sent at the end time does, for an app
 // added to the home screen (iOS 16.4+). Android gets the same push.
 //
-//   POST { action: 'schedule', endsAt, subscription, title, body } -> { id }
+//   POST { action: 'schedule', delayMs, subscription, title, body } -> { id }
 //     Stores a row, answers at once, then waits in the background until
 //     endsAt and sends if the row is still there.
 //   POST { action: 'cancel', id } -> { ok }
@@ -37,6 +37,10 @@ const json = (status: number, body: unknown) =>
 
 // Rows whose worker was stopped before sending would otherwise stay.
 const STALE_MS = 10 * 60 * 1000;
+// Each schedule holds a worker for up to 140 s; a normal user starts a few
+// rests a minute at most.
+const RATE_WINDOW_MS = 60 * 1000;
+const RATE_LIMIT = 6;
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
@@ -70,7 +74,11 @@ Deno.serve(async (req) => {
 
   if (body.action === 'cancel') {
     if (typeof body.id !== 'string') return json(400, { error: 'id required' });
-    await service.from('rest_timer_pushes').delete().eq('id', body.id).eq('user_id', user.id);
+    // Marked, not deleted, so the rate limit below still counts it.
+    await service.from('rest_timer_pushes')
+      .update({ cancelled_at: new Date().toISOString() })
+      .eq('id', body.id)
+      .eq('user_id', user.id);
     return json(200, { ok: true });
   }
 
@@ -80,12 +88,18 @@ Deno.serve(async (req) => {
   if (!parsed.ok) return json(400, { error: parsed.error });
   const { endsAt, delay, subscription, title, body: text } = parsed.value;
 
-  // One pending rest per device: a new rest replaces the previous one.
-  await service.from('rest_timer_pushes').delete()
-    .eq('user_id', user.id)
-    .eq('endpoint', subscription.endpoint);
+  // The app cancels the previous rest's id itself (Pause, Reset, a new
+  // rest, a late answer). Deleting by endpoint here would let a slow older
+  // request remove a newer rest's row.
   await service.from('rest_timer_pushes').delete()
     .lt('created_at', new Date(Date.now() - STALE_MS).toISOString());
+
+  const { count } = await service
+    .from('rest_timer_pushes')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', user.id)
+    .gte('created_at', new Date(Date.now() - RATE_WINDOW_MS).toISOString());
+  if ((count ?? 0) >= RATE_LIMIT) return json(429, { error: 'Too many rests scheduled' });
 
   const { data: row, error: insertError } = await service
     .from('rest_timer_pushes')
@@ -98,12 +112,14 @@ Deno.serve(async (req) => {
 
   const send = async () => {
     await new Promise(resolve => setTimeout(resolve, delay));
-    // Deleting the row is the claim: if Pause or a new rest removed it
-    // first, nothing comes back and nothing is sent.
+    // Deleting the row is the claim: if Pause or a new rest marked it
+    // cancelled first, nothing comes back and nothing is sent. A cancelled
+    // row stays for the rate limit until the stale sweep removes it.
     const { data: claimed } = await service
       .from('rest_timer_pushes')
       .delete()
       .eq('id', row.id)
+      .is('cancelled_at', null)
       .select('id');
     if (!claimed || claimed.length === 0) return;
     try {

@@ -36,12 +36,14 @@ The SQL lives in this repo so it stays in sync with the code:
 - `supabase/trainers.sql` — trainer role, invite codes, `is_trainer_of()` helper, and trainer policies on client plans (run AFTER admin.sql)
 - `supabase/trainer-invites.sql` — single-use invitations that create trainer accounts (run AFTER trainers.sql)
 - `supabase/multi-trainer.sql` — `trainer_clients` join table so a client can have several trainers, plus the `join_trainer(code)` function used by the profile menu and invite links (run AFTER trainer-invites.sql)
+- `supabase/rest-timer-push.sql` — `rest_timer_pushes` table behind the end-of-rest notification; RLS on with no client policies, only the Edge Function uses it
+- `supabase/account-activity.sql` — `profiles.last_active_at` and the `touch_last_active()` function the app calls when it opens (run AFTER admin.sql). The admin and trainer user lists read this column
 
 Both scripts are idempotent — safe to re-run any time.
 
 1. In your Supabase dashboard, click **SQL Editor** in the sidebar
 2. Click **"New Query"**, paste the contents of `supabase/schema.sql`, and **Run**
-3. Repeat, in this order, with `supabase/admin.sql`, `supabase/trainers.sql`, `supabase/trainer-invites.sql` and `supabase/multi-trainer.sql`. Every file is idempotent, so re-running one is safe
+3. Repeat, in this order, with `supabase/admin.sql`, `supabase/trainers.sql`, `supabase/trainer-invites.sql`, `supabase/multi-trainer.sql`, `supabase/rest-timer-push.sql` and `supabase/account-activity.sql`. Every file is idempotent, so re-running one is safe
 4. After you have signed up in the app, promote yourself to admin (run once):
 
 ```sql
@@ -62,6 +64,10 @@ update public.profiles set role = 'admin' where email = 'you@example.com';
 ## ⚡ Optional: Edge Function for email invitations
 
 Trainer invite-by-email uses the `send-invite` Edge Function. It is optional: without it, everything works except the "Send invite" button in the trainer panel. Deploy steps and required secrets are in [`supabase/functions/send-invite/README.md`](supabase/functions/send-invite/README.md).
+
+Two more functions:
+- `rest-timer-push` sends the end-of-rest notification (the only way it reaches iPhone). It needs `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` and `VAPID_SUBJECT` secrets; the public key must match `src/constants/push.js`. See [`supabase/functions/rest-timer-push/README.md`](supabase/functions/rest-timer-push/README.md).
+- `delete-account` powers Profile menu → Delete my account. No extra secrets. See [`supabase/functions/delete-account/README.md`](supabase/functions/delete-account/README.md).
 
 ## 🔧 Step 5: Add Environment Variables to Vercel
 

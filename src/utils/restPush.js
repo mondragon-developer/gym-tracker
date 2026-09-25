@@ -88,7 +88,7 @@ export const scheduleRestPush = async (subscription, endsAt, title, body) => {
     if (!subscription || endsAt - Date.now() > MAX_PUSH_DELAY_MS) return null;
     try {
         const { data, error } = await supabase.functions.invoke(FUNCTION_NAME, {
-            body: { action: 'schedule', endsAt, subscription: subscription.toJSON(), title, body }
+            body: { action: 'schedule', delayMs: endsAt - Date.now(), subscription: subscription.toJSON(), title, body }
         });
         if (error || !data?.id) return null;
         return data.id;

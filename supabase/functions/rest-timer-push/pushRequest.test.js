@@ -48,4 +48,14 @@ describe('parseSchedule', () => {
         expect(result.value.title).toBe("Let's go!");
         expect(result.value.body).toHaveLength(120);
     });
+
+    it('takes the time left from the app and sets the end on the server clock', () => {
+        const result = parseSchedule({ delayMs: 30_000, subscription: sub() }, NOW);
+        expect(result.ok).toBe(true);
+        expect(result.value.delay).toBe(30_000);
+        expect(result.value.endsAt).toBe(NOW + 30_000);
+        expect(parseSchedule({ delayMs: MAX_DELAY_MS + 1, subscription: sub() }, NOW).ok).toBe(false);
+        expect(parseSchedule({ delayMs: 0, subscription: sub() }, NOW).ok).toBe(false);
+        expect(parseSchedule({ subscription: sub() }, NOW).ok).toBe(false);
+    });
 });

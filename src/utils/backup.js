@@ -36,6 +36,14 @@ const isPlainObject = (value) => Boolean(value) && typeof value === 'object' && 
 const looksLikeWeek = (week) => isPlainObject(week)
     && DAYS_OF_WEEK.some(day => isPlainObject(week[day]) && Array.isArray(week[day].exercises));
 
+const isExercise = (item) => isPlainObject(item) && typeof item.name === 'string' && item.name.trim() !== '';
+
+const keepValidExercises = (week) => Object.fromEntries(Object.entries(week).map(([day, value]) => (
+    isPlainObject(value) && Array.isArray(value.exercises)
+        ? [day, { ...value, exercises: value.exercises.filter(isExercise) }]
+        : [day, value]
+)));
+
 const countExercises = (week) => DAYS_OF_WEEK.reduce(
     (sum, day) => sum + (Array.isArray(week?.[day]?.exercises) ? week[day].exercises.length : 0),
     0
@@ -71,9 +79,11 @@ export const parseBackup = (text, today = new Date()) => {
     const weekKeys = Object.keys(raw.weeks).filter(key => ISO_DATE.test(key) && looksLikeWeek(raw.weeks[key]));
     if (weekKeys.length === 0) return { ok: false, error: 'This backup has no workout weeks in it.' };
 
+    // A hand-edited file could hold entries that are not exercises; saved to
+    // the cloud they would break rendering on every device, so they go.
     const cleaned = {
         ...raw,
-        weeks: Object.fromEntries(weekKeys.map(key => [key, raw.weeks[key]]))
+        weeks: Object.fromEntries(weekKeys.map(key => [key, keepValidExercises(raw.weeks[key])]))
     };
     const history = WeekPlanService.migrate(cleaned, today);
     const stored = [...weekKeys].sort();
@@ -81,7 +91,7 @@ export const parseBackup = (text, today = new Date()) => {
         weeks: weekKeys.length,
         firstWeek: stored[0],
         lastWeek: stored[stored.length - 1],
-        exercises: weekKeys.reduce((sum, key) => sum + countExercises(raw.weeks[key]), 0)
+        exercises: weekKeys.reduce((sum, key) => sum + countExercises(cleaned.weeks[key]), 0)
     };
     const exportedAt = typeof data.exportedAt === 'string' && !Number.isNaN(Date.parse(data.exportedAt))
         ? data.exportedAt

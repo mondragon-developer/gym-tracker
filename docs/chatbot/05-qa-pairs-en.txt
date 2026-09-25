@@ -88,6 +88,9 @@ A: Yes. The timer keeps real time in the background, and the red screen is waiti
 **Q: How do I back up my workouts or move them to another account?**
 A: Profile menu → **Back up my data** saves a .json file with all your weeks. To bring it back, sign in to the account you want, open Profile menu → **Restore from backup**, pick the file and confirm with **Replace all my weeks?**. Undo is available right after.
 
+**Q: How do I delete my account?**
+A: Profile menu → **Delete my account**. It removes your sign-in and all your workouts for good, so save a copy first with **Back up my data first** if you might want them later. Type DELETE to confirm.
+
 **Q: Do I have to start the rest timer myself after each set?**
 A: No. Tap **Log set** on the exercise: it counts the set and starts the rest timer with your preset. On the last set it also marks the exercise completed.
 

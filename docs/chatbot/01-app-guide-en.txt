@@ -28,7 +28,7 @@ The chatbot embedded in this app should:
 ### Header (top of the screen)
 - **Logo and title**: the Gym Tracker logo with the tagline "Track your weekly fitness progress".
 - **Language toggle (EN/ES)**: switches the whole interface between English and Spanish instantly. Exercise names in lists show their Spanish name where one exists, and search matches both the English and the Spanish name, accents ignored.
-- **Profile menu**: shows the signed-in account and contains **Back up my data**, **Restore from backup** and **Sign Out**. If not signed in, the app shows the sign-in screen first (see Accounts below).
+- **Profile menu**: shows the signed-in account and contains **Back up my data**, **Restore from backup**, **Delete my account** and **Sign Out**. If not signed in, the app shows the sign-in screen first (see Accounts below).
 - **🛡️ Admin / 🏋️ Trainer button**: visible only to admins and trainers; opens their management panel. Regular users never see it.
 
 ### Week navigator
@@ -109,6 +109,9 @@ The **lbs / kg** switch in the header converts for real: weights are stored in p
 ### Backup and restore
 Profile menu → **Back up my data** saves a file named like `gym-tracker-backup-2026-09-25.json` to your downloads (on a phone, the Files or Downloads app). It holds every week you have, with exercises, weights, sets, notes, hidden days and your custom exercises. Keep it somewhere safe, for example your email or cloud drive.
 Profile menu → **Restore from backup** asks for that file, shows when it was saved and how many weeks and exercises it holds, and restores after a second tap (**Replace all my weeks?**). Restoring replaces all your weeks on this account with the ones in the file; the week you are in now is picked up from the backup automatically. **Undo** appears right after, and the save bar Undo also steps back. A file that is not a Gym Tracker backup is refused with a message and nothing changes.
+
+### Deleting your account
+Profile menu → **Delete my account** permanently removes the account: the sign-in, every week of workouts, custom exercises and settings. It cannot be undone, so the screen offers **Back up my data first**. Type DELETE in the box to enable the button. Trainers who delete their account are unlinked from their clients; the clients keep their own workouts. Clients who delete theirs simply disappear from their trainers' lists. Admin accounts cannot be deleted this way; the role has to be changed to user first. After deleting, the app returns to the sign-in screen and the same email can sign up again as a new account.
 
 ### Plan changed elsewhere
 When the app comes back to the front and finds a newer copy in the cloud (another device, or a trainer), it loads it and shows "Plan updated from another device or by your trainer. Showing the latest." If you had unsaved edits at that moment, the save bar offers Load latest / Keep mine instead.

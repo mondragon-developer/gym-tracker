@@ -17,6 +17,13 @@ const MESSAGE_KEY = 'gymAppRestMessage';
 // End time of a running rest, so a page the phone discarded while the user
 // was in another app can pick the countdown (or the alert) back up.
 const ENDS_AT_KEY = 'gymAppRestEndsAt';
+// The server push scheduled for that rest ({ endsAt, id }), so Pause and
+// Reset can still cancel it after a reload (a deploy reloads open pages).
+const PUSH_KEY = 'gymAppRestPush';
+// With the app on screen the alert is the cue, so the push is cancelled
+// this long before the end: a cancel sent at zero loses the race with the
+// server's send and the phone rings twice.
+const EARLY_CANCEL_MS = 3000;
 // A rest that ended longer ago than this is stale on reopen: no alert.
 const LATE_ALERT_MS = 10 * 60 * 1000;
 const NOTIFICATION_TAG = 'rest-timer';
@@ -24,12 +31,21 @@ const VIBRATION = [400, 150, 400, 150, 400];
 
 const secondsLeft = (endsAt) => Math.max(0, Math.ceil((endsAt - Date.now()) / 1000));
 
+const readSavedPushId = (endsAt) => {
+    try {
+        const push = JSON.parse(localStorage.getItem(PUSH_KEY) || 'null');
+        return push && push.endsAt === endsAt && typeof push.id === 'string' ? push.id : null;
+    } catch {
+        return null;
+    }
+};
+
 const readSavedRest = () => {
     try {
         const endsAt = Number(localStorage.getItem(ENDS_AT_KEY));
         if (!endsAt) return null;
         const left = secondsLeft(endsAt);
-        if (left > 0) return { endsAt, remaining: left };
+        if (left > 0) return { endsAt, remaining: left, pushId: readSavedPushId(endsAt) };
         if (Date.now() - endsAt < LATE_ALERT_MS) return { endsAt: null, remaining: 0 };
     } catch {
         // Storage blocked: start idle.
@@ -189,6 +205,25 @@ export default function RestTimer({ language = 'en' }) {
     const running = endsAt !== null;
     const audioRef = useRef(null);
 
+    // The pending server push for the current rest: { endsAt, id }. id stays
+    // null until the server answers; a rest that changed meanwhile cancels
+    // the late answer instead of keeping it.
+    const pushRef = useRef(saved?.pushId ? { endsAt: saved.endsAt, id: saved.pushId } : null);
+
+    const cancelPush = () => {
+        if (pushRef.current?.id) cancelRestPush(pushRef.current.id);
+        pushRef.current = null;
+        try {
+            localStorage.removeItem(PUSH_KEY);
+        } catch {
+            // Storage blocked: nothing was saved either.
+        }
+    };
+
+    // armPush needs the alert text, defined further down; the countdown
+    // effect reaches it through this ref.
+    const armPushRef = useRef(null);
+
     // Browsers cap the number of live AudioContexts per page; release ours
     // when the timer unmounts (admin panel toggles, hot reload).
     useEffect(() => () => {
@@ -207,10 +242,21 @@ export default function RestTimer({ language = 'en' }) {
 
     useEffect(() => {
         if (endsAt === null) return undefined;
-        const sync = () => setRemaining(secondsLeft(endsAt));
+        const sync = () => {
+            setRemaining(secondsLeft(endsAt));
+            if (document.visibilityState === 'visible' && pushRef.current?.id && endsAt - Date.now() <= EARLY_CANCEL_MS) {
+                cancelPush();
+            }
+        };
         const timer = setInterval(sync, 250);
         const onVisible = () => {
-            if (document.visibilityState === 'visible') sync();
+            if (document.visibilityState === 'visible') {
+                sync();
+                return;
+            }
+            // Left the app during the last seconds, after the early cancel:
+            // schedule the push again so the end still reaches the phone.
+            if (!pushRef.current && endsAt - Date.now() > 0) armPushRef.current?.(endsAt, false);
         };
         document.addEventListener('visibilitychange', onVisible);
         window.addEventListener('pageshow', sync);
@@ -225,18 +271,17 @@ export default function RestTimer({ language = 'en' }) {
 
     useEffect(() => {
         try {
-            if (endsAt === null) localStorage.removeItem(ENDS_AT_KEY);
-            else localStorage.setItem(ENDS_AT_KEY, String(endsAt));
+            if (endsAt === null) {
+                localStorage.removeItem(ENDS_AT_KEY);
+                localStorage.removeItem(PUSH_KEY);
+            } else {
+                localStorage.setItem(ENDS_AT_KEY, String(endsAt));
+            }
         } catch {
             // Storage blocked: the countdown still runs, it just cannot
             // survive the page being discarded.
         }
     }, [endsAt]);
-
-    const runFor = (seconds) => {
-        setRemaining(seconds);
-        setEndsAt(Date.now() + seconds * 1000);
-    };
 
     // End-of-rest alert: a full-screen blinking overlay that stays until the
     // user taps it. Sound is best effort (phones on silent mute Web Audio),
@@ -273,31 +318,34 @@ export default function RestTimer({ language = 'en' }) {
         if (!alertOpen) closeRestNotification();
     }, [alertOpen]);
 
-    // The pending server push for the current rest: { endsAt, id }. id stays
-    // null until the server answers; a rest that changed meanwhile cancels
-    // the late answer instead of keeping it.
-    const pushRef = useRef(null);
-
-    const cancelPush = () => {
-        if (pushRef.current?.id) cancelRestPush(pushRef.current.id);
-        pushRef.current = null;
-    };
-
-    // Called from Start or a logged set: the permission prompt needs the tap.
-    const armPush = (restEndsAt) => {
+    // Start and a logged set call this from the tap, where the permission
+    // prompt is allowed. The re-arm on leaving the app is not a tap, so it
+    // only proceeds with permission already granted.
+    const armPush = (restEndsAt, fromTap = true) => {
         cancelPush();
-        askNotificationPermission();
+        if (fromTap) askNotificationPermission();
         if (!canUsePush()) return;
+        if (!fromTap && Notification.permission !== 'granted') return;
         const pending = { endsAt: restEndsAt, id: null };
         pushRef.current = pending;
         const { title, body } = notifyTextRef.current;
         ensurePushSubscription()
             .then(sub => scheduleRestPush(sub, restEndsAt, title, body))
             .then(id => {
-                if (pushRef.current === pending) pending.id = id;
-                else cancelRestPush(id);
+                if (pushRef.current !== pending) {
+                    cancelRestPush(id);
+                    return;
+                }
+                pending.id = id;
+                if (!id) return;
+                try {
+                    localStorage.setItem(PUSH_KEY, JSON.stringify({ endsAt: restEndsAt, id }));
+                } catch {
+                    // Storage blocked: cancel still works until a reload.
+                }
             });
     };
+    armPushRef.current = armPush;
 
     // Zero is only reachable at the end of a countdown, so this fires the
     // end-of-rest cue exactly once.
@@ -319,6 +367,11 @@ export default function RestTimer({ language = 'en' }) {
                     showRestNotification(title, body);
                 }
                 pushRef.current = null;
+                try {
+                    localStorage.removeItem(PUSH_KEY);
+                } catch {
+                    // Storage blocked: nothing to clear.
+                }
             } else {
                 // On screen: the alert is the cue, drop the push if the
                 // server has not sent it yet.
@@ -365,8 +418,12 @@ export default function RestTimer({ language = 'en' }) {
         unlockAudio(audioRef);
         setAlertOpen(false);
         const seconds = remaining === null || remaining === 0 ? duration : remaining;
-        runFor(seconds);
-        armPush(Date.now() + seconds * 1000);
+        // One end time for both: the saved push id is matched to the saved
+        // end time after a reload, so they must be the same number.
+        const restEndsAt = Date.now() + seconds * 1000;
+        setRemaining(seconds);
+        setEndsAt(restEndsAt);
+        armPush(restEndsAt);
     };
 
     const pause = () => {
