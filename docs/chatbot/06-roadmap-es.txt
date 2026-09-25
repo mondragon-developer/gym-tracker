@@ -43,6 +43,7 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 - PWA instalable que funciona sin conexión; las pestañas abiertas y la app instalada toman la versión nueva en minutos
 - **Modo oscuro** y un sistema de colores accesible: botón Sistema / Claro / Oscuro en el encabezado junto al selector de unidades, todo el texto y los controles con contraste WCAG AA en ambos temas
 - **Importar plan desde este asistente**: pide un plan, la respuesta termina con un bloque GYMPLAN; una barra arriba de la app ofrece Importar (la vista previa se abre con el plan cargado) o Copiar; pegar en cualquier parte de la pantalla de la app también funciona; cada línea se comprueba contra la biblioteca, y por día el plan puede reemplazar, añadirse u omitirse; Deshacer después. Los entrenadores tienen el mismo botón en el editor del cliente
+- **Copia de seguridad y restauración**: Menú de perfil → Guardar copia de mis datos guarda todas las semanas en un archivo; Restaurar desde una copia las recupera, con Deshacer
 - **Pestaña Progreso** en Resumen Semanal: volumen por semana en gráfica con tabla, y por ejercicio la tendencia del volumen, mejor peso, último peso y cambio, con exportación a CSV
 - **Tarjetas de día compactas** en el teléfono para que varios ejercicios quepan en una pantalla
 
@@ -53,7 +54,7 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 - **Demos animadas** — pasar las demostraciones de imágenes fijas a video/GIF en bucle
 - **Más plantillas de rutinas** — además de las cinco incluidas (Push/Pull/Piernas, Torso/Pierna, Cuerpo completo 3 días, En casa sin equipo, Solo mancuernas), por ejemplo una rutina dividida de 5 días o una semana con kettlebell
 - **Funciones sociales** — compartir entrenamientos y progreso
-- **Exportar a PDF** (el CSV ya existe para el resumen semanal) y respaldo/restauración completos de datos
+- **Exportar a PDF** (el CSV ya existe para el resumen semanal)
 - **Registro de nutrición** — registro básico de comidas y calorías
 - **Logros** — hitos e insignias
 - **Filtros avanzados de ejercicios** — por equipo o dificultad
@@ -79,7 +80,7 @@ R: Sí — el temporizador de descanso está debajo de la barra de progreso sema
 R: Sí. El encabezado tiene un botón **Sistema / Claro / Oscuro** junto al selector de unidades. Sistema sigue el ajuste de tu teléfono.
 
 **P: ¿Puedo exportar mis entrenamientos?**
-R: El resumen semanal se exporta a CSV hoy (📊 Resumen Semanal → Descargar CSV). La exportación a PDF y el respaldo/restauración completos están planeados.
+R: El resumen semanal se exporta a CSV hoy (📊 Resumen Semanal → Descargar CSV). Una copia completa de todas las semanas está en Menú de perfil → Guardar copia de mis datos. La exportación a PDF está planeada.
 
 **P: ¿Puedo compartir mi entrenamiento con amigos?**
 R: Aún no — las funciones sociales están planeadas.

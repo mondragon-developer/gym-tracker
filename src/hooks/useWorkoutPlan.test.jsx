@@ -443,3 +443,30 @@ describe('useWorkoutPlan import into a chosen week', () => {
     expect(result.current.historySnapshot).toBe(before);
   });
 });
+
+describe('useWorkoutPlan restore from backup', () => {
+  beforeEach(() => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    mocks.getWorkoutPlanRecord.mockReset().mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
+    mocks.saveWorkoutPlan.mockReset().mockResolvedValue({ ok: true, updatedAt: 'v2' });
+    mocks.localGet.mockReset().mockReturnValue(null);
+  });
+
+  afterEach(() => vi.useRealTimers());
+
+  it('replaces the history, saves it with the loaded version, and can be undone', async () => {
+    const { result } = await renderPlan();
+    const restored = WeekPlanService.migrate(null);
+    restored.weeks[restored.currentWeekStart].Monday.name = 'From Backup';
+
+    act(() => { result.current.restoreHistory(restored); });
+    expect(result.current.workoutPlan.Monday.name).toBe('From Backup');
+
+    await act(async () => { vi.advanceTimersByTime(5000); });
+    expect(mocks.saveWorkoutPlan).toHaveBeenCalled();
+    expect(mocks.saveWorkoutPlan.mock.calls[0][1]).toMatchObject({ expectedUpdatedAt: 'v1' });
+
+    act(() => { result.current.undoLast(); });
+    expect(result.current.workoutPlan.Monday.name).toBe('Cloud Day');
+  });
+});
