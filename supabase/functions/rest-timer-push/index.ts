@@ -74,7 +74,11 @@ Deno.serve(async (req) => {
 
   if (body.action === 'cancel') {
     if (typeof body.id !== 'string') return json(400, { error: 'id required' });
-    await service.from('rest_timer_pushes').delete().eq('id', body.id).eq('user_id', user.id);
+    // Marked, not deleted, so the rate limit below still counts it.
+    await service.from('rest_timer_pushes')
+      .update({ cancelled_at: new Date().toISOString() })
+      .eq('id', body.id)
+      .eq('user_id', user.id);
     return json(200, { ok: true });
   }
 
@@ -108,12 +112,14 @@ Deno.serve(async (req) => {
 
   const send = async () => {
     await new Promise(resolve => setTimeout(resolve, delay));
-    // Deleting the row is the claim: if Pause or a new rest removed it
-    // first, nothing comes back and nothing is sent.
+    // Deleting the row is the claim: if Pause or a new rest marked it
+    // cancelled first, nothing comes back and nothing is sent. A cancelled
+    // row stays for the rate limit until the stale sweep removes it.
     const { data: claimed } = await service
       .from('rest_timer_pushes')
       .delete()
       .eq('id', row.id)
+      .is('cancelled_at', null)
       .select('id');
     if (!claimed || claimed.length === 0) return;
     try {

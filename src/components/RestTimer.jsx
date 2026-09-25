@@ -283,11 +283,6 @@ export default function RestTimer({ language = 'en' }) {
         }
     }, [endsAt]);
 
-    const runFor = (seconds) => {
-        setRemaining(seconds);
-        setEndsAt(Date.now() + seconds * 1000);
-    };
-
     // End-of-rest alert: a full-screen blinking overlay that stays until the
     // user taps it. Sound is best effort (phones on silent mute Web Audio),
     // so the overlay plus vibration is the cue that always works.
@@ -423,8 +418,12 @@ export default function RestTimer({ language = 'en' }) {
         unlockAudio(audioRef);
         setAlertOpen(false);
         const seconds = remaining === null || remaining === 0 ? duration : remaining;
-        runFor(seconds);
-        armPush(Date.now() + seconds * 1000);
+        // One end time for both: the saved push id is matched to the saved
+        // end time after a reload, so they must be the same number.
+        const restEndsAt = Date.now() + seconds * 1000;
+        setRemaining(seconds);
+        setEndsAt(restEndsAt);
+        armPush(restEndsAt);
     };
 
     const pause = () => {

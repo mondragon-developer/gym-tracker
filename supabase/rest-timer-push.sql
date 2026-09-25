@@ -5,7 +5,9 @@
 --
 -- One row per scheduled end-of-rest push. The rest-timer-push Edge Function
 -- inserts it, waits until ends_at, and sends only if the row is still there;
--- Pause, Reset or a new rest delete it. Rows live for two minutes at most.
+-- Pause, Reset or a new rest mark it cancelled. Sent rows are deleted at
+-- once; cancelled ones stay (they count toward the per-user rate limit)
+-- until the function's ten-minute sweep removes them.
 --
 -- SECURITY: RLS on with no policies, so the anon and authenticated roles can
 -- neither read nor write; only the function (service role) touches it. The
@@ -19,6 +21,8 @@ create table if not exists public.rest_timer_pushes (
   ends_at    timestamptz not null,
   created_at timestamptz not null default now()
 );
+
+alter table public.rest_timer_pushes add column if not exists cancelled_at timestamptz;
 
 create index if not exists rest_timer_pushes_user_idx on public.rest_timer_pushes (user_id);
 
