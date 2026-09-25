@@ -37,6 +37,12 @@ R: Los ejercicios de Cardio, Combate y los personalizados no tienen imágenes �
 **P: ¿Puedo buscar ejercicios en español?**
 R: Sí. El buscador encuentra tanto el nombre en inglés como en español, sin importar acentos, así que "sentadilla" y "squat" encuentran Barbell Squats. Algunos ejercicios aún no tienen nombre en español; pregúntame y te digo el nombre en inglés.
 
+**P: ¿Puedo cargar un plan para la semana siguiente en vez de esta?**
+R: Sí. En la vista previa de importación, **Preparar el plan para** muestra esta semana, la siguiente y todas las semanas hasta 12 semanas adelante. Elige una antes de aplicar; el resto de tus semanas queda igual.
+
+**P: ¿Qué hace Combinar con la semana?**
+R: Solo cambian los días del plan; los demás días conservan lo que tienen. Para cada día del plan eliges: **Reemplazar día** (los ejercicios del plan reemplazan los tuyos), **Añadir al día** (los tuyos se quedan y se suman los del plan) u **Omitir** (ese día no se toca). **Reemplazar toda la semana**, en cambio, hace que todos los días sigan el plan y pasa a Descanso los días que el plan no incluye.
+
 **P: Eliminé un ejercicio por error.**
 R: Toca **Deshacer** en el aviso que aparece al pie, centrado, justo después de eliminar (dura unos segundos y desaparece si haces otro cambio antes). El mismo Deshacer aparece tras Reiniciar Día y Reiniciar Esta Semana. ¿Se fue el aviso? El botón **Deshacer** de la barra de guardado, abajo, retrocede un cambio a la vez (un borrado, una serie, un peso, una importación, un reinicio) mientras la app siga abierta; escribir en un mismo día cuenta como un solo cambio.
 

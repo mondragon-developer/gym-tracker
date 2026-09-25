@@ -122,3 +122,58 @@ describe('ImportPlanModal shortcuts', () => {
         expect(await screen.findByRole('status')).toHaveTextContent('Could not read the clipboard here.');
     });
 });
+
+describe('ImportPlanModal target week', () => {
+    const WEEKS = ['2026-09-21', '2026-09-28', '2026-10-05'];
+    const thisWeek = { Monday: { name: 'Push', exercises: [{ id: 'a', name: 'Dips' }, { id: 'b', name: 'Flyes' }] } };
+    const nextWeek = { Monday: { name: 'Rest', exercises: [] }, Friday: { name: 'Abs', exercises: [] } };
+    const planForWeek = (week) => (week === '2026-09-21' ? thisWeek : nextWeek);
+
+    it('lists this week, next week and later weeks, starting on the viewed week', () => {
+        renderModal({ weeks: WEEKS, initialWeek: '2026-09-28', planForWeek });
+        pasteAndPreview(PLAN);
+        const select = screen.getByLabelText('Set up the plan for');
+        expect(Array.from(select.options).map(o => o.textContent)).toEqual([
+            expect.stringMatching(/^This week \(/),
+            expect.stringMatching(/^Next week \(/),
+            expect.stringMatching(/^Week of /)
+        ]);
+        expect(select.value).toBe('2026-09-28');
+        expect(screen.getByRole('button', { name: /^Apply to week of Sep 28/ })).toBeInTheDocument();
+    });
+
+    it('shows what each plan day has now in the chosen week', () => {
+        renderModal({ weeks: WEEKS, planForWeek });
+        pasteAndPreview(PLAN);
+        expect(screen.getByText('Now: Push, 2 exercises')).toBeInTheDocument();
+        fireEvent.change(screen.getByLabelText('Set up the plan for'), { target: { value: '2026-09-28' } });
+        expect(screen.getByText('Now: Rest')).toBeInTheDocument();
+    });
+
+    it('builds on the chosen week and hands it back with the plan', () => {
+        const { onApply } = renderModal({ weeks: WEEKS, planForWeek });
+        pasteAndPreview(PLAN);
+        fireEvent.change(screen.getByLabelText('Set up the plan for'), { target: { value: '2026-09-28' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Merge into week' }));
+        fireEvent.click(screen.getByRole('button', { name: /^Apply to week of/ }));
+        fireEvent.click(screen.getByRole('button', { name: /^Apply to week of .*\?$/ }));
+        const [plan, week] = onApply.mock.calls[0];
+        expect(week).toBe('2026-09-28');
+        expect(plan.Friday).toBe(nextWeek.Friday);
+    });
+
+    it('explains Replace and Merge', () => {
+        renderModal({ weeks: WEEKS, planForWeek });
+        pasteAndPreview(PLAN);
+        fireEvent.click(screen.getByRole('button', { name: 'Replace whole week' }));
+        expect(screen.getByText(/Days the plan does not list become Rest/)).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: 'Merge into week' }));
+        expect(screen.getByText(/every other day keeps what it has/)).toBeInTheDocument();
+    });
+
+    it('has no week picker for the trainer editor', () => {
+        renderModal();
+        pasteAndPreview(PLAN);
+        expect(screen.queryByLabelText('Set up the plan for')).toBeNull();
+    });
+});

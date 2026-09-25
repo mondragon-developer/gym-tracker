@@ -83,6 +83,9 @@ function AppContent() {
         resetWeek,
         updateDay,
         replaceViewedWeek,
+        replaceWeek,
+        importableWeeks,
+        planForWeek,
         historySnapshot,
         currentWeekStart,
         restoreSnapshot,
@@ -297,9 +300,9 @@ function AppContent() {
     };
 
     // A plan pasted anywhere outside a text field opens the importer on it,
-    // so the phone flow is Copy in the chat, paste, confirm.
+    // so the phone flow is Copy in the chat, paste, confirm. Works from a
+    // past week too: the preview offers the current week and later ones.
     useEffect(() => {
-        if (!isEditable) return undefined;
         const onPaste = (event) => {
             const target = event.target;
             const inField = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable);
@@ -312,23 +315,21 @@ function AppContent() {
         document.addEventListener('paste', onPaste);
         return () => document.removeEventListener('paste', onPaste);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isEditable, importModal.isOpen]);
+    }, [importModal.isOpen]);
 
     const coachPlan = useCoachPlan();
 
-    // Past weeks are read-only, so a plan from the coach lands on the
-    // current week. The chat is closed first: on phones it covers the
-    // screen and would hide the preview.
+    // The chat is closed first: on phones it covers the screen and would
+    // hide the preview. The week is picked inside the preview.
     const handleImportCoachPlan = (text) => {
         closeCoachChat();
         coachPlan.dismiss();
-        if (!isEditable) goToCurrentWeek();
         importModal.open(text);
     };
 
-    const handleImportPlan = (plan) => {
+    const handleImportPlan = (plan, weekStart) => {
         const before = historySnapshot;
-        replaceViewedWeek(plan);
+        replaceWeek(weekStart, plan);
         importModal.close();
         offerUndo(t('Plan imported.', language), before);
     };
@@ -868,7 +869,9 @@ function AppContent() {
                         isOpen={importModal.isOpen}
                         onClose={importModal.close}
                         onApply={handleImportPlan}
-                        existingWeek={workoutPlan}
+                        weeks={importableWeeks}
+                        initialWeek={viewedWeekStart}
+                        planForWeek={planForWeek}
                         initialText={typeof importModal.data === 'string' ? importModal.data : ''}
                         language={language}
                     />
