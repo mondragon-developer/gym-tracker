@@ -2,13 +2,14 @@
  * Rest Timer
  * Compact between-sets countdown for the gym floor: preset chips, start /
  * pause / reset, and a beep plus visual cue when the time is up.
- * Self-contained: no backend. Mounted once above the day list so it
- * survives day-accordion toggles.
+ * The only backend call is the optional end-of-rest push (restPush.js).
+ * Mounted once above the day list so it survives day-accordion toggles.
  */
 
 import React, { useState, useEffect, useRef } from 'react';
 import { t } from '../translations/ui';
 import { formatSeconds } from '../utils/restTimer.js';
+import { canUsePush, ensurePushSubscription, scheduleRestPush, cancelRestPush } from '../utils/restPush.js';
 
 const PRESETS = [30, 60, 90, 120];
 // Per-device custom text for the end-of-rest alert; empty means the default.
@@ -39,18 +40,19 @@ const readSavedRest = () => {
 const hasNotifications = () => typeof window !== 'undefined' && 'Notification' in window;
 
 // iOS freezes a web app's scripts as soon as it leaves the screen, installed
-// or not, so a notification raised by the page never fires there; only a
-// server push could. iPadOS reports itself as a Mac with touch.
+// or not, so a notification raised by the page never fires there; the
+// server push in restPush.js is what reaches it. iPadOS reports itself as a
+// Mac with touch.
 const isIOS = () => typeof navigator !== 'undefined' && (
     /iPad|iPhone|iPod/.test(navigator.userAgent) ||
     (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
 );
 
-// Asked from Start or a logged set, which are user gestures. Skipped on iOS,
-// where the permission would not buy anything (see isIOS).
+// For browsers without Web Push: the page notification still needs the
+// permission. Asked from a tap; never on iOS, where only push can notify.
 const askNotificationPermission = () => {
     try {
-        if (hasNotifications() && !isIOS() && Notification.permission === 'default') {
+        if (hasNotifications() && !canUsePush() && !isIOS() && Notification.permission === 'default') {
             const pending = Notification.requestPermission();
             if (pending && typeof pending.catch === 'function') pending.catch(() => {});
         }
@@ -271,6 +273,32 @@ export default function RestTimer({ language = 'en' }) {
         if (!alertOpen) closeRestNotification();
     }, [alertOpen]);
 
+    // The pending server push for the current rest: { endsAt, id }. id stays
+    // null until the server answers; a rest that changed meanwhile cancels
+    // the late answer instead of keeping it.
+    const pushRef = useRef(null);
+
+    const cancelPush = () => {
+        if (pushRef.current?.id) cancelRestPush(pushRef.current.id);
+        pushRef.current = null;
+    };
+
+    // Called from Start or a logged set: the permission prompt needs the tap.
+    const armPush = (restEndsAt) => {
+        cancelPush();
+        askNotificationPermission();
+        if (!canUsePush()) return;
+        const pending = { endsAt: restEndsAt, id: null };
+        pushRef.current = pending;
+        const { title, body } = notifyTextRef.current;
+        ensurePushSubscription()
+            .then(sub => scheduleRestPush(sub, restEndsAt, title, body))
+            .then(id => {
+                if (pushRef.current === pending) pending.id = id;
+                else cancelRestPush(id);
+            });
+    };
+
     // Zero is only reachable at the end of a countdown, so this fires the
     // end-of-rest cue exactly once.
     useEffect(() => {
@@ -284,8 +312,17 @@ export default function RestTimer({ language = 'en' }) {
                 // Vibration unsupported or blocked: the overlay still shows.
             }
             if (document.visibilityState === 'hidden') {
-                const { title, body } = notifyTextRef.current;
-                showRestNotification(title, body);
+                // The server push is already on its way; a page notification
+                // on top would ring twice.
+                if (!pushRef.current?.id) {
+                    const { title, body } = notifyTextRef.current;
+                    showRestNotification(title, body);
+                }
+                pushRef.current = null;
+            } else {
+                // On screen: the alert is the cue, drop the push if the
+                // server has not sent it yet.
+                cancelPush();
             }
             setAlertOpen(true);
             setEndsAt(null);
@@ -326,17 +363,20 @@ export default function RestTimer({ language = 'en' }) {
 
     const start = () => {
         unlockAudio(audioRef);
-        askNotificationPermission();
         setAlertOpen(false);
-        runFor(remaining === null || remaining === 0 ? duration : remaining);
+        const seconds = remaining === null || remaining === 0 ? duration : remaining;
+        runFor(seconds);
+        armPush(Date.now() + seconds * 1000);
     };
 
     const pause = () => {
+        cancelPush();
         if (endsAt !== null) setRemaining(secondsLeft(endsAt));
         setEndsAt(null);
     };
 
     const reset = () => {
+        cancelPush();
         setAlertOpen(false);
         setEndsAt(null);
         setRemaining(null);
@@ -349,12 +389,15 @@ export default function RestTimer({ language = 'en' }) {
         const onRestStart = () => {
             setAlertOpen(false);
             unlockAudio(audioRef);
-            askNotificationPermission();
+            const restEndsAt = Date.now() + duration * 1000;
             setRemaining(duration);
-            setEndsAt(Date.now() + duration * 1000);
+            setEndsAt(restEndsAt);
+            armPush(restEndsAt);
         };
         window.addEventListener('gym:rest-start', onRestStart);
         return () => window.removeEventListener('gym:rest-start', onRestStart);
+        // armPush only touches refs and module functions.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [duration]);
 
     const pickPreset = (seconds) => {

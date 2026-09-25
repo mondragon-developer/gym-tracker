@@ -12,3 +12,25 @@ self.addEventListener('notificationclick', (event) => {
     })
   );
 });
+
+// Server push from supabase/functions/rest-timer-push. Every push must show
+// a notification: iOS drops the subscription of a site that receives pushes
+// without showing one.
+self.addEventListener('push', (event) => {
+  let data = {};
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch {
+    data = {};
+  }
+  event.waitUntil(
+    self.registration.showNotification(data.title || "Let's go!", {
+      body: data.body || '',
+      tag: data.tag || 'rest-timer',
+      renotify: true,
+      requireInteraction: true,
+      vibrate: [400, 150, 400, 150, 400],
+      icon: '/pwa-icon.jpeg'
+    })
+  );
+});
