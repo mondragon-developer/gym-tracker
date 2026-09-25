@@ -134,13 +134,7 @@ stays CSV. This is the roadmap's "analytics" item.
 
 ## 4. Backup, restore, and account deletion
 
-**Status (2026-09-25): backup and restore shipped.** Profile menu: Back up my data (JSON download of the whole history) and Restore from backup (summary, two-step confirm, Undo). **Account deletion shipped too:** Profile menu → Delete my account (delete-account Edge Function; every user table cascades from auth.users; admins are refused so the last admin cannot vanish).
-
-### Next: inactive free accounts
-
-Decided 2026-09-25: track first, enforce later.
-- Now: profiles.last_active_at, stamped by touch_last_active() when the app opens (at most every 12 h), backfilled from last sign-in and last plan save. The admin dashboard shows each account's last use and filters "Inactive 60+ days".
-- When paid tiers exist: free accounts get an email at 60 days and 83 days (Brevo, with a reminder to back up), and are deleted at 90 days unless the app is opened. Paid accounts are exempt; the clock starts at the downgrade. Run a daily job in report-only mode for a few weeks before it deletes anything, and put the rule in the terms and privacy policy first.
+**Status (2026-09-25): shipped.** Backup and restore (#41, landed on main by #42): Profile menu → Back up my data (JSON download of the whole history) and Restore from backup (summary, two-step confirm, Undo). Account deletion (#44): Profile menu → Delete my account through the delete-account Edge Function; every user table cascades from auth.users, admins are refused so the last admin cannot vanish.
 
 JSON export and import of the whole history from the profile menu, plus a
 delete-account action that removes the auth user, the plan row, the profile
@@ -166,3 +160,12 @@ makes trainer saves bigger, so the window matters more now.
 `adminService.saveWorkoutPlan`, add the `.eq('updated_at', ...)` guard the
 tracker uses in `SupabaseStorageService.saveWorkoutPlan`, and on a conflict
 offer Reload or Overwrite like the tracker's SaveStatusBar.
+
+## 7. Inactive free accounts
+
+**Status (2026-09-25): tracking shipped (#44), enforcement waits for paid tiers.**
+
+Decided 2026-09-25: track first, enforce later.
+- Shipped: profiles.last_active_at, stamped by touch_last_active() when the app opens (at most every 12 h), backfilled from last sign-in and last plan save. The admin dashboard shows each account's last use and filters "Inactive 60+ days".
+- When paid tiers exist: free accounts get an email at 60 days and 83 days (Brevo, with a reminder to back up), and are deleted at 90 days unless the app is opened. Paid accounts are exempt; the clock starts at the downgrade. Run a daily job in report-only mode for a few weeks before it deletes anything, and put the rule in the terms and privacy policy first.
+- Open decisions: whether trainers with active clients are exempt; the tier model itself (free and paid for users and for trainers).

@@ -9,7 +9,7 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 - Strength tracking (sets/reps/weight) and time-based Cardio & Combat tracking (minutes)
 - ▶ visual demonstrations for 152 exercises (still images, start-to-finish range of motion)
 - **Equipment filter** in the exercise library (barbell, dumbbell, cable, machines, body weight, ...), combined with name search and the muscle-group filter
-- **Rest timer** under the weekly progress bar: presets (0:30-2:00), pause/resume, and a sound when the rest ends
+- **Rest timer** under the weekly progress bar: presets (0:30-2:00), pause/resume, and a sound when the rest ends. It keeps time in the background, and with notifications allowed the phone gets an end-of-rest notification even from another app or with the screen locked (iPhone: app added to the home screen, iOS 16.4+)
 - Trainers can **email client invitations** from their panel (invite-by-email field); the signup link assigns the client automatically
 - **Google sign-in** (one tap, no password) alongside email/password accounts
 - **Resend confirmation email** action on the post-signup screen and after an "email not confirmed" sign-in error
@@ -24,7 +24,7 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 - **"Plan updated elsewhere" notice** when a newer cloud copy is loaded on return
 - **Search in English or Spanish**, accent-insensitive, in the exercise picker
 - **One-thumb entry**: sets, reps, weight and minutes fields have minus/plus buttons and open the number keypad on phones
-- **Undo instead of confirm**: deleting an exercise, Reset Day and Restart This Week apply at once with an Undo toast
+- **Undo instead of confirm**: deleting an exercise, Reset Day and Restart This Week apply at once with an Undo toast; the **Undo** button in the save bar steps back any change, one at a time, while the app is open
 - **Rest timer cues**: when the rest ends the screen blinks red with a big customizable message ("Let's go!") until tapped, the phone vibrates, and a beep plays where sound is allowed
 - **Today button** in the save bar jumps to today's day; compact header on phones
 - **Workout templates**: Classic Push/Pull/Legs (6 days), Upper/Lower with active recovery (4 days + light Wednesday), Full body 3 days (30-40 min), Home with no equipment (3 days), Dumbbells only (4 days); applied to the viewed week from the tracker or the trainer panel
@@ -42,14 +42,14 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 - Full English/Spanish interface toggle
 - Installable PWA that works offline; open tabs and installed apps pick up a new version within minutes
 - **Dark mode** and an accessible color system: System / Light / Dark switch in the header next to the unit toggle, every text and control at WCAG AA contrast in both themes
-- **Import plan from this assistant**: ask for a plan, the answer ends with a GYMPLAN block; a bar at the top of the app offers Import (preview opens with the plan loaded) or Copy; pasting anywhere on the app screen also works; every line is checked against the library, and per day the plan can replace, add to, or skip that day; Undo afterwards. Trainers have the same button in the client editor
+- **Import plan from this assistant**: ask for a plan, the answer ends with a GYMPLAN block; a bar at the top of the app offers Import (preview opens with the plan loaded) or Copy; pasting anywhere on the app screen also works; the preview picks the week (this week or up to 12 weeks ahead), shows what each day has now, and per day the plan can replace, add to, or skip that day; every line is checked against the library; Undo afterwards. Trainers have the same button in the client editor
 - **Backup and restore**: Profile menu → Back up my data saves every week to a file; Restore from backup brings it back, with Undo
+- **Delete my account** in the profile menu: removes the account and all its data for good, after offering a backup
 - **Progress tab** in Weekly Summary: volume per week as a chart with a table, and per exercise the volume trend, best weight, last weight and change, with CSV export
 - **Compact day cards** on phones so several exercises fit on one screen
 
 ## Planned (on the roadmap, no dates promised)
 
-- **Plan link from the coach** — a link in the assistant's answer that opens the app with the plan already loaded, so no copy and paste
 - **More analytics** — per-muscle-group volume, personal records and longer ranges on top of the Progress tab
 - **Animated demos** — upgrading exercise how-tos from still images to looping video/GIF
 - **More workout split templates** — beyond the five included (Push/Pull/Legs, Upper/Lower, Full body 3 days, Home with no equipment, Dumbbells only), for example a 5-day split or a kettlebell week
@@ -57,7 +57,7 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 - **Export to PDF** (CSV already exists for the weekly summary and the progress table)
 - **Nutrition tracking** — basic meal and calorie logging
 - **Achievements** — milestones and badges
-- **Advanced exercise filtering** — by equipment or difficulty
+- **Advanced exercise filtering** — by difficulty (the equipment filter already exists)
 
 ## Not in the app (and how to answer)
 
@@ -74,7 +74,7 @@ A: Yes. Open **Weekly Summary** and tap the **Progress** tab: volume per week as
 A: They're high-quality still sequences showing the full range of motion. Animated video/GIF demos are planned.
 
 **Q: Is there a rest timer?**
-A: Yes — the rest timer sits under the weekly progress bar. Pick a preset (0:30, 1:00, 1:30 or 2:00), tap Start, and it beeps when the rest is over. Pause/Resume and Reset are included.
+A: Yes — the rest timer sits under the weekly progress bar. Pick a preset (0:30, 1:00, 1:30 or 2:00), tap Start, and when the rest is over the screen blinks red and it beeps. It keeps time if you switch apps, and with notifications allowed you get a notification at the end. Pause/Resume and Reset are included.
 
 **Q: Is there a dark mode?**
 A: Yes. The header has a **System / Light / Dark** button next to the unit toggle. System follows your phone's setting.
