@@ -45,8 +45,11 @@ import { getWorkoutTemplate } from './constants/workoutTemplates.js';
 const WorkoutTemplateModal = React.lazy(() => import('./components/WorkoutTemplateModal'));
 // Lazy: only loads when the user pastes a plan from the AI coach.
 const ImportPlanModal = React.lazy(() => import('./components/ImportPlanModal'));
+// Lazy: only loads when the user restores a backup.
+const RestoreBackupModal = React.lazy(() => import('./components/RestoreBackupModal'));
 import mdLogo from './assets/mdlogo.jpeg';
 import { looksLikePlan } from './utils/planImport.js';
+import { downloadBackup } from './utils/backup.js';
 
 // Flat overrides for the week-level action buttons; the Button variants
 // still carry their own shadow, so it is switched off here.
@@ -89,6 +92,7 @@ function AppContent() {
         historySnapshot,
         currentWeekStart,
         restoreSnapshot,
+        restoreHistory,
         canUndo,
         undoLast,
         persistCurrentPlan,
@@ -131,6 +135,7 @@ function AppContent() {
     const copyWeekModal = useModal();
     const templatesModal = useModal();
     const importModal = useModal();
+    const restoreModal = useModal();
     const addExerciseModal = useModal();
     const feedbackModal = useModal();
     const summaryModal = useModal();
@@ -327,6 +332,24 @@ function AppContent() {
         importModal.open(text);
     };
 
+    // Plain message toast for outcomes with nothing to undo.
+    const [notice, setNotice] = useState(null);
+    const dismissNotice = React.useCallback(() => setNotice(null), []);
+
+    const handleBackup = () => {
+        if (!historySnapshot) return;
+        setNotice(downloadBackup(historySnapshot)
+            ? t('Backup saved to your downloads.', language)
+            : t('Could not save the backup on this device.', language));
+    };
+
+    const handleRestoreBackup = (restored) => {
+        const before = historySnapshot;
+        restoreHistory(restored);
+        restoreModal.close();
+        offerUndo(t('Backup restored.', language), before);
+    };
+
     const handleImportPlan = (plan, weekStart) => {
         const before = historySnapshot;
         replaceWeek(weekStart, plan);
@@ -471,7 +494,7 @@ function AppContent() {
                             <LanguageToggle />
                             <UnitsToggle />
                             <ThemeToggle />
-                            <UserProfile />
+                            <UserProfile onBackup={handleBackup} onRestore={restoreModal.open} />
                             {(isAdmin || isTrainer) && (
                                 <button
                                     onClick={() => setShowAdmin(true)}
@@ -805,6 +828,13 @@ function AppContent() {
                 language={language}
             />
 
+            <UndoToast
+                message={notice}
+                onDismiss={dismissNotice}
+                language={language}
+                bottom={undo ? '144px' : '84px'}
+            />
+
             {/* Newer cloud copy picked up on a silent reload */}
             <UndoToast
                 message={remoteUpdateAt ? t('Plan updated from another device or by your trainer. Showing the latest.', language) : null}
@@ -873,6 +903,17 @@ function AppContent() {
                         initialWeek={viewedWeekStart}
                         planForWeek={planForWeek}
                         initialText={typeof importModal.data === 'string' ? importModal.data : ''}
+                        language={language}
+                    />
+                </Suspense>
+            )}
+
+            {restoreModal.isOpen && (
+                <Suspense fallback={lazyFallback}>
+                    <RestoreBackupModal
+                        isOpen={restoreModal.isOpen}
+                        onClose={restoreModal.close}
+                        onRestore={handleRestoreBackup}
                         language={language}
                     />
                 </Suspense>

@@ -1,6 +1,7 @@
 /**
  * User Profile Component
- * Displays user information and sign out button in the header
+ * Displays user information, backup and restore of the workout data, and
+ * the sign out button in the header
  */
 
 import React, { useState } from 'react';
@@ -11,7 +12,20 @@ import Button from './ui/Button';
 import { ButtonVariant } from './ui/Button.constants.js';
 import { headerControlStyle, headerControlHover, headerControlRest } from './ui/headerControlStyle.js';
 
-export default function UserProfile() {
+const menuItemStyle = {
+  display: 'block',
+  width: '100%',
+  padding: '10px 16px',
+  border: 'none',
+  background: 'none',
+  textAlign: 'left',
+  fontSize: '14px',
+  fontWeight: 600,
+  color: 'var(--text)',
+  cursor: 'pointer'
+};
+
+export default function UserProfile({ onBackup, onRestore }) {
   const { user, signOut, joinTrainer, isTrainer, isAdmin } = useAuth();
   const { language } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
@@ -180,6 +194,21 @@ export default function UserProfile() {
                   </p>
                 )}
               </form>
+            )}
+
+            {(onBackup || onRestore) && (
+              <div style={{ padding: '4px 0', borderBottom: '1px solid var(--border)' }}>
+                {onBackup && (
+                  <button type="button" style={menuItemStyle} onClick={() => { setIsOpen(false); onBackup(); }}>
+                    {t('Back up my data', language)}
+                  </button>
+                )}
+                {onRestore && (
+                  <button type="button" style={menuItemStyle} onClick={() => { setIsOpen(false); onRestore(); }}>
+                    {t('Restore from backup', language)}
+                  </button>
+                )}
+              </div>
             )}
 
             {/* Sign Out Button */}
