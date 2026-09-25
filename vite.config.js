@@ -28,6 +28,13 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,jpeg,ico}'],
+        // Without these the new worker only activates when the page posts
+        // SKIP_WAITING, so a device still running an old bundle whose
+        // registration code never sends it stays on that build for as long
+        // as any tab or the installed app is open. Taking over on install
+        // fires controllerchange, which main.jsx turns into a safe reload.
+        skipWaiting: true,
+        clientsClaim: true,
       },
     }),
   ],
