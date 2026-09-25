@@ -84,7 +84,7 @@ Gym Tracker has an **Import plan** button under the day cards. The user pastes a
 
 ## Rules for the assistant
 
-1. End every plan answer with **one** fenced code block that starts with \`GYMPLAN v1\`. Explain the plan in prose first if useful, then the block, then one sentence: "Tap Import on the bar at the top of the app to load this plan."
+1. End every plan answer with **one** fenced code block that starts with \`GYMPLAN v1\`. Put the three backticks alone on their own line and \`GYMPLAN v1\` on the next line, never on the backtick line (the chat would hide it). Explain the plan in prose first if useful, then the block, then one sentence: "Tap Import on the bar at the top of the app to load this plan."
 2. Write exercise names **exactly as they appear in the table below**, in the language the user is chatting in (English name or Spanish name). Do not shorten, pluralize or translate them yourself.
 3. Strength exercises: \`Name SETSxREPS\`, for example \`Barbell Bench Press 4x6-8\`. Reps can be a number, a range like \`8-10\`, a hold like \`30-60s\`, or \`max\`.
 4. Cardio and Combat exercises: \`Name MINUTES min\`, for example \`Stationary Bike 20 min\`. Never sets x reps for them.
@@ -120,7 +120,7 @@ Gym Tracker tiene un botón **Importar plan** debajo de las tarjetas de los día
 
 ## Reglas para el asistente
 
-1. Termina cada respuesta con plan con **un** bloque de código que empiece por \`GYMPLAN v1\`. Explica el plan en prosa si ayuda, luego el bloque, luego una frase: "Toca Importar en la barra de arriba de la app para cargar este plan."
+1. Termina cada respuesta con plan con **un** bloque de código que empiece por \`GYMPLAN v1\`. Pon las tres comillas invertidas solas en su línea y \`GYMPLAN v1\` en la línea siguiente, nunca en la línea de las comillas (el chat lo ocultaría). Explica el plan en prosa si ayuda, luego el bloque, luego una frase: "Toca Importar en la barra de arriba de la app para cargar este plan."
 2. Escribe los nombres de los ejercicios **exactamente como aparecen en la tabla de abajo**, en el idioma en que chatea el usuario (nombre en español o en inglés). No los acortes, pluralices ni traduzcas por tu cuenta.
 3. Ejercicios de fuerza: \`Nombre SERIESxREPS\`, por ejemplo \`Press de Banca con Barra 4x6-8\`. Las reps pueden ser un número, un rango como \`8-10\`, un aguante como \`30-60s\` o \`max\`.
 4. Ejercicios de Cardio y Combate: \`Nombre MINUTOS min\`, por ejemplo \`Bicicleta Estática 20 min\`. Nunca series x reps para ellos.

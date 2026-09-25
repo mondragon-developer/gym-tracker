@@ -271,3 +271,20 @@ describe('extractPlanBlock', () => {
         expect(extractPlanBlock(undefined)).toBeNull();
     });
 });
+
+// The live coach wrote the header on the fence line, which markdown treats
+// as the block's language: seen on 2026-09-25.
+describe('header on the fence line', () => {
+    const reply = 'Here is the plan.\n\n```GYMPLAN v1\nMonday: Chest\n- Barbell Bench Press 4x8\n```\nEnjoy.';
+
+    it('extracts the block with its header', () => {
+        expect(extractPlanBlock(reply)).toBe('GYMPLAN v1\nMonday: Chest\n- Barbell Bench Press 4x8');
+    });
+
+    it('parses the version from a pasted reply', () => {
+        const parsed = parsePlanText(reply);
+        expect(parsed.version).toBe(1);
+        expect(parsed.warnings.some(w => /header/i.test(w.message))).toBe(false);
+        expect(Object.keys(parsed.days)).toContain('Monday');
+    });
+});
