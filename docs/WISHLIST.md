@@ -134,6 +134,8 @@ stays CSV. This is the roadmap's "analytics" item.
 
 ## 4. Backup, restore, and account deletion
 
+**Status (2026-09-25): backup and restore shipped.** Profile menu: Back up my data (JSON download of the whole history) and Restore from backup (summary, two-step confirm, Undo). Account deletion is still open; it needs a server-side function to remove the auth user.
+
 JSON export and import of the whole history from the profile menu, plus a
 delete-account action that removes the auth user, the plan row, the profile
 row and trainer links. The last one also matters for store listings.

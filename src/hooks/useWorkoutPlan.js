@@ -403,6 +403,17 @@ const useWorkoutPlan = () => {
     setViewedWeekStart(next.currentWeekStart);
   };
 
+  // Replaces the whole history with one read from a backup file (already
+  // migrated by parseBackup). It saves through the normal autosave, so a
+  // newer copy saved elsewhere meanwhile still raises the conflict prompt,
+  // and Undo steps back to the history from before the restore.
+  const restoreHistory = (restored) => {
+    if (!history || !restored) return;
+    recordUndo(viewedWeekStart);
+    setHistory(restored);
+    setViewedWeekStart(restored.currentWeekStart);
+  };
+
   // Steps back to the history from before the last edit and shows the week
   // it happened on, so the user sees what came back.
   const undoLast = () => {
@@ -440,6 +451,7 @@ const useWorkoutPlan = () => {
     planForWeek,
     historySnapshot: history,
     restoreSnapshot,
+    restoreHistory,
     canUndo: undoDepth > 0,
     undoLast,
     persistCurrentPlan,

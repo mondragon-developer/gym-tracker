@@ -85,6 +85,9 @@ R: La pantalla parpadea en rojo con un mensaje grande ("¡Vamos!") hasta que la 
 **P: ¿El temporizador de descanso funciona si cambio de app o de música?**
 R: Sí. El temporizador lleva el tiempo real en segundo plano, y la pantalla roja te espera en cuanto vuelves a la app. Si permitiste notificaciones, el teléfono también muestra una notificación con sonido al terminar el descanso; al tocarla se abre la pantalla roja. En iPhone, primero agrega la app a la pantalla de inicio (Safari, Compartir, Agregar a inicio, iOS 16.4 o más nuevo), ábrela desde ahí y permite notificaciones en el primer Iniciar; en Safari el iPhone no puede mostrarla. La pantalla roja no puede aparecer encima de otras apps; es una regla del teléfono para las apps web.
 
+**P: ¿Cómo hago una copia de mis entrenamientos o los paso a otra cuenta?**
+R: Menú de perfil → **Guardar copia de mis datos** guarda un archivo .json con todas tus semanas. Para recuperarlo, entra a la cuenta que quieras, abre Menú de perfil → **Restaurar desde una copia**, elige el archivo y confirma con **¿Reemplazar todas mis semanas?**. Justo después tienes Deshacer.
+
 **P: ¿Tengo que arrancar el temporizador de descanso yo mismo después de cada serie?**
 R: No. Toca **Registrar serie** en el ejercicio: cuenta la serie y arranca el temporizador con tu preajuste. En la última serie también marca el ejercicio como completado.
 
