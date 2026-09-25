@@ -408,3 +408,38 @@ describe('useWorkoutPlan session undo', () => {
     expect(result.current.canUndo).toBe(false);
   });
 });
+
+describe('useWorkoutPlan import into a chosen week', () => {
+  beforeEach(() => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    mocks.getWorkoutPlanRecord.mockReset().mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
+    mocks.saveWorkoutPlan.mockReset().mockResolvedValue({ ok: true, updatedAt: 'v2' });
+    mocks.localGet.mockReset().mockReturnValue(null);
+  });
+
+  afterEach(() => vi.useRealTimers());
+
+  it('offers the current week and twelve ahead, and stores a plan on a later week', async () => {
+    const { result } = await renderPlan();
+    const weeks = result.current.importableWeeks;
+    expect(weeks).toHaveLength(13);
+    expect(weeks[0]).toBe(result.current.currentWeekStart);
+
+    const target = weeks[3];
+    const plan = { ...result.current.planForWeek(target), Monday: { name: 'Imported', exercises: [] } };
+    act(() => { result.current.replaceWeek(target, plan); });
+    expect(result.current.viewedWeekStart).toBe(target);
+    expect(result.current.workoutPlan.Monday.name).toBe('Imported');
+    expect(result.current.planForWeek(weeks[0]).Monday.name).toBe('Cloud Day');
+
+    act(() => { result.current.undoLast(); });
+    expect(result.current.planForWeek(target).Monday.name).not.toBe('Imported');
+  });
+
+  it('refuses a week outside the importable range', async () => {
+    const { result } = await renderPlan();
+    const before = result.current.historySnapshot;
+    act(() => { result.current.replaceWeek('2000-01-03', { Monday: { name: 'X', exercises: [] } }); });
+    expect(result.current.historySnapshot).toBe(before);
+  });
+});

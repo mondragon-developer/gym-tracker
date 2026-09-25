@@ -337,6 +337,21 @@ const useWorkoutPlan = () => {
     editViewedWeek(() => plan);
   };
 
+  // The current week and every week ahead the navigator reaches: where an
+  // imported plan may land. Past weeks are history and stay read-only.
+  const importableWeeks = currentWeekStart ? navWeeks.filter(week => week >= currentWeekStart) : [];
+
+  const planForWeek = (weekStart) => (history ? WeekPlanService.resolveWeek(history, weekStart) : null);
+
+  // Stores a whole plan on any importable week and shows that week, so the
+  // user sees what landed. Undo steps back to before it like any edit.
+  const replaceWeek = (weekStart, plan) => {
+    if (!history || !importableWeeks.includes(weekStart)) return;
+    recordUndo(weekStart);
+    setHistory(prev => (prev ? WeekPlanService.setWeek(prev, weekStart, plan) : prev));
+    setViewedWeekStart(weekStart);
+  };
+
   // Undo support: callers keep the history object from before a destructive
   // action and hand it back. Restoring goes through the normal dirty/autosave
   // path, and if nothing was saved in between the pending save is dropped
@@ -420,6 +435,9 @@ const useWorkoutPlan = () => {
     resetDay,
     resetWeek,
     replaceViewedWeek,
+    replaceWeek,
+    importableWeeks,
+    planForWeek,
     historySnapshot: history,
     restoreSnapshot,
     canUndo: undoDepth > 0,

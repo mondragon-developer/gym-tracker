@@ -2,8 +2,11 @@
  * ImportPlanModal
  * The user pastes the GYMPLAN block the AI coach wrote, checks how each
  * line resolved against the library, decides per day whether to replace,
- * add or skip, and applies the result to the viewed week in one go. The
- * caller owns the week and the undo, this modal only hands back the plan.
+ * add or skip, and applies the result in one go. With a list of weeks the
+ * user also picks which week the plan lands on (the tracker offers this week
+ * and the next twelve); without one it targets the week passed in (the
+ * trainer's client editor). The caller owns the weeks and the undo, this
+ * modal only hands back the plan and the chosen week.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -13,8 +16,12 @@ import { ButtonVariant } from './ui/Button.constants.js';
 import { DAYS_OF_WEEK } from '../constants/AppConstants.js';
 import { parsePlanText, buildWeekFromImport, IMPORT_PRESETS, DAY_MODES } from '../utils/planImport.js';
 import { useUnits } from '../hooks/useUnits.js';
+import { formatWeekRange } from '../utils/dateHelper.js';
 import { t } from '../translations/ui';
 import { translateExercise, translateMuscleGroup } from '../translations/exercises';
+
+const REPLACE_HELP = 'Every day follows this plan. Days the plan does not list become Rest.';
+const MERGE_HELP = 'Only the days in the plan change; every other day keeps what it has. For each plan day choose Replace day (swap in these exercises), Add to day (keep yours and add these) or Skip (leave it as it is).';
 
 const PLACEHOLDER = 'GYMPLAN v1\nMonday: Chest & Triceps\n- Barbell Bench Press 4x6-8\n- Rope Pushdowns 3x12-15\nTuesday: Rest';
 
@@ -63,8 +70,40 @@ const specOf = (item) => {
     return '';
 };
 
-const ImportPlanModal = ({ isOpen, onClose, onApply, existingWeek = {}, language = 'en', initialText = '' }) => {
+// "This week (Sep 21 - 27)", "Next week (...)", then the date range alone.
+const weekOptionLabel = (weekStart, index, language) => {
+    const range = formatWeekRange(weekStart, language);
+    if (index === 0) return `${t('This week', language)} (${range})`;
+    if (index === 1) return `${t('Next week', language)} (${range})`;
+    return `${t('Week of', language)} ${range}`;
+};
+
+const describeExisting = (day, language) => {
+    if (!day) return null;
+    const count = day.exercises?.length ?? 0;
+    const name = translateMuscleGroup(day.name || 'Rest', language);
+    if (count === 0) return `${t('Now', language)}: ${name}`;
+    return `${t('Now', language)}: ${name}, ${count} ${t('exercises', language)}`;
+};
+
+const ImportPlanModal = ({
+    isOpen,
+    onClose,
+    onApply,
+    existingWeek = {},
+    weeks = null,
+    initialWeek = null,
+    planForWeek = null,
+    language = 'en',
+    initialText = ''
+}) => {
     const { unit } = useUnits();
+    const hasWeekChoice = Array.isArray(weeks) && weeks.length > 0 && typeof planForWeek === 'function';
+    const [targetWeek, setTargetWeek] = useState(() => (
+        hasWeekChoice ? (weeks.includes(initialWeek) ? initialWeek : weeks[0]) : null
+    ));
+    const targetPlan = hasWeekChoice ? (planForWeek(targetWeek) ?? {}) : existingWeek;
+    const targetIndex = hasWeekChoice ? weeks.indexOf(targetWeek) : 0;
     const [text, setText] = useState('');
     const [parsed, setParsed] = useState(null);
     const [error, setError] = useState(null);
@@ -128,9 +167,9 @@ const ImportPlanModal = ({ isOpen, onClose, onApply, existingWeek = {}, language
             setConfirming(true);
             return;
         }
-        const { plan } = buildWeekFromImport(parsed, existingWeek, { preset, perDay, choices, unit });
+        const { plan } = buildWeekFromImport(parsed, targetPlan, { preset, perDay, choices, unit });
         setConfirming(false);
-        onApply(plan);
+        onApply(plan, targetWeek);
     };
 
     // What the row will become after the user's dropdown choice, if any.
@@ -197,12 +236,16 @@ const ImportPlanModal = ({ isOpen, onClose, onApply, existingWeek = {}, language
         const mode = perDay[weekday] ?? DAY_MODES.REPLACE;
         const dimmed = mode === DAY_MODES.SKIP;
         const label = day.rest ? translateMuscleGroup('Rest', language) : translateMuscleGroup(day.groups.join(' & '), language);
+        // What this day has in the target week, so Replace and Add are
+        // chosen knowing what they touch.
+        const existingNote = describeExisting(targetPlan[weekday], language);
         return (
             <div key={weekday} style={{ border: '1px solid var(--border)', borderRadius: '12px', padding: '10px 12px', background: 'var(--surface-2)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', flexWrap: 'wrap', marginBottom: day.exercises.length > 0 ? '4px' : 0 }}>
                     <div style={{ minWidth: 0 }}>
                         <span style={{ fontWeight: 700, color: 'var(--text)', fontSize: '15px' }}>{t(weekday, language)}</span>
                         {label && <span style={{ marginLeft: '8px', fontSize: '13px', color: 'var(--text-3)' }}>{label}</span>}
+                        {existingNote && <div style={{ fontSize: '12px', color: 'var(--text-3)' }}>{existingNote}</div>}
                     </div>
                     <select
                         aria-label={`${t('Day mode', language)}: ${t(weekday, language)}`}
@@ -221,6 +264,18 @@ const ImportPlanModal = ({ isOpen, onClose, onApply, existingWeek = {}, language
     };
 
     const blocked = parsed ? parsed.errors.length > 0 : true;
+
+    // The current week keeps the familiar wording; another week names it.
+    const otherWeek = hasWeekChoice && targetIndex > 0;
+    const range = otherWeek ? formatWeekRange(targetWeek, language) : '';
+    let applyLabel;
+    if (!confirming) {
+        applyLabel = otherWeek ? `${t('Apply to week of', language)} ${range}` : t('Apply to this week', language);
+    } else if (preset === IMPORT_PRESETS.REPLACE) {
+        applyLabel = otherWeek ? `${t('Replace week of', language)} ${range}?` : t('Replace this week?', language);
+    } else {
+        applyLabel = otherWeek ? `${t('Apply to week of?', language)} ${range}?` : t('Apply to this week?', language);
+    }
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} title={t('Import plan', language)}>
@@ -271,6 +326,20 @@ const ImportPlanModal = ({ isOpen, onClose, onApply, existingWeek = {}, language
 
             {parsed && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    {hasWeekChoice && (
+                        <label style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '13px', fontWeight: 600, color: 'var(--text-2)' }}>
+                            {t('Set up the plan for', language)}
+                            <select
+                                value={targetWeek}
+                                onChange={(e) => { setTargetWeek(e.target.value); setConfirming(false); }}
+                                style={{ ...selectStyle, fontSize: '14px', padding: '8px 10px' }}
+                            >
+                                {weeks.map((weekStart, index) => (
+                                    <option key={weekStart} value={weekStart}>{weekOptionLabel(weekStart, index, language)}</option>
+                                ))}
+                            </select>
+                        </label>
+                    )}
                     <div style={{ display: 'flex', gap: '8px' }}>
                         <button type="button" style={segmentStyle(preset === IMPORT_PRESETS.REPLACE)} onClick={() => setPreset(IMPORT_PRESETS.REPLACE)} aria-pressed={preset === IMPORT_PRESETS.REPLACE}>
                             {t('Replace whole week', language)}
@@ -279,8 +348,8 @@ const ImportPlanModal = ({ isOpen, onClose, onApply, existingWeek = {}, language
                             {t('Merge into week', language)}
                         </button>
                     </div>
-                    <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-3)' }}>
-                        {preset === IMPORT_PRESETS.REPLACE ? t('Unlisted days become Rest', language) : t('Unlisted days stay as they are', language)}
+                    <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.45, color: 'var(--text-3)' }}>
+                        {preset === IMPORT_PRESETS.REPLACE ? t(REPLACE_HELP, language) : t(MERGE_HELP, language)}
                     </p>
 
                     {DAYS_OF_WEEK.filter(day => parsed.days[day]).map(renderDay)}
@@ -305,9 +374,7 @@ const ImportPlanModal = ({ isOpen, onClose, onApply, existingWeek = {}, language
                             onClick={handleApply}
                             disabled={blocked}
                         >
-                            {confirming
-                                ? (preset === IMPORT_PRESETS.REPLACE ? t('Replace this week?', language) : t('Apply to this week?', language))
-                                : t('Apply to this week', language)}
+                            {applyLabel}
                         </Button>
                         {confirming && (
                             <button

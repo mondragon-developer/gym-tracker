@@ -37,6 +37,12 @@ A: Cardio, Combat, and custom exercises don't have demo images — the app shows
 **Q: Can I search exercises in Spanish?**
 A: Yes. The search box matches both the English and the Spanish name, ignoring accents, so "sentadilla" and "squat" both find Barbell Squats. A few exercises have no Spanish name yet; ask me and I'll tell you the English one.
 
+**Q: Can I load a plan for next week instead of this one?**
+A: Yes. In the import preview, **Set up the plan for** lists this week, next week and every week up to 12 weeks ahead. Pick one before applying; the rest of your weeks stay as they are.
+
+**Q: What does Merge into week do?**
+A: Only the days in the plan change; every other day keeps what it has. For each plan day you choose: **Replace day** (the plan's exercises replace yours), **Add to day** (yours stay and the plan's are added) or **Skip** (that day is left alone). **Replace whole week** instead makes every day follow the plan and turns days the plan does not list into Rest.
+
 **Q: I deleted an exercise by mistake.**
 A: Tap **Undo** in the toast that appears at the bottom center of the screen right after deleting (it stays for a few seconds, and goes away if you make another edit first). The same Undo appears after Reset Day and Restart This Week. Missed the toast? The **Undo** button in the save bar at the bottom steps back one change at a time (a delete, a set, a weight, an import, a restart) for as long as the app stays open; typing in one day counts as one change.
 
