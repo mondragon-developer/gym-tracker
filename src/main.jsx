@@ -26,17 +26,22 @@ registerSW({
 // Every deploy renames the hashed chunks. A tab (or installed PWA) still
 // running the previous bundle then fails to lazy-load a modal because the
 // old chunk is gone from the server and from the service worker cache.
-// Reloading once picks up the current index.html and its chunks.
+// Reloading once picks up the current index.html and its chunks. The guard
+// is a timestamp, not a flag, so a tab that stays open across several
+// deploys can recover each time while a reload that did not help (chunk
+// still missing right after reloading) does not loop.
+const PRELOAD_RELOAD_WINDOW_MS = 60 * 1000;
 window.addEventListener('vite:preloadError', (event) => {
   const key = 'gymAppPreloadReload';
-  let alreadyTried = false;
+  let recentlyTried = false;
   try {
-    alreadyTried = sessionStorage.getItem(key) === '1';
-    sessionStorage.setItem(key, '1');
+    const last = Number(sessionStorage.getItem(key));
+    recentlyTried = last > 0 && Date.now() - last < PRELOAD_RELOAD_WINDOW_MS;
+    sessionStorage.setItem(key, String(Date.now()));
   } catch {
     // Storage unavailable: still worth one reload attempt.
   }
-  if (alreadyTried) return;
+  if (recentlyTried) return;
   event.preventDefault();
   window.location.reload();
 });
