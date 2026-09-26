@@ -126,7 +126,7 @@ color-blindness simulator.
 
 ## 3. Week-over-week progress
 
-**Status (2026-09-21): shipped** as the Progress tab in Weekly Summary (#31): weekly volume chart and table, per-exercise sparkline, best and last weight, change, CSV. Volume is done sets x lower reps x weight. Next steps if wanted: per-muscle-group volume, personal records, range picker.
+**Status (2026-09-21): shipped** as the Progress tab in Weekly Summary (#31): weekly volume chart and table, per-exercise sparkline, best and last weight, change, CSV. Volume is done sets x lower reps x weight. Next steps if wanted: per-muscle-group volume, personal records (see item 15), range picker.
 
 Volume and top weight per exercise across stored weeks, from data already in
 the history object. Chart per exercise and a weekly volume total; export
@@ -141,6 +141,8 @@ delete-account action that removes the auth user, the plan row, the profile
 row and trainer links. The last one also matters for store listings.
 
 ## 5. More templates
+
+**Status (2026-09-25): next up.**
 
 A 5-day split and a kettlebell week, once the library has enough kettlebell
 movements with demos (`npm run report:coverage` shows the pool).
@@ -169,3 +171,102 @@ Decided 2026-09-25: track first, enforce later.
 - Shipped: profiles.last_active_at, stamped by touch_last_active() when the app opens (at most every 12 h), backfilled from last sign-in and last plan save. The admin dashboard shows each account's last use and filters "Inactive 60+ days".
 - When paid tiers exist: free accounts get an email at 60 days and 83 days (Brevo, with a reminder to back up), and are deleted at 90 days unless the app is opened. Paid accounts are exempt; the clock starts at the downgrade. Run a daily job in report-only mode for a few weeks before it deletes anything, and put the rule in the terms and privacy policy first.
 - Open decisions: whether trainers with active clients are exempt; the tier model itself (free and paid for users and for trainers).
+
+## Future ideas (not agreed yet)
+
+Added 2026-09-25 as candidates for later sessions. None is started or
+committed to; the owner picks and orders them before any work. The aim is
+what makes the app different: bilingual EN/ES, a coach whose plans import in
+one tap, and trainers with several clients. Suggested order: 8, then 9; 10
+is the most distinctive but the biggest.
+
+## 8. "Machine taken" swap
+
+On the gym floor the planned machine is busy. One tap on the exercise offers
+two or three alternatives for the same muscle group with different
+equipment, and swaps it in place (sets, reps and weight carry over; Undo
+works as usual).
+
+Builds on: `src/data/exerciseEquipment.js` (id to equipment, already used by
+the Add Exercise filter), the library's muscle group per exercise, and the
+session Undo. No server work.
+
+Open: whether the swap is for this session only or changes the plan; how to
+rank alternatives when a family has many.
+
+## 9. Voice logging, in English and Spanish
+
+Say "3 sets of 10 at 60 kilos" or "tres series de diez con sesenta" and the
+set is logged on the open exercise. Uses the browser's speech recognition
+(`SpeechRecognition` / `webkitSpeechRecognition`) with the app language, so
+no server cost.
+
+Builds on: Log set, the steppers, `weightUnits.js` for kg/lbs, `textFold.js`
+for accent-free matching. Support varies by browser (Safari and Chrome yes,
+Firefox no), so the mic button only shows where the API exists.
+
+Open: confirm before saving or save with Undo; whether to also accept
+exercise names ("bench press, 3 by 10").
+
+## 10. Coach that reads your progress
+
+The coach sees the last few weeks from the Progress tab and suggests next
+week's weights and reps; the answer ends in a GYMPLAN block, so the Import
+bar applies it like any other plan.
+
+Builds on: the Progress tab data, `useCoachPlan`, the GYMPLAN v1 import.
+Needs a way to hand the data to Chatbase (the parked Chatbase Actions item,
+or a summary the user sends on purpose), plus a privacy line saying what is
+shared. Stays inside the no-medical-advice rule: load and volume only.
+
+Open: automatic versus user-sent summary; how many weeks to send.
+
+## 11. Gym-floor mode
+
+One exercise at a time, big buttons, the rest timer built in, and the screen
+kept awake (`navigator.wakeLock` where supported). Next and previous move
+through the day.
+
+Builds on: steppers, Log set, the background rest timer and its push
+notification. Mostly a new layout over existing pieces.
+
+Open: entry point (a button on the day, or automatic when the first set is
+logged); what happens to hidden days and skipped exercises.
+
+## 12. Readiness check-in
+
+Before a session, rate sleep and soreness from 1 to 5. On low days the app
+suggests trimming a set or keeping the weight, as a training suggestion
+only, never health advice. Trainers see their clients' trend in the admin
+dashboard.
+
+Needs a small table with RLS (user reads and writes own rows, trainers read
+their clients'), and EN/ES copy reviewed against the no-medical-advice rule.
+
+Open: skippable by default; whether the suggestion changes the plan or only
+shows a note.
+
+## 13. Trainer feedback on sets
+
+Trainers comment on a client's logged sets from the admin dashboard; the
+client sees the note on the exercise. Later, short form-check videos from
+the client for the trainer to review.
+
+Comments need a table with RLS and fit the free tier. Video needs Supabase
+storage, which costs money, so it waits for paid tiers (see item 7).
+
+## 14. Share by WhatsApp
+
+Share the week's plan or a personal-record card as an image, and send
+trainer invites through WhatsApp. Aimed at Spanish-speaking gyms, where
+WhatsApp is how people pass things around.
+
+Builds on: `navigator.share` with a generated image (canvas), falling back
+to a `wa.me` link with text. The invite flow already exists.
+
+## 15. Personal records and streaks
+
+Mark a new best weight or best volume on the exercise when it happens, and
+show a weeks-trained streak. Listed in item 3 as a next step for the
+Progress tab; expected rather than unique, but users notice when it is
+missing, and it feeds the share card in item 14.
