@@ -126,7 +126,7 @@ color-blindness simulator.
 
 ## 3. Week-over-week progress
 
-**Status (2026-09-21): shipped** as the Progress tab in Weekly Summary (#31): weekly volume chart and table, per-exercise sparkline, best and last weight, change, CSV. Volume is done sets x lower reps x weight. Next steps if wanted: per-muscle-group volume, personal records, range picker.
+**Status (2026-09-21): shipped** as the Progress tab in Weekly Summary (#31): weekly volume chart and table, per-exercise sparkline, best and last weight, change, CSV. Volume is done sets x lower reps x weight. Next steps if wanted: per-muscle-group volume, personal records (see item 15), range picker.
 
 Volume and top weight per exercise across stored weeks, from data already in
 the history object. Chart per exercise and a weekly volume total; export
@@ -141,6 +141,8 @@ delete-account action that removes the auth user, the plan row, the profile
 row and trainer links. The last one also matters for store listings.
 
 ## 5. More templates
+
+**Status (2026-09-25): next up.**
 
 A 5-day split and a kettlebell week, once the library has enough kettlebell
 movements with demos (`npm run report:coverage` shows the pool).
