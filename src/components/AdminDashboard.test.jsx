@@ -33,7 +33,7 @@ vi.mock('../services/AdminService', () => ({
 
 // The mocked module, used to set per-test behavior of sendInviteEmail.
 import { adminService } from '../services/AdminService';
-import { getWeekStart, addWeeks } from '../utils/dateHelper.js';
+import { getWeekStart, addWeeks, formatWeekRange } from '../utils/dateHelper.js';
 import { DAYS_OF_WEEK } from '../constants/AppConstants.js';
 
 // NOTE: fake timers are enabled only AFTER the async render settles - waitFor
@@ -179,6 +179,18 @@ describe('AdminDashboard import plan', () => {
     expect(await screen.findByText('Barbell Bench Press')).toBeInTheDocument();
     expect(screen.queryByLabelText('Paste the plan here')).toBeNull();
     expect(screen.getByText(/^client@example\.com · Week of /, { selector: 'strong' })).toBeInTheDocument();
+  });
+
+  it('says the plan is loading, then names the calendar week for a client with no plan', async () => {
+    let resolveRecord;
+    adminService.getWorkoutPlanRecord.mockReturnValueOnce(new Promise(resolve => { resolveRecord = resolve; }));
+    const coachPlan = { plan: 'GYMPLAN v1', dismiss: vi.fn() };
+    render(<UnitsProvider><AdminDashboard onBack={() => {}} coachPlan={coachPlan} /></UnitsProvider>);
+    fireEvent.click(await screen.findByText('client@example.com'));
+    expect(await screen.findByText(/^Loading plan for client@example\.com/, { selector: 'span' })).toBeInTheDocument();
+    await act(async () => { resolveRecord(null); });
+    expect(await screen.findByText(`client@example.com · Week of ${formatWeekRange(getWeekStart(), 'en')}`)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Import' })).toBeInTheDocument();
   });
 
   it('opens the client preview when a plan is pasted in the panel', async () => {

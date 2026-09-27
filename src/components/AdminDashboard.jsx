@@ -21,7 +21,7 @@ import { t } from '../translations/ui';
 import { adminService } from '../services/AdminService';
 import workoutService from '../services/workoutService.js';
 import WeekPlanService from '../services/WeekPlanService.js';
-import { formatWeekRange, formatDayDate } from '../utils/dateHelper.js';
+import { formatWeekRange, formatDayDate, getWeekStart } from '../utils/dateHelper.js';
 import Button from './ui/Button.jsx';
 import { ButtonVariant } from './ui/Button.constants.js';
 import { DAYS_OF_WEEK } from '../constants/AppConstants.js';
@@ -345,7 +345,8 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
   };
 
   let coachBlockedHint = null;
-  if (!selectedUser || planLoading) coachBlockedHint = t('Open a client to import this plan.', language);
+  if (!selectedUser) coachBlockedHint = t('Open a client to import this plan.', language);
+  else if (planLoading) coachBlockedHint = `${t('Loading plan for', language)} ${selectedUser.email}…`;
   else if (isPastWeek) coachBlockedHint = t('Past weeks are read only. Go to this week or a later one to import.', language);
   const canImport = coachBlockedHint === null;
 
@@ -366,8 +367,10 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
     return () => document.removeEventListener('paste', onPaste);
   }, [importOpen, canImport]);
 
+  // A client with no cloud plan has no viewed week yet; applyWeekPlan seeds
+  // the calendar week, so name that one.
   const coachTarget = selectedUser
-    ? (viewedWeek ? `${selectedUser.email} · ${t('Week of', language)} ${formatWeekRange(viewedWeek, language)}` : selectedUser.email)
+    ? `${selectedUser.email} · ${t('Week of', language)} ${formatWeekRange(viewedWeek ?? getWeekStart(), language)}`
     : null;
 
   // A client with no cloud plan yet gets a fresh history seeded with the
