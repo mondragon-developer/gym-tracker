@@ -4,7 +4,8 @@
  * line resolved against the library, decides per day whether to replace,
  * add or skip, and applies the result in one go. With a list of weeks the
  * user also picks which week the plan lands on (the tracker offers this week
- * and the next twelve); without one it targets the week passed in (the
+ * and the next twelve, starting on the week on screen and tucked behind a
+ * Change week link); without one it targets the week passed in (the
  * trainer's client editor). The caller owns the weeks and the undo, this
  * modal only hands back the plan and the chosen week.
  */
@@ -95,7 +96,8 @@ const ImportPlanModal = ({
     initialWeek = null,
     planForWeek = null,
     language = 'en',
-    initialText = ''
+    initialText = '',
+    targetLabel = null
 }) => {
     const { unit } = useUnits();
     const hasWeekChoice = Array.isArray(weeks) && weeks.length > 0 && typeof planForWeek === 'function';
@@ -112,6 +114,7 @@ const ImportPlanModal = ({
     const [choices, setChoices] = useState({});
     const [confirming, setConfirming] = useState(false);
     const [clipboardHint, setClipboardHint] = useState(null);
+    const [pickingWeek, setPickingWeek] = useState(false);
 
     useEffect(() => {
         if (isOpen) return;
@@ -121,6 +124,7 @@ const ImportPlanModal = ({
         setChoices({});
         setConfirming(false);
         setClipboardHint(null);
+        setPickingWeek(false);
     }, [isOpen]);
 
     const handlePreview = (source = text) => {
@@ -326,7 +330,27 @@ const ImportPlanModal = ({
 
             {parsed && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    {hasWeekChoice && (
+                    {!hasWeekChoice && targetLabel && (
+                        <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-2)', overflowWrap: 'anywhere' }}>
+                            {t('Set up the plan for', language)}: <strong style={{ color: 'var(--text)' }}>{targetLabel}</strong>
+                        </p>
+                    )}
+                    {hasWeekChoice && !pickingWeek && (
+                        <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap', fontSize: '13px', color: 'var(--text-2)' }}>
+                            <span>
+                                {t('Set up the plan for', language)}:{' '}
+                                <strong style={{ color: 'var(--text)' }}>{weekOptionLabel(targetWeek, targetIndex, language)}</strong>
+                            </span>
+                            <button
+                                type="button"
+                                onClick={() => setPickingWeek(true)}
+                                style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer', color: 'var(--brand)', fontSize: '13px', fontWeight: 600 }}
+                            >
+                                {t('Change week', language)}
+                            </button>
+                        </div>
+                    )}
+                    {hasWeekChoice && pickingWeek && (
                         <label style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '13px', fontWeight: 600, color: 'var(--text-2)' }}>
                             {t('Set up the plan for', language)}
                             <select

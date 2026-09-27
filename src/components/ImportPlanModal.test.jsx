@@ -128,11 +128,23 @@ describe('ImportPlanModal target week', () => {
     const thisWeek = { Monday: { name: 'Push', exercises: [{ id: 'a', name: 'Dips' }, { id: 'b', name: 'Flyes' }] } };
     const nextWeek = { Monday: { name: 'Rest', exercises: [] }, Friday: { name: 'Abs', exercises: [] } };
     const planForWeek = (week) => (week === '2026-09-21' ? thisWeek : nextWeek);
+    const pickWeek = () => {
+        fireEvent.click(screen.getByRole('button', { name: 'Change week' }));
+        return screen.getByLabelText('Set up the plan for');
+    };
+
+    it('names the viewed week and keeps the picker behind Change week', () => {
+        renderModal({ weeks: WEEKS, initialWeek: '2026-09-28', planForWeek });
+        pasteAndPreview(PLAN);
+        expect(screen.queryByLabelText('Set up the plan for')).toBeNull();
+        expect(screen.getByText(/^Next week \(/)).toBeInTheDocument();
+        expect(pickWeek().value).toBe('2026-09-28');
+    });
 
     it('lists this week, next week and later weeks, starting on the viewed week', () => {
         renderModal({ weeks: WEEKS, initialWeek: '2026-09-28', planForWeek });
         pasteAndPreview(PLAN);
-        const select = screen.getByLabelText('Set up the plan for');
+        const select = pickWeek();
         expect(Array.from(select.options).map(o => o.textContent)).toEqual([
             expect.stringMatching(/^This week \(/),
             expect.stringMatching(/^Next week \(/),
@@ -146,14 +158,14 @@ describe('ImportPlanModal target week', () => {
         renderModal({ weeks: WEEKS, planForWeek });
         pasteAndPreview(PLAN);
         expect(screen.getByText('Now: Push, 2 exercises')).toBeInTheDocument();
-        fireEvent.change(screen.getByLabelText('Set up the plan for'), { target: { value: '2026-09-28' } });
+        fireEvent.change(pickWeek(), { target: { value: '2026-09-28' } });
         expect(screen.getByText('Now: Rest')).toBeInTheDocument();
     });
 
     it('builds on the chosen week and hands it back with the plan', () => {
         const { onApply } = renderModal({ weeks: WEEKS, planForWeek });
         pasteAndPreview(PLAN);
-        fireEvent.change(screen.getByLabelText('Set up the plan for'), { target: { value: '2026-09-28' } });
+        fireEvent.change(pickWeek(), { target: { value: '2026-09-28' } });
         fireEvent.click(screen.getByRole('button', { name: 'Merge into week' }));
         fireEvent.click(screen.getByRole('button', { name: /^Apply to week of/ }));
         fireEvent.click(screen.getByRole('button', { name: /^Apply to week of .*\?$/ }));

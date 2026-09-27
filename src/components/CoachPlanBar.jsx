@@ -4,6 +4,8 @@
  * opens the plan preview already filled in, Copy is the fallback for
  * pasting elsewhere. It sits above the Chatbase widget, which covers the
  * whole screen on phones, so it stays reachable while the chat is open.
+ * In the trainer panel the bar names whose plan the import changes, and
+ * with no client open it explains why Import is missing instead.
  */
 
 import React, { useEffect, useState } from 'react';
@@ -25,7 +27,7 @@ const buttonStyle = (primary) => ({
     cursor: 'pointer'
 });
 
-const CoachPlanBar = ({ plan, onImport, onDismiss, language = 'en' }) => {
+const CoachPlanBar = ({ plan, onImport, onDismiss, target = null, blockedHint = null, language = 'en' }) => {
     const [copied, setCopied] = useState(false);
 
     useEffect(() => {
@@ -69,13 +71,22 @@ const CoachPlanBar = ({ plan, onImport, onDismiss, language = 'en' }) => {
                 maxWidth: 'calc(100vw - 32px)'
             }}
         >
-            <span role="status" aria-live="polite" style={{ fontSize: '14px', fontWeight: 600 }}>
-                {copied ? t('Plan copied.', language) : t('The coach wrote a plan.', language)}
-            </span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', minWidth: 0 }}>
+                <span role="status" aria-live="polite" style={{ fontSize: '14px', fontWeight: 600 }}>
+                    {copied ? t('Plan copied.', language) : t('The coach wrote a plan.', language)}
+                </span>
+                {(blockedHint || target) && (
+                    <span style={{ fontSize: '12px', opacity: 0.85, overflowWrap: 'anywhere' }}>
+                        {blockedHint || target}
+                    </span>
+                )}
+            </div>
             <div style={{ display: 'flex', gap: '8px', marginLeft: 'auto' }}>
-                <button type="button" onClick={() => onImport(plan)} style={buttonStyle(true)}>
-                    {t('Import', language)}
-                </button>
+                {!blockedHint && (
+                    <button type="button" onClick={() => onImport(plan)} style={buttonStyle(true)}>
+                        {t('Import', language)}
+                    </button>
+                )}
                 <button type="button" onClick={copy} style={buttonStyle(false)}>
                     {t('Copy', language)}
                 </button>
