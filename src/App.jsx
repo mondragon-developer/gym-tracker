@@ -311,7 +311,9 @@ function AppContent() {
     // A plan pasted anywhere outside a text field opens the importer on it,
     // so the phone flow is Copy in the chat, paste, confirm. Works from a
     // past week too: the preview offers the current week and later ones.
+    // The trainer panel listens for its own pastes and aims them at the client.
     useEffect(() => {
+        if (showAdmin) return undefined;
         const onPaste = (event) => {
             const target = event.target;
             const inField = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable);
@@ -324,7 +326,7 @@ function AppContent() {
         document.addEventListener('paste', onPaste);
         return () => document.removeEventListener('paste', onPaste);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [importModal.isOpen]);
+    }, [importModal.isOpen, showAdmin]);
 
     const coachPlan = useCoachPlan();
 
@@ -398,7 +400,7 @@ function AppContent() {
     if (showAdmin && (isAdmin || isTrainer)) {
         return (
             <Suspense fallback={lazyFallback}>
-                <AdminDashboard onBack={() => setShowAdmin(false)} />
+                <AdminDashboard onBack={() => setShowAdmin(false)} coachPlan={coachPlan} />
             </Suspense>
         );
     }

@@ -13,6 +13,7 @@
  */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { looksLikePlan } from '../utils/planImport.js';
 import { useAuth } from '../hooks/useAuth.js';
 import { useLanguage } from '../hooks/useLanguage.js';
 import useModal from '../hooks/useModal.js';
@@ -20,7 +21,7 @@ import { t } from '../translations/ui';
 import { adminService } from '../services/AdminService';
 import workoutService from '../services/workoutService.js';
 import WeekPlanService from '../services/WeekPlanService.js';
-import { formatWeekRange, formatDayDate } from '../utils/dateHelper.js';
+import { formatWeekRange, formatDayDate, getWeekStart } from '../utils/dateHelper.js';
 import Button from './ui/Button.jsx';
 import { ButtonVariant } from './ui/Button.constants.js';
 import { DAYS_OF_WEEK } from '../constants/AppConstants.js';
@@ -28,6 +29,8 @@ import DayAccordion from './DayAccordion.jsx';
 import HiddenDaysStrip from './HiddenDaysStrip.jsx';
 import WorkoutTemplateModal from './WorkoutTemplateModal.jsx';
 import ImportPlanModal from './ImportPlanModal.jsx';
+import CoachPlanBar from './CoachPlanBar.jsx';
+import { closeCoachChat } from '../hooks/useCoachPlan.js';
 import { activityLabel, isInactive } from '../utils/activity.js';
 import { getWorkoutTemplate } from '../constants/workoutTemplates.js';
 import AddExerciseModal from './AddExerciseModal.jsx';
@@ -83,7 +86,7 @@ function ConfirmButton({ label, confirmLabel, onConfirm, variant = ButtonVariant
 
 const ROLES = ['user', 'trainer', 'admin'];
 
-export default function AdminDashboard({ onBack }) {
+export default function AdminDashboard({ onBack, coachPlan = null }) {
   const { user: currentUser, isAdmin, isTrainer } = useAuth();
   const { language } = useLanguage();
 
@@ -326,6 +329,49 @@ export default function AdminDashboard({ onBack }) {
 
   const [templatesOpen, setTemplatesOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
+  // Plan text handed over by the coach bar; empty for the Import plan button.
+  const [importText, setImportText] = useState('');
+
+  const openImport = (text = '') => {
+    setImportText(text);
+    setImportOpen(true);
+  };
+
+  // The chat covers the screen on phones and would hide the preview.
+  const importCoachPlan = (text) => {
+    closeCoachChat();
+    coachPlan?.dismiss();
+    openImport(text);
+  };
+
+  let coachBlockedHint = null;
+  if (!selectedUser) coachBlockedHint = t('Open a client to import this plan.', language);
+  else if (planLoading) coachBlockedHint = `${t('Loading plan for', language)} ${selectedUser.email}…`;
+  else if (isPastWeek) coachBlockedHint = t('Past weeks are read only. Go to this week or a later one to import.', language);
+  const canImport = coachBlockedHint === null;
+
+  // Same paste shortcut as the tracker, aimed at the open client's week.
+  useEffect(() => {
+    if (importOpen || !canImport) return undefined;
+    const onPaste = (event) => {
+      const target = event.target;
+      const inField = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable);
+      if (inField) return;
+      const text = event.clipboardData ? event.clipboardData.getData('text/plain') : '';
+      if (!looksLikePlan(text)) return;
+      event.preventDefault();
+      setImportText(text);
+      setImportOpen(true);
+    };
+    document.addEventListener('paste', onPaste);
+    return () => document.removeEventListener('paste', onPaste);
+  }, [importOpen, canImport]);
+
+  // A client with no cloud plan has no viewed week yet; applyWeekPlan seeds
+  // the calendar week, so name that one.
+  const coachTarget = selectedUser
+    ? `${selectedUser.email} · ${t('Week of', language)} ${formatWeekRange(viewedWeek ?? getWeekStart(), language)}`
+    : null;
 
   // A client with no cloud plan yet gets a fresh history seeded with the
   // new week; otherwise the viewed week is replaced in place.
@@ -824,7 +870,7 @@ export default function AdminDashboard({ onBack }) {
                     )}
                     <Button
                       variant={ButtonVariant.SECONDARY}
-                      onClick={() => setImportOpen(true)}
+                      onClick={() => openImport()}
                       disabled={isPastWeek}
                       style={{ fontSize: '13px' }}
                     >
@@ -921,9 +967,20 @@ export default function AdminDashboard({ onBack }) {
           onClose={() => setImportOpen(false)}
           onApply={applyImportedPlan}
           existingWeek={plan ?? {}}
+          initialText={importText}
+          targetLabel={coachTarget}
           language={language}
         />
       )}
+
+      <CoachPlanBar
+        plan={importOpen ? null : (coachPlan?.plan ?? null)}
+        onImport={importCoachPlan}
+        onDismiss={() => coachPlan?.dismiss()}
+        target={coachTarget}
+        blockedHint={coachBlockedHint}
+        language={language}
+      />
 
       {/* Add Exercise Modal — shared with the tracker */}
       <AddExerciseModal

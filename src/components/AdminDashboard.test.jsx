@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import AdminDashboard from './AdminDashboard.jsx';
+import { UnitsProvider } from '../contexts/UnitsContext.jsx';
 
 // Logged in as a trainer with one profile row carrying an invite code, so the
 // "Your invite code" copy controls render.
@@ -32,7 +33,7 @@ vi.mock('../services/AdminService', () => ({
 
 // The mocked module, used to set per-test behavior of sendInviteEmail.
 import { adminService } from '../services/AdminService';
-import { getWeekStart, addWeeks } from '../utils/dateHelper.js';
+import { getWeekStart, addWeeks, formatWeekRange } from '../utils/dateHelper.js';
 import { DAYS_OF_WEEK } from '../constants/AppConstants.js';
 
 // NOTE: fake timers are enabled only AFTER the async render settles - waitFor
@@ -157,6 +158,53 @@ describe('AdminDashboard import plan', () => {
     expect(importButton).not.toBeDisabled();
     fireEvent.click(screen.getByLabelText('Previous week'));
     expect(screen.getByRole('button', { name: 'Import plan' })).toBeDisabled();
+  });
+
+  it('shows the coach plan bar and imports it into the open client', async () => {
+    const current = getWeekStart();
+    adminService.getWorkoutPlanRecord.mockResolvedValueOnce({
+      data: { version: 2, currentWeekStart: current, weeks: { [current]: restWeek() } },
+      updatedAt: 'v1',
+    });
+    const coachPlan = { plan: 'GYMPLAN v1\nMonday: Chest\n- Barbell Bench Press 4x8', dismiss: vi.fn() };
+    render(<UnitsProvider><AdminDashboard onBack={() => {}} coachPlan={coachPlan} /></UnitsProvider>);
+    expect(await screen.findByText('Open a client to import this plan.')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Import' })).toBeNull();
+
+    fireEvent.click(await screen.findByText('client@example.com'));
+    await screen.findByRole('button', { name: 'Import plan' });
+    expect(screen.getByText(/^client@example\.com · Week of /)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Import' }));
+    expect(coachPlan.dismiss).toHaveBeenCalled();
+    expect(await screen.findByText('Barbell Bench Press')).toBeInTheDocument();
+    expect(screen.queryByLabelText('Paste the plan here')).toBeNull();
+    expect(screen.getByText(/^client@example\.com · Week of /, { selector: 'strong' })).toBeInTheDocument();
+  });
+
+  it('says the plan is loading, then names the calendar week for a client with no plan', async () => {
+    let resolveRecord;
+    adminService.getWorkoutPlanRecord.mockReturnValueOnce(new Promise(resolve => { resolveRecord = resolve; }));
+    const coachPlan = { plan: 'GYMPLAN v1', dismiss: vi.fn() };
+    render(<UnitsProvider><AdminDashboard onBack={() => {}} coachPlan={coachPlan} /></UnitsProvider>);
+    fireEvent.click(await screen.findByText('client@example.com'));
+    expect(await screen.findByText(/^Loading plan for client@example\.com/, { selector: 'span' })).toBeInTheDocument();
+    await act(async () => { resolveRecord(null); });
+    expect(await screen.findByText(`client@example.com · Week of ${formatWeekRange(getWeekStart(), 'en')}`)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Import' })).toBeInTheDocument();
+  });
+
+  it('opens the client preview when a plan is pasted in the panel', async () => {
+    const current = getWeekStart();
+    adminService.getWorkoutPlanRecord.mockResolvedValueOnce({
+      data: { version: 2, currentWeekStart: current, weeks: { [current]: restWeek() } },
+      updatedAt: 'v1',
+    });
+    render(<UnitsProvider><AdminDashboard onBack={() => {}} /></UnitsProvider>);
+    fireEvent.click(await screen.findByText('client@example.com'));
+    await screen.findByRole('button', { name: 'Import plan' });
+    const clipboardData = { getData: () => 'GYMPLAN v1\nMonday: Chest\n- Barbell Bench Press 4x8' };
+    fireEvent.paste(document.body, { clipboardData });
+    expect(await screen.findByText('Barbell Bench Press')).toBeInTheDocument();
   });
 });
 

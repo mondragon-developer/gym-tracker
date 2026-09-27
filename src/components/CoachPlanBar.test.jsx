@@ -81,6 +81,15 @@ describe('CoachPlanBar', () => {
         }
     });
 
+    it('names the target, or explains why Import is missing', () => {
+        const { rerender } = render(<CoachPlanBar plan={PLAN} onImport={vi.fn()} onDismiss={vi.fn()} target="client@example.com" />);
+        expect(screen.getByText('client@example.com')).toBeInTheDocument();
+        rerender(<CoachPlanBar plan={PLAN} onImport={vi.fn()} onDismiss={vi.fn()} target="client@example.com" blockedHint="Open a client to import this plan." />);
+        expect(screen.getByText('Open a client to import this plan.')).toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Import' })).toBeNull();
+        expect(screen.getByRole('button', { name: 'Copy' })).toBeInTheDocument();
+    });
+
     it('renders in Spanish', () => {
         render(<CoachPlanBar plan={PLAN} onImport={vi.fn()} onDismiss={vi.fn()} language="es" />);
         expect(screen.getByText('El coach escribió un plan.')).toBeInTheDocument();

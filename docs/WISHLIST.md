@@ -172,6 +172,30 @@ Decided 2026-09-25: track first, enforce later.
 - When paid tiers exist: free accounts get an email at 60 days and 83 days (Brevo, with a reminder to back up), and are deleted at 90 days unless the app is opened. Paid accounts are exempt; the clock starts at the downgrade. Run a daily job in report-only mode for a few weeks before it deletes anything, and put the rule in the terms and privacy policy first.
 - Open decisions: whether trainers with active clients are exempt; the tier model itself (free and paid for users and for trainers).
 
+## Trainer and coach fixes (2026-09-27)
+
+Three problems found while a trainer used the AI coach inside a client, one
+branch each, off main.
+
+- **Coach bar in the trainer panel.** The panel replaced the whole tracker
+  view, so the bar that offers Import never showed there. The panel now draws
+  its own bar: it names the client and week, Import opens that client's
+  preview with the plan loaded, and with no client open (or on a past week) it
+  says why and offers only Copy. A plan pasted in the panel goes to the open
+  client too (it used to land in the trainer's own tracker). Same branch: the import preview no longer
+  opens on a week question; it names the week on screen and keeps the list
+  behind **Change week**. (fix/trainer-coach-import)
+- **Trainer panel on phones.** Next. Client list and editor become two
+  screens on narrow widths (pick a client, editor gets the full width, Back to
+  clients at the top) and the client header gets one tidy row of actions.
+  Desktop keeps the side-by-side layout.
+- **One-workout answers from the coach.** Next. Asked for a single workout,
+  the coach answers in prose because the format guide says to list all seven
+  days. The guide will allow a one-day block (the day the user named, or
+  `Today:` / `Hoy:`, which the parser will map to the current weekday), with
+  examples, a Q&A pair and a system prompt line. Needs a Chatbase re-upload of
+  05 and 08 (EN and ES) and a retrain.
+
 ## Future ideas (not agreed yet)
 
 Added 2026-09-25 as candidates for later sessions. None is started or

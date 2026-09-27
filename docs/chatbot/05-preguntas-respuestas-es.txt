@@ -38,7 +38,7 @@ R: Los ejercicios de Cardio, Combate y los personalizados no tienen imágenes �
 R: Sí. El buscador encuentra tanto el nombre en inglés como en español, sin importar acentos, así que "sentadilla" y "squat" encuentran Barbell Squats. Algunos ejercicios aún no tienen nombre en español; pregúntame y te digo el nombre en inglés.
 
 **P: ¿Puedo cargar un plan para la semana siguiente en vez de esta?**
-R: Sí. En la vista previa de importación, **Preparar el plan para** muestra esta semana, la siguiente y todas las semanas hasta 12 semanas adelante. Elige una antes de aplicar; el resto de tus semanas queda igual.
+R: Sí. La vista previa de importación empieza en la semana en pantalla; toca **Cambiar semana** junto a **Preparar el plan para** para elegir esta semana, la siguiente o cualquier semana hasta 12 semanas adelante antes de aplicar; el resto de tus semanas queda igual.
 
 **P: ¿Qué hace Combinar con la semana?**
 R: Solo cambian los días del plan; los demás días conservan lo que tienen. Para cada día del plan eliges: **Reemplazar día** (los ejercicios del plan reemplazan los tuyos), **Añadir al día** (los tuyos se quedan y se suman los del plan) u **Omitir** (ese día no se toca). **Reemplazar toda la semana**, en cambio, hace que todos los días sigan el plan y pasa a Descanso los días que el plan no incluye.
