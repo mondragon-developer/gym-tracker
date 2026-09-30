@@ -6,7 +6,7 @@
 - **Plan:** Hobby
 - **Model:** GPT-5, temperature 0 · Instructions = system prompt below
 - **Sources:** the 16 guide files in this folder uploaded as Files (no separate Q&A-pair entries yet — candidate follow-up: paste top pairs from the `05-` files into Sources → Q&A for verbatim answers)
-- **Allowed domains:** none (unrestricted) at the moment. Chatbase's validator rejected the old `gymworkoutjm.vercel.app` address as "invalid domain" (likely a `.vercel.app` public-suffix quirk), and a list saved as localhost-only made the embedded chat window 503 on production (white panel). Now that the app lives at `gym.mdragonsolutions.com`, the list can be set to that domain plus `gymworkoutjm.vercel.app` (still served) and `localhost`; until then the agent's rate limit is the abuse guard.
+- **Allowed domains:** none (unrestricted) at the moment. Chatbase's validator rejected the old `gymworkoutjm.vercel.app` address as "invalid domain" (likely a `.vercel.app` public-suffix quirk), and a list saved as localhost-only made the embedded chat window 503 on production (white panel). The app now lives at `gym.mdragonsolutions.com` and the old address 308-redirects there, so the list can be set to that domain plus `localhost`; until then the agent's rate limit is the abuse guard.
 - **Knowledge-base size:** ~370K characters across 16 files
 - **On content changes:** edit the doc here (plain .txt so Chatbase takes it as is), re-upload that file in Sources, and hit **Retrain agent**. This README stays `.md` for GitHub; `npm run build:plan-doc` also writes `README.txt`, the same text for upload — keep `06-roadmap-*` in sync with the main `README.md` roadmap
 
