@@ -12,7 +12,7 @@
 // Required secrets (supabase secrets set ...):
 //   BREVO_API_KEY   Brevo API v3 key (xkeysib-..., NOT the SMTP key)
 //   SENDER_EMAIL    a sender verified in Brevo (e.g. the Gym Tracker sender)
-//   APP_URL         https://gymworkoutjm.vercel.app
+//   APP_URL         https://gym.mdragonsolutions.com
 // Optional:
 //   SENDER_NAME     defaults to "Gym Tracker"
 //

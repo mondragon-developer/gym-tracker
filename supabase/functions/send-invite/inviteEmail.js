@@ -17,7 +17,7 @@ export const isValidEmail = (email) =>
 /**
  * The signup URL that auto-assigns the new account to the trainer whose
  * invite code it carries. Trailing slashes on the app URL are tolerated.
- * @param {string} appUrl - e.g. https://gymworkoutjm.vercel.app
+ * @param {string} appUrl - e.g. https://gym.mdragonsolutions.com
  * @param {string} code - The trainer's profiles.invite_code
  * @returns {string}
  */

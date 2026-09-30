@@ -2,7 +2,7 @@
 
 A modern, responsive React-based gym workout tracking application that helps you plan, track, and manage your weekly fitness routine with a complete Push/Pull/Leg split workout system. Sign in to sync your workouts across devices, or use it offline — it works either way.
 
-🔗 **Live app:** [gymworkoutjm.vercel.app](https://gymworkoutjm.vercel.app)
+🔗 **Live app:** [gym.mdragonsolutions.com](https://gym.mdragonsolutions.com)
 
 ## Screenshots
 
@@ -353,7 +353,7 @@ The application is fully responsive and includes:
    - GitHub Pages
    - Any static hosting service
 
-The production app is deployed on **Vercel** at [gymworkoutjm.vercel.app](https://gymworkoutjm.vercel.app). Remember that Vite bakes environment variables in at build time, so set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in your hosting provider's environment settings and redeploy after any change.
+The production app is deployed on **Vercel** at [gym.mdragonsolutions.com](https://gym.mdragonsolutions.com). Remember that Vite bakes environment variables in at build time, so set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in your hosting provider's environment settings and redeploy after any change.
 
 ### Environment Considerations
 

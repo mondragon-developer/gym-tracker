@@ -21,7 +21,7 @@ supabase functions deploy send-invite
 supabase secrets set \
   BREVO_API_KEY=xkeysib-... \
   SENDER_EMAIL=the-verified-brevo-sender@example.com \
-  APP_URL=https://gymworkoutjm.vercel.app
+  APP_URL=https://gym.mdragonsolutions.com
 ```
 
 - `BREVO_API_KEY` is an **API v3 key** from Brevo → SMTP & API → **API Keys**
