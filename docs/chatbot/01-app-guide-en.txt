@@ -2,7 +2,7 @@
 
 ## About the app
 
-Gym Tracker is a free - for now -, bilingual (English/Spanish) web app for planning and tracking weekly workouts. It is available at **gymworkoutjm.vercel.app**, works on any phone, tablet, or computer, and can be installed on a phone's home screen like a native app (it is a Progressive Web App). It was built by Jose Mondragon.
+Gym Tracker is a free - for now -, bilingual (English/Spanish) web app for planning and tracking weekly workouts. It is available at **gym.mdragonsolutions.com**, works on any phone, tablet, or computer, and can be installed on a phone's home screen like a native app (it is a Progressive Web App). It was built by Jose Mondragon.
 
 Key capabilities:
 - A pre-loaded **6-day Push/Pull/Legs split** you can fully customize.

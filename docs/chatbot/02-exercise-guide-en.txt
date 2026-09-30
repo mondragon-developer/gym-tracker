@@ -1,6 +1,6 @@
 # Gym Tracker — Exercise Guide (English)
 
-This guide covers all 181 exercises available in the Gym Tracker app (gymworkoutjm.vercel.app). Strength exercises log **Sets, Reps, and Weight (lbs)**. **Cardio** and **Combat** exercises are time-based and log **Duration in minutes (1–120)**. Most gym exercises (152 of 181) include a visual demo: tap the ▶ button on the exercise to open "How to do this exercise", which shows the full range of motion from start to finish. Cardio and Combat exercises have no demo images. To find any exercise, go to **"Add Exercise"** and use the search bar or the muscle-group filter.
+This guide covers all 181 exercises available in the Gym Tracker app (gym.mdragonsolutions.com). Strength exercises log **Sets, Reps, and Weight (lbs)**. **Cardio** and **Combat** exercises are time-based and log **Duration in minutes (1–120)**. Most gym exercises (152 of 181) include a visual demo: tap the ▶ button on the exercise to open "How to do this exercise", which shows the full range of motion from start to finish. Cardio and Combat exercises have no demo images. To find any exercise, go to **"Add Exercise"** and use the search bar or the muscle-group filter.
 
 **Safety disclaimer:** This guide gives general technique pointers only — it is NOT medical advice. Always use weights you can control through a full range of motion, warm up before training, and stop if you feel sharp pain. Consult a qualified professional (doctor or certified trainer) for pain, injuries, or any health condition.
 

@@ -6,7 +6,7 @@
 - **Plan:** Hobby
 - **Model:** GPT-5, temperature 0 · Instructions = system prompt below
 - **Sources:** the 16 guide files in this folder uploaded as Files (no separate Q&A-pair entries yet — candidate follow-up: paste top pairs from the `05-` files into Sources → Q&A for verbatim answers)
-- **Allowed domains:** none (unrestricted). Chatbase's validator rejects `gymworkoutjm.vercel.app` as "invalid domain" (likely a `.vercel.app` public-suffix quirk); with a restriction saved as localhost-only, the embedded chat window 503s on production (white panel). Leave the list empty unless the app moves to a custom domain; the agent's rate limit is the abuse guard.
+- **Allowed domains:** none (unrestricted) at the moment. Chatbase's validator rejected the old `gymworkoutjm.vercel.app` address as "invalid domain" (likely a `.vercel.app` public-suffix quirk), and a list saved as localhost-only made the embedded chat window 503 on production (white panel). The app now lives at `gym.mdragonsolutions.com` and the old address 308-redirects there, so the list can be set to that domain plus `localhost`; until then the agent's rate limit is the abuse guard.
 - **Knowledge-base size:** ~370K characters across 16 files
 - **On content changes:** edit the doc here (plain .txt so Chatbase takes it as is), re-upload that file in Sources, and hit **Retrain agent**. This README stays `.md` for GitHub; `npm run build:plan-doc` also writes `README.txt`, the same text for upload — keep `06-roadmap-*` in sync with the main `README.md` roadmap
 
@@ -35,7 +35,7 @@ Keep `EXERCISES.md` (repo root) as the source of truth for the exercise list —
 
 ## Suggested Chatbase system prompt
 
-> You are the friendly in-app assistant for **Gym Tracker** (gymworkoutjm.vercel.app), a bilingual workout tracking app. Answer ONLY from the provided documents. Always reply in the user's language (English or Spanish). Help users navigate the app, use its features, learn general exercise technique, common mistakes, and training tips from the exercise guide, and share general healthy-eating and wellness basics from the nutrition and health-tips guides.
+> You are the friendly in-app assistant for **Gym Tracker** (gym.mdragonsolutions.com), a bilingual workout tracking app. Answer ONLY from the provided documents. Always reply in the user's language (English or Spanish). Help users navigate the app, use its features, learn general exercise technique, common mistakes, and training tips from the exercise guide, and share general healthy-eating and wellness basics from the nutrition and health-tips guides.
 >
 > Strict rules:
 > - You are NOT a medical professional. Never diagnose pain or injuries, prescribe treatment or rehab, or advise on medical conditions, pregnancy, or medication. You may share general healthy-eating basics from the nutrition guide, but never personalized diet plans, calorie/macro prescriptions, or supplement recommendations. If the user mentions pain, injury, or a health condition, empathetically recommend stopping and consulting a doctor or certified professional.

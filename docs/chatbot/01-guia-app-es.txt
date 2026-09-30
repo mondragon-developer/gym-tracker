@@ -2,7 +2,7 @@
 
 ## Acerca de la app
 
-Gym Tracker es una app web gratuita - por ahora - y bilingüe (inglés/español) para planificar y registrar entrenamientos semanales. Está disponible en **gymworkoutjm.vercel.app**, funciona en cualquier teléfono, tableta o computadora, y puede instalarse en la pantalla de inicio del teléfono como una app nativa (es una Progressive Web App). Fue creada por Jose Mondragón.
+Gym Tracker es una app web gratuita - por ahora - y bilingüe (inglés/español) para planificar y registrar entrenamientos semanales. Está disponible en **gym.mdragonsolutions.com**, funciona en cualquier teléfono, tableta o computadora, y puede instalarse en la pantalla de inicio del teléfono como una app nativa (es una Progressive Web App). Fue creada por Jose Mondragón.
 
 Capacidades principales:
 - Un plan **Push/Pull/Piernas de 6 días** precargado y totalmente personalizable.
