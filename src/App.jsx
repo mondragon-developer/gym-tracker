@@ -20,6 +20,8 @@ import UnitsToggle from './components/UnitsToggle';
 import ThemeToggle from './components/ThemeToggle';
 import UserProfile from './components/UserProfile';
 import AuthWrapper from './components/AuthWrapper';
+import LegalGate from './components/LegalGate.jsx';
+import LazyFallback from './components/ui/LazyFallback.jsx';
 import Modal from './components/ui/Modal.jsx';
 import Button from './components/ui/Button.jsx';
 import { ButtonVariant } from './components/ui/Button.constants.js';
@@ -125,15 +127,7 @@ function AppContent() {
     
     // Shown while a code-split modal's chunk downloads, so a tap on a slow
     // connection is not mistaken for a dead button.
-    const lazyFallback = (
-        <div style={{
-            position: 'fixed', bottom: '24px', left: '50%', transform: 'translateX(-50%)',
-            padding: '8px 14px', borderRadius: '10px', backgroundColor: 'var(--brand)',
-            color: 'var(--on-brand)', fontSize: '13px', fontWeight: 600, zIndex: 1000
-        }}>
-            {t('Loading...', language)}
-        </div>
-    );
+    const lazyFallback = <LazyFallback language={language} />;
 
     const copyWeekModal = useModal();
     const templatesModal = useModal();
@@ -995,7 +989,7 @@ function AppContent() {
 /**
  * Main App Component with Providers
  * Wraps the AppContent with all necessary context providers
- * Order: LanguageProvider -> UnitsProvider -> ThemeProvider -> AuthProvider -> AuthWrapper -> AppContent
+ * Order: LanguageProvider -> UnitsProvider -> ThemeProvider -> AuthProvider -> AuthWrapper -> LegalGate -> AppContent
  */
 export default function App() {
     return (
@@ -1004,7 +998,9 @@ export default function App() {
                 <ThemeProvider>
                     <AuthProvider>
                         <AuthWrapper>
-                            <AppContent />
+                            <LegalGate>
+                                <AppContent />
+                            </LegalGate>
                         </AuthWrapper>
                     </AuthProvider>
                 </ThemeProvider>

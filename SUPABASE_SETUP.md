@@ -38,12 +38,13 @@ The SQL lives in this repo so it stays in sync with the code:
 - `supabase/multi-trainer.sql` — `trainer_clients` join table so a client can have several trainers, plus the `join_trainer(code)` function used by the profile menu and invite links (run AFTER trainer-invites.sql)
 - `supabase/rest-timer-push.sql` — `rest_timer_pushes` table behind the end-of-rest notification; RLS on with no client policies, only the Edge Function uses it
 - `supabase/account-activity.sql` — `profiles.last_active_at` and the `touch_last_active()` function the app calls when it opens (run AFTER admin.sql). The admin and trainer user lists read this column
+- `supabase/legal-acceptance.sql` — `legal_acceptances` table and the `accept_legal_terms()` function behind the consent screen (run AFTER admin.sql). Without it nobody can get past the consent screen, so run it before deploying the app version that has the screen
 
 Both scripts are idempotent — safe to re-run any time.
 
 1. In your Supabase dashboard, click **SQL Editor** in the sidebar
 2. Click **"New Query"**, paste the contents of `supabase/schema.sql`, and **Run**
-3. Repeat, in this order, with `supabase/admin.sql`, `supabase/trainers.sql`, `supabase/trainer-invites.sql`, `supabase/multi-trainer.sql`, `supabase/rest-timer-push.sql` and `supabase/account-activity.sql`. Every file is idempotent, so re-running one is safe
+3. Repeat, in this order, with `supabase/admin.sql`, `supabase/trainers.sql`, `supabase/trainer-invites.sql`, `supabase/multi-trainer.sql`, `supabase/rest-timer-push.sql`, `supabase/account-activity.sql` and `supabase/legal-acceptance.sql`. Every file is idempotent, so re-running one is safe
 4. After you have signed up in the app, promote yourself to admin (run once):
 
 ```sql

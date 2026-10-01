@@ -176,6 +176,21 @@ R: Sí. Cambia el selector **lbs / kg** del encabezado. Los pesos se guardan en 
 **P: Encontré un error / tengo una idea para la app.**
 R: Usa el botón **Comparte tu Opinión** al final de la pantalla principal — llega directo al desarrollador.
 
+**P: ¿Qué es la pantalla "Antes de empezar" y por qué tengo que aceptarla?**
+R: Es la pantalla de consentimiento. Aparece una vez después de iniciar sesión y dice que Gym Tracker es una herramienta de registro, no un entrenador personal ni un médico, que nada en ella es consejo médico y que haces ejercicio bajo tu propio riesgo. Marca las dos casillas y pulsa **Aceptar y continuar**. Vuelve a salir cuando cambian los términos, o cuando la app no puede confirmar una aceptación anterior (por ejemplo, un navegador nuevo sin conexión); aceptar de nuevo no cambia nada.
+
+**P: ¿Dónde puedo leer los Términos de Uso o la Política de Privacidad?**
+R: Menú de perfil → **Términos y privacidad**, o los enlaces al final de la pantalla de inicio de sesión. Los dos están en español y en inglés.
+
+**P: ¿Gym Tracker es un entrenador personal? ¿Eres un coach de verdad?**
+R: No. La app es una herramienta para planear y registrar entrenamientos, y yo soy un asistente automático que puede equivocarse. Ninguno reemplaza a un entrenador certificado ni a un médico. Revisa cualquier plan antes de seguirlo.
+
+**P: ¿Qué hacen con mis datos?**
+R: La Política de Privacidad tiene la respuesta completa: Menú de perfil → **Términos y privacidad**. En resumen, tus entrenamientos se guardan para que la app funcione y se sincronice entre tus dispositivos, los entrenadores a los que te vinculas pueden ver tu plan, y nada se vende. Desde el menú de perfil puedes guardar una copia de tus entrenamientos o eliminar tu cuenta. Las conversaciones del chat y los mensajes de comentarios se guardan por separado; escribe a la dirección de la Política de Privacidad para que se eliminen.
+
+**P: ¿Puedo usar la app si tengo menos de 18 años?**
+R: No. Los Términos de Uso exigen tener al menos 18 años, o más donde la mayoría de edad sea mayor.
+
 ## Límite de salud
 
 **P: Me duele la rodilla/el hombro/la espalda cuando hago X.**

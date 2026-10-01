@@ -20,6 +20,16 @@
         min-height: 70px !important;
       }
       
+      /* src/lib/chatbase.js loads the assistant only after the signed-in
+         account has accepted the terms. Once loaded it stays in the page,
+         so it is hidden again whenever LegalGate removes the attribute
+         from <html> (sign-out). */
+      html:not([data-legal-accepted]) #chatbase-bubble-button,
+      html:not([data-legal-accepted]) #chatbase-bubble-window,
+      html:not([data-legal-accepted]) #chatbase-message-bubbles {
+        display: none !important;
+      }
+
       /* Target the bubble icon specifically */
       #chatbase-bubble-button svg,
       .chatbase-bubble-button svg {
@@ -31,49 +41,5 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    
-    <!-- Chatbase AI Chatbot Integration -->
-    <!-- This script loads the Chatbase chatbot widget for user support and assistance -->
-    <!-- Chatbot ID: leN3dAU7gJn3-rufdfJO_ -->
-    <script>
-    (function(){
-      // Check if chatbase is already initialized to prevent double loading
-      if(!window.chatbase||window.chatbase("getState")!=="initialized"){
-        // Create chatbase function queue for commands before the script loads
-        window.chatbase=(...arguments)=>{
-          if(!window.chatbase.q){
-            window.chatbase.q=[]
-          }
-          window.chatbase.q.push(arguments)
-        };
-        
-        // Create a proxy to handle method calls before initialization
-        window.chatbase=new Proxy(window.chatbase,{
-          get(target,prop){
-            if(prop==="q"){
-              return target.q
-            }
-            return(...args)=>target(prop,...args)
-          }
-        })
-      }
-      
-      // Function to load the chatbase script
-      const onLoad=function(){
-        const script=document.createElement("script");
-        script.src="https://www.chatbase.co/embed.min.js";
-        script.id="leN3dAU7gJn3-rufdfJO_"; // Unique chatbot identifier
-        script.domain="www.chatbase.co";
-        document.body.appendChild(script)
-      };
-      
-      // Load the script after page is ready
-      if(document.readyState==="complete"){
-        onLoad()
-      }else{
-        window.addEventListener("load",onLoad)
-      }
-    })();
-    </script>
   </body>
 </html>

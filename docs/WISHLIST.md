@@ -37,7 +37,7 @@ adding.
   trainer panel for a client.
 
 **What exists to build on.**
-- The chatbot (Chatbase agent in `index.html`) already knows the library
+- The chatbot (Chatbase agent, loaded by `src/lib/chatbase.js`) already knows the library
   from `docs/chatbot/02-*`, but it cannot write into the app. This feature
   needs an in-app call instead.
 - The Add Exercise picker already filters by muscle group, equipment and

@@ -55,6 +55,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Confirmation Resend**: Resend the verification email from the post-signup screen or after an "email not confirmed" sign-in error
 - **Admin Dashboard**: Admins can list users, manage roles, assign or remove trainers per client, and view or edit any user's workout plan (access enforced server-side by Postgres Row Level Security)
 - **Trainer Tools**: Trainer accounts with shareable invite codes/links, plus one-tap **email invitations** sent from the app via a Supabase Edge Function
+- **Terms and Consent**: After sign-in, every account must accept the Terms of Use and Privacy Policy (English and Spanish) before the app opens or the AI assistant is loaded: not medical advice, not a professional trainer, train at your own risk. The acceptance is stored per account with its version and date; changing `LEGAL_VERSION` in `src/legal/version.js` asks everyone again. The documents stay readable from the sign-in screen and the profile menu
 - **Multiple Trainers per Client**: A client can be coached by several trainers at once (`trainer_clients` join table). Clients connect to another trainer by entering a code in the profile menu or opening an invite link while signed in. Every linked trainer can view and edit the plan; the last save wins
 
 ### Weekly History & Dates
@@ -121,7 +122,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 
 4. **Set up the database**
 
-   In the Supabase SQL editor, run these files in order: `supabase/schema.sql`, `supabase/admin.sql`, `supabase/trainers.sql`, `supabase/trainer-invites.sql`, `supabase/multi-trainer.sql`, `supabase/rest-timer-push.sql`, `supabase/account-activity.sql`. All are idempotent. Two Edge Functions back the rest-timer notification (`rest-timer-push`, needs the VAPID secrets) and self-service account deletion (`delete-account`); deploy steps are in their READMEs under `supabase/functions/`. See [`SUPABASE_SETUP.md`](SUPABASE_SETUP.md) for the full walkthrough, including how to promote your account to admin.
+   In the Supabase SQL editor, run these files in order: `supabase/schema.sql`, `supabase/admin.sql`, `supabase/trainers.sql`, `supabase/trainer-invites.sql`, `supabase/multi-trainer.sql`, `supabase/rest-timer-push.sql`, `supabase/account-activity.sql`, `supabase/legal-acceptance.sql`. All are idempotent. Two Edge Functions back the rest-timer notification (`rest-timer-push`, needs the VAPID secrets) and self-service account deletion (`delete-account`); deploy steps are in their READMEs under `supabase/functions/`. See [`SUPABASE_SETUP.md`](SUPABASE_SETUP.md) for the full walkthrough, including how to promote your account to admin.
 
 5. **Start the development server**
    ```bash
@@ -152,6 +153,7 @@ src/
 │   ├── GoogleSignInButton.jsx  # OAuth button + divider (hidden when a trainer code is in play)
 │   ├── InviteNoticeBanner.jsx  # One-time notice when a trainer invite was already used
 │   ├── LanguageToggle.jsx      # English/Spanish switch
+│   ├── LegalGate.jsx           # Consent screen until the current terms are accepted
 │   ├── ProgressBar.jsx         # Weekly progress visualization
 │   ├── RestTimer.jsx           # Between-sets countdown with presets and end cue
 │   ├── UnitsToggle.jsx         # kg/lbs header switch
@@ -174,6 +176,7 @@ src/
 ├── lib/
 │   └── supabase.js             # Shared Supabase client
 ├── translations/       # English/Spanish UI and exercise strings
+├── legal/              # Terms of Use and Privacy Policy texts (EN/ES) + their version
 ├── constants/          # 181 exercises, muscle groups, days
 ├── data/               # Generated enrichment indexes + media folder map
 ├── utils/              # dateHelper and other helpers
@@ -187,6 +190,7 @@ supabase/
 ├── admin.sql           # profiles, roles, is_admin(), admin policies
 ├── trainers.sql / trainer-invites.sql  # Trainer hierarchy + single-use invites
 ├── multi-trainer.sql   # Several trainers per client (trainer_clients join table, join_trainer RPC)
+├── legal-acceptance.sql  # Who accepted which version of the terms (accept_legal_terms RPC)
 └── functions/send-invite/  # Edge Function: email client invites (see its README)
 ```
 
@@ -198,7 +202,7 @@ npm run build     # Production build to dist/
 npm run preview   # Preview the production build locally
 npm run lint      # Run ESLint
 npm test          # Run the Vitest suite in watch mode
-npm run test:run  # Run the Vitest suite once (405 tests)
+npm run test:run  # Run the Vitest suite once (440 tests)
 ```
 
 ## Usage Guide
@@ -268,7 +272,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 - **Supabase**: Authentication and Postgres cloud database with Row Level Security
 - **@dnd-kit**: Accessible, touch-friendly drag-and-drop for exercise reordering
 - **vite-plugin-pwa**: Installable, offline-capable Progressive Web App
-- **Vitest + Testing Library**: 405-test suite across services, hooks, and components
+- **Vitest + Testing Library**: 440-test suite across services, hooks, and components
 - **Inline Styles**: Component-scoped styling for better maintainability
 - **Lucide React**: Beautiful, consistent icon library
 - **Modern JavaScript**: ES6+ features and best practices
