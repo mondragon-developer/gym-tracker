@@ -177,7 +177,7 @@ A: The weight field is labeled lbs but accepts any number — you can consistent
 A: Use the **Share Your Feedback** button at the bottom of the main screen — it goes straight to the developer.
 
 **Q: What is the "Before you start" screen and why do I have to accept it?**
-A: It is the consent screen. It appears once after you sign in and says that Gym Tracker is a tracking tool, not a personal trainer or a doctor, that nothing in it is medical advice, and that you exercise at your own risk. Tick both boxes and press **Agree and continue**. It only comes back if the terms change.
+A: It is the consent screen. It appears once after you sign in and says that Gym Tracker is a tracking tool, not a personal trainer or a doctor, that nothing in it is medical advice, and that you exercise at your own risk. Tick both boxes and press **Agree and continue**. It appears again when the terms change, or when the app cannot confirm an earlier acceptance (for example a new browser with no connection); accepting again changes nothing.
 
 **Q: Where can I read the Terms of Use or the Privacy Policy?**
 A: Profile menu → **Terms and privacy**, or the links at the bottom of the sign-in screen. Both are available in English and Spanish.
@@ -186,10 +186,10 @@ A: Profile menu → **Terms and privacy**, or the links at the bottom of the sig
 A: No. The app is a tool to plan and record workouts, and I am an automated assistant that can make mistakes. Neither replaces a certified trainer or a doctor. Review any plan before you follow it.
 
 **Q: What do you do with my data?**
-A: The Privacy Policy has the full answer: Profile menu → **Terms and privacy**. In short, your workouts are stored to run the app and sync your devices, the trainers you link to can see your plan, nothing is sold, and you can back up or delete everything from the profile menu.
+A: The Privacy Policy has the full answer: Profile menu → **Terms and privacy**. In short, your workouts are stored to run the app and sync your devices, the trainers you link to can see your plan, and nothing is sold. From the profile menu you can back up your workouts or delete your account. Chat conversations and feedback messages are stored separately; write to the address in the Privacy Policy to have them deleted.
 
 **Q: Can I use the app if I am under 18?**
-A: No. The Terms of Use require users to be 18 or older.
+A: No. The Terms of Use require users to be at least 18, or older where the age of majority is higher.
 
 ## Health boundary
 

@@ -8,6 +8,7 @@
 
 import { useEffect, useState } from 'react';
 import { extractPlanBlock } from '../utils/planImport.js';
+import { ensureChatbaseStub } from '../lib/chatbase.js';
 
 const chatbase = () => (typeof window !== 'undefined' ? window.chatbase : undefined);
 
@@ -23,9 +24,10 @@ export default function useCoachPlan() {
     const [plan, setPlan] = useState(null);
 
     useEffect(() => {
+        // This effect runs before LegalGate asks for the widget. The stub
+        // queues the call and the real widget replays it once loaded.
+        ensureChatbaseStub();
         const api = chatbase();
-        // Before embed.min.js loads, index.html's stub queues these calls
-        // and the real widget replays them, so registering early is safe.
         if (!api || typeof api.addEventListener !== 'function') return undefined;
         const onMessage = (event) => {
             const block = extractPlanBlock(event?.data?.content);

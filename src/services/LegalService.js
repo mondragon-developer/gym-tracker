@@ -2,7 +2,9 @@
  * Acceptance of the Terms of Use and Privacy Policy
  * (supabase/legal-acceptance.sql). The database row is the record; the
  * copy in localStorage only lets an account that already accepted open
- * the app without waiting for the network, or with none.
+ * the app without waiting for the network, or with none. It is dropped as
+ * soon as the database says there is no row, so editing it by hand does
+ * not get past the consent screen.
  */
 
 import { supabase } from '../lib/supabase.js';
@@ -27,6 +29,14 @@ const rememberAccepted = (userId, version) => {
     }
 };
 
+const forgetAccepted = (userId) => {
+    try {
+        localStorage.removeItem(ACCEPTED_KEY_PREFIX + userId);
+    } catch {
+        // Storage blocked: there is no local copy to drop.
+    }
+};
+
 /**
  * Whether this account has accepted the current version.
  * @returns {Promise<boolean|null>} null when the database could not be
@@ -43,6 +53,7 @@ export const fetchAccepted = async (userId, version = LEGAL_VERSION) => {
             .maybeSingle();
         if (error) return null;
         if (data) rememberAccepted(userId, version);
+        else forgetAccepted(userId);
         return Boolean(data);
     } catch {
         return null;

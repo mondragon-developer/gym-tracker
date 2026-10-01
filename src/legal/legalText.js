@@ -287,11 +287,11 @@ const privacy = {
             {
                 heading: '2. Information we handle',
                 paragraphs: [
-                    'Account: your email address, your name if you give one, and your password, which the sign-in provider stores encrypted and we never see. If you sign in with Google, we receive your name and email address from Google.',
+                    'Account: your email address, your name if you give one, and your password, which the sign-in provider stores only as a one-way hash that cannot be read back, so we never see it. If you sign in with Google, we receive your name and email address from Google.',
                     'Workouts: your weekly plans, exercises, sets, repetitions, weights, what you marked as done, notes, custom exercises and settings such as language, units and theme.',
                     'Trainers: which trainers you are linked to, invite codes, and the email address a trainer invitation is sent to.',
                     'Activity: when you last signed in and last opened the app, and the record of when you accepted these documents, in which version and language.',
-                    'Notifications: if you turn on the rest timer notification, the address your browser gives us to deliver it. It is deleted shortly after the notification is sent or cancelled.',
+                    'Notifications: if you turn on the rest timer notification, the address your browser gives us to deliver it. It is deleted when the notification is sent; if the timer is cancelled, it is removed in a later cleanup.',
                     'Feedback: the name, email address and message you write in the feedback form.',
                     'Assistant: what you type in the chat and the answers it gives. We can read these conversations to improve the assistant. They are not linked to your account by us, but they may identify you if you write personal details.',
                     'On your device: the app saves settings, timers and a copy of your plan in the browser storage. It does not use advertising cookies or tracking tools.'
@@ -326,7 +326,7 @@ const privacy = {
             {
                 heading: '7. How long we keep it',
                 paragraphs: [
-                    'We keep your information while your account exists. Deleting your account from the profile menu removes your sign-in, your workouts, your custom exercises, your settings, your trainer links and your acceptance record. Copies in provider backups can remain for a short time. Chat conversations and feedback messages are stored separately; write to us if you want them deleted.'
+                    'We keep your information while your account exists. Deleting your account from the profile menu removes from our servers your sign-in, your workouts, your custom exercises, your settings, your trainer links and your acceptance record. Settings and other data saved in your browser stay on that device until you clear the site data. Copies in provider backups can remain for a short time. Chat conversations and feedback messages are stored separately; write to us if you want them deleted.'
                 ]
             },
             {
@@ -377,11 +377,11 @@ const privacy = {
             {
                 heading: '2. Información que manejamos',
                 paragraphs: [
-                    'Cuenta: tu correo electrónico, tu nombre si lo das, y tu contraseña, que el proveedor de inicio de sesión guarda cifrada y nosotros nunca vemos. Si entras con Google, recibimos de Google tu nombre y tu correo.',
+                    'Cuenta: tu correo electrónico, tu nombre si lo das, y tu contraseña, que el proveedor de inicio de sesión guarda solo como un hash de un solo sentido que no se puede leer, así que nunca la vemos. Si entras con Google, recibimos de Google tu nombre y tu correo.',
                     'Entrenamientos: tus planes semanales, ejercicios, series, repeticiones, pesos, lo que marcaste como hecho, notas, ejercicios personalizados y ajustes como idioma, unidades y tema.',
                     'Entrenadores: a qué entrenadores estás vinculado, los códigos de invitación y el correo al que se envía una invitación de entrenador.',
                     'Actividad: cuándo iniciaste sesión y abriste la aplicación por última vez, y el registro de cuándo aceptaste estos documentos, en qué versión e idioma.',
-                    'Notificaciones: si activas la notificación del temporizador de descanso, la dirección que tu navegador nos da para entregarla. Se borra poco después de que la notificación se envía o se cancela.',
+                    'Notificaciones: si activas la notificación del temporizador de descanso, la dirección que tu navegador nos da para entregarla. Se borra cuando la notificación se envía; si el temporizador se cancela, se elimina en una limpieza posterior.',
                     'Comentarios: el nombre, el correo y el mensaje que escribes en el formulario de comentarios.',
                     'Asistente: lo que escribes en el chat y las respuestas que da. Podemos leer estas conversaciones para mejorar el asistente. Nosotros no las vinculamos a tu cuenta, pero pueden identificarte si escribes datos personales.',
                     'En tu dispositivo: la aplicación guarda ajustes, temporizadores y una copia de tu plan en el almacenamiento del navegador. No usa cookies de publicidad ni herramientas de rastreo.'
@@ -416,7 +416,7 @@ const privacy = {
             {
                 heading: '7. Cuánto tiempo la conservamos',
                 paragraphs: [
-                    'Conservamos tu información mientras exista tu cuenta. Eliminar tu cuenta desde el menú de perfil borra tu inicio de sesión, tus entrenamientos, tus ejercicios personalizados, tus ajustes, tus vínculos con entrenadores y tu registro de aceptación. Las copias en los respaldos de los proveedores pueden permanecer por poco tiempo. Las conversaciones del chat y los mensajes de comentarios se guardan por separado; escríbenos si quieres que se eliminen.'
+                    'Conservamos tu información mientras exista tu cuenta. Eliminar tu cuenta desde el menú de perfil borra de nuestros servidores tu inicio de sesión, tus entrenamientos, tus ejercicios personalizados, tus ajustes, tus vínculos con entrenadores y tu registro de aceptación. Los ajustes y otros datos guardados en tu navegador permanecen en ese dispositivo hasta que borres los datos del sitio. Las copias en los respaldos de los proveedores pueden permanecer por poco tiempo. Las conversaciones del chat y los mensajes de comentarios se guardan por separado; escríbenos si quieres que se eliminen.'
                 ]
             },
             {
@@ -470,9 +470,10 @@ export const consentSummary = {
             'Stop and get medical help if you feel chest pain, trouble breathing, dizziness or sharp pain.',
             'The AI assistant is an automated program and it can be wrong. Do not use it for pain, injuries or health questions.',
             'Trainers on the app are independent. We do not verify their qualifications.',
-            'You exercise at your own risk. You are responsible for the exercises, weights and technique you choose.'
+            'You exercise at your own risk. You are responsible for the exercises, weights and technique you choose.',
+            'The app is for adults: you must be at least 18, or older if the age of majority where you live is higher.'
         ],
-        agreeDocuments: 'I am 18 or older, and I have read and agree to the Terms of Use and the Privacy Policy, including how my data is handled.',
+        agreeDocuments: 'I am 18 or older and an adult under the law of the place where I live, and I have read and agree to the Terms of Use and the Privacy Policy, including how my data is handled.',
         agreeRisk: 'I understand that this app does not give medical or professional training advice and that I exercise at my own risk.'
     },
     es: {
@@ -484,9 +485,10 @@ export const consentSummary = {
             'Detente y busca atención médica si sientes dolor en el pecho, dificultad para respirar, mareo o dolor agudo.',
             'El asistente de IA es un programa automático y puede equivocarse. No lo uses para dolor, lesiones ni preguntas de salud.',
             'Los entrenadores de la aplicación son independientes. No verificamos sus títulos.',
-            'Haces ejercicio bajo tu propio riesgo. Eres responsable de los ejercicios, pesos y técnica que elijas.'
+            'Haces ejercicio bajo tu propio riesgo. Eres responsable de los ejercicios, pesos y técnica que elijas.',
+            'La aplicación es para adultos: debes tener al menos 18 años, o más si la mayoría de edad del lugar donde vives es mayor.'
         ],
-        agreeDocuments: 'Tengo 18 años o más, y he leído y acepto los Términos de Uso y la Política de Privacidad, incluido el manejo de mis datos.',
+        agreeDocuments: 'Tengo 18 años o más y soy mayor de edad según la ley del lugar donde vivo, y he leído y acepto los Términos de Uso y la Política de Privacidad, incluido el manejo de mis datos.',
         agreeRisk: 'Entiendo que esta aplicación no da consejo médico ni de entrenamiento profesional y que hago ejercicio bajo mi propio riesgo.'
     }
 };

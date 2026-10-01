@@ -11,7 +11,10 @@
 -- SECURITY: no insert, update or delete policy. Rows are written only by
 -- accept_legal_terms(), which stamps the caller's own id and the server
 -- clock, so a client can neither backdate an acceptance nor record one for
--- someone else. Rows go away with the account (on delete cascade).
+-- someone else. A version dated in the future is refused, so nobody can
+-- store an acceptance today for terms that will only be published later;
+-- LEGAL_VERSION is therefore always the date the text is published (UTC),
+-- never a later one. Rows go away with the account (on delete cascade).
 -- =============================================================================
 
 create table if not exists public.legal_acceptances (
@@ -38,7 +41,8 @@ volatile
 set search_path = public
 as $$
   insert into public.legal_acceptances (user_id, version, language)
-  values (auth.uid(), p_version, p_language)
+  select auth.uid(), p_version, p_language
+  where p_version::date <= (now() at time zone 'utc')::date
   on conflict (user_id, version) do nothing;
 
   select accepted_at

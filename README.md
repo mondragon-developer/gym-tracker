@@ -55,7 +55,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Confirmation Resend**: Resend the verification email from the post-signup screen or after an "email not confirmed" sign-in error
 - **Admin Dashboard**: Admins can list users, manage roles, assign or remove trainers per client, and view or edit any user's workout plan (access enforced server-side by Postgres Row Level Security)
 - **Trainer Tools**: Trainer accounts with shareable invite codes/links, plus one-tap **email invitations** sent from the app via a Supabase Edge Function
-- **Terms and Consent**: After sign-in, every account must accept the Terms of Use and Privacy Policy (English and Spanish) before the app or the AI assistant opens: not medical advice, not a professional trainer, train at your own risk. The acceptance is stored per account with its version and date; changing `LEGAL_VERSION` in `src/legal/version.js` asks everyone again. The documents stay readable from the sign-in screen and the profile menu
+- **Terms and Consent**: After sign-in, every account must accept the Terms of Use and Privacy Policy (English and Spanish) before the app opens or the AI assistant is loaded: not medical advice, not a professional trainer, train at your own risk. The acceptance is stored per account with its version and date; changing `LEGAL_VERSION` in `src/legal/version.js` asks everyone again. The documents stay readable from the sign-in screen and the profile menu
 - **Multiple Trainers per Client**: A client can be coached by several trainers at once (`trainer_clients` join table). Clients connect to another trainer by entering a code in the profile menu or opening an invite link while signed in. Every linked trainer can view and edit the plan; the last save wins
 
 ### Weekly History & Dates
@@ -202,7 +202,7 @@ npm run build     # Production build to dist/
 npm run preview   # Preview the production build locally
 npm run lint      # Run ESLint
 npm test          # Run the Vitest suite in watch mode
-npm run test:run  # Run the Vitest suite once (432 tests)
+npm run test:run  # Run the Vitest suite once (440 tests)
 ```
 
 ## Usage Guide
@@ -272,7 +272,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 - **Supabase**: Authentication and Postgres cloud database with Row Level Security
 - **@dnd-kit**: Accessible, touch-friendly drag-and-drop for exercise reordering
 - **vite-plugin-pwa**: Installable, offline-capable Progressive Web App
-- **Vitest + Testing Library**: 432-test suite across services, hooks, and components
+- **Vitest + Testing Library**: 440-test suite across services, hooks, and components
 - **Inline Styles**: Component-scoped styling for better maintainability
 - **Lucide React**: Beautiful, consistent icon library
 - **Modern JavaScript**: ES6+ features and best practices

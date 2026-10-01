@@ -39,6 +39,16 @@ describe('fetchAccepted', () => {
         await expect(fetchAccepted('u1')).resolves.toBeNull();
         expect(hasAcceptedLocally('u1')).toBe(false);
     });
+
+    it('drops a local copy the database does not back, but keeps it through an outage', async () => {
+        localStorage.setItem('gymAppLegalAccepted:u1', LEGAL_VERSION);
+        api.maybeSingle.mockResolvedValueOnce({ data: null, error: new Error('down') });
+        await fetchAccepted('u1');
+        expect(hasAcceptedLocally('u1')).toBe(true);
+        api.maybeSingle.mockResolvedValueOnce({ data: null, error: null });
+        await expect(fetchAccepted('u1')).resolves.toBe(false);
+        expect(hasAcceptedLocally('u1')).toBe(false);
+    });
 });
 
 describe('recordAcceptance', () => {
