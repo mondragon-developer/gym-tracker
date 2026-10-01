@@ -20,6 +20,14 @@
         min-height: 70px !important;
       }
       
+      /* The assistant stays hidden until the signed-in account has accepted
+         the terms; LegalGate sets the attribute on <html>. */
+      html:not([data-legal-accepted]) #chatbase-bubble-button,
+      html:not([data-legal-accepted]) #chatbase-bubble-window,
+      html:not([data-legal-accepted]) #chatbase-message-bubbles {
+        display: none !important;
+      }
+
       /* Target the bubble icon specifically */
       #chatbase-bubble-button svg,
       .chatbase-bubble-button svg {

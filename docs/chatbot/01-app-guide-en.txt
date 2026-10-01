@@ -138,6 +138,10 @@ Everything works without signing in: the plan saves automatically to the device'
 - **Sign in with Google** (Continue with Google) is a one-tap alternative with no password; first use creates the account. A trainer code can also be added later: open your profile menu, type the code under "Trainer code" and press Connect, or open the trainer's invite link while signed in. You can be connected to several trainers at the same time.
 - **Sign Out** is in the profile menu in the header.
 
+### Terms and consent screen
+Right after signing in, the app shows a **Before you start** screen and does not open until it is accepted. It says that Gym Tracker is a tool to plan and record workouts, not a personal trainer or a doctor, that nothing in it is medical advice, that a doctor should be consulted before starting and above all with an injury or health condition, that the AI assistant can be wrong, that trainers are independent, and that each person exercises at their own risk. Tick both boxes and press **Agree and continue**; **Sign Out** leaves without accepting. The app is for people 18 or older. The screen appears once per account and again only when the terms change. The assistant bubble appears after accepting.
+The full **Terms of Use** and **Privacy Policy** can be read at any time: links at the bottom of the sign-in and sign-up screens, and Profile menu → **Terms and privacy**. The chatbot never interprets the terms or gives legal advice; it points to those documents.
+
 ### Forgot password
 1. On the sign-in screen tap **"Forgot password?"**.
 2. Enter your email and tap **Send Reset Link**.

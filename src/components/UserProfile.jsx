@@ -4,13 +4,16 @@
  * the sign out button in the header
  */
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useAuth } from '../hooks/useAuth.js';
 import { useLanguage } from '../hooks/useLanguage.js';
 import { t } from '../translations/ui';
 import Button from './ui/Button';
 import { ButtonVariant } from './ui/Button.constants.js';
 import { headerControlStyle, headerControlHover, headerControlRest } from './ui/headerControlStyle.js';
+import LazyFallback from './ui/LazyFallback.jsx';
+
+const LegalModal = React.lazy(() => import('./LegalModal.jsx'));
 
 const menuItemStyle = {
   display: 'block',
@@ -33,6 +36,7 @@ export default function UserProfile({ onBackup, onRestore, onDeleteAccount }) {
   // Clients can link themselves to another trainer at any time.
   const [trainerCode, setTrainerCode] = useState('');
   const [joinState, setJoinState] = useState('idle'); // idle | joining | joined | invalid
+  const [legalOpen, setLegalOpen] = useState(false);
 
   const handleJoinTrainer = async (e) => {
     e.preventDefault();
@@ -211,6 +215,12 @@ export default function UserProfile({ onBackup, onRestore, onDeleteAccount }) {
               </div>
             )}
 
+            <div style={{ padding: '4px 0', borderBottom: '1px solid var(--border)' }}>
+              <button type="button" style={menuItemStyle} onClick={() => { setIsOpen(false); setLegalOpen(true); }}>
+                {t('Terms and privacy', language)}
+              </button>
+            </div>
+
             {/* Admins are demoted first so the last admin cannot vanish. */}
             {onDeleteAccount && !isAdmin && (
               <div style={{ padding: '4px 0', borderBottom: '1px solid var(--border)' }}>
@@ -238,6 +248,12 @@ export default function UserProfile({ onBackup, onRestore, onDeleteAccount }) {
             </div>
           </div>
         </>
+      )}
+
+      {legalOpen && (
+        <Suspense fallback={<LazyFallback language={language} />}>
+          <LegalModal isOpen onClose={() => setLegalOpen(false)} language={language} />
+        </Suspense>
       )}
     </div>
   );

@@ -433,7 +433,15 @@ export const uiTranslations = {
         "How to perform": "How to perform",
         "Equipment": "Equipment",
         "Target": "Target",
-        "Exercise data from the open exercises-dataset (MIT)": "Exercise data from the open exercises-dataset (MIT)"
+        "Exercise data from the open exercises-dataset (MIT)": "Exercise data from the open exercises-dataset (MIT)",
+
+        // Terms and privacy
+        "Terms of Use": "Terms of Use",
+        "Privacy Policy": "Privacy Policy",
+        "Terms and privacy": "Terms and privacy",
+        "Read the full documents:": "Read the full documents:",
+        "Agree and continue": "Agree and continue",
+        "Could not record your acceptance. Check your connection and try again.": "Could not record your acceptance. Check your connection and try again."
     },
     es: {
         // Header
@@ -865,7 +873,15 @@ export const uiTranslations = {
         "How to perform": "Cómo realizarlo",
         "Equipment": "Equipo",
         "Target": "Músculo objetivo",
-        "Exercise data from the open exercises-dataset (MIT)": "Datos de ejercicios del dataset abierto exercises-dataset (MIT)"
+        "Exercise data from the open exercises-dataset (MIT)": "Datos de ejercicios del dataset abierto exercises-dataset (MIT)",
+
+        // Terms and privacy
+        "Terms of Use": "Términos de Uso",
+        "Privacy Policy": "Política de Privacidad",
+        "Terms and privacy": "Términos y privacidad",
+        "Read the full documents:": "Lee los documentos completos:",
+        "Agree and continue": "Aceptar y continuar",
+        "Could not record your acceptance. Check your connection and try again.": "No se pudo registrar tu aceptación. Revisa tu conexión e inténtalo de nuevo."
     }
 };
 

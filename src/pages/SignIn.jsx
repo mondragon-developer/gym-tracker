@@ -9,6 +9,7 @@ import { useLanguage } from '../hooks/useLanguage.js';
 import { t } from '../translations/ui';
 import { friendlyAuthError, isEmailNotConfirmed } from '../utils/authErrors.js';
 import GoogleSignInButton from '../components/GoogleSignInButton';
+import LegalLinks from '../components/LegalLinks.jsx';
 import Button from '../components/ui/Button';
 import { ButtonVariant } from '../components/ui/Button.constants.js';
 import Input from '../components/ui/Input';
@@ -261,6 +262,9 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
             </div>
           </div>
         </form>
+        <div style={{ padding: '0 32px 24px', textAlign: 'center', fontSize: '13px' }}>
+          <LegalLinks language={language} />
+        </div>
       </div>
     </div>
   );

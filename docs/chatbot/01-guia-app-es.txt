@@ -138,6 +138,10 @@ Todo funciona sin iniciar sesión: el plan se guarda automáticamente en el alma
 - **Iniciar sesión con Google** (Continuar con Google) es la alternativa de un toque, sin contraseña; el primer uso crea la cuenta. Un código de entrenador también se puede agregar después: abre el menú de tu perfil, escribe el código en "Código de entrenador" y pulsa Conectar, o abre el enlace de invitación del entrenador con la sesión iniciada. Puedes estar conectado con varios entrenadores a la vez.
 - **Cerrar Sesión** está en el menú de perfil del encabezado.
 
+### Términos y pantalla de consentimiento
+Justo después de iniciar sesión, la app muestra la pantalla **Antes de empezar** y no abre hasta que se acepta. Dice que Gym Tracker es una herramienta para planear y registrar entrenamientos, no un entrenador personal ni un médico, que nada en ella es consejo médico, que hay que consultar a un médico antes de empezar y sobre todo si hay una lesión o condición de salud, que el asistente de IA puede equivocarse, que los entrenadores son independientes y que cada persona hace ejercicio bajo su propio riesgo. Marca las dos casillas y pulsa **Aceptar y continuar**; **Cerrar Sesión** sale sin aceptar. La app es para mayores de 18 años. La pantalla aparece una vez por cuenta y solo vuelve a salir cuando cambian los términos. La burbuja del asistente aparece después de aceptar.
+Los **Términos de Uso** y la **Política de Privacidad** completos se pueden leer en cualquier momento: enlaces al final de las pantallas de inicio de sesión y de registro, y Menú de perfil → **Términos y privacidad**. El chatbot nunca interpreta los términos ni da asesoría legal; remite a esos documentos.
+
 ### Olvidé mi contraseña
 1. En la pantalla de inicio de sesión toca **"¿Olvidaste tu contraseña?"**.
 2. Escribe tu correo y toca **Enviar Enlace**.

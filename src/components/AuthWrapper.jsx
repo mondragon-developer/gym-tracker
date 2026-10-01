@@ -11,6 +11,7 @@ import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import ForgotPassword from '../pages/ForgotPassword';
 import UpdatePassword from '../pages/UpdatePassword';
+import PageLoading from './ui/PageLoading.jsx';
 
 // Invite links land visitors directly on the sign-up form:
 //   ?trainer=CODE         — client invite, pre-fills the trainer's code
@@ -31,32 +32,7 @@ export default function AuthWrapper({ children }) {
 
   // Show loading state while checking authentication
   if (loading) {
-    return (
-      <div style={{
-        minHeight: '100vh',
-        backgroundColor: 'var(--surface-2)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '16px'
-        }}>
-          <div style={{
-            width: '48px',
-            height: '48px',
-            border: '4px solid var(--border)',
-            borderTopColor: 'var(--brand)',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite'
-          }} />
-          <p style={{ color: 'var(--text-3)', fontSize: '16px' }}>Loading...</p>
-        </div>
-      </div>
-    );
+    return <PageLoading />;
   }
 
   // A reset-email link signs the user in with a recovery session; force them
