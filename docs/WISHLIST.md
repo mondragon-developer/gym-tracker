@@ -196,6 +196,35 @@ branch each, off main.
   examples, a Q&A pair and a system prompt line. Needs a Chatbase re-upload of
   05 and 08 (EN and ES) and a retrain.
 
+## Terms and consent (2026-10-01)
+
+**Status (2026-10-01): shipped** (#49).
+
+The app had no terms, no privacy policy and no record that anyone agreed to
+train at their own risk. Now a signed-in account sees a consent screen before
+the app opens: not a trainer, not a doctor, not medical advice, the AI
+assistant can be wrong, trainers are independent, adults only. Two boxes,
+Agree and continue, or Sign Out. The acceptance is stored per account with
+the version, language and server time (`supabase/legal-acceptance.sql`), and
+the Chatbase widget is downloaded only after it. Terms of Use and Privacy
+Policy are in `src/legal/legalText.js` (English and Spanish), readable from
+the sign-in screens and Profile menu → Terms and privacy.
+
+Still open:
+- **Lawyer review** of both texts, for Florida and for Colombia (Ley 1581
+  on personal data, Ley 1480 on consumer protection). They are a draft.
+- **Company name.** The operator is named as Jose Mondragon until the
+  company is registered. Then change `OPERATOR.name` and set `LEGAL_VERSION`
+  (`src/legal/version.js`) to that day's date, which asks every account to
+  accept again. Never a future date: the database refuses it.
+- **Chatbase.** Re-upload 01, 05 and 06 (EN and ES), retrain, and add a
+  not-medical-advice line to the welcome message in the Chatbase dashboard.
+- **Acceptance records after deletion.** They are deleted with the account,
+  to match what the deletion screen promises. Keeping them as evidence is a
+  question for the lawyer.
+- Any new rule that affects users (item 7, paid tiers) goes into the texts
+  with a new version before it is enforced.
+
 ## Future ideas (not agreed yet)
 
 Added 2026-09-25 as candidates for later sessions. None is started or

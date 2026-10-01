@@ -412,6 +412,7 @@ This project is open source and available under the [MIT License](LICENSE).
 - [x] **Coach plan bar**: When the AI coach writes a plan, a bar at the top offers Import, with the target week chosen in the preview (up to 12 weeks ahead)
 - [x] **Session Undo**: The save bar steps back any change, one at a time, for as long as the app is open
 - [x] **Backup, restore and account deletion**: Profile menu; the admin dashboard also shows each account's last use
+- [x] **Terms and consent**: Consent screen after sign-in, Terms of Use and Privacy Policy in English and Spanish, acceptance stored per account and version; the AI assistant loads only after acceptance
 
 ### Planned Features
 - [ ] **More analytics**: Per-muscle-group volume, personal records, longer ranges on top of the Progress tab

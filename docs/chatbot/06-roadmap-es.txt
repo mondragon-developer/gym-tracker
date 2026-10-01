@@ -47,6 +47,7 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 - **Eliminar mi cuenta** en el menú de perfil: borra la cuenta y todos sus datos para siempre, después de ofrecer una copia
 - **Pestaña Progreso** en Resumen Semanal: volumen por semana en gráfica con tabla, y por ejercicio la tendencia del volumen, mejor peso, último peso y cambio, con exportación a CSV
 - **Tarjetas de día compactas** en el teléfono para que varios ejercicios quepan en una pantalla
+- **Términos y consentimiento**: después de iniciar sesión hay que aceptar una vez la pantalla **Antes de empezar** (la app es una herramienta de registro, no un entrenador ni un médico, nada en ella es consejo médico, solo para adultos). Los **Términos de Uso** y la **Política de Privacidad** están en español y en inglés, al final de la pantalla de inicio de sesión y en Menú de perfil → Términos y privacidad. Este asistente está disponible solo después de aceptar, así que no aparece en la pantalla de inicio de sesión
 
 ## Planeado (en la hoja de ruta, sin fechas prometidas)
 
