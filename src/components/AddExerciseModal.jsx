@@ -9,13 +9,17 @@ import { getExerciseEquipment, listEquipment, hasExerciseEnrichment } from '../s
 import { hasExerciseMedia } from '../services/ExerciseMediaService.js';
 import ExerciseDemoModal from './ExerciseDemoModal.jsx';
 import { fold } from '../utils/textFold.js';
+import { FUNCTIONAL_IDS } from '../data/functionalExercises.js';
+
+const functionalIds = new Set([...FUNCTIONAL_IDS, 9, 99, 102, 132, 134, 143, 148, 149, 161, 170, 173, 174, 175, 177, 178, 180, 188, 195, 198, 199, 206, 207, 208, 209, 210]);
 
 // A library exercise matches when the term appears in its English name or
 // its Spanish name, whatever language the UI is in.
 const matchesTerm = (exercise, term) => {
     if (!term) return true;
     return fold(exercise.name).includes(term)
-        || fold(translateExercise(exercise.name, 'es')).includes(term);
+        || fold(translateExercise(exercise.name, 'es')).includes(term)
+        || (functionalIds.has(exercise.id) && ['crossfit', 'functional fitness', 'entrenamiento funcional'].some(alias => alias.includes(term)));
 };
 
 // Wraps the accent-insensitive match inside the displayed name. Folding
@@ -325,6 +329,13 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                 ) : (
                     // Exercise Library
                     <div>
+                        <button type="button" onClick={() => {
+                            setSearchTerm('crossfit');
+                            setSelectedMuscleGroup('All');
+                            setSelectedEquipment('All');
+                        }} style={{ marginBottom: 12, padding: '8px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--surface-3)', color: 'var(--text)', cursor: 'pointer' }}>
+                            {language === 'es' ? 'Explorar entrenamiento funcional' : 'Browse functional fitness'}
+                        </button>
                         {/* Search Input */}
                         <div style={{ marginBottom: '12px' }}>
                             <input

@@ -7,6 +7,8 @@
  */
 
 export const equipmentTranslations = {
+    "other": "otro equipo",
+    "rings": "anillas",
     "band": "banda",
     "barbell": "barra",
     "body weight": "peso corporal",
@@ -22,6 +24,11 @@ export const equipmentTranslations = {
 };
 
 export const targetTranslations = {
+    "abdominals": "abdominales",
+    "quadriceps": "cuádriceps",
+    "shoulders": "hombros",
+    "middle back": "espalda media",
+    "lower back": "espalda baja",
     "abs": "abdominales",
     "biceps": "bíceps",
     "calves": "pantorrillas",

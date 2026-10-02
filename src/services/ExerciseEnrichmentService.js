@@ -13,14 +13,25 @@
 
 import { ENRICHED_IDS } from '../data/exerciseEnrichmentIndex.js';
 import { EXERCISE_EQUIPMENT } from '../data/exerciseEquipment.js';
+import { FUNCTIONAL_IDS, FUNCTIONAL_EQUIPMENT } from '../data/functionalExercises.js';
 
-const ENRICHED = new Set(ENRICHED_IDS);
+const ENRICHED = new Set([...ENRICHED_IDS, ...FUNCTIONAL_IDS]);
+const EQUIPMENT = { ...EXERCISE_EQUIPMENT, ...FUNCTIONAL_EQUIPMENT };
 
 // Memoize the dynamic import so the chunk is fetched/parsed at most once.
 let dataPromise = null;
 function loadData() {
   if (!dataPromise) {
-    dataPromise = import('../data/exerciseEnrichment.js').then(m => m.EXERCISE_ENRICHMENT);
+    dataPromise = Promise.all([
+      import('../data/exerciseEnrichment.js'),
+      import('../data/functionalEnrichment.js'),
+      import('../data/functionalInstructionsEs.js')
+    ]).then(([legacy, functional, spanish]) => ({
+      ...legacy.EXERCISE_ENRICHMENT,
+      ...Object.fromEntries(Object.entries(functional.FUNCTIONAL_ENRICHMENT).map(([id, record]) => [id, {
+        ...record, instructions: { ...record.instructions, es: spanish.FUNCTIONAL_INSTRUCTIONS_ES[id] }
+      }]))
+    }));
   }
   return dataPromise;
 }
@@ -44,7 +55,7 @@ export function hasExerciseEnrichment(dbId) {
  */
 export function getExerciseEquipment(dbId) {
   if (dbId == null) return null;
-  return EXERCISE_EQUIPMENT[dbId] ?? null;
+  return EQUIPMENT[dbId] ?? null;
 }
 
 /**
@@ -53,7 +64,7 @@ export function getExerciseEquipment(dbId) {
  * @returns {string[]}
  */
 export function listEquipment() {
-  return [...new Set(Object.values(EXERCISE_EQUIPMENT))].sort();
+  return [...new Set(Object.values(EQUIPMENT))].sort();
 }
 
 /**

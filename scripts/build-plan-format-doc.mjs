@@ -15,6 +15,20 @@ const here = dirname(fileURLToPath(import.meta.url));
 const outDir = join(here, '..', 'docs', 'chatbot');
 
 const es = (name) => exerciseTranslations[name] ?? name;
+// Keep the public exercise reference synchronized with stable library IDs.
+writeFileSync(join(here, '..', 'EXERCISES.md'), [
+    '# Exercise Library', '',
+    `**${EXERCISE_DATABASE.length} exercises across ${new Set(EXERCISE_DATABASE.map(row => row.muscleGroup)).size} categories.**`, '',
+    'Source: `src/constants/index.js`. Regenerate with `npm run build:plan-doc`.', '',
+    'Choose **Browse functional fitness** in Add Exercise, or search **CrossFit**, to find Olympic lifts, kettlebell movements, gymnastics and conditioning. New IDs 246–277 include English/Spanish instructions and downloadable two-position GIF references. Intermediate phases are not shown. Technical lifts and gymnastics require appropriate progressions and coaching.', '',
+    'Strength categories use sets, reps and weight. Cardio and Combat use minutes. Functional fitness is a discovery collection, not a new tracking mode; this release does not add AMRAP, EMOM or rounds-for-time scoring.', '',
+    '184 exercises have photo references: 152 existing Supabase-hosted pairs and 32 app-hosted GIF pairs. Instructions may be available without photos. See [media provenance and licenses](THIRD_PARTY_NOTICES.md).', '',
+    ...[...new Set(EXERCISE_DATABASE.map(row => row.muscleGroup))].flatMap(group => {
+        const rows = EXERCISE_DATABASE.filter(row => row.muscleGroup === group);
+        return [`## ${group} (${rows.length})`, '', '| ID | Exercise | Ejercicio (ES) |', '|---|---|---|',
+            ...rows.map(row => `| ${row.id} | ${row.name} | ${es(row.name)} |`), ''];
+    })
+].join('\n').trimEnd() + '\n');
 const groups = INDIVIDUAL_MUSCLE_GROUPS.filter(group => group !== 'Rest');
 
 const groupTable = (lang) => {

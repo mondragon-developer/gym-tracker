@@ -1,8 +1,8 @@
 # Gym Tracker — Guía de Ejercicios (Español)
 
-Esta guía cubre los 181 ejercicios disponibles en Gym Tracker. Los ejercicios de fuerza (Pecho, Espalda, Hombros, Bíceps, Tríceps, Antebrazos, Piernas, Abdominales) registran Series, Reps y Peso en libras (lbs). Los ejercicios de Cardio y Combate se miden por tiempo: registras la Duración en minutos (de 1 a 120).
+Esta guía cubre los 213 ejercicios disponibles en Gym Tracker. Los ejercicios de fuerza (Pecho, Espalda, Hombros, Bíceps, Tríceps, Antebrazos, Piernas, Abdominales) registran Series, Reps y Peso en libras (lbs). Los ejercicios de Cardio y Combate se miden por tiempo: registras la Duración en minutos (de 1 a 120).
 
-La mayoría de los ejercicios de gimnasio (152 de 181) tienen demostración visual: toca el botón ▶ del ejercicio para abrir "Cómo hacer este ejercicio", que muestra el rango completo de movimiento de inicio a fin. Los ejercicios de Cardio y Combate no tienen imágenes de demostración.
+La mayoría de los ejercicios de gimnasio (184 de 213) tienen demostración visual: toca el botón ▶ del ejercicio para abrir "Cómo hacer este ejercicio", que muestra posiciones de referencia e instrucciones. La disponibilidad de imágenes varía según el ejercicio.
 
 Para encontrar cualquier ejercicio, ve a "Agregar Ejercicio" y usa la barra de búsqueda o el filtro por grupo muscular. IMPORTANTE: los nombres de los ejercicios en la app están en inglés, así que busca con el nombre en inglés aunque tu interfaz esté en español.
 
@@ -2284,3 +2284,168 @@ Todos los ejercicios de esta categoría se registran por Duración en minutos (1
   2. Eleva la pierna de arriba hacia el techo sin girar la cadera hacia atrás.
   3. Baja despacio; 15-20 reps y cambia de lado.
 - **Consejo:** con la punta del pie al frente, no hacia arriba, el trabajo se queda en el glúteo.
+
+
+## Nuevos ejercicios de entrenamiento funcional
+
+Usa Explorar entrenamiento funcional o busca CrossFit. Estos 32 ejercicios registran series, repeticiones y peso. Los GIFs muestran dos posiciones de referencia, sin las fases intermedias. Los levantamientos técnicos y la gimnasia requieren progresiones adecuadas y supervisión.
+
+### Cargada con barra (Legs)
+
+1. Coloca la barra cerca de las espinillas y sujétala con las manos por fuera de las piernas. Mantén el tronco firme.
+2. Extiende piernas y caderas, lleva la barra cerca del cuerpo y pasa los codos por debajo para recibirla sobre los hombros en sentadilla. Ponte de pie con control.
+
+### Cargada de potencia (Legs)
+
+1. Parte con la barra en el suelo, cerca de las espinillas, y el tronco firme.
+2. Extiende piernas y caderas y recibe la barra sobre los hombros con una flexión parcial de rodillas, por encima de la sentadilla profunda. Estabiliza y ponte de pie.
+
+### Cargada colgante (Legs)
+
+1. Comienza de pie con la barra colgando frente a los muslos. Flexiona caderas y rodillas para preparar el impulso.
+2. Extiende las caderas, mantén la barra cerca y pasa los codos por debajo. Recíbela sobre los hombros y termina de pie.
+
+### Dos tiempos (Shoulders)
+
+1. Realiza una cargada desde el suelo y estabiliza la barra sobre los hombros.
+2. Haz una flexión breve de rodillas, impulsa la barra hacia arriba y entra debajo en posición de tijera con los brazos extendidos. Recupera los pies de forma controlada y estabiliza.
+
+### Cargada y press (Shoulders)
+
+1. Realiza una cargada para llevar la barra del suelo a los hombros y estabiliza el tronco.
+2. Presiona la barra por encima de la cabeza sin arquear la zona lumbar. Baja a los hombros con control.
+
+### Tirón de cargada (Back)
+
+1. Coloca la barra cerca de las espinillas con agarre de cargada y espalda estable.
+2. Empuja el suelo y extiende piernas y caderas manteniendo la barra cerca. Termina el tirón elevando los hombros; no recibas la barra sobre los hombros. Baja con control.
+
+### Peso muerto de cargada (Legs)
+
+1. Usa el agarre y la posición inicial de una cargada, con la barra cerca de las espinillas.
+2. Extiende piernas y caderas manteniendo la barra cerca del cuerpo. Termina erguido sin inclinarte hacia atrás y vuelve al suelo con control.
+
+### Arrancada con barra (Shoulders)
+
+1. Sujeta la barra con agarre ancho, cerca de las espinillas, y prepara un tronco estable.
+2. Extiende piernas y caderas y entra debajo de la barra para recibirla en sentadilla con los brazos extendidos sobre la cabeza. Estabiliza antes de levantarte.
+
+### Arrancada de potencia (Shoulders)
+
+1. Parte del suelo con agarre ancho y la barra cerca del cuerpo.
+2. Extiende piernas y caderas y recibe la barra sobre la cabeza con los brazos extendidos y una flexión parcial de rodillas. Estabiliza antes de terminar de pie.
+
+### Arrancada colgante (Shoulders)
+
+1. Comienza con agarre ancho y la barra colgando frente a los muslos. Flexiona caderas y rodillas para preparar el impulso.
+2. Extiende las caderas y entra debajo de la barra. Recíbela con los brazos extendidos sobre la cabeza y estabiliza antes de levantarte.
+
+### Arrancada de fuerza (Shoulders)
+
+1. Parte con agarre ancho y la barra cerca del cuerpo.
+2. Extiende piernas y caderas y continúa el tirón hasta girar los brazos y llevar la barra sobre la cabeza, sin volver a flexionar las rodillas para recibirla. Baja con control.
+
+### Tirón de arrancada (Back)
+
+1. Coloca la barra cerca de las espinillas y usa un agarre ancho de arrancada.
+2. Empuja el suelo y extiende piernas y caderas; termina elevando los hombros. Mantén la barra cerca y no la recibas sobre la cabeza.
+
+### Peso muerto con agarre de arrancada (Legs)
+
+1. Sujeta la barra con agarre ancho de arrancada y mantén el tronco firme.
+2. Extiende piernas y caderas para levantarte con la barra cerca del cuerpo. Invierte el movimiento con control.
+
+### Equilibrio de arrancada (Shoulders)
+
+1. Con agarre ancho, coloca una barra ligera sobre la parte alta de la espalda y prepara una postura estable.
+2. Haz una flexión breve de rodillas e impúlsate debajo de la barra hasta una sentadilla, con los brazos extendidos sobre la cabeza. Estabiliza y levántate.
+
+### Sentadilla con barra sobre la cabeza (Legs)
+
+1. Estabiliza una barra ligera sobre la cabeza con agarre ancho y brazos extendidos.
+2. Flexiona caderas y rodillas manteniendo la barra alineada sobre la base de apoyo. Desciende solo hasta donde mantengas el control y vuelve a levantarte.
+
+### Envión en tijera (Shoulders)
+
+1. Sostén la barra sobre los hombros con el tronco firme. Haz una flexión breve y vertical de rodillas.
+2. Impulsa la barra y separa los pies en tijera para recibirla con los brazos extendidos. Estabiliza y recupera los pies de forma controlada.
+
+### Envión de potencia (Shoulders)
+
+1. Parte con la barra sobre los hombros y una postura estable. Flexiona brevemente las rodillas.
+2. Impulsa la barra hacia arriba y vuelve a flexionar las rodillas para recibirla sobre la cabeza con los brazos extendidos. Termina de pie sin dar un paso en tijera.
+
+### Cargada con mancuernas (Legs)
+
+1. Coloca las mancuernas a los lados del cuerpo y prepara una posición de bisagra con rodillas flexionadas.
+2. Extiende piernas y caderas, lleva las mancuernas cerca del cuerpo y gira los codos para recibirlas sobre los hombros. Estabiliza y ponte de pie.
+
+### Thruster con pesas rusas (Legs)
+
+1. Sostén dos pesas rusas en posición de rack a la altura de los hombros.
+2. Desciende en sentadilla con el tronco estable. Al levantarte, usa el impulso de las piernas para presionar ambas pesas sobre la cabeza. Vuelve al rack con control.
+
+### Arrancada con pesa rusa a un brazo (Shoulders)
+
+1. Sujeta una pesa rusa con una mano y prepara una bisagra de cadera.
+2. Impulsa con las caderas y guía la pesa cerca del cuerpo. Introduce la mano suavemente para recibirla sobre la cabeza, sin golpear el antebrazo. Regresa con control y alterna lados.
+
+### Cargada con pesa rusa a un brazo (Legs)
+
+1. Sujeta una pesa rusa con una mano y flexiona las caderas manteniendo el tronco firme.
+2. Extiende las caderas y guía la pesa cerca del cuerpo hasta el rack del hombro. Evita que golpee el antebrazo. Baja con control y alterna lados.
+
+### Dos tiempos con pesa rusa a un brazo (Shoulders)
+
+1. Realiza una cargada con una pesa rusa hasta el rack del hombro.
+2. Flexiona brevemente las rodillas, impulsa la pesa y entra debajo con una segunda flexión para recibirla con el brazo extendido. Estabiliza y vuelve al rack con control.
+
+### Push press con pesa rusa a un brazo (Shoulders)
+
+1. Sostén una pesa rusa en el rack del hombro con el tronco firme.
+2. Flexiona ligeramente las rodillas y extiéndelas para ayudar a presionar la pesa sobre la cabeza. Baja con control y alterna lados.
+
+### Push press con dos pesas rusas (Shoulders)
+
+1. Sostén dos pesas rusas en el rack de los hombros y mantén el tronco firme.
+2. Haz una flexión breve de rodillas e impúlsate para presionar ambas pesas sobre la cabeza. Vuelve al rack con control.
+
+### Envión con dos pesas rusas (Shoulders)
+
+1. Sostén dos pesas rusas en el rack de los hombros.
+2. Flexiona brevemente las rodillas, impulsa las pesas y entra debajo con una segunda flexión para recibirlas con los brazos extendidos. Estabiliza de pie y vuelve al rack con control.
+
+### Tirón alto sumo con pesa rusa (Back)
+
+1. Adopta una postura amplia con la pesa rusa entre los pies y sujétala con ambas manos.
+2. Extiende piernas y caderas y continúa el movimiento con un tirón alto, manteniendo la pesa cerca. Baja con control sin forzar la altura de los hombros.
+
+### Molino con pesa rusa (Abs)
+
+1. Estabiliza una pesa rusa sobre la cabeza con el brazo extendido. Gira ligeramente los pies hacia el lado contrario.
+2. Desplaza la cadera hacia el lado de la pesa e inclina el tronco hacia la pierna opuesta, manteniendo el brazo estable. Baja solo hasta donde conserves el control y regresa.
+
+### Levantamiento turco con pesa rusa (Abs)
+
+1. Empieza tumbado, con la pesa estable sobre un hombro y la rodilla del mismo lado flexionada.
+2. Apóyate en el codo y luego en la mano contraria; eleva la cadera, lleva la pierna libre debajo y pasa a una posición de rodilla en el suelo. Levántate manteniendo la pesa estable y revierte la secuencia con control.
+
+### Fondos en anillas (Triceps)
+
+1. Sostente sobre unas anillas estables con los brazos extendidos y las anillas cerca del cuerpo.
+2. Flexiona los codos y baja solo hasta un rango que puedas controlar. Empuja para volver al apoyo sin balancearte.
+
+### Muscle-up en anillas (Back)
+
+1. Sujeta las anillas con agarre falso y tira de ellas hacia las axilas.
+2. Inclina el pecho sobre las anillas para pasar al apoyo de fondos y extiende los codos. Desciende con control; practica la transición con asistencia antes de intentar el movimiento completo.
+
+### Muscle-up en anillas con impulso (Back)
+
+1. Sujeta las anillas con agarre falso e inicia un balanceo controlado.
+2. Coordina el impulso de las piernas con el tirón, lleva el pecho sobre las anillas y termina extendiendo los codos en apoyo. Desciende con control; aprende primero las progresiones con supervisión.
+
+### Trepa de cuerda (Back)
+
+1. Sujeta una cuerda fija y usa un bloqueo de pies que hayas aprendido con supervisión.
+2. Acerca las rodillas, asegura la cuerda con los pies y extiende las piernas mientras subes las manos. Desciende paso a paso, sin deslizarte ni soltarte.

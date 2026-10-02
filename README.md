@@ -8,8 +8,8 @@ A modern, responsive React-based gym workout tracking application that helps you
 
 | Weekly dashboard | Day editor & demos | Exercise demonstration |
 |:---:|:---:|:---:|
-| ![Weekly dashboard with logo header, week navigator, progress bar and dated day accordions](src/assets/ss1.png) | ![Expanded day showing exercises with sets/reps/weight and per-exercise how-to buttons](src/assets/ss2.png) | ![Exercise demo modal showing the full range of motion for the bench press](src/assets/ss3.png) |
-| Dragon-logo header, EN/ES toggle, week navigator with dates, and the weekly progress bar. | Edit sets, reps, weight and completion; add, reorder, or reset exercises. | Tap ▶ on any exercise for a start-to-finish demonstration of the movement. |
+| ![Weekly dashboard with logo header, week navigator, progress bar and dated day accordions](src/assets/ss1.png) | ![Expanded day showing exercises with sets/reps/weight and per-exercise how-to buttons](src/assets/ss2.png) | ![Exercise demo modal showing reference positions for the bench press](src/assets/ss3.png) |
+| Dragon-logo header, EN/ES toggle, week navigator with dates, and the weekly progress bar. | Edit sets, reps, weight and completion; add, reorder, or reset exercises. | Tap ▶ on any exercise for a two-position movement reference. |
 
 ## Features
 
@@ -26,7 +26,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Day Notes**: A notes box per day, shared between a client and their trainers through the plan and carried into following weeks
 - **First-Run Chooser**: New accounts pick one of the three templates or keep the default
 - **Updated Elsewhere Notice**: A toast when a newer cloud copy is loaded on return to the app
-- **Advanced Exercise Library**: 181 exercises across 11 categories, with equipment filtering
+- **Advanced Exercise Library**: 213 exercises across 10 categories, with equipment filtering
 - **Custom Exercise Creation**: Add your own exercises with flexible sets/reps configuration
 - **Multi-Muscle Group Selection**: Select up to 3 muscle groups per day with intelligent UI
 
@@ -65,9 +65,10 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Restart This Week**: Clears the current week's progress only, keeping exercises and weights
 
 ### Exercise Demonstrations
-- **How-To Guides**: Tap ▶ on an exercise for a start-to-finish demonstration of the movement's full range of motion
-- **152 Exercises Covered**: Self-hosted on Supabase Storage with a graceful fallback when a demo isn't available
+- **How-To Guides**: Tap ▶ on an exercise for a two-position movement reference
+- **184 Exercises Covered**: 152 Supabase-hosted photo pairs plus 32 app-hosted GIF pairs; pause/play, reduced-motion support, and downloadable GIFs
 - **Preview Before Adding**: The ▶ button on a row in the Add Exercise picker opens the demo without leaving the picker
+- **Functional Fitness**: 32 Olympic-lifting, kettlebell and gymnastics additions with English/Spanish instructions. Use **Browse functional fitness** or search **CrossFit**. [Source and license records](THIRD_PARTY_NOTICES.md) accompany the downloadable GIFs; each GIF contains two reference photographs, without intermediate phases.
 
 ### Bilingual Interface
 - **English / Spanish**: Full UI translation with an in-app language toggle
@@ -177,7 +178,7 @@ src/
 │   └── supabase.js             # Shared Supabase client
 ├── translations/       # English/Spanish UI and exercise strings
 ├── legal/              # Terms of Use and Privacy Policy texts (EN/ES) + their version
-├── constants/          # 181 exercises, muscle groups, days
+├── constants/          # 213 exercises, muscle groups, days
 ├── data/               # Generated enrichment indexes + media folder map
 ├── utils/              # dateHelper and other helpers
 ├── test/               # Vitest setup
@@ -283,7 +284,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 #### Enhanced Exercise System
 - **Smart exercise detection**: Automatically identifies cardio vs strength exercises
 - **Context-aware UI**: Different interfaces for different exercise types
-- **Comprehensive database**: 181 exercises across 11 categories
+- **Comprehensive database**: 213 exercises across 10 categories
 - **Advanced search**: Real-time filtering with search term highlighting
 
 #### Improved User Experience
@@ -388,7 +389,7 @@ This project is open source and available under the [MIT License](LICENSE).
 - [x] **Bilingual UI**: Full English/Spanish translation with a language toggle
 - [x] **PWA support**: Offline functionality and home-screen installation
 - [x] **Weekly history & dates**: Dated weeks with a navigator and carry-forward on a new week
-- [x] **Exercise demonstrations**: Start-to-finish how-to images for 152 exercises, self-hosted on Supabase
+- [x] **Exercise demonstrations**: Two-position references for 184 exercises, including 32 downloadable GIFs
 - [x] **Rest timer**: Between-sets countdown with presets, pause/resume, and an end-of-rest cue
 - [x] **Equipment filtering**: Filter the exercise library by equipment (barbell, dumbbell, cable, machines, body weight, ...)
 - [x] **Email invitations**: Trainers email client invite links straight from the app (Supabase Edge Function + custom SMTP)
@@ -417,7 +418,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ### Planned Features
 - [ ] **More analytics**: Per-muscle-group volume, personal records, longer ranges on top of the Progress tab
-- [ ] **Animated demos**: Upgrade the exercise how-tos from stills to looping video/GIF
+- [ ] **Continuous movement demos**: Add licensed multi-frame footage beyond the current photo-pair GIFs
 - [ ] **Social features**: Share workouts and progress
 - [ ] **More templates**: Splits beyond the five included, such as a 5-day split or a kettlebell week
 - [ ] **Export to PDF**: CSV already exists for the weekly summary and the progress table
