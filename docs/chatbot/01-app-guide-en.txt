@@ -11,7 +11,7 @@ Key capabilities:
 - **Visual exercise demonstrations**: 152 exercises have a start-to-finish demo you open with the ▶ button.
 - **Weekly progress tracking** with a progress bar, weekly summary, and CSV export.
 - **Works with or without an account**: without an account everything saves to the device (local storage); with a free account everything syncs to the cloud and follows you across devices.
-- **Trainer support**: trainers get an invite code/link; clients who sign up with it are linked to the trainer, who can manage their weekly plans.
+- **Trainer support**: trainers get an invite code/link. Clients review the trainer and explicitly approve access after signing in. Profile → Connected trainers lists connections and offers Remove access.
 
 ## Chatbot scope and behavior rules
 
@@ -130,12 +130,12 @@ Everything works without signing in: the plan saves automatically to the device'
 ### Creating an account (Sign Up)
 1. On the sign-in screen choose **Sign Up**.
 2. Enter your **name, email, and a password of at least 6 characters** (and confirm it).
-3. Optional: enter a **Trainer code** if a personal trainer gave you one — this links your account to that trainer. Leave it empty if you train on your own. An invalid code shows "Invalid trainer code".
+3. Optional: enter a **Trainer code** if a personal trainer gave you one. This saves a pending invitation; after signing in, review the trainer and approve access before workouts are shared. Leave it empty if you train on your own. An invalid code shows "Invalid trainer code".
 4. Check your email — the app sends a **confirmation link** you must click to verify the account ("Check Your Email" screen). If it does not arrive, use **Resend confirmation email** on that screen (or after an "email not confirmed" sign-in error).
 
 ### Signing in and out
 - **Sign In** with email and password. Once signed in, workouts sync to the cloud and follow you to any device.
-- **Sign in with Google** (Continue with Google) is a one-tap alternative with no password; first use creates the account. A trainer code can also be added later: open your profile menu, type the code under "Trainer code" and press Connect, or open the trainer's invite link while signed in. You can be connected to several trainers at the same time.
+- **Sign in with Google** (Continue with Google) is a one-tap alternative with no password; first use creates the account. Add a trainer later under Profile → Connected trainers: enter the code, choose Review invitation, and approve only after checking the displayed trainer and access scope. An invitation link opens the same review without granting access. Several trainers can be connected. Remove access there to stop future app access; this cannot erase copies a trainer already kept.
 - **Sign Out** is in the profile menu in the header.
 
 ### Terms and consent screen

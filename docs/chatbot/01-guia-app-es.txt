@@ -11,7 +11,7 @@ Capacidades principales:
 - **Demostraciones visuales**: 152 ejercicios tienen una demostración de inicio a fin que se abre con el botón ▶.
 - **Seguimiento semanal** con barra de progreso, resumen semanal y exportación a CSV.
 - **Funciona con o sin cuenta**: sin cuenta todo se guarda en el dispositivo (almacenamiento local); con una cuenta gratuita todo se sincroniza en la nube y te sigue a cualquier dispositivo.
-- **Soporte para entrenadores**: los entrenadores tienen un código/enlace de invitación; los clientes que se registran con él quedan vinculados al entrenador, quien puede gestionar sus planes semanales.
+- **Soporte para entrenadores**: los entrenadores tienen un código/enlace de invitación. Después de iniciar sesión, el cliente revisa al entrenador y aprueba el acceso expresamente. Perfil → Entrenadores conectados muestra las conexiones y permite Quitar acceso.
 
 ## Alcance y reglas de comportamiento del chatbot
 
@@ -130,12 +130,12 @@ Todo funciona sin iniciar sesión: el plan se guarda automáticamente en el alma
 ### Crear una cuenta (Registrarse)
 1. En la pantalla de inicio de sesión elige **Registrarse**.
 2. Escribe tu **nombre, correo y una contraseña de al menos 6 caracteres** (y confírmala).
-3. Opcional: escribe un **Código de entrenador** si un entrenador personal te dio uno — esto vincula tu cuenta a ese entrenador. Déjalo vacío si entrenas por tu cuenta. Un código incorrecto muestra "Código de entrenador inválido".
+3. Opcional: escribe un **Código de entrenador** si un entrenador personal te dio uno. Se guarda una invitación pendiente; después de iniciar sesión, revisa al entrenador y aprueba el acceso antes de compartir tus entrenamientos. Déjalo vacío si entrenas por tu cuenta. Un código incorrecto muestra "Código de entrenador inválido".
 4. Revisa tu correo — la app envía un **enlace de confirmación** que debes abrir para verificar la cuenta (pantalla "Revisa tu Correo"). Si no llega, usa **Reenviar correo de confirmación** en esa pantalla (o tras un error de "correo no confirmado" al iniciar sesión).
 
 ### Iniciar y cerrar sesión
 - **Iniciar Sesión** con correo y contraseña. Con la sesión iniciada, los entrenamientos se sincronizan en la nube y te siguen a cualquier dispositivo.
-- **Iniciar sesión con Google** (Continuar con Google) es la alternativa de un toque, sin contraseña; el primer uso crea la cuenta. Un código de entrenador también se puede agregar después: abre el menú de tu perfil, escribe el código en "Código de entrenador" y pulsa Conectar, o abre el enlace de invitación del entrenador con la sesión iniciada. Puedes estar conectado con varios entrenadores a la vez.
+- **Iniciar sesión con Google** (Continuar con Google) es la alternativa de un toque, sin contraseña; el primer uso crea la cuenta. Agrega un entrenador después en Perfil → Entrenadores conectados: escribe el código, pulsa Revisar invitación y aprueba solo después de comprobar el entrenador y el alcance del acceso. Un enlace de invitación abre esa misma revisión sin conceder acceso. Puedes conectar varios entrenadores. Quitar acceso bloquea su acceso futuro por la aplicación; no borra las copias que el entrenador ya conservó.
 - **Cerrar Sesión** está en el menú de perfil del encabezado.
 
 ### Términos y pantalla de consentimiento

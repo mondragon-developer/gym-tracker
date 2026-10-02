@@ -86,10 +86,18 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
           setLoading(false);
           return;
         }
-        metadata = { name, trainer_code: code };
+        metadata = { name, pending_trainer_code: code };
       }
     }
 
+    // Keep a pasted invite URL consistent with a code edited on this form.
+    // This URL is still only a review request, never access authorization.
+    const url = new URL(window.location.href);
+    if (url.searchParams.has('trainer')) {
+      if (metadata.pending_trainer_code) url.searchParams.set('trainer', metadata.pending_trainer_code);
+      else url.searchParams.delete('trainer');
+      window.history.replaceState({}, '', url);
+    }
     const { error: signUpError } = await signUp(email, password, metadata);
 
     if (signUpError) {
@@ -397,7 +405,8 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
                   color: 'var(--text-3)',
                   margin: '6px 0 0 0'
                 }}>
-                  {t('Leave it empty if you train on your own.', language)}
+                  {t('Leave it empty if you train on your own.', language)}{' '}
+                  {t('After signing in, review the trainer and approve access before any workouts are shared.', language)}
                 </p>
               </div>
             )}

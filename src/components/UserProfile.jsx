@@ -4,7 +4,7 @@
  * the sign out button in the header
  */
 
-import React, { useState, Suspense } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useAuth } from '../hooks/useAuth.js';
 import { useLanguage } from '../hooks/useLanguage.js';
 import { t } from '../translations/ui';
@@ -12,6 +12,8 @@ import Button from './ui/Button';
 import { ButtonVariant } from './ui/Button.constants.js';
 import { headerControlStyle, headerControlHover, headerControlRest } from './ui/headerControlStyle.js';
 import LazyFallback from './ui/LazyFallback.jsx';
+
+const TrainerAccessModal = React.lazy(() => import('./TrainerAccessModal.jsx'));
 
 const LegalModal = React.lazy(() => import('./LegalModal.jsx'));
 
@@ -29,23 +31,28 @@ const menuItemStyle = {
 };
 
 export default function UserProfile({ onBackup, onRestore, onDeleteAccount }) {
-  const { user, signOut, joinTrainer, isTrainer, isAdmin } = useAuth();
+  const { user, signOut, updateProfile, isAdmin } = useAuth();
   const { language } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
-  // Clients can link themselves to another trainer at any time.
-  const [trainerCode, setTrainerCode] = useState('');
-  const [joinState, setJoinState] = useState('idle'); // idle | joining | joined | invalid
   const [legalOpen, setLegalOpen] = useState(false);
-
-  const handleJoinTrainer = async (e) => {
-    e.preventDefault();
-    const code = trainerCode.trim();
-    if (!code) return;
-    setJoinState('joining');
-    const { joined } = await joinTrainer(code);
-    setJoinState(joined ? 'joined' : 'invalid');
-    if (joined) setTrainerCode('');
+  // An invite only opens a review. No relationship is written on navigation.
+  const [inviteCode] = useState(() => new URLSearchParams(window.location.search).get('trainer')
+    || user?.user_metadata?.pending_trainer_code || '');
+  const [trainerAccessOpen, setTrainerAccessOpen] = useState(Boolean(inviteCode));
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (url.searchParams.has('trainer')) {
+      url.searchParams.delete('trainer');
+      window.history.replaceState({}, '', url);
+    }
+  }, []);
+  const closeTrainerAccess = () => {
+    setTrainerAccessOpen(false);
+    // This metadata is an invitation reminder, never authorization.
+    if (user?.user_metadata?.pending_trainer_code) {
+      updateProfile({ pending_trainer_code: null });
+    }
   };
 
   const handleSignOut = async () => {
@@ -150,55 +157,9 @@ export default function UserProfile({ onBackup, onRestore, onDeleteAccount }) {
               </p>
             </div>
 
-            {/* Trainer code: link this account to one more trainer */}
-            {!isTrainer && !isAdmin && (
-              <form onSubmit={handleJoinTrainer} style={{ padding: '12px 16px', borderBottom: '1px solid var(--border)' }}>
-                <label
-                  htmlFor="profile-trainer-code"
-                  style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--text-2)', marginBottom: '6px' }}
-                >
-                  {t('Trainer code', language)}
-                </label>
-                <div style={{ display: 'flex', gap: '6px' }}>
-                  <input
-                    id="profile-trainer-code"
-                    value={trainerCode}
-                    onChange={(e) => { setTrainerCode(e.target.value.toUpperCase()); setJoinState('idle'); }}
-                    placeholder="ABC123"
-                    autoComplete="off"
-                    style={{
-                      flex: 1,
-                      minWidth: 0,
-                      padding: '8px 10px',
-                      border: '1px solid var(--border-strong)',
-                      borderRadius: '8px',
-                      fontSize: '14px',
-                      backgroundColor: 'var(--surface)',
-                      color: 'var(--text)',
-                      textTransform: 'uppercase'
-                    }}
-                  />
-                  <Button
-                    type="submit"
-                    variant={ButtonVariant.SECONDARY}
-                    disabled={joinState === 'joining' || !trainerCode.trim()}
-                    style={{ fontSize: '13px', padding: '8px 12px' }}
-                  >
-                    {joinState === 'joining' ? t('Connecting...', language) : t('Connect', language)}
-                  </Button>
-                </div>
-                {joinState === 'joined' && (
-                  <p style={{ margin: '8px 0 0', fontSize: '12px', color: 'var(--done)', fontWeight: 600 }}>
-                    {t('Connected to your trainer.', language)}
-                  </p>
-                )}
-                {joinState === 'invalid' && (
-                  <p style={{ margin: '8px 0 0', fontSize: '12px', color: 'var(--danger)', fontWeight: 600 }}>
-                    {t('That trainer code is not valid.', language)}
-                  </p>
-                )}
-              </form>
-            )}
+            <button type="button" style={menuItemStyle} onClick={() => { setIsOpen(false); setTrainerAccessOpen(true); }}>
+              {t('Connected trainers', language)}
+            </button>
 
             {(onBackup || onRestore) && (
               <div style={{ padding: '4px 0', borderBottom: '1px solid var(--border)' }}>
@@ -248,6 +209,12 @@ export default function UserProfile({ onBackup, onRestore, onDeleteAccount }) {
             </div>
           </div>
         </>
+      )}
+
+      {trainerAccessOpen && (
+        <Suspense fallback={<LazyFallback language={language} />}>
+          <TrainerAccessModal key={language} language={language} initialCode={inviteCode} onClose={closeTrainerAccess} />
+        </Suspense>
       )}
 
       {legalOpen && (

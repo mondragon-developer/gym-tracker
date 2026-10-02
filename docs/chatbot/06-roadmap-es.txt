@@ -34,7 +34,7 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 - **Planificar por adelantado**: el navegador de semanas avanza hasta 12 semanas en el futuro para usuarios y entrenadores; una semana futura empieza como copia del último plan y se guarda al editarla
 - **Días de descanso ocultos**: los días de Descanso o sin ejercicios se pueden ocultar de la lista y recuperar desde la fila "Días ocultos"
 - **Barra de guardado** con botón Guardar manual; los guardados en la nube verifican la versión, así que la copia más reciente de un entrenador nunca se sobrescribe en silencio (Cargar la última versión / Conservar la mía)
-- **Varios entrenadores por cliente**: un cliente puede conectarse con más entrenadores por código en el menú de perfil o por enlace de invitación con la sesión iniciada; todos los entrenadores vinculados pueden editar el plan y el último guardado gana
+- **Varios entrenadores por cliente**: Perfil → Entrenadores conectados permite revisar invitaciones, aprobar el acceso expresamente y quitarlo. Los enlaces y códigos de registro no comparten los entrenamientos automáticamente. Los entrenadores vinculados pueden editar el plan con comprobación de conflictos al guardar.
 - Reordenar ejercicios arrastrándolos
 - Cuentas gratuitas con sincronización en la nube entre dispositivos; modo local/sin conexión sin cuenta; migración automática en el primer inicio de sesión
 - Recuperación de contraseña por correo
@@ -47,6 +47,7 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 - **Eliminar mi cuenta** en el menú de perfil: borra la cuenta y todos sus datos para siempre, después de ofrecer una copia
 - **Pestaña Progreso** en Resumen Semanal: volumen por semana en gráfica con tabla, y por ejercicio la tendencia del volumen, mejor peso, último peso y cambio, con exportación a CSV
 - **Tarjetas de día compactas** en el teléfono para que varios ejercicios quepan en una pantalla
+- **Términos y consentimiento**: después de iniciar sesión hay que aceptar una vez la pantalla **Antes de empezar** (la app es una herramienta de registro, no un entrenador ni un médico, nada en ella es consejo médico, solo para adultos). Los **Términos de Uso** y la **Política de Privacidad** están en español y en inglés, al final de la pantalla de inicio de sesión y en Menú de perfil → Términos y privacidad. Este asistente está disponible solo después de aceptar, así que no aparece en la pantalla de inicio de sesión
 
 ## Planeado (en la hoja de ruta, sin fechas prometidas)
 

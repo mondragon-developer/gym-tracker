@@ -79,7 +79,7 @@ const dangerActionStyle = {
  */
 function AppContent() {
     const { language } = useLanguage();
-    const { isAdmin, isTrainer, user, role, roleLoaded, joinTrainer, signOut } = useAuth();
+    const { isAdmin, isTrainer, user, role, roleLoaded, signOut } = useAuth();
     const [showAdmin, setShowAdmin] = useState(false);
     // Custom hooks for state management (Single Responsibility)
     const {
@@ -152,32 +152,6 @@ function AppContent() {
             setInviteNoticeVisible(true);
         }
     }, [user, role, roleLoaded]);
-
-    // A trainer's invite link (?trainer=CODE) opened while already signed in
-    // links this account to that trainer instead of landing on sign-up.
-    // The ref keeps the RPC to one attempt per page load; the param is
-    // removed from the URL so a refresh does not repeat it.
-    const [trainerJoinNotice, setTrainerJoinNotice] = useState(null); // 'joined' | 'invalid' | null
-    const joinAttemptedRef = useRef(false);
-    React.useEffect(() => {
-        if (!user || joinAttemptedRef.current) return;
-        let code = '';
-        try {
-            code = new URLSearchParams(window.location.search).get('trainer') || '';
-        } catch {
-            return;
-        }
-        if (!code) return;
-        joinAttemptedRef.current = true;
-        try {
-            const url = new URL(window.location.href);
-            url.searchParams.delete('trainer');
-            window.history.replaceState({}, '', url);
-        } catch {
-            // URL cleanup is cosmetic; the ref already prevents a repeat.
-        }
-        joinTrainer(code).then(({ joined }) => setTrainerJoinNotice(joined ? 'joined' : 'invalid'));
-    }, [user, joinTrainer]);
 
     // Scroll active day into view when it changes
     React.useEffect(() => {
@@ -510,7 +484,7 @@ function AppContent() {
                             <LanguageToggle />
                             <UnitsToggle />
                             <ThemeToggle />
-                            <UserProfile onBackup={handleBackup} onRestore={restoreModal.open} onDeleteAccount={deleteAccountModal.open} />
+                            <UserProfile key={user.id} onBackup={handleBackup} onRestore={restoreModal.open} onDeleteAccount={deleteAccountModal.open} />
                             {(isAdmin || isTrainer) && (
                                 <button
                                     onClick={() => setShowAdmin(true)}
@@ -540,39 +514,6 @@ function AppContent() {
                             setInviteNoticeVisible(false);
                         }}
                     />
-                )}
-
-                {trainerJoinNotice && (
-                    <div
-                        role="status"
-                        style={{
-                            margin: '16px 32px 0',
-                            padding: '12px 16px',
-                            borderRadius: '10px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            gap: '12px',
-                            fontSize: '14px',
-                            fontWeight: 600,
-                            color: trainerJoinNotice === 'joined' ? 'var(--done)' : 'var(--danger)',
-                            backgroundColor: trainerJoinNotice === 'joined' ? 'var(--done-soft)' : 'var(--danger-soft)',
-                            border: `1px solid ${trainerJoinNotice === 'joined' ? 'var(--done-border)' : 'var(--danger-border)'}`
-                        }}
-                    >
-                        <span>
-                            {trainerJoinNotice === 'joined'
-                                ? t('Connected to your trainer.', language)
-                                : t('That trainer code is not valid.', language)}
-                        </span>
-                        <button
-                            type="button"
-                            onClick={() => setTrainerJoinNotice(null)}
-                            style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'inherit', fontWeight: 700 }}
-                        >
-                            {t('Got it', language)}
-                        </button>
-                    </div>
                 )}
 
                 {/* Week navigator — shows the viewed week's dates and steps through history */}

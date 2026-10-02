@@ -153,7 +153,7 @@ R: Revisa la carpeta de spam y confirma que el correo esté bien escrito. Puedes
 R: Abre el menú de perfil en el encabezado y toca **Cerrar Sesión**.
 
 **P: ¿Qué es el código de entrenador al registrarse?**
-R: Es opcional — solo para personas cuyo entrenador personal les dio un código. Registrarte con él vincula tu cuenta a ese entrenador para que gestione tu plan. Déjalo vacío si entrenas por tu cuenta.
+R: Es opcional. El código guarda una invitación pendiente; después de iniciar sesión, revisa al entrenador y aprueba el acceso expresamente. Déjalo vacío si entrenas por tu cuenta. Gestiona las conexiones y quita el acceso en Perfil → Entrenadores conectados.
 
 **P: Soy entrenador, ¿cómo conecto a mis clientes?**
 R: Las cuentas de entrenador se crean con una invitación emitida por un administrador. Como entrenador, tu panel (botón 🏋️) muestra tu código y enlace de invitación — los clientes que se registran con él quedan asignados a ti automáticamente.
