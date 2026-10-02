@@ -201,4 +201,4 @@ If you have any issues, check the troubleshooting section or open an issue in th
 
 After all earlier schema scripts, run `supabase/trainer-access.sql` **last**, before deploying the new frontend. This disables the old automatic join API and signup linking; new links require explicit review and approval. Existing links are preserved. Profile > Connected trainers lists and removes the caller's relationships.
 
-Run `supabase/tests/trainer-access.sql` against staging first (synthetic fixtures, transaction rollback). Follow [the release guide](docs/TRAINER_ACCESS_RELEASE.md) for multi-account checks, deployment order and rollback limits. The migration has not been applied by this implementation session.
+Run `supabase/tests/trainer-access.sql` against staging first (synthetic fixtures, transaction rollback). Follow [the release guide](docs/TRAINER_ACCESS_RELEASE.md) for multi-account checks, deployment order and rollback limits. Applied to the linked production project on 2026-10-02; see the release guide for verification evidence. New environments still need this migration.

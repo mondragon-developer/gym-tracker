@@ -40,4 +40,14 @@ The isolated PostgreSQL 17 migration and rollback-only SQL regression passed on 
 - Dialog layout: inspected in a local browser with synthetic data, without live account changes.
 - Isolated PostgreSQL SQL regression: passed twice, including migration idempotence, signup without auto-link, reviewed identity checks, language/version evidence, two trainers/two clients, and removal blocking later reads/edits.
 - Browser layout: synthetic fixture only; a full hosted staging signup/email flow has not been exercised.
-- Production migration and frontend deployment: pending at release preparation.
+- Production migration: applied 2026-10-02 to the linked gym-tracker project; all seven grant/schema/trigger verification checks passed.
+- Production frontend: PR #51 merged as `6a9a79ff6ed7a3a63126024d68febc1546193ca2`; Vercel production deployment `6812557661` succeeded at 2026-10-02 15:58:35 UTC.
+- Live smoke check: Profile > Connected trainers loaded from production successfully. Anonymous list, preview and legacy join RPC requests returned HTTP 401.
+- Existing trainer relationships and workout records were not changed during live verification. The synthetic database container was stopped after testing.
+- Release executed by the coding agent at the owner's explicit deployment request, using the existing Supabase CLI account and GitHub/Vercel integration.
+
+Production URL: https://gym.mdragonsolutions.com
+
+Release PR: https://github.com/mondragon-developer/gym-tracker/pull/51
+
+The complete hosted staging signup/email flow and Chatbase retraining remain unverified/separate follow-ups. This deployment does not constitute legal clearance.

@@ -326,6 +326,6 @@ missing, and it feeds the share card in item 14.
 
 ## U.S. and Colombia launch hardening (2026-10-02)
 
-Trainer invitation review and self-service removal are implemented locally in EN/ES, including signup invitations and a server-side replacement for automatic joins. Database migration and staging verification are still required before deployment; see [release guide](TRAINER_ACCESS_RELEASE.md). Existing/admin-created links remain preserved, without invented consent records.
+Trainer invitation review and self-service removal shipped in EN/ES on 2026-10-02 via PR #51, including signup invitations and a server-side replacement for automatic joins. The production migration, isolated PostgreSQL regression and live list smoke check passed; see [release guide](TRAINER_ACCESS_RELEASE.md). Existing/admin-created links remain preserved, without invented consent records.
 
 The [legal review packet](LEGAL_REVIEW_US_CO.md) includes the existing policies, a provider/data inventory, counsel questions and remaining operational checks. No public legal text was changed or reviewed by counsel. Optional AI loading, Chatbase deployment/settings, permanent public legal URLs, vendor retention/deletion procedures and license verification remain open.

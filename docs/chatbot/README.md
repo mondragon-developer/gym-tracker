@@ -51,6 +51,6 @@ Keep `EXERCISES.md` (repo root) as the source of truth for the exercise list —
 - 122 of 159 exercises have ▶ visual demos; Cardio, Combat, and custom exercises do not.
 - Strength = sets/reps/weight (lbs). Cardio & Combat = minutes (1–120).
 
-## Pending trainer-access release (2026-10-02)
+## Trainer-access release (2026-10-02)
 
-Files 01, 05 and 06 (EN and ES) now describe explicit trainer approval and removal. Upload those six files and retrain only when the migration and frontend described in `../TRAINER_ACCESS_RELEASE.md` are deployed. These local edits are not evidence of a Chatbase deployment.
+Files 01, 05 and 06 (EN and ES) now describe explicit trainer approval and removal. The migration and frontend are deployed (PR #51); upload those six files and retrain as the separate Chatbase follow-up described in `../TRAINER_ACCESS_RELEASE.md`. These local edits are not evidence of a Chatbase deployment.

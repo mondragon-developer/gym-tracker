@@ -435,5 +435,5 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## U.S. and Colombia launch preparation
 
-- [Trainer consent/removal release guide](docs/TRAINER_ACCESS_RELEASE.md): migration order, staging SQL tests, rollout and limitations. This local change is not yet deployed.
+- [Trainer consent/removal release guide](docs/TRAINER_ACCESS_RELEASE.md): migration order, staging SQL tests, rollout and limitations. Deployed on 2026-10-02 via PR #51; see the verification record.
 - [Legal review packet](docs/LEGAL_REVIEW_US_CO.md): current policy snapshot, provider/data inventory, questions for counsel and operational launch gates.
