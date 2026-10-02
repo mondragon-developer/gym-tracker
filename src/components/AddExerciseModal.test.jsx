@@ -18,7 +18,7 @@ const equipmentSelect = (name) => screen.getByRole('combobox', { name });
 describe('AddExerciseModal equipment filter', () => {
     it('finds functional movements across the preselected muscle group and filters ring equipment', () => {
         render(<AddExerciseModal isOpen onClose={() => {}} onAddExercise={() => {}} muscleGroup="Chest" />);
-        fireEvent.click(screen.getByRole('button', { name: 'Browse functional fitness' }));
+        fireEvent.click(screen.getByRole('button', { name: /Functional fitness/ }));
         expect(screen.getByText('Power Clean')).toBeInTheDocument();
         expect(screen.getByText('Ring Dips')).toBeInTheDocument();
         expect(screen.queryByText('Cable Flyes')).not.toBeInTheDocument();

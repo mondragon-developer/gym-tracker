@@ -79,6 +79,20 @@ const getMuscleGroupColor = (muscleGroup) => {
 // Groups whose exercises are time-based (minutes) instead of sets × reps
 const isDurationGroup = (muscleGroup) => muscleGroup === 'Cardio' || muscleGroup === 'Combat';
 
+const navigationStyle = (active) => ({
+    flex: '1 1 0',
+    minWidth: 0,
+    padding: '12px 8px',
+    borderRadius: '6px',
+    fontSize: '14px',
+    fontWeight: '500',
+    border: 'none',
+    cursor: 'pointer',
+    overflowWrap: 'anywhere',
+    backgroundColor: active ? 'var(--brand)' : 'transparent',
+    color: active ? 'var(--on-brand)' : 'var(--text-3)'
+});
+
 const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, language = 'en' }) => {
     const [searchTerm, setSearchTerm] = useState('');
     // Preselect the day's muscle group as the filter when a known group is supplied.
@@ -88,6 +102,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
     const [selectedMuscleGroup, setSelectedMuscleGroup] = useState(initialFilter);
     const [selectedEquipment, setSelectedEquipment] = useState('All');
     const [isCustom, setIsCustom] = useState(false);
+    const [isFunctional, setIsFunctional] = useState(false);
     // Exercise whose demo is open on top of the picker, before it is added.
     // Cleared on close so a reopened picker does not start with a demo up.
     const [previewExercise, setPreviewExercise] = useState(null);
@@ -115,7 +130,8 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
         const matchesSearch = matchesTerm(ex, foldedTerm);
         const matchesMuscleGroup = selectedMuscleGroup === 'All' || ex.muscleGroup === selectedMuscleGroup;
         const matchesEquipment = selectedEquipment === 'All' || getExerciseEquipment(ex.id) === selectedEquipment;
-        return matchesSearch && matchesMuscleGroup && matchesEquipment;
+        return matchesSearch && matchesMuscleGroup && matchesEquipment
+            && (!isFunctional || functionalIds.has(ex.id));
     });
 
     // Handle adding exercise from library
@@ -167,6 +183,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
         setSelectedMuscleGroup('All');
         setSelectedEquipment('All');
         setIsCustom(false);
+        setIsFunctional(false);
         setCustomName('');
         setCustomSets('3');
         setCustomReps('10-12');
@@ -192,39 +209,34 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
     return (
         <Modal isOpen={isOpen} onClose={onClose} title={`💪 ${t("Add New Exercise", language)}`}>
             <div style={{ backgroundColor: 'var(--surface)', padding: '16px', borderRadius: '8px' }}>
-                {/* Tab Navigation */}
+                {/* Shared navigation: functional fitness sits between the library and custom form. */}
                 <div style={{ display: 'flex', backgroundColor: 'var(--surface-3)', borderRadius: '8px', padding: '8px', marginBottom: '16px' }}>
-                    <button 
-                        onClick={() => setIsCustom(false)} 
-                        style={{
-                            flex: 1,
-                            padding: '12px 16px',
-                            borderRadius: '6px',
-                            fontSize: '14px',
-                            fontWeight: '500',
-                            border: 'none',
-                            cursor: 'pointer',
-                            backgroundColor: !isCustom ? 'var(--brand)' : 'transparent',
-                            color: !isCustom ? 'var(--on-brand)' : 'var(--text-3)'
-                        }}
+                    <button type="button"
+                        aria-pressed={!isCustom && !isFunctional}
+                        onClick={() => { setIsCustom(false); setIsFunctional(false); }}
+                        style={navigationStyle(!isCustom && !isFunctional)}
                     >
-                        📚 {t("Popular", language)}
+                        &#128218; {t("Popular", language)}
                     </button>
-                    <button 
-                        onClick={() => setIsCustom(true)} 
-                        style={{
-                            flex: 1,
-                            padding: '12px 16px',
-                            borderRadius: '6px',
-                            fontSize: '14px',
-                            fontWeight: '500',
-                            border: 'none',
-                            cursor: 'pointer',
-                            backgroundColor: isCustom ? 'var(--brand)' : 'transparent',
-                            color: isCustom ? 'var(--on-brand)' : 'var(--text-3)'
+                    <button type="button"
+                        aria-pressed={!isCustom && isFunctional}
+                        onClick={() => {
+                            setIsCustom(false);
+                            setIsFunctional(true);
+                            setSearchTerm('');
+                            setSelectedMuscleGroup('All');
+                            setSelectedEquipment('All');
                         }}
+                        style={navigationStyle(!isCustom && isFunctional)}
                     >
-                        ✏️ {t("Custom Exercise", language)}
+                        &#127947; {language === 'es' ? 'Entrenamiento funcional' : 'Functional fitness'}
+                    </button>
+                    <button type="button"
+                        aria-pressed={isCustom}
+                        onClick={() => setIsCustom(true)}
+                        style={navigationStyle(isCustom)}
+                    >
+                        &#9999;&#65039; {t("Custom Exercise", language)}
                     </button>
                 </div>
 
@@ -329,13 +341,6 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                 ) : (
                     // Exercise Library
                     <div>
-                        <button type="button" onClick={() => {
-                            setSearchTerm('crossfit');
-                            setSelectedMuscleGroup('All');
-                            setSelectedEquipment('All');
-                        }} style={{ marginBottom: 12, padding: '8px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--surface-3)', color: 'var(--text)', cursor: 'pointer' }}>
-                            {language === 'es' ? 'Explorar entrenamiento funcional' : 'Browse functional fitness'}
-                        </button>
                         {/* Search Input */}
                         <div style={{ marginBottom: '12px' }}>
                             <input
