@@ -323,3 +323,9 @@ Mark a new best weight or best volume on the exercise when it happens, and
 show a weeks-trained streak. Listed in item 3 as a next step for the
 Progress tab; expected rather than unique, but users notice when it is
 missing, and it feeds the share card in item 14.
+
+## U.S. and Colombia launch hardening (2026-10-02)
+
+Trainer invitation review and self-service removal are implemented locally in EN/ES, including signup invitations and a server-side replacement for automatic joins. Database migration and staging verification are still required before deployment; see [release guide](TRAINER_ACCESS_RELEASE.md). Existing/admin-created links remain preserved, without invented consent records.
+
+The [legal review packet](LEGAL_REVIEW_US_CO.md) includes the existing policies, a provider/data inventory, counsel questions and remaining operational checks. No public legal text was changed or reviewed by counsel. Optional AI loading, Chatbase deployment/settings, permanent public legal URLs, vendor retention/deletion procedures and license verification remain open.

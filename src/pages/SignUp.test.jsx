@@ -80,3 +80,20 @@ describe('SignUp with Google', () => {
     expect(screen.queryByRole('button', { name: /Continue with Google/ })).not.toBeInTheDocument();
   });
 });
+
+it('stores a pending invitation instead of authorizing a trainer at signup', async () => {
+  vi.clearAllMocks();
+  useAuth.mockReturnValue(authMock);
+  authMock.lookupTrainerCode.mockResolvedValue({ valid: true, error: null });
+  authMock.signUp.mockResolvedValue({ data: {}, error: null });
+  render(<SignUp onToggleMode={() => {}} initialTrainerCode="AB12CD" />);
+  fireEvent.change(screen.getByPlaceholderText('Enter your name'), { target: { value: 'Test User' } });
+  fireEvent.change(screen.getByPlaceholderText('Enter your email'), { target: { value: 'new@example.com' } });
+  fireEvent.change(screen.getByPlaceholderText('At least 6 characters'), { target: { value: 'secret1' } });
+  fireEvent.change(screen.getByPlaceholderText('Re-enter your password'), { target: { value: 'secret1' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Create Account' }));
+  await screen.findByText('Check Your Email');
+  expect(authMock.signUp).toHaveBeenCalledWith('new@example.com', 'secret1', {
+    name: 'Test User', pending_trainer_code: 'AB12CD'
+  });
+});

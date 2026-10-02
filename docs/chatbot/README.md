@@ -50,3 +50,7 @@ Keep `EXERCISES.md` (repo root) as the source of truth for the exercise list —
 - The setups in `03-*` each carry a ready GYMPLAN block, so retrieval shows the format in context. After a library change run `npm run build:plan-doc` and re-upload both `08-*` files.
 - 122 of 159 exercises have ▶ visual demos; Cardio, Combat, and custom exercises do not.
 - Strength = sets/reps/weight (lbs). Cardio & Combat = minutes (1–120).
+
+## Pending trainer-access release (2026-10-02)
+
+Files 01, 05 and 06 (EN and ES) now describe explicit trainer approval and removal. Upload those six files and retrain only when the migration and frontend described in `../TRAINER_ACCESS_RELEASE.md` are deployed. These local edits are not evidence of a Chatbase deployment.

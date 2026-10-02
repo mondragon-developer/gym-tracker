@@ -34,7 +34,7 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 - **Planning ahead**: the week navigator goes up to 12 weeks into the future for users and trainers; a future week starts as a copy of the latest plan and is saved once edited
 - **Hidden rest days**: Rest or empty days can be hidden from the list and shown again from the "Hidden days" row
 - **Save status bar** with a manual Save button; cloud saves are version-checked, so a trainer's newer copy is never overwritten silently (Load latest / Keep mine)
-- **Several trainers per client**: a client can connect to more trainers by code in the profile menu or by invite link while signed in; every linked trainer can edit the plan and the last save wins
+- **Several trainers per client**: Profile → Connected trainers supports invitation review, explicit approval and access removal. Invitation links and signup codes do not automatically share workouts. Linked trainers can edit the plan with save-conflict checks.
 - Drag-and-drop exercise reordering
 - Free accounts with cloud sync across devices; offline/local mode without an account; automatic migration on first sign-in
 - Password recovery by email

@@ -35,7 +35,7 @@ The SQL lives in this repo so it stays in sync with the code:
 - `supabase/admin.sql` — `profiles` table, signup trigger, `is_admin()` helper, and admin full-access policies (run AFTER schema.sql)
 - `supabase/trainers.sql` — trainer role, invite codes, `is_trainer_of()` helper, and trainer policies on client plans (run AFTER admin.sql)
 - `supabase/trainer-invites.sql` — single-use invitations that create trainer accounts (run AFTER trainers.sql)
-- `supabase/multi-trainer.sql` — `trainer_clients` join table so a client can have several trainers, plus the `join_trainer(code)` function used by the profile menu and invite links (run AFTER trainer-invites.sql)
+- `supabase/multi-trainer.sql` — `trainer_clients` join table so a client can have several trainers, plus the legacy `join_trainer(code)` function (disabled by trainer-access.sql) (run AFTER trainer-invites.sql)
 - `supabase/rest-timer-push.sql` — `rest_timer_pushes` table behind the end-of-rest notification; RLS on with no client policies, only the Edge Function uses it
 - `supabase/account-activity.sql` — `profiles.last_active_at` and the `touch_last_active()` function the app calls when it opens (run AFTER admin.sql). The admin and trainer user lists read this column
 - `supabase/legal-acceptance.sql` — `legal_acceptances` table and the `accept_legal_terms()` function behind the consent screen (run AFTER admin.sql). Without it nobody can get past the consent screen, so run it before deploying the app version that has the screen
@@ -44,7 +44,7 @@ Both scripts are idempotent — safe to re-run any time.
 
 1. In your Supabase dashboard, click **SQL Editor** in the sidebar
 2. Click **"New Query"**, paste the contents of `supabase/schema.sql`, and **Run**
-3. Repeat, in this order, with `supabase/admin.sql`, `supabase/trainers.sql`, `supabase/trainer-invites.sql`, `supabase/multi-trainer.sql`, `supabase/rest-timer-push.sql`, `supabase/account-activity.sql` and `supabase/legal-acceptance.sql`. Every file is idempotent, so re-running one is safe
+3. Repeat, in this order, with `supabase/admin.sql`, `supabase/trainers.sql`, `supabase/trainer-invites.sql`, `supabase/multi-trainer.sql`, `supabase/rest-timer-push.sql`, `supabase/account-activity.sql`, `supabase/legal-acceptance.sql`, and `supabase/trainer-access.sql` last. Re-run trainer-access.sql last whenever earlier trainer scripts are reapplied
 4. After you have signed up in the app, promote yourself to admin (run once):
 
 ```sql
@@ -196,3 +196,9 @@ Your gym tracker now has full authentication and cloud storage! Users can:
 - ✅ Keep their data private and secure
 
 If you have any issues, check the troubleshooting section or open an issue in the GitHub repository.
+
+## Trainer access approval (2026-10-02)
+
+After all earlier schema scripts, run `supabase/trainer-access.sql` **last**, before deploying the new frontend. This disables the old automatic join API and signup linking; new links require explicit review and approval. Existing links are preserved. Profile > Connected trainers lists and removes the caller's relationships.
+
+Run `supabase/tests/trainer-access.sql` against staging first (synthetic fixtures, transaction rollback). Follow [the release guide](docs/TRAINER_ACCESS_RELEASE.md) for multi-account checks, deployment order and rollback limits. The migration has not been applied by this implementation session.

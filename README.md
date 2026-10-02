@@ -56,7 +56,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **Admin Dashboard**: Admins can list users, manage roles, assign or remove trainers per client, and view or edit any user's workout plan (access enforced server-side by Postgres Row Level Security)
 - **Trainer Tools**: Trainer accounts with shareable invite codes/links, plus one-tap **email invitations** sent from the app via a Supabase Edge Function
 - **Terms and Consent**: After sign-in, every account must accept the Terms of Use and Privacy Policy (English and Spanish) before the app opens or the AI assistant is loaded: not medical advice, not a professional trainer, train at your own risk. The acceptance is stored per account with its version and date; changing `LEGAL_VERSION` in `src/legal/version.js` asks everyone again. The documents stay readable from the sign-in screen and the profile menu
-- **Multiple Trainers per Client**: A client can be coached by several trainers at once (`trainer_clients` join table). Clients connect to another trainer by entering a code in the profile menu or opening an invite link while signed in. Every linked trainer can view and edit the plan; the last save wins
+- **Multiple Trainers per Client**: A client can be coached by several trainers at once (`trainer_clients` join table). Clients review a trainer code or invitation in Profile > Connected trainers and explicitly approve access. Signup codes remain pending until approval after sign-in. Clients can list and remove their connections there. Linked trainers can view and edit workout history; saves use conflict checks. Requires `supabase/trainer-access.sql` (see the release guide below).
 
 ### Weekly History & Dates
 - **Dated Weeks**: Every week is stamped with its date range and each day shows its calendar date
@@ -122,7 +122,7 @@ A modern, responsive React-based gym workout tracking application that helps you
 
 4. **Set up the database**
 
-   In the Supabase SQL editor, run these files in order: `supabase/schema.sql`, `supabase/admin.sql`, `supabase/trainers.sql`, `supabase/trainer-invites.sql`, `supabase/multi-trainer.sql`, `supabase/rest-timer-push.sql`, `supabase/account-activity.sql`, `supabase/legal-acceptance.sql`. All are idempotent. Two Edge Functions back the rest-timer notification (`rest-timer-push`, needs the VAPID secrets) and self-service account deletion (`delete-account`); deploy steps are in their READMEs under `supabase/functions/`. See [`SUPABASE_SETUP.md`](SUPABASE_SETUP.md) for the full walkthrough, including how to promote your account to admin.
+   In the Supabase SQL editor, run these files in order: `supabase/schema.sql`, `supabase/admin.sql`, `supabase/trainers.sql`, `supabase/trainer-invites.sql`, `supabase/multi-trainer.sql`, `supabase/rest-timer-push.sql`, `supabase/account-activity.sql`, `supabase/legal-acceptance.sql`, then `supabase/trainer-access.sql` last. All are idempotent. Two Edge Functions back the rest-timer notification (`rest-timer-push`, needs the VAPID secrets) and self-service account deletion (`delete-account`); deploy steps are in their READMEs under `supabase/functions/`. See [`SUPABASE_SETUP.md`](SUPABASE_SETUP.md) for the full walkthrough, including how to promote your account to admin.
 
 5. **Start the development server**
    ```bash
@@ -189,7 +189,8 @@ supabase/
 ├── schema.sql          # Tables (workout_plans, user_preferences) + RLS
 ├── admin.sql           # profiles, roles, is_admin(), admin policies
 ├── trainers.sql / trainer-invites.sql  # Trainer hierarchy + single-use invites
-├── multi-trainer.sql   # Several trainers per client (trainer_clients join table, join_trainer RPC)
+├── multi-trainer.sql   # Several trainers per client (trainer_clients join table)
+├── trainer-access.sql # Run last: explicit approval, connection list and removal RPCs
 ├── legal-acceptance.sql  # Who accepted which version of the terms (accept_legal_terms RPC)
 └── functions/send-invite/  # Edge Function: email client invites (see its README)
 ```
@@ -202,7 +203,7 @@ npm run build     # Production build to dist/
 npm run preview   # Preview the production build locally
 npm run lint      # Run ESLint
 npm test          # Run the Vitest suite in watch mode
-npm run test:run  # Run the Vitest suite once (440 tests)
+npm run test:run  # Run the Vitest suite once (457 tests)
 ```
 
 ## Usage Guide
@@ -272,7 +273,7 @@ The app comes pre-loaded with a complete **6-day Push/Pull/Leg split**:
 - **Supabase**: Authentication and Postgres cloud database with Row Level Security
 - **@dnd-kit**: Accessible, touch-friendly drag-and-drop for exercise reordering
 - **vite-plugin-pwa**: Installable, offline-capable Progressive Web App
-- **Vitest + Testing Library**: 440-test suite across services, hooks, and components
+- **Vitest + Testing Library**: 457-test suite across services, hooks, and components
 - **Inline Styles**: Component-scoped styling for better maintainability
 - **Lucide React**: Beautiful, consistent icon library
 - **Modern JavaScript**: ES6+ features and best practices
@@ -431,3 +432,8 @@ This project is open source and available under the [MIT License](LICENSE).
 
 
 **Built by Jose Mondragon**
+
+## U.S. and Colombia launch preparation
+
+- [Trainer consent/removal release guide](docs/TRAINER_ACCESS_RELEASE.md): migration order, staging SQL tests, rollout and limitations. This local change is not yet deployed.
+- [Legal review packet](docs/LEGAL_REVIEW_US_CO.md): current policy snapshot, provider/data inventory, questions for counsel and operational launch gates.

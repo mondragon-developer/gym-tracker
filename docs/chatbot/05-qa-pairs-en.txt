@@ -153,7 +153,7 @@ A: Check your spam/junk folder and confirm the address is correct. You can retry
 A: Open the profile menu in the header and tap **Sign Out**.
 
 **Q: What is the trainer code at sign-up?**
-A: It's optional — only for people whose personal trainer gave them a code. Signing up with it links your account to that trainer so they can manage your plan. Leave it empty if you train on your own.
+A: It's optional. The code saves a pending invitation; after signing in, review the trainer and approve access explicitly. Leave it empty if you train on your own. Manage connections and remove access under Profile → Connected trainers.
 
 **Q: I'm a trainer — how do I get my clients connected?**
 A: Trainer accounts are created via an admin-issued invitation. As a trainer, your panel (🏋️ button) shows your invite code and link — clients who sign up through it are assigned to you automatically.

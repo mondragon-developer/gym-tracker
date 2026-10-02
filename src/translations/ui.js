@@ -4,6 +4,23 @@
  */
 export const uiTranslations = {
     en: {
+        // Trainer access disclosure (2026-10-02).
+        "Connected trainers": "Connected trainers",
+        "Trainers you connect can see your account name and email and view and edit your entire workout history, plans, notes and custom exercises.": "Trainers you connect can see your account name and email and view and edit your entire workout history, plans, notes and custom exercises.",
+        "Removing access blocks future access through the app. It cannot erase information a trainer already viewed or copied. Your workouts stay in your account.": "Removing access blocks future access through the app. It cannot erase information a trainer already viewed or copied. Your workouts stay in your account.",
+        "Could not load connected trainers. Close this window and try again.": "Could not load connected trainers. Close this window and try again.",
+        "Could not review this invitation. Try again.": "Could not review this invitation. Try again.",
+        "Access was updated, but the list could not refresh. Close this window and try again.": "Access was updated, but the list could not refresh. Close this window and try again.",
+        "Could not update trainer access. Review the invitation or try again.": "Could not update trainer access. Review the invitation or try again.",
+        "No connected trainers.": "No connected trainers.",
+        "Remove access": "Remove access",
+        "Trainer access removed.": "Trainer access removed.",
+        "Review invitation": "Review invitation",
+        "This display name is supplied by the trainer. We have not verified their identity or qualifications. Confirm the invitation with someone you know.": "This display name is supplied by the trainer. We have not verified their identity or qualifications. Confirm the invitation with someone you know.",
+        "Only approve if you want this trainer to have the access described above. You can remove access here at any time.": "Only approve if you want this trainer to have the access described above. You can remove access here at any time.",
+        "Allow this trainer to view and edit my workouts": "Allow this trainer to view and edit my workouts",
+        "After signing in, review the trainer and approve access before any workouts are shared.": "After signing in, review the trainer and approve access before any workouts are shared.",
+
         // Header
         "Track your weekly fitness progress": "Track your weekly fitness progress",
         "By Jose Mondragon": "By Jose Mondragon",
@@ -444,6 +461,23 @@ export const uiTranslations = {
         "Could not record your acceptance. Check your connection and try again.": "Could not record your acceptance. Check your connection and try again."
     },
     es: {
+        // Trainer access disclosure (2026-10-02).
+        "Connected trainers": "Entrenadores conectados",
+        "Trainers you connect can see your account name and email and view and edit your entire workout history, plans, notes and custom exercises.": "Los entrenadores que conectes pueden ver tu nombre y correo de la cuenta, y ver y editar todo tu historial de entrenamientos, planes, notas y ejercicios personalizados.",
+        "Removing access blocks future access through the app. It cannot erase information a trainer already viewed or copied. Your workouts stay in your account.": "Quitar el acceso bloquea el acceso futuro a través de la aplicación. No borra la información que un entrenador ya vio o copió. Tus entrenamientos permanecen en tu cuenta.",
+        "Could not load connected trainers. Close this window and try again.": "No se pudieron cargar los entrenadores conectados. Cierra esta ventana e inténtalo de nuevo.",
+        "Could not review this invitation. Try again.": "No se pudo revisar esta invitación. Inténtalo de nuevo.",
+        "Access was updated, but the list could not refresh. Close this window and try again.": "El acceso se actualizó, pero no se pudo actualizar la lista. Cierra esta ventana e inténtalo de nuevo.",
+        "Could not update trainer access. Review the invitation or try again.": "No se pudo actualizar el acceso del entrenador. Revisa la invitación o inténtalo de nuevo.",
+        "No connected trainers.": "No hay entrenadores conectados.",
+        "Remove access": "Quitar acceso",
+        "Trainer access removed.": "Se quitó el acceso del entrenador.",
+        "Review invitation": "Revisar invitación",
+        "This display name is supplied by the trainer. We have not verified their identity or qualifications. Confirm the invitation with someone you know.": "El entrenador proporciona este nombre. No hemos verificado su identidad ni sus títulos. Confirma la invitación con alguien que conozcas.",
+        "Only approve if you want this trainer to have the access described above. You can remove access here at any time.": "Aprueba solo si quieres que este entrenador tenga el acceso descrito arriba. Puedes quitar el acceso aquí en cualquier momento.",
+        "Allow this trainer to view and edit my workouts": "Permitir que este entrenador vea y edite mis entrenamientos",
+        "After signing in, review the trainer and approve access before any workouts are shared.": "Después de iniciar sesión, revisa al entrenador y aprueba el acceso antes de compartir tus entrenamientos.",
+
         // Header
         "Track your weekly fitness progress": "Registra tu progreso fitness semanal",
         "By Jose Mondragon": "Por Jose Mondragón",
