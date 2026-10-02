@@ -16,6 +16,16 @@ const renderModal = (language = 'en') =>
 const equipmentSelect = (name) => screen.getByRole('combobox', { name });
 
 describe('AddExerciseModal equipment filter', () => {
+    it('finds functional movements across the preselected muscle group and filters ring equipment', () => {
+        render(<AddExerciseModal isOpen onClose={() => {}} onAddExercise={() => {}} muscleGroup="Chest" />);
+        fireEvent.click(screen.getByRole('button', { name: 'Browse functional fitness' }));
+        expect(screen.getByText('Power Clean')).toBeInTheDocument();
+        expect(screen.getByText('Ring Dips')).toBeInTheDocument();
+        expect(screen.queryByText('Cable Flyes')).not.toBeInTheDocument();
+        fireEvent.change(equipmentSelect('Filter by Equipment'), { target: { value: 'rings' } });
+        expect(screen.getByText('Ring Muscle-Up')).toBeInTheDocument();
+        expect(screen.queryByText('Power Clean')).not.toBeInTheDocument();
+    });
     it('shows the whole library with "All equipment" selected', () => {
         renderModal();
         expect(screen.getByText('Barbell Bench Press')).toBeInTheDocument();

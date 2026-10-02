@@ -6,9 +6,9 @@ Gym Tracker is a free - for now -, bilingual (English/Spanish) web app for plann
 
 Key capabilities:
 - A pre-loaded **6-day Push/Pull/Legs split** you can fully customize.
-- A library of **181 exercises across 11 categories** (Chest, Back, Shoulders, Biceps, Triceps, Forearms, Legs, Abs, Cardio, Combat), plus custom exercises you create yourself.
+- A library of **213 exercises across 10 categories** (Chest, Back, Shoulders, Biceps, Triceps, Forearms, Legs, Abs, Cardio, Combat), plus custom exercises you create yourself.
 - **Strength exercises** track sets, reps, and weight (lbs). **Cardio and Combat exercises** are time-based and track minutes (1–120).
-- **Visual exercise demonstrations**: 152 exercises have a start-to-finish demo you open with the ▶ button.
+- **Visual exercise demonstrations**: 184 exercises have a two-position reference you open with the ▶ button. The 32 functional fitness additions include downloadable GIFs.
 - **Weekly progress tracking** with a progress bar, weekly summary, and CSV export.
 - **Works with or without an account**: without an account everything saves to the device (local storage); with a free account everything syncs to the cloud and follows you across devices.
 - **Trainer support**: trainers get an invite code/link. Clients review the trainer and explicitly approve access after signing in. Profile → Connected trainers lists connections and offers Remove access.
@@ -52,7 +52,7 @@ Inside a day:
 ### Exercise rows
 Each exercise inside a day shows:
 - **Drag handle** — press and drag to reorder exercises within the day (works with touch).
-- **▶ demo button** — opens **"How to do this exercise"**, a visual demonstration of the full range of motion, start to finish. 152 of the 181 built-in exercises have demos; Cardio, Combat, and custom exercises show "No demonstration available yet".
+- **▶ demo button** — opens **"How to do this exercise"**, a two-position reference with instructions. 184 of the 213 built-in exercises have photo references. Exercises without photos can still have instructions.
 - **Strength exercises**: editable **Sets**, **Reps** (e.g. "8-10") and **Weight** (lbs) in one row, with **Effective** (the number of sets actually completed) and the **Log set** button underneath. Each field has - and + buttons for one-thumb changes.
 - **Cardio/Combat exercises**: editable **Duration** in minutes (1–120) and the minutes actually completed. No weight field.
 - **✓ Mark as completed** — turns the card green and counts toward weekly progress. Tap again to set it back to incomplete.
@@ -212,7 +212,7 @@ Deadlifts 4×6-8 · Front Squats 3×8-10 · Lunges 3×12-15 · Leg Extensions 3�
 
 **Do I have to start a new week myself?** No. A new week starts automatically every Monday with your exercises and weights carried over and completion cleared. "Restart This Week" only clears the current week's progress. Past weeks stay viewable in the navigator. ("Reset Day" restores that day's *default* exercises, so use it only when you want to discard customizations for that day.)
 
-**An exercise has no demo.** 152 of 181 exercises have demos. Cardio, Combat, and custom exercises don't — the app shows "No demonstration available yet".
+**An exercise has no demo.** 184 of 213 exercises have demos. Availability varies by exercise; custom exercises have no built-in demos.
 
 **How do I change the language?** Tap the EN/ES toggle in the header. The whole interface switches instantly.
 

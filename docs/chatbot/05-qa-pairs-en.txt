@@ -29,7 +29,7 @@ A: Expand the day, tap the **✏️** icon, select up to 3 muscle groups (or **R
 A: Tap the **✏️** icon on that day and choose **Rest**.
 
 **Q: How can I see how to do an exercise?**
-A: Tap the **▶** button on the exercise to open "How to do this exercise" — a visual demo of the full movement. 152 of 181 exercises have one.
+A: Tap the **▶** button on the exercise to open "How to do this exercise" — a two-position movement reference. 184 of 213 exercises have one.
 
 **Q: Why doesn't my exercise show a demo?**
 A: Cardio, Combat, and custom exercises don't have demo images — the app shows "No demonstration available yet". I can still describe the technique if you ask me.

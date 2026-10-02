@@ -1,0 +1,521 @@
+{
+  "repository": "https://github.com/yuhonas/free-exercise-db",
+  "revision": "f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5",
+  "license": "Unlicense",
+  "licenseUrl": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/LICENSE.md",
+  "modifications": "Original photographs fitted to a white 400px canvas and encoded as a two-position GIF (1.2 seconds per position). Poster is the first position.",
+  "exercises": [
+    {
+      "id": 246,
+      "name": "Barbell Clean",
+      "sourceId": "Clean",
+      "images": [
+        {
+          "path": "Clean/0.jpg",
+          "sha256": "08665f5ba59798f62f8f3b7d35848b12ae382004bca9c98e6f3d27875672ea4d"
+        },
+        {
+          "path": "Clean/1.jpg",
+          "sha256": "a5c495698981627fe0a5d360796ebd04391dabbf6dcfe7681398bb564f4705a1"
+        }
+      ],
+      "gifSha256": "060684e5f2449f5be56ada9ca72b051994de9fb683d4fa9eafb567a9e9534da1"
+    },
+    {
+      "id": 247,
+      "name": "Power Clean",
+      "sourceId": "Power_Clean",
+      "images": [
+        {
+          "path": "Power_Clean/0.jpg",
+          "sha256": "3b81dd260783a0ca18afdbd6a04edb702a2be2ff3e3114b8d72a66ee1cfaeb66"
+        },
+        {
+          "path": "Power_Clean/1.jpg",
+          "sha256": "5e9ea4e4d6c3d482af8733f79d09ef6b44300ceb4e92d33677d689171dfeaf0a"
+        }
+      ],
+      "gifSha256": "3aa85ed3a05c69e5719bb89eda251b693ac7fa50f86708631703102edd34067f"
+    },
+    {
+      "id": 248,
+      "name": "Hang Clean",
+      "sourceId": "Hang_Clean",
+      "images": [
+        {
+          "path": "Hang_Clean/0.jpg",
+          "sha256": "ca5ec0e2a886e036de90ed70a3521a6667dda9924eab1c8042f8309b1a0be2bd"
+        },
+        {
+          "path": "Hang_Clean/1.jpg",
+          "sha256": "9bf1413d9f8036e4b446613329d481860d3d1bffb0390977aa62bab0392180ce"
+        }
+      ],
+      "gifSha256": "de2d4b65a54e8d701a00963ddf04f295dbbdcacc10bca9e43ebaf1b21234d104"
+    },
+    {
+      "id": 249,
+      "name": "Clean and Jerk",
+      "sourceId": "Clean_and_Jerk",
+      "images": [
+        {
+          "path": "Clean_and_Jerk/0.jpg",
+          "sha256": "50bc7b0ef3e9dacdc4fd01f568b004809111d8ffd622db26dc1782e5e0c25a85"
+        },
+        {
+          "path": "Clean_and_Jerk/1.jpg",
+          "sha256": "8a92fa1ea3be6ee2949c53692aaf749cbd58b39cf5fbe2b655f786f96bc0b570"
+        }
+      ],
+      "gifSha256": "4ff721fce2c3e17c578d69b0530880acd7c7c6bc5abce5649e6c4fcc455dcc53"
+    },
+    {
+      "id": 250,
+      "name": "Clean and Press",
+      "sourceId": "Clean_and_Press",
+      "images": [
+        {
+          "path": "Clean_and_Press/0.jpg",
+          "sha256": "f38a001d417d9bceaf127675c30b3afba13a6f4fba297b63e60b458815c6f957"
+        },
+        {
+          "path": "Clean_and_Press/1.jpg",
+          "sha256": "605205d74a5872d93dcb450c96caa0dbd797a9db2a07312db0c295bf5eae8f14"
+        }
+      ],
+      "gifSha256": "4a6deef9a13ee7175fa96f8132fb6a384a4d00ea690db353f09c9efad21cd7ff"
+    },
+    {
+      "id": 251,
+      "name": "Clean Pull",
+      "sourceId": "Clean_Pull",
+      "images": [
+        {
+          "path": "Clean_Pull/0.jpg",
+          "sha256": "0e014f4b389b1da7885a2418a1ce9a75ec0ea63c0579764f27cd3deb9b076462"
+        },
+        {
+          "path": "Clean_Pull/1.jpg",
+          "sha256": "0bce678476dd5584900fe281a841c7cbcc89f8e31534ad6dd0ee27fa16bc0116"
+        }
+      ],
+      "gifSha256": "555d5ee6b6fe8448a011797f92e9ea4f1440f79fbda2286d1f0fdf5a7d412e37"
+    },
+    {
+      "id": 252,
+      "name": "Clean Deadlift",
+      "sourceId": "Clean_Deadlift",
+      "images": [
+        {
+          "path": "Clean_Deadlift/0.jpg",
+          "sha256": "56677698dd1bf56dc5620c214d064248e0d1d42c994bc9d0b81459a58cedb523"
+        },
+        {
+          "path": "Clean_Deadlift/1.jpg",
+          "sha256": "43f227feb79df890987022994e7332ac6f4827bdc64f47c335ae77d630f658aa"
+        }
+      ],
+      "gifSha256": "2be2b35f8bf1f67338def93a1d3aa1dc90e28bd763a62d7b4224e61dc622a821"
+    },
+    {
+      "id": 253,
+      "name": "Barbell Snatch",
+      "sourceId": "Snatch",
+      "images": [
+        {
+          "path": "Snatch/0.jpg",
+          "sha256": "d6b8987d744c182dfa5a9ae33fe99f5e03066110492c97b6fbf8043c5dd4d1fe"
+        },
+        {
+          "path": "Snatch/1.jpg",
+          "sha256": "d6dc699ffa1d9d426d80f95eadc1b3150a5750b339c63319dec10e5fccad92f4"
+        }
+      ],
+      "gifSha256": "76aabb282f5e28ba23e585d1d863540036444e8999a98ad164b1ff81017392fb"
+    },
+    {
+      "id": 254,
+      "name": "Power Snatch",
+      "sourceId": "Power_Snatch",
+      "images": [
+        {
+          "path": "Power_Snatch/0.jpg",
+          "sha256": "72670c0bb9af958a1be97f884e042fb5d1fc020aa215cb726919f1570bc9ecb2"
+        },
+        {
+          "path": "Power_Snatch/1.jpg",
+          "sha256": "f9f819c4dfbe1042990ef62cba2f8aadf2c44aac1fbdb7a58471d402a5c24d0d"
+        }
+      ],
+      "gifSha256": "c69614a0f235829e738df6d9b6c0de3bdca69371b98cda4f4817f103993af504"
+    },
+    {
+      "id": 255,
+      "name": "Hang Snatch",
+      "sourceId": "Hang_Snatch",
+      "images": [
+        {
+          "path": "Hang_Snatch/0.jpg",
+          "sha256": "aade5fcacc69b2bb0c9473a0dfe93b9dbe51d8996dd67103645d725b16bdef30"
+        },
+        {
+          "path": "Hang_Snatch/1.jpg",
+          "sha256": "9d2a9298fcf4016ea52d812562dc0dc4ae24cd262e95ee4dc0aa46ed6326b729"
+        }
+      ],
+      "gifSha256": "3e98b6e9d21f4422ef8779a5828faffcc7a09dbf788a8bb22331e851dbc03642"
+    },
+    {
+      "id": 256,
+      "name": "Muscle Snatch",
+      "sourceId": "Muscle_Snatch",
+      "images": [
+        {
+          "path": "Muscle_Snatch/0.jpg",
+          "sha256": "2270c62ef99e8139bcb1f5bf8452a7f42b355d47a601df31c20897b47809b84e"
+        },
+        {
+          "path": "Muscle_Snatch/1.jpg",
+          "sha256": "8c269ae4e28feec062eaf6b40f6cd5af03045183ecd6d0ee02885cd4e60efb03"
+        }
+      ],
+      "gifSha256": "54bfc0a0f6023fd6c3bc98fe782a2d8fc1db812a04e13c9690921936243ed415"
+    },
+    {
+      "id": 257,
+      "name": "Snatch Pull",
+      "sourceId": "Snatch_Pull",
+      "images": [
+        {
+          "path": "Snatch_Pull/0.jpg",
+          "sha256": "c54c8cd7231c5619d1af1c84e05e1464b92180774a46c933b6103c26992b93d4"
+        },
+        {
+          "path": "Snatch_Pull/1.jpg",
+          "sha256": "dc2b6fe9d6a1a87c7d261dfe9dcc07bc041839d817912631aee2848f77111c35"
+        }
+      ],
+      "gifSha256": "862824b2dc01c00468a4d3e4d65702285172a19b3dd1665057ad37a17fea55e9"
+    },
+    {
+      "id": 258,
+      "name": "Snatch-Grip Deadlift",
+      "sourceId": "Snatch_Deadlift",
+      "images": [
+        {
+          "path": "Snatch_Deadlift/0.jpg",
+          "sha256": "7799f6b9f47da60c66a0bec3624e85dd9bea5f50542090fa8ffe0b730f9d12f8"
+        },
+        {
+          "path": "Snatch_Deadlift/1.jpg",
+          "sha256": "1b62740d2bcb41b54b4252b7e5630f0f101ad2affb378814bdaf55521fa694f5"
+        }
+      ],
+      "gifSha256": "79499bfc35a03f73aad20c6520dafbda85738bb9a5c4d43edd574d3118e87cc4"
+    },
+    {
+      "id": 259,
+      "name": "Snatch Balance",
+      "sourceId": "Snatch_Balance",
+      "images": [
+        {
+          "path": "Snatch_Balance/0.jpg",
+          "sha256": "e0ba6005b4e4079b2bdd7cc960684f00b471726c10f772a7b94e13403e494f76"
+        },
+        {
+          "path": "Snatch_Balance/1.jpg",
+          "sha256": "5060a467af4e84a3d219f12feade99a7be1bdb5e40173bc7ae9d1c858f073da7"
+        }
+      ],
+      "gifSha256": "bdb59a2933c3411f92c85f700ba8edbf8c3ebd72370380e5d985f6b3ab913cba"
+    },
+    {
+      "id": 260,
+      "name": "Overhead Squat",
+      "sourceId": "Overhead_Squat",
+      "images": [
+        {
+          "path": "Overhead_Squat/0.jpg",
+          "sha256": "57408e80d0603cbd40cb46aa9d6dfe79662c7814d22e364b11cd9080dfd1fdf3"
+        },
+        {
+          "path": "Overhead_Squat/1.jpg",
+          "sha256": "be91b50b45cb018b82650606eeef1d83ce78ab763ef643ac46977110a4377b50"
+        }
+      ],
+      "gifSha256": "3fa4c97b45088f5be686248fad6ee4750c593f17efabb0651faa8e2564516f98"
+    },
+    {
+      "id": 261,
+      "name": "Split Jerk",
+      "sourceId": "Split_Jerk",
+      "images": [
+        {
+          "path": "Split_Jerk/0.jpg",
+          "sha256": "9fd80e1f10af78abd643ee84cb99d830c027bfc1f64ee43275c2eaad84d71e71"
+        },
+        {
+          "path": "Split_Jerk/1.jpg",
+          "sha256": "c502dfcc0af677b72ddb59d1b6d5292210bfdcb8d1c36b140a750da140817b47"
+        }
+      ],
+      "gifSha256": "7c0765dbd92c0ad67657108d4e20077589d4a1904fb5ecc336d13268898c01b4"
+    },
+    {
+      "id": 262,
+      "name": "Power Jerk",
+      "sourceId": "Power_Jerk",
+      "images": [
+        {
+          "path": "Power_Jerk/0.jpg",
+          "sha256": "b812e0be576ce2323b2362de27ef241f59ec1a1d484c7e0d7fc94ad43a4e3f62"
+        },
+        {
+          "path": "Power_Jerk/1.jpg",
+          "sha256": "ec28c511e50c1695fe66a4a1a109a0e12c2e7ae447132ae3563480bcce76c10d"
+        }
+      ],
+      "gifSha256": "43d1c5369c0a06229c53fcbf193d41522c1b0d8227bf2fc63f839717995e5030"
+    },
+    {
+      "id": 263,
+      "name": "Dumbbell Clean",
+      "sourceId": "Dumbbell_Clean",
+      "images": [
+        {
+          "path": "Dumbbell_Clean/0.jpg",
+          "sha256": "f642ca019c49f19dd0521a2ad9b5b9365aa7a99183063b4bfbbf4c42373b5854"
+        },
+        {
+          "path": "Dumbbell_Clean/1.jpg",
+          "sha256": "ceeab9fb804d3c71a919d04eeed781835bddc7174fbe8b2bfdf4b47139b449ba"
+        }
+      ],
+      "gifSha256": "c79a2a7f305913ffdb07da6f01baed684e08ece10388671cccf94bd3a133278f"
+    },
+    {
+      "id": 264,
+      "name": "Kettlebell Thruster",
+      "sourceId": "Kettlebell_Thruster",
+      "images": [
+        {
+          "path": "Kettlebell_Thruster/0.jpg",
+          "sha256": "b4b7fab07f3cae1994c0adf999ae6e8d979e8e3785d57368cec2449072218149"
+        },
+        {
+          "path": "Kettlebell_Thruster/1.jpg",
+          "sha256": "92acb4917c7f600418561c8a18f35609d8a6824125b69eb54e6e751f02187d16"
+        }
+      ],
+      "gifSha256": "1ecb11a2999b56cc6d3984667b4d3d4b0c0f47852393da9119ef57a52d2671b9"
+    },
+    {
+      "id": 265,
+      "name": "Single-Arm Kettlebell Snatch",
+      "sourceId": "One-Arm_Kettlebell_Snatch",
+      "images": [
+        {
+          "path": "One-Arm_Kettlebell_Snatch/0.jpg",
+          "sha256": "140b164ba2e3fe5b2418d6e05d5841035c15b38dbb2588f4eff66e7604608189"
+        },
+        {
+          "path": "One-Arm_Kettlebell_Snatch/1.jpg",
+          "sha256": "be91f52df6ddbea1932d25a82ca2bd8929c7a8381d44fbaf896c6524f57c3f31"
+        }
+      ],
+      "gifSha256": "1fb9780ed3ae672a9c042bb8f577184d828308b8db8f17636601fd0fce1ee249"
+    },
+    {
+      "id": 266,
+      "name": "Single-Arm Kettlebell Clean",
+      "sourceId": "One-Arm_Kettlebell_Clean",
+      "images": [
+        {
+          "path": "One-Arm_Kettlebell_Clean/0.jpg",
+          "sha256": "1521e487fdad8e034dcd5fbedd8da363a9e15df848cdfcad3ec3448b41d55b5e"
+        },
+        {
+          "path": "One-Arm_Kettlebell_Clean/1.jpg",
+          "sha256": "bb8ce03623183e207feb31f02978ea11c314c566b42793bc0ef4d61885dac303"
+        }
+      ],
+      "gifSha256": "45905570516245704f582af7b5ac5c200ac99f3b781b60cfe1bdccd6d8ef7fab"
+    },
+    {
+      "id": 267,
+      "name": "Single-Arm Kettlebell Clean and Jerk",
+      "sourceId": "One-Arm_Kettlebell_Clean_and_Jerk",
+      "images": [
+        {
+          "path": "One-Arm_Kettlebell_Clean_and_Jerk/0.jpg",
+          "sha256": "9c1893450e56854ed4bebd4b8481c398b1b08e678389313e7e888129437784a1"
+        },
+        {
+          "path": "One-Arm_Kettlebell_Clean_and_Jerk/1.jpg",
+          "sha256": "3d93da14560afafc00e086c113f0b9ed7e360287b6c7abf7edf4198021b4818c"
+        }
+      ],
+      "gifSha256": "f1e51eb2d49bf89f037c853bf4b27c8337a404799c666b52b3e4894dfcbca260"
+    },
+    {
+      "id": 268,
+      "name": "Single-Arm Kettlebell Push Press",
+      "sourceId": "One-Arm_Kettlebell_Push_Press",
+      "images": [
+        {
+          "path": "One-Arm_Kettlebell_Push_Press/0.jpg",
+          "sha256": "945d1a868ee209801b8d8e0a85fae7c86383616ea5d43d27cdf2f942502dbc79"
+        },
+        {
+          "path": "One-Arm_Kettlebell_Push_Press/1.jpg",
+          "sha256": "62513a62312f540f9cf97343b56fdb8d091a67f9469d2bd15f18d98525deba10"
+        }
+      ],
+      "gifSha256": "b131aedb5a300cb395e8aa61253652557785bf8e9fbeed7e16b4b17fc248b8df"
+    },
+    {
+      "id": 269,
+      "name": "Double Kettlebell Push Press",
+      "sourceId": "Double_Kettlebell_Push_Press",
+      "images": [
+        {
+          "path": "Double_Kettlebell_Push_Press/0.jpg",
+          "sha256": "66ab4a9f70fd8d192637f076421cc55d6bdc3155f2a7aa0f92bdabd8e217b68c"
+        },
+        {
+          "path": "Double_Kettlebell_Push_Press/1.jpg",
+          "sha256": "b364e908848430c99e0c086a7c0234d1145d8e3aedf379ec614bb278d87072cc"
+        }
+      ],
+      "gifSha256": "941b9c32c9ebc487def7b67e2a275b4ec7e30b2e036757c77eb558642cd4827f"
+    },
+    {
+      "id": 270,
+      "name": "Double Kettlebell Jerk",
+      "sourceId": "Double_Kettlebell_Jerk",
+      "images": [
+        {
+          "path": "Double_Kettlebell_Jerk/0.jpg",
+          "sha256": "ecd4d2b8db3e9f83f01644a5eb4d5508ffffed6292723bce6d793b3b06d82623"
+        },
+        {
+          "path": "Double_Kettlebell_Jerk/1.jpg",
+          "sha256": "6c1e8c291212c2d20afcfd42eeaed3cddec9d9c0af47443b0d5e240fe88cb3fb"
+        }
+      ],
+      "gifSha256": "e0b80e7e41efdff4c6efc3f62fc1c9eef411825f89d2f6051b59a7d56fa4b6a0"
+    },
+    {
+      "id": 271,
+      "name": "Kettlebell Sumo High Pull",
+      "sourceId": "Kettlebell_Sumo_High_Pull",
+      "images": [
+        {
+          "path": "Kettlebell_Sumo_High_Pull/0.jpg",
+          "sha256": "46d1828b4891d04dca7b5b3c72107f55c51b7204b9b51c827d9e02597e9194ab"
+        },
+        {
+          "path": "Kettlebell_Sumo_High_Pull/1.jpg",
+          "sha256": "4ea5fa21e606eb864609ae0d4f4107adfedde65f161cbf6b35364da508fa12ba"
+        }
+      ],
+      "gifSha256": "94bcb76b4d4e27c1d36aaeb4a6633338e3ce620e278c8d6a83c8582cb596cda8"
+    },
+    {
+      "id": 272,
+      "name": "Kettlebell Windmill",
+      "sourceId": "Kettlebell_Windmill",
+      "images": [
+        {
+          "path": "Kettlebell_Windmill/0.jpg",
+          "sha256": "5b4ec258e0f7be4cc21827480e91b5035fdb9a7443dfc061b6486438de51d56c"
+        },
+        {
+          "path": "Kettlebell_Windmill/1.jpg",
+          "sha256": "c8567970896915261677deadc0205646fcc3838ee43face860ee204c283b4447"
+        }
+      ],
+      "gifSha256": "0cd212b355a72568908ab1f84aca3891d5b37217b3830f23c822255445268151"
+    },
+    {
+      "id": 273,
+      "name": "Kettlebell Turkish Get-Up",
+      "sourceId": "Kettlebell_Turkish_Get-Up_Lunge_style",
+      "images": [
+        {
+          "path": "Kettlebell_Turkish_Get-Up_Lunge_style/0.jpg",
+          "sha256": "16c264b427e96700683ee79edfb52404227c718b5066bb19facaa05a9d3ae063"
+        },
+        {
+          "path": "Kettlebell_Turkish_Get-Up_Lunge_style/1.jpg",
+          "sha256": "f0f11a13a1cbc38bc1fbe43b70ce2150cfd96cbf48abdb3e665161a2aab74b8b"
+        }
+      ],
+      "gifSha256": "3219469f08933444197066e06923399ec6df831605d0541e22690336be012a7f"
+    },
+    {
+      "id": 274,
+      "name": "Ring Dips",
+      "sourceId": "Ring_Dips",
+      "images": [
+        {
+          "path": "Ring_Dips/0.jpg",
+          "sha256": "c465c741e44fb96376bab5ba85e133614bcaf7d0449e1770c4f290a088c09b62"
+        },
+        {
+          "path": "Ring_Dips/1.jpg",
+          "sha256": "fe240ad8768c81886d32fcfd0768047da2ab209d1273879391a30a2dd8adeb7c"
+        }
+      ],
+      "gifSha256": "7681689e535f7b3a897d2e5237d27401ad403390156eb2920a08023ff0befe46"
+    },
+    {
+      "id": 275,
+      "name": "Ring Muscle-Up",
+      "sourceId": "Muscle_Up",
+      "images": [
+        {
+          "path": "Muscle_Up/0.jpg",
+          "sha256": "168517e1b401ee8272f40a3197ae88188889d0aad183a344b56e6ee5c0e14dae"
+        },
+        {
+          "path": "Muscle_Up/1.jpg",
+          "sha256": "ba22b7adfdd248005e4195eea5e247dd511e0b1a0d09c2fe2dded39bd69be99c"
+        }
+      ],
+      "gifSha256": "fc64a6bfadce9ce903fc34c72fa4dd845f6874643142d60d86729ac09b82063b"
+    },
+    {
+      "id": 276,
+      "name": "Kipping Ring Muscle-Up",
+      "sourceId": "Kipping_Muscle_Up",
+      "images": [
+        {
+          "path": "Kipping_Muscle_Up/0.jpg",
+          "sha256": "78eaebc9bc3bd13eefe3969235a4e088179d79b4058a195e8f8c20d82173e160"
+        },
+        {
+          "path": "Kipping_Muscle_Up/1.jpg",
+          "sha256": "c9b6d3554f0f813efc93c63d3ec7cf01f22025479ba2d6c5fbb07b17d378b118"
+        }
+      ],
+      "gifSha256": "ed42b3be52e0faeee409b260946461a4fd6f0d7b3ba829b7a3eabb4c0b1636ef"
+    },
+    {
+      "id": 277,
+      "name": "Rope Climb",
+      "sourceId": "Rope_Climb",
+      "images": [
+        {
+          "path": "Rope_Climb/0.jpg",
+          "sha256": "d7f85b288d3e937cb49fc04d2c41d6a0079a4fd39849bf3790326d47adc40cf4"
+        },
+        {
+          "path": "Rope_Climb/1.jpg",
+          "sha256": "9a7d38d236c3c95fb78869fc7455ac21c45d26ffa2d7c451a73cb166454c500c"
+        }
+      ],
+      "gifSha256": "02a4b3a65235a8b3ca3eff6b3508297755e07503f2b72be1719e61190e298fea"
+    }
+  ]
+}

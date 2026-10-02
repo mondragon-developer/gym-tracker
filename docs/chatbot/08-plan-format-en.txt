@@ -83,7 +83,7 @@ Exact English or Spanish names from the table become library exercises with thei
 | Cardio | Cardio |
 | Combat | Combate |
 
-## Exercise names (181 entries)
+## Exercise names (213 entries)
 
 | Group | English name | Spanish name |
 |---|---|---|
@@ -95,6 +95,8 @@ Exact English or Spanish names from the table become library exercises with thei
 | Abs | Flutter Kicks | Patadas de Tijera |
 | Abs | Hanging Leg Raises | Elevaciones de Piernas Colgado |
 | Abs | Hollow Body Hold | Cuerpo Hueco (Hollow Hold) |
+| Abs | Kettlebell Turkish Get-Up | Levantamiento turco con pesa rusa |
+| Abs | Kettlebell Windmill | Molino con pesa rusa |
 | Abs | Leg Raises | Elevaciones de Piernas |
 | Abs | Mountain Climbers | Escaladores |
 | Abs | Pallof Press | Press Pallof |
@@ -111,20 +113,26 @@ Exact English or Spanish names from the table become library exercises with thei
 | Back | Bodyweight Back Extensions | Extensiones de Espalda sin Banco |
 | Back | Cable Shrugs | Encogimientos en Polea |
 | Back | Chin-ups | Dominadas Supinas |
+| Back | Clean Pull | Tirón de cargada |
 | Back | Dumbbell Shrugs | Encogimientos con Mancuernas |
 | Back | Face Pulls | Jalón a la Cara |
 | Back | Farmer's Walk | Paseo del Granjero |
 | Back | Hyperextensions (Back Extensions) | Hiperextensiones (Extensiones de Espalda) |
 | Back | Inverted Rows | Remo Invertido |
+| Back | Kettlebell Sumo High Pull | Tirón alto sumo con pesa rusa |
+| Back | Kipping Ring Muscle-Up | Muscle-up en anillas con impulso |
 | Back | Lat Pulldowns | Jalón al Pecho |
 | Back | Meadows Rows | Remo Meadows |
 | Back | Pendlay Rows | Remo Pendlay |
 | Back | Pull-ups | Dominadas |
 | Back | Rack Pulls | Peso Muerto Parcial |
 | Back | Reverse Hyperextensions | Hiperextensiones Inversas |
+| Back | Ring Muscle-Up | Muscle-up en anillas |
+| Back | Rope Climb | Trepa de cuerda |
 | Back | Seated Cable Rows | Remo Sentado en Polea |
 | Back | Seated Good Mornings | Buenos Días Sentado |
 | Back | Single-Arm Dumbbell Rows | Remo con Mancuerna a Un Brazo |
+| Back | Snatch Pull | Tirón de arrancada |
 | Back | Stiff-Leg Good Mornings | Buenos Días con Piernas Rígidas |
 | Back | Straight-Arm Pulldowns | Pullover en Polea |
 | Back | Superman | Superman |
@@ -200,16 +208,19 @@ Exact English or Spanish names from the table become library exercises with thei
 | Forearms | Towel Pull-Ups | Dominadas con Toalla |
 | Forearms | Wrist Curls | Curl de Muñeca |
 | Forearms | Wrist Roller | Rodillo de Muñeca |
+| Legs | Barbell Clean | Cargada con barra |
 | Legs | Barbell Hip Thrusts | Empuje de Cadera |
 | Legs | Barbell Squats | Sentadillas con Barra |
 | Legs | Box Jumps | Saltos al Cajón |
 | Legs | Bulgarian Split Squats | Sentadillas Búlgaras |
 | Legs | Cable Kickbacks | Patada de Glúteo en Polea |
 | Legs | Calf Press on Leg Machine | Press de Pantorrilla en Prensa |
+| Legs | Clean Deadlift | Peso muerto de cargada |
 | Legs | Crossover Reverse Lunges | Zancadas Inversas Cruzadas |
 | Legs | Deadlifts | Peso Muerto |
 | Legs | Donkey Calf Raises | Elevaciones de Pantorrilla Burro |
 | Legs | Dumbbell Calf Raises | Elevaciones de Gemelos con Mancuernas |
+| Legs | Dumbbell Clean | Cargada con mancuernas |
 | Legs | Dumbbell Lunges | Zancadas con Mancuernas |
 | Legs | Dumbbell Romanian Deadlifts | Peso Muerto Rumano con Mancuernas |
 | Legs | Dumbbell Squats | Sentadillas con Mancuernas |
@@ -221,40 +232,60 @@ Exact English or Spanish names from the table become library exercises with thei
 | Legs | Goblet Squats | Sentadillas Goblet |
 | Legs | Good Mornings | Buenos Días |
 | Legs | Hack Squats | Sentadillas Hack |
+| Legs | Hang Clean | Cargada colgante |
 | Legs | Jump Rope | Saltar la Cuerda |
 | Legs | Kettlebell Swings | Balanceo con Kettlebell |
+| Legs | Kettlebell Thruster | Thruster con pesas rusas |
 | Legs | Leg Extensions | Extensiones de Cuádriceps |
 | Legs | Leg Press | Prensa de Piernas |
 | Legs | Lunges | Zancadas |
 | Legs | Lying Leg Curls | Curl Femoral Acostado |
 | Legs | Nordic Ham Curls | Curl Nórdico |
+| Legs | Overhead Squat | Sentadilla con barra sobre la cabeza |
 | Legs | Pistol Squats | Sentadillas Pistola |
+| Legs | Power Clean | Cargada de potencia |
 | Legs | Romanian Deadlifts | Peso Muerto Rumano |
 | Legs | Seated Calf Raises | Elevaciones de Pantorrilla Sentado |
 | Legs | Seated Leg Curls | Curl Femoral Sentado |
 | Legs | Side Leg Raises | Elevaciones Laterales de Pierna |
+| Legs | Single-Arm Kettlebell Clean | Cargada con pesa rusa a un brazo |
 | Legs | Single-Leg Calf Raises | Elevaciones de Pantorrilla a Una Pierna |
 | Legs | Single-Leg Deadlifts | Peso Muerto a Una Pierna |
 | Legs | Single-Leg Glute Bridges | Puente de Glúteo a Una Pierna |
 | Legs | Sissy Squats | Sentadillas Sissy |
+| Legs | Snatch-Grip Deadlift | Peso muerto con agarre de arrancada |
 | Legs | Squats (Wide Stance) | Sentadillas (Postura Amplia) |
 | Legs | Standing Calf Raises | Elevaciones de Pantorrilla |
 | Legs | Step-Ups | Subidas al Cajón |
 | Legs | Walking Lunges | Zancadas Caminando |
 | Legs | Wall Sits | Sentadilla en Pared |
 | Shoulders | Arnold Press | Press Arnold |
+| Shoulders | Barbell Snatch | Arrancada con barra |
 | Shoulders | Bradford Press | Press Bradford |
 | Shoulders | Cable Lateral Raises | Elevaciones Laterales en Polea |
+| Shoulders | Clean and Jerk | Dos tiempos |
+| Shoulders | Clean and Press | Cargada y press |
+| Shoulders | Double Kettlebell Jerk | Envión con dos pesas rusas |
+| Shoulders | Double Kettlebell Push Press | Push press con dos pesas rusas |
 | Shoulders | Dumbbell Rear Delt Raises | Elevaciones Posteriores con Mancuernas |
 | Shoulders | Dumbbell Shoulder Press | Press de Hombros con Mancuernas |
 | Shoulders | Front Raises | Elevaciones Frontales |
 | Shoulders | Handstand Push-Ups | Flexiones en Parada de Manos |
+| Shoulders | Hang Snatch | Arrancada colgante |
 | Shoulders | Lateral Raises | Elevaciones Laterales |
 | Shoulders | Military Press | Press Militar |
+| Shoulders | Muscle Snatch | Arrancada de fuerza |
 | Shoulders | Overhead Press | Press sobre Cabeza |
+| Shoulders | Power Jerk | Envión de potencia |
+| Shoulders | Power Snatch | Arrancada de potencia |
 | Shoulders | Push Press | Press de Empuje |
 | Shoulders | Rear Delt Rows | Remo de Deltoides Posterior |
 | Shoulders | Reverse Pec Deck Flyes | Aperturas Inversas en Máquina |
+| Shoulders | Single-Arm Kettlebell Clean and Jerk | Dos tiempos con pesa rusa a un brazo |
+| Shoulders | Single-Arm Kettlebell Push Press | Push press con pesa rusa a un brazo |
+| Shoulders | Single-Arm Kettlebell Snatch | Arrancada con pesa rusa a un brazo |
+| Shoulders | Snatch Balance | Equilibrio de arrancada |
+| Shoulders | Split Jerk | Envión en tijera |
 | Shoulders | Upright Rows | Remo al Mentón |
 | Triceps | Bench Dips | Fondos en Banco |
 | Triceps | Cable Overhead Extension | Extensión sobre Cabeza en Polea |
@@ -263,6 +294,7 @@ Exact English or Spanish names from the table become library exercises with thei
 | Triceps | Dumbbell Triceps Kickbacks | Patada de Tríceps con Mancuerna |
 | Triceps | JM Press | Press JM |
 | Triceps | Overhead Dumbbell Extension | Extensión sobre Cabeza con Mancuernas |
+| Triceps | Ring Dips | Fondos en anillas |
 | Triceps | Rope Pushdowns | Extensión con Cuerda |
 | Triceps | Single-Arm Cable Pushdowns | Extensión en Polea a Un Brazo |
 | Triceps | Skull Crushers | Rompe Cráneos |

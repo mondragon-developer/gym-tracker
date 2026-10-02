@@ -6,9 +6,9 @@ Gym Tracker es una app web gratuita - por ahora - y bilingüe (inglés/español)
 
 Capacidades principales:
 - Un plan **Push/Pull/Piernas de 6 días** precargado y totalmente personalizable.
-- Una biblioteca de **181 ejercicios en 11 categorías** (Pecho, Espalda, Hombros, Bíceps, Tríceps, Antebrazos, Piernas, Abdominales, Cardio, Combate), más ejercicios personalizados que tú creas.
+- Una biblioteca de **213 ejercicios en 10 categorías** (Pecho, Espalda, Hombros, Bíceps, Tríceps, Antebrazos, Piernas, Abdominales, Cardio, Combate), más ejercicios personalizados que tú creas.
 - Los **ejercicios de fuerza** registran series, reps y peso (lbs). Los de **Cardio y Combate** se miden por tiempo y registran minutos (1–120).
-- **Demostraciones visuales**: 152 ejercicios tienen una demostración de inicio a fin que se abre con el botón ▶.
+- **Demostraciones visuales**: 184 ejercicios tienen una referencia visual de dos posiciones que se abre con el botón ▶.
 - **Seguimiento semanal** con barra de progreso, resumen semanal y exportación a CSV.
 - **Funciona con o sin cuenta**: sin cuenta todo se guarda en el dispositivo (almacenamiento local); con una cuenta gratuita todo se sincroniza en la nube y te sigue a cualquier dispositivo.
 - **Soporte para entrenadores**: los entrenadores tienen un código/enlace de invitación. Después de iniciar sesión, el cliente revisa al entrenador y aprueba el acceso expresamente. Perfil → Entrenadores conectados muestra las conexiones y permite Quitar acceso.
@@ -52,7 +52,7 @@ Dentro de un día:
 ### Filas de ejercicios
 Cada ejercicio dentro de un día muestra:
 - **Asa de arrastre** — mantén presionado y arrastra para reordenar los ejercicios del día (funciona con el dedo en pantallas táctiles).
-- **Botón ▶ de demostración** — abre **"Cómo hacer este ejercicio"**, una demostración visual del rango completo de movimiento, de inicio a fin. 152 de los 181 ejercicios integrados tienen demostración; los de Cardio, Combate y los personalizados muestran "Aún no hay demostración disponible".
+- **Botón ▶ de demostración** — abre **"Cómo hacer este ejercicio"**, una referencia de dos posiciones con instrucciones. 184 de los 213 ejercicios integrados tienen demostración. La disponibilidad varía según el ejercicio; los personalizados no tienen demos integradas.
 - **Ejercicios de fuerza**: campos editables de **Series**, **Reps** (p. ej. "8-10") y **Peso** (lbs) en una fila, con **Efectivas** (el número de series realmente completadas) y el botón **Registrar serie** debajo. Cada campo tiene botones - y + para cambiarlo con un solo dedo.
 - **Ejercicios de Cardio/Combate**: **Duración** editable en minutos (1–120) y los minutos realmente completados. Sin campo de peso.
 - **✓ Marcar como completado** — pone la tarjeta en verde y suma al progreso semanal. Tócalo de nuevo para volver a incompleto.
@@ -212,7 +212,7 @@ Deadlifts (Peso Muerto) 4×6-8 · Front Squats (Sentadillas Frontales) 3×8-10 �
 
 **¿Tengo que comenzar la nueva semana yo mismo?** No. Cada lunes comienza una semana nueva automáticamente con tus ejercicios y pesos conservados y el progreso reiniciado. "Reiniciar Esta Semana" solo borra el progreso de la semana actual. Las semanas pasadas siguen visibles en el navegador. ("Reiniciar Día" restaura los ejercicios *predeterminados* de ese día; úsalo solo si quieres descartar tus personalizaciones de ese día.)
 
-**Un ejercicio no tiene demostración.** 152 de 181 ejercicios tienen demo. Los de Cardio, Combate y los personalizados no — la app muestra "Aún no hay demostración disponible".
+**Un ejercicio no tiene demostración.** 184 de 213 ejercicios tienen demo. La disponibilidad varía según el ejercicio; los personalizados no tienen demos integradas.
 
 **¿Cómo cambio el idioma?** Toca el selector EN/ES en el encabezado. Toda la interfaz cambia al instante.
 

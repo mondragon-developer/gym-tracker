@@ -16,7 +16,7 @@ Training material for the in-app help chatbot. Upload the four guide files as **
 |---|---|---|
 | `01-app-guide-en.txt` | English | App overview, screen-by-screen navigation, accounts/sync, trainer & admin, default PPL plan, glossary, general recommendations, FAQ, chatbot behavior rules |
 | `01-guia-app-es.txt` | Spanish | Same content in Spanish |
-| `02-exercise-guide-en.txt` | English | All 159 exercises: muscles, equipment, technique steps, common mistakes, tips |
+| `02-exercise-guide-en.txt` | English | All 213 exercises: muscles, equipment, technique steps, common mistakes, tips |
 | `02-guia-ejercicios-es.txt` | Spanish | Same content in Spanish |
 | `03-training-setups-en.txt` | English | Warm-up/cool-down routine, weekly setups for 3/4/5/6 days, home/bodyweight week, cardio & boxing add-ons, volume/progression rules, in-app setup steps |
 | `03-planes-entrenamiento-es.txt` | Spanish | Same content in Spanish |
@@ -48,5 +48,9 @@ Keep `EXERCISES.md` (repo root) as the source of truth for the exercise list —
 
 - Exercise search inside the app matches English and Spanish names; Import plan reads both too.
 - The setups in `03-*` each carry a ready GYMPLAN block, so retrieval shows the format in context. After a library change run `npm run build:plan-doc` and re-upload both `08-*` files.
-- 122 of 159 exercises have ▶ visual demos; Cardio, Combat, and custom exercises do not.
+- 184 of 213 exercises have ▶ visual demos; availability varies by exercise.
 - Strength = sets/reps/weight (lbs). Cardio & Combat = minutes (1–120).
+
+## Trainer-access release (2026-10-02)
+
+Files 01, 05 and 06 (EN and ES) now describe explicit trainer approval and removal. The migration and frontend are deployed (PR #51); upload those six files and retrain as the separate Chatbase follow-up described in `../TRAINER_ACCESS_RELEASE.md`. These local edits are not evidence of a Chatbase deployment.

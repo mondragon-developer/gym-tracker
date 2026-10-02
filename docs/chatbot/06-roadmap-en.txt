@@ -5,9 +5,9 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 ## Available today
 
 - 6-day Push/Pull/Legs default plan, fully customizable per day (up to 3 muscle-group labels, Rest days)
-- 181-exercise library in 11 categories + custom exercise creation
+- 213-exercise library in 10 categories + custom exercise creation
 - Strength tracking (sets/reps/weight) and time-based Cardio & Combat tracking (minutes)
-- ▶ visual demonstrations for 152 exercises (still images, start-to-finish range of motion)
+- ▶ visual demonstrations for 184 exercises (152 photo pairs and 32 downloadable two-position GIFs)
 - **Equipment filter** in the exercise library (barbell, dumbbell, cable, machines, body weight, ...), combined with name search and the muscle-group filter
 - **Rest timer** under the weekly progress bar: presets (0:30-2:00), pause/resume, and a sound when the rest ends. It keeps time in the background, and with notifications allowed the phone gets an end-of-rest notification even from another app or with the screen locked (iPhone: app added to the home screen, iOS 16.4+)
 - Trainers can **email client invitations** from their panel (invite-by-email field); the signup link assigns the client automatically
@@ -52,7 +52,7 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 ## Planned (on the roadmap, no dates promised)
 
 - **More analytics** — per-muscle-group volume, personal records and longer ranges on top of the Progress tab
-- **Animated demos** — upgrading exercise how-tos from still images to looping video/GIF
+- **Continuous movement demos** — add licensed multi-frame footage beyond the current photo-pair GIFs
 - **More workout split templates** — beyond the five included (Push/Pull/Legs, Upper/Lower, Full body 3 days, Home with no equipment, Dumbbells only), for example a 5-day split or a kettlebell week
 - **Social features** — sharing workouts and progress
 - **Export to PDF** (CSV already exists for the weekly summary and the progress table)
@@ -72,7 +72,7 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 A: Yes. Open **Weekly Summary** and tap the **Progress** tab: volume per week as a chart, and per exercise the trend, best weight, last weight and change. It appears once two weeks have logged sets. **Download progress CSV** exports the same numbers.
 
 **Q: Are the exercise demos videos?**
-A: They're high-quality still sequences showing the full range of motion. Animated video/GIF demos are planned.
+A: They show two reference photographs. The 32 functional fitness additions package their photos as downloadable GIFs. Intermediate phases are not shown; continuous movement footage remains a future improvement.
 
 **Q: Is there a rest timer?**
 A: Yes — the rest timer sits under the weekly progress bar. Pick a preset (0:30, 1:00, 1:30 or 2:00), tap Start, and when the rest is over the screen blinks red and it beeps. It keeps time if you switch apps, and with notifications allowed you get a notification at the end. Pause/Resume and Reset are included.

@@ -1,8 +1,7 @@
 /**
  * Exercise Demo Modal
- * Shows how to perform an exercise by cross-fading between its start and end
- * frames on a loop, approximating the full range of motion from two stills, and
- * (when available) a step-by-step how-to with equipment/target metadata.
+ * Displays reference positions as a two-photo loop or a packaged GIF, plus
+ * step-by-step instructions. These photos do not cover intermediate phases.
  * Mounted only while open, so the animation timer and image loads are lazy.
  *
  * The enrichment data is a large module, loaded lazily (dynamic import inside
@@ -10,7 +9,7 @@
  * bundle. `hasExerciseEnrichment` (sync, tiny) tells us whether to expect it.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Modal from './ui/Modal.jsx';
 import { getExerciseMedia } from '../services/ExerciseMediaService.js';
 import { getExerciseEnrichment, hasExerciseEnrichment } from '../services/ExerciseEnrichmentService.js';
@@ -19,17 +18,26 @@ import { translateExercise } from '../translations/exercises';
 import { translateEquipment, translateTarget } from '../translations/exerciseTerms';
 
 export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }) {
-  const media = getExerciseMedia(exercise.dbId);
+  const media = useMemo(() => getExerciseMedia(exercise.dbId), [exercise.dbId]);
+  const [playing, setPlaying] = useState(() => !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
+  const [mediaFailed, setMediaFailed] = useState(false);
   const [frame, setFrame] = useState(0);
   const [enrichment, setEnrichment] = useState(null);
   const enrichmentExpected = hasExerciseEnrichment(exercise.dbId);
 
   // Alternate start/end frames to convey the movement.
   useEffect(() => {
-    if (!media || media.frames.length < 2) return;
+    if (!playing || !media || media.frames.length < 2) return;
     const timer = setInterval(() => setFrame(f => (f === 0 ? 1 : 0)), 900);
     return () => clearInterval(timer);
-  }, [media]);
+  }, [media, playing]);
+
+  useEffect(() => {
+    const preference = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+    const stop = event => { if (event.matches) setPlaying(false); };
+    preference?.addEventListener('change', stop);
+    return () => preference?.removeEventListener('change', stop);
+  }, []);
 
   // Lazily load the (heavy) enrichment record for this exercise.
   useEffect(() => {
@@ -47,8 +55,8 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
   const loadingEnrichment = enrichmentExpected && !enrichment;
 
   return (
-    <Modal isOpen onClose={onClose} title={`▶ ${translateExercise(exercise.name, language)}`}>
-      {media && (
+    <Modal isOpen onClose={onClose} title={`▶ ${translateExercise(exercise.name, language)}`} style={{ width: 560 }}>
+      {media && !mediaFailed && (
         <div style={{ textAlign: 'center' }}>
           <div style={{
             position: 'relative',
@@ -60,11 +68,20 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
             borderRadius: '12px',
             overflow: 'hidden'
           }}>
-            {media.frames.map((src, i) => (
+            {media.gif ? (
+              <img
+                src={playing ? media.gif : media.poster}
+                alt={translateExercise(exercise.name, language)}
+                onError={() => setMediaFailed(true)}
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+              />
+            ) : media.frames.map((src, i) => (
               <img
                 key={src}
                 src={src}
-                alt=""
+                alt={`${translateExercise(exercise.name, language)} (${i + 1}/2)`}
+                aria-hidden={frame !== i}
+                onError={() => setMediaFailed(true)}
                 loading="lazy"
                 style={{
                   position: 'absolute',
@@ -73,16 +90,28 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
                   height: '100%',
                   objectFit: 'contain',
                   opacity: frame === i ? 1 : 0,
-                  transition: 'opacity 0.35s ease'
+                  transition: playing ? 'opacity 0.35s ease' : 'none'
                 }}
               />
             ))}
           </div>
           <p style={{ marginTop: '12px', fontSize: '13px', color: 'var(--text-3)' }}>
-            {t('Full range of motion — start to finish', language)}
+            {language === 'es' ? 'Dos posiciones de referencia. No se muestran las fases intermedias.' : 'Two reference positions. Intermediate phases are not shown.'}
+          </p>
+          <button type="button" onClick={() => setPlaying(value => !value)} style={{ ...chipStyle, padding: '10px 14px', border: '1px solid var(--border-strong)', cursor: 'pointer', textTransform: 'none' }}>
+            {playing ? (language === 'es' ? 'Pausar demo' : 'Pause demo') : (language === 'es' ? 'Reproducir demo' : 'Play demo')}
+          </button>
+          {media.gif && <a href={media.gif} download style={{ marginLeft: 16, fontSize: 13, color: 'var(--info)' }}>
+            {language === 'es' ? 'Descargar GIF' : 'Download GIF'}
+          </a>}
+          <p style={{ fontSize: 11, color: 'var(--text-3)' }}>
+            <a href="https://github.com/yuhonas/free-exercise-db" target="_blank" rel="noreferrer" style={{ color: 'var(--info)' }}>free-exercise-db</a>
+            {' · '}<a href="https://unlicense.org/" target="_blank" rel="noreferrer" style={{ color: 'var(--info)' }}>Unlicense</a>
           </p>
         </div>
       )}
+
+      {mediaFailed && <p role="status">{language === 'es' ? 'No se pudo cargar la demo. Consulta las instrucciones.' : 'The demo could not load. Refer to the instructions.'}</p>}
 
       {steps && (
         <div style={{ marginTop: media ? '20px' : 0, textAlign: 'left' }}>
@@ -112,7 +141,9 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
           </ol>
 
           <p style={{ marginTop: '14px', fontSize: '11px', color: 'var(--text-3)' }}>
-            {t('Exercise data from the open exercises-dataset (MIT)', language)}
+            {enrichment.source === 'free-exercise-db'
+              ? (language === 'es' ? 'Datos: free-exercise-db (Unlicense). Resumen en español: Gym Tracker.' : 'Data: free-exercise-db (Unlicense). Spanish summary: Gym Tracker.')
+              : t('Exercise data from the open exercises-dataset (MIT)', language)}
           </p>
         </div>
       )}

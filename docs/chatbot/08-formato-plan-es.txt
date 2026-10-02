@@ -83,7 +83,7 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Cardio | Cardio |
 | Combate | Combat |
 
-## Nombres de ejercicios (181 entradas)
+## Nombres de ejercicios (213 entradas)
 
 | Grupo | Nombre en español | Nombre en inglés |
 |---|---|---|
@@ -95,6 +95,8 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Abdominales | Patadas de Tijera | Flutter Kicks |
 | Abdominales | Elevaciones de Piernas Colgado | Hanging Leg Raises |
 | Abdominales | Cuerpo Hueco (Hollow Hold) | Hollow Body Hold |
+| Abdominales | Levantamiento turco con pesa rusa | Kettlebell Turkish Get-Up |
+| Abdominales | Molino con pesa rusa | Kettlebell Windmill |
 | Abdominales | Elevaciones de Piernas | Leg Raises |
 | Abdominales | Escaladores | Mountain Climbers |
 | Abdominales | Press Pallof | Pallof Press |
@@ -111,20 +113,26 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Espalda | Extensiones de Espalda sin Banco | Bodyweight Back Extensions |
 | Espalda | Encogimientos en Polea | Cable Shrugs |
 | Espalda | Dominadas Supinas | Chin-ups |
+| Espalda | Tirón de cargada | Clean Pull |
 | Espalda | Encogimientos con Mancuernas | Dumbbell Shrugs |
 | Espalda | Jalón a la Cara | Face Pulls |
 | Espalda | Paseo del Granjero | Farmer's Walk |
 | Espalda | Hiperextensiones (Extensiones de Espalda) | Hyperextensions (Back Extensions) |
 | Espalda | Remo Invertido | Inverted Rows |
+| Espalda | Tirón alto sumo con pesa rusa | Kettlebell Sumo High Pull |
+| Espalda | Muscle-up en anillas con impulso | Kipping Ring Muscle-Up |
 | Espalda | Jalón al Pecho | Lat Pulldowns |
 | Espalda | Remo Meadows | Meadows Rows |
 | Espalda | Remo Pendlay | Pendlay Rows |
 | Espalda | Dominadas | Pull-ups |
 | Espalda | Peso Muerto Parcial | Rack Pulls |
 | Espalda | Hiperextensiones Inversas | Reverse Hyperextensions |
+| Espalda | Muscle-up en anillas | Ring Muscle-Up |
+| Espalda | Trepa de cuerda | Rope Climb |
 | Espalda | Remo Sentado en Polea | Seated Cable Rows |
 | Espalda | Buenos Días Sentado | Seated Good Mornings |
 | Espalda | Remo con Mancuerna a Un Brazo | Single-Arm Dumbbell Rows |
+| Espalda | Tirón de arrancada | Snatch Pull |
 | Espalda | Buenos Días con Piernas Rígidas | Stiff-Leg Good Mornings |
 | Espalda | Pullover en Polea | Straight-Arm Pulldowns |
 | Espalda | Superman | Superman |
@@ -200,16 +208,19 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Antebrazos | Dominadas con Toalla | Towel Pull-Ups |
 | Antebrazos | Curl de Muñeca | Wrist Curls |
 | Antebrazos | Rodillo de Muñeca | Wrist Roller |
+| Piernas | Cargada con barra | Barbell Clean |
 | Piernas | Empuje de Cadera | Barbell Hip Thrusts |
 | Piernas | Sentadillas con Barra | Barbell Squats |
 | Piernas | Saltos al Cajón | Box Jumps |
 | Piernas | Sentadillas Búlgaras | Bulgarian Split Squats |
 | Piernas | Patada de Glúteo en Polea | Cable Kickbacks |
 | Piernas | Press de Pantorrilla en Prensa | Calf Press on Leg Machine |
+| Piernas | Peso muerto de cargada | Clean Deadlift |
 | Piernas | Zancadas Inversas Cruzadas | Crossover Reverse Lunges |
 | Piernas | Peso Muerto | Deadlifts |
 | Piernas | Elevaciones de Pantorrilla Burro | Donkey Calf Raises |
 | Piernas | Elevaciones de Gemelos con Mancuernas | Dumbbell Calf Raises |
+| Piernas | Cargada con mancuernas | Dumbbell Clean |
 | Piernas | Zancadas con Mancuernas | Dumbbell Lunges |
 | Piernas | Peso Muerto Rumano con Mancuernas | Dumbbell Romanian Deadlifts |
 | Piernas | Sentadillas con Mancuernas | Dumbbell Squats |
@@ -221,40 +232,60 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Piernas | Sentadillas Goblet | Goblet Squats |
 | Piernas | Buenos Días | Good Mornings |
 | Piernas | Sentadillas Hack | Hack Squats |
+| Piernas | Cargada colgante | Hang Clean |
 | Piernas | Saltar la Cuerda | Jump Rope |
 | Piernas | Balanceo con Kettlebell | Kettlebell Swings |
+| Piernas | Thruster con pesas rusas | Kettlebell Thruster |
 | Piernas | Extensiones de Cuádriceps | Leg Extensions |
 | Piernas | Prensa de Piernas | Leg Press |
 | Piernas | Zancadas | Lunges |
 | Piernas | Curl Femoral Acostado | Lying Leg Curls |
 | Piernas | Curl Nórdico | Nordic Ham Curls |
+| Piernas | Sentadilla con barra sobre la cabeza | Overhead Squat |
 | Piernas | Sentadillas Pistola | Pistol Squats |
+| Piernas | Cargada de potencia | Power Clean |
 | Piernas | Peso Muerto Rumano | Romanian Deadlifts |
 | Piernas | Elevaciones de Pantorrilla Sentado | Seated Calf Raises |
 | Piernas | Curl Femoral Sentado | Seated Leg Curls |
 | Piernas | Elevaciones Laterales de Pierna | Side Leg Raises |
+| Piernas | Cargada con pesa rusa a un brazo | Single-Arm Kettlebell Clean |
 | Piernas | Elevaciones de Pantorrilla a Una Pierna | Single-Leg Calf Raises |
 | Piernas | Peso Muerto a Una Pierna | Single-Leg Deadlifts |
 | Piernas | Puente de Glúteo a Una Pierna | Single-Leg Glute Bridges |
 | Piernas | Sentadillas Sissy | Sissy Squats |
+| Piernas | Peso muerto con agarre de arrancada | Snatch-Grip Deadlift |
 | Piernas | Sentadillas (Postura Amplia) | Squats (Wide Stance) |
 | Piernas | Elevaciones de Pantorrilla | Standing Calf Raises |
 | Piernas | Subidas al Cajón | Step-Ups |
 | Piernas | Zancadas Caminando | Walking Lunges |
 | Piernas | Sentadilla en Pared | Wall Sits |
 | Hombros | Press Arnold | Arnold Press |
+| Hombros | Arrancada con barra | Barbell Snatch |
 | Hombros | Press Bradford | Bradford Press |
 | Hombros | Elevaciones Laterales en Polea | Cable Lateral Raises |
+| Hombros | Dos tiempos | Clean and Jerk |
+| Hombros | Cargada y press | Clean and Press |
+| Hombros | Envión con dos pesas rusas | Double Kettlebell Jerk |
+| Hombros | Push press con dos pesas rusas | Double Kettlebell Push Press |
 | Hombros | Elevaciones Posteriores con Mancuernas | Dumbbell Rear Delt Raises |
 | Hombros | Press de Hombros con Mancuernas | Dumbbell Shoulder Press |
 | Hombros | Elevaciones Frontales | Front Raises |
 | Hombros | Flexiones en Parada de Manos | Handstand Push-Ups |
+| Hombros | Arrancada colgante | Hang Snatch |
 | Hombros | Elevaciones Laterales | Lateral Raises |
 | Hombros | Press Militar | Military Press |
+| Hombros | Arrancada de fuerza | Muscle Snatch |
 | Hombros | Press sobre Cabeza | Overhead Press |
+| Hombros | Envión de potencia | Power Jerk |
+| Hombros | Arrancada de potencia | Power Snatch |
 | Hombros | Press de Empuje | Push Press |
 | Hombros | Remo de Deltoides Posterior | Rear Delt Rows |
 | Hombros | Aperturas Inversas en Máquina | Reverse Pec Deck Flyes |
+| Hombros | Dos tiempos con pesa rusa a un brazo | Single-Arm Kettlebell Clean and Jerk |
+| Hombros | Push press con pesa rusa a un brazo | Single-Arm Kettlebell Push Press |
+| Hombros | Arrancada con pesa rusa a un brazo | Single-Arm Kettlebell Snatch |
+| Hombros | Equilibrio de arrancada | Snatch Balance |
+| Hombros | Envión en tijera | Split Jerk |
 | Hombros | Remo al Mentón | Upright Rows |
 | Tríceps | Fondos en Banco | Bench Dips |
 | Tríceps | Extensión sobre Cabeza en Polea | Cable Overhead Extension |
@@ -263,6 +294,7 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Tríceps | Patada de Tríceps con Mancuerna | Dumbbell Triceps Kickbacks |
 | Tríceps | Press JM | JM Press |
 | Tríceps | Extensión sobre Cabeza con Mancuernas | Overhead Dumbbell Extension |
+| Tríceps | Fondos en anillas | Ring Dips |
 | Tríceps | Extensión con Cuerda | Rope Pushdowns |
 | Tríceps | Extensión en Polea a Un Brazo | Single-Arm Cable Pushdowns |
 | Tríceps | Rompe Cráneos | Skull Crushers |

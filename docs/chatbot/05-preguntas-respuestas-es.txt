@@ -29,7 +29,7 @@ R: Expande el día, toca el ícono **✏️**, selecciona hasta 3 grupos muscula
 R: Toca el ícono **✏️** de ese día y elige **Rest**.
 
 **P: ¿Cómo veo cómo se hace un ejercicio?**
-R: Toca el botón **▶** del ejercicio para abrir "Cómo hacer este ejercicio" — una demostración visual del movimiento completo. 152 de 181 ejercicios la tienen.
+R: Toca el botón **▶** del ejercicio para abrir "Cómo hacer este ejercicio" — una referencia visual de dos posiciones. 184 de 213 ejercicios la tienen.
 
 **P: ¿Por qué mi ejercicio no muestra demostración?**
 R: Los ejercicios de Cardio, Combate y los personalizados no tienen imágenes — la app muestra "Aún no hay demostración disponible". Igual puedo describirte la técnica si me preguntas.
