@@ -231,3 +231,11 @@ Deadlifts (Peso Muerto) 4×6-8 · Front Squats (Sentadillas Frontales) 3×8-10 �
 **¿Puedo tener más de un entrenador?** Sí. Cada entrenador con el que te conectes (por código, enlace de invitación o asignación del administrador) puede ver y editar tu plan. Lo que guarde el último, tú o cualquiera de tus entrenadores, es lo que la app conserva. Si un entrenador guardó mientras tenías cambios sin guardar, la barra de guardado te deja elegir Cargar la última versión o Conservar la mía.
 
 **¿Mis datos son privados?** Sí. Los datos en la nube se guardan por cuenta y están protegidos en el servidor (Row Level Security); solo tú — y tus entrenadores o un administrador, si aplica — pueden acceder a tu plan.
+
+ACTUALIZACIÓN DE ENTRENAMIENTO
+Marca ejercicios de la biblioteca con la estrella para encontrarlos en Favoritos. Se sincronizan con tu cuenta.
+Las tarjetas muestran el grupo muscular principal y los de apoyo. El tamaño del texto no representa porcentajes de activación.
+Usar últimos valores copia el peso y las repeticiones del último día registrado sin completar series.
+Entrenamiento enfocado muestra un ejercicio a la vez, controles grandes, Deshacer, estado de guardado y el mismo temporizador de descanso.
+Modo de entrenamiento ofrece EMOM, AMRAP y Por tiempo. El reloj funciona en la semana actual; las semanas futuras y la vista del entrenador permiten configurar el plan. Cada día conserva un resultado. Al iniciar se guardan los ejercicios y sus cargas; la vista enfocada usa esa copia. Reiniciar reemplaza el resultado y Deshacer permite recuperarlo.
+Por tiempo termina al registrar la ronda objetivo antes del límite. Mantén la app visible para ver los intervalos; estos modos no tienen alertas en segundo plano. El resumen semanal y la copia JSON incluyen los resultados, separados del volumen de fuerza. Copiar una semana borra los resultados de las sesiones copiadas.

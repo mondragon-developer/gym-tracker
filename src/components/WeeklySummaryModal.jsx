@@ -17,6 +17,7 @@ import { formatWeekRange, parseISODate } from '../utils/dateHelper.js';
 import { DAYS_OF_WEEK } from '../constants/AppConstants.js';
 import { useUnits } from '../hooks/useUnits.js';
 import { toDisplayWeight } from '../utils/weightUnits.js';
+import { conditioningScore } from '../utils/conditioning.js';
 
 const thStyle = {
   textAlign: 'left',
@@ -131,6 +132,13 @@ export default function WeeklySummaryModal({ isOpen, onClose, workoutPlan, weekS
       style={{ width: '860px' }}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        {tab === 'week' && DAYS_OF_WEEK.some(day => workoutPlan?.[day]?.conditioning?.session?.status === 'finished') && <section aria-label={language === 'es' ? 'Resultados de acondicionamiento' : 'Conditioning results'}>
+          <h3 style={{ fontSize: 16, color: 'var(--text)' }}>{language === 'es' ? 'Resultados de acondicionamiento' : 'Conditioning results'}</h3>
+          {DAYS_OF_WEEK.filter(day => workoutPlan?.[day]?.conditioning?.session?.status === 'finished').map(day => <p key={day} style={{ color: 'var(--text-2)', fontSize: 14 }}>
+            <strong>{t(day, language)} · {workoutPlan[day].conditioning.mode === 'forTime' ? (language === 'es' ? 'Por tiempo' : 'For time') : workoutPlan[day].conditioning.mode.toUpperCase()}</strong><br />
+            {conditioningScore(workoutPlan[day].conditioning, language)}
+          </p>)}
+        </section>}
         {history && (
           <div style={{ display: 'flex', gap: '8px' }}>
             <button type="button" style={tabStyle(tab === 'week')} aria-pressed={tab === 'week'} onClick={() => setTab('week')}>

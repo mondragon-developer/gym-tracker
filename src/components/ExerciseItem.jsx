@@ -6,6 +6,8 @@ import ExerciseService from '../services/ExerciseService.js';
 import { hasExerciseMedia } from '../services/ExerciseMediaService.js';
 import { hasExerciseEnrichment } from '../services/ExerciseEnrichmentService.js';
 import ExerciseDemoModal from './ExerciseDemoModal.jsx';
+import ExerciseMuscles from './ExerciseMuscles.jsx';
+import FavoriteButton from './FavoriteButton.jsx';
 import StepperInput from './ui/StepperInput.jsx';
 import { toDisplayWeight, fromDisplayWeight, weightStep, bumpStoredWeight, formatWeight, isNumericWeight } from '../utils/weightUnits.js';
 import { t } from '../translations/ui';
@@ -25,7 +27,7 @@ const startRestTimer = () => {
     }
 };
 
-const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language = 'en', readOnly = false }) => {
+const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language = 'en', readOnly = false, focused = false, conditioning = false, favorite = false, onToggleFavorite, onUndo, canUndo = false }) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
         id: exercise.id,
     });
@@ -118,9 +120,9 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
     return (
         <div
             ref={setNodeRef}
-            className="exercise-card"
+            className={`exercise-card${focused ? " exercise-card-focused" : ""}`}
             style={{
-                padding: '12px',
+                padding: focused ? '20px' : '12px',
                 borderRadius: '12px',
                 position: 'relative',
                 ...statusStyles,
@@ -130,8 +132,8 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {/* One row: grip, name, demo, actions. Status is carried by the
                     card colors and the pressed check/skip button. */}
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                    {!readOnly && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', gap: '8px' }}>
+                    {!readOnly && !focused && (
                         <button
                             type="button"
                             {...attributes}
@@ -153,8 +155,8 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                             <GripVertical size={18} />
                         </button>
                     )}
-                    <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
-                        <h3 style={{
+                    <div style={{ flex: '1 1 200px', minWidth: 0, display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
+                        <div style={{ flex: 1, minWidth: 0 }}><h3 style={{
                             fontWeight: '600',
                             color: 'var(--text)',
                             fontSize: '16px',
@@ -166,6 +168,9 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                         }}>
                             {translateExercise(exercise.name, language)}
                         </h3>
+                        <ExerciseMuscles exercise={exercise} language={language} />
+                        </div>
+                        {onToggleFavorite && exercise.dbId && <FavoriteButton active={favorite} onClick={() => onToggleFavorite(exercise.dbId)} name={translateExercise(exercise.name, language)} language={language} />}
                         {hasDemo && (
                             <button
                                 type="button"
@@ -190,7 +195,8 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
 
                     {/* Action buttons, hidden when viewing a past (read-only) week */}
                     {!readOnly && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0, marginLeft: 'auto' }}>
+                        {!conditioning && <>
                         <button
                             onClick={() => handleStatusChange('completed')}
                             aria-pressed={exercise.status === 'completed'}
@@ -209,7 +215,8 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                         >
                             <X size={16} />
                         </button>
-                        <button
+                        </>}
+                        {!focused && <button
                             onClick={() => onDelete(exercise.id)}
                             style={actionButtonStyle(false, null, 'var(--danger)')}
                             title={t("Delete exercise", language)}
@@ -222,7 +229,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                             }}
                         >
                             <Trash2 size={16} />
-                        </button>
+                        </button>}
                     </div>
                     )}
                 </div>
@@ -265,6 +272,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                                 ))}
                             </select>
                         </div>
+                        {!conditioning && <>
                         <div style={fieldStyle}>
                             <label style={labelStyle('var(--done)')}>{t("Effective", language)}</label>
                             <StepperInput
@@ -279,12 +287,14 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                                 disabled={readOnly}
                             />
                         </div>
+                        </>}
                     </div>
                 ) : (
                     <>
                         {/* Row 1: the plan. Row 2: what got done. */}
                         {/* Reps holds ranges like "10-12", so it gets the widest column. */}
-                        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 0.8fr) minmax(0, 1.3fr) minmax(0, 1.1fr)', gap: '8px', fontSize: '14px' }}>
+                        <div className="exercise-planning-fields" style={{ display: 'grid', gridTemplateColumns: conditioning ? '1fr 1fr' : 'minmax(0, 0.8fr) minmax(0, 1.3fr) minmax(0, 1.1fr)', gap: '8px', fontSize: '14px' }}>
+                            {!conditioning && <>
                             <div style={fieldStyle}>
                                 <label style={labelStyle('var(--accent-a)')}>{t("Sets", language)}</label>
                                 <StepperInput
@@ -299,6 +309,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                                     disabled={readOnly}
                                 />
                             </div>
+                            </>}
                             <div style={fieldStyle}>
                                 <label style={labelStyle('var(--info)')}>{t("Reps", language)}</label>
                                 <StepperInput
@@ -329,6 +340,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                             </div>
                         </div>
 
+                        {!conditioning && <>
                         <div style={{ display: 'flex', alignItems: 'flex-end', gap: '8px', flexWrap: 'wrap', marginTop: '8px' }}>
                             <div style={{ ...fieldStyle, flex: '1 1 96px', maxWidth: '150px' }}>
                                 <label style={labelStyle('var(--done)')}>{t("Effective", language)}</label>
@@ -344,7 +356,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                                     disabled={readOnly}
                                 />
                             </div>
-                            {!readOnly && (
+                            {!readOnly && !conditioning && (
                                 <button
                                     type="button"
                                     onClick={logSet}
@@ -370,10 +382,14 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                             {hasPrevious && (
                                 <span style={{ fontSize: '12px', color: 'var(--text-3)', display: 'inline-flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', paddingBottom: '8px' }}>
                                     <span>
-                                        {t("Last week", language)}: {isNumericWeight(previous.weight) ? formatWeight(previous.weight, unit) : (previous.weight || '')}
+                                        {previous.date ? (language === 'es' ? 'Última sesión' : 'Last logged') : t("Last week", language)}{previous.date ? ` (${previous.date.toLocaleDateString(language === 'es' ? 'es' : 'en', { month: 'short', day: 'numeric' })})` : ''}: {isNumericWeight(previous.weight) ? formatWeight(previous.weight, unit) : (previous.weight || '')}
                                         {previous.reps ? ` × ${previous.reps}` : ''}
                                         {previous.effectiveSets ? ` · ${previous.effectiveSets}/${previous.sets || '?'} ${t("Sets", language).toLowerCase()}` : ''}
                                     </span>
+                                    {!readOnly && <button type="button" onClick={() => onUpdate(exercise.id, { ...exercise, weight: previous.weight ?? '', reps: previous.reps ?? exercise.reps })}
+                                        style={{ padding: '6px 10px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--surface-3)', color: 'var(--text)', cursor: 'pointer' }}>
+                                        {language === 'es' ? 'Usar últimos valores' : 'Use last values'}
+                                    </button>}
                                     {!readOnly && isNumericWeight(previous.weight) && (
                                         <button
                                             type="button"
@@ -396,9 +412,11 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                                 </span>
                             )}
                         </div>
+                        </>}
                     </>
                 )}
                 </fieldset>
+                {focused && !readOnly && onUndo && <button type="button" disabled={!canUndo} onClick={onUndo} style={{ padding: 12, borderRadius: 10, border: '1px solid var(--border)', background: 'var(--surface-3)', color: 'var(--text)', cursor: 'pointer' }}>{t('Undo', language)}</button>}
             </div>
 
             {showDemo && (

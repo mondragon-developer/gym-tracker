@@ -231,3 +231,11 @@ Deadlifts 4×6-8 · Front Squats 3×8-10 · Lunges 3×12-15 · Leg Extensions 3�
 **Can I have more than one trainer?** Yes. Each trainer you connect with (by code, invite link, or assignment by the admin) can see and edit your plan. Whoever saves last, you or any of your trainers, is what the app keeps. If a trainer saved while you had unsaved edits, the save bar lets you choose Load latest or Keep mine.
 
 **Is my data private?** Yes. Cloud data is stored per-account and protected server-side (Row Level Security); only you — and your trainers or an admin, if applicable — can access your plan.
+
+WORKOUT USABILITY UPDATE
+Star library exercises to find them with the Favorites filter. Favorites sync with the workout account.
+Exercise cards show the primary and supporting muscle groups. Text emphasis is a navigation aid, not an activation percentage.
+Last logged shows the most recent logged performance from an earlier workout day. Use last values copies weight and reps without marking sets complete.
+Open focus workout displays one exercise at a time, with larger controls, undo, save status and the same rest timer.
+Choose EMOM, AMRAP or For time in Workout mode. Current-week workouts can run the clock; future weeks and trainer views support setup only. Each day stores one session result. Starting captures movement prescriptions; focus uses that snapshot. Reset session replaces the result and Undo can restore it.
+For time finishes when the target round is logged before the cap. Keep the app visible for visual interval cues; conditioning has no background alert. Saved results appear in the weekly summary and JSON backup, separately from strength volume. Copying a week clears session results.

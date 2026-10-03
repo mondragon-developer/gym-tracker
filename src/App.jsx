@@ -10,6 +10,7 @@ import ProgressBar from './components/ProgressBar';
 import DayAccordion from './components/DayAccordion';
 import AddExerciseModal from './components/AddExerciseModal';
 // Lazy: pulls in emailjs (~80 kB) only when the user actually opens the modal.
+const FocusWorkoutModal = React.lazy(() => import('./components/FocusWorkoutModal.jsx'));
 const FeedbackModal = React.lazy(() => import('./components/FeedbackModal'));
 // Lazy: admin-only surface, kept out of the bundle regular users download.
 const AdminDashboard = React.lazy(() => import('./components/AdminDashboard'));
@@ -84,6 +85,8 @@ function AppContent() {
     // Custom hooks for state management (Single Responsibility)
     const {
         workoutPlan,
+        favoriteExerciseIds,
+        toggleFavorite,
         isLoading,
         error,
         addExercise,
@@ -141,6 +144,8 @@ function AppContent() {
     // UI state
     const [activeDay, setActiveDay] = useState(getToday());
     const activeDayRef = useRef(null);
+    const [focusDay, setFocusDay] = useState(null);
+    const [focusTimerHost, setFocusTimerHost] = useState(null);
 
     // One-time notice when a trainer invite lost the consumption race: the
     // account exists but as a regular user (see utils/inviteNotice.js).
@@ -607,7 +612,7 @@ function AppContent() {
                 {/* Rest timer - one shared instance above the day list so it
                     keeps running across day-accordion toggles */}
                 <div className="app-section" style={{ padding: '0 32px 20px', backgroundColor: 'var(--surface)' }}>
-                    <RestTimer language={language} />
+                    <RestTimer language={language} portalTarget={focusTimerHost} />
                 </div>
 
                 {/* Days Container */}
@@ -628,6 +633,14 @@ function AppContent() {
                                 onOpenAddExercise={handleOpenAddExercise}
                                 onExerciseDeleted={handleExerciseDeleted}
                                 previousData={previousWeekPlan ? previousWeekPlan[day] : null}
+                                history={historySnapshot}
+                                weekStart={viewedWeekStart}
+                                favoriteExerciseIds={favoriteExerciseIds}
+                                onToggleFavorite={toggleFavorite}
+                                onFocusWorkout={isViewingCurrent ? setFocusDay : undefined}
+                                allowRun={isViewingCurrent}
+                                onUndo={handleUndoLast}
+                                canUndo={canUndo}
                                 activeDayRef={activeDayRef}
                                 language={language}
                                 readOnly={!isEditable}
@@ -889,11 +902,18 @@ function AppContent() {
                 </Suspense>
             )}
 
+            {focusDay && isViewingCurrent && workoutPlan[focusDay] && <Suspense fallback={lazyFallback}>
+                <FocusWorkoutModal key={`${viewedWeekStart}:${focusDay}`} day={focusDay} data={workoutPlan[focusDay]} history={historySnapshot} weekStart={viewedWeekStart}
+                    onChange={data => updateDay(focusDay, data)} onClose={() => setFocusDay(null)} language={language}
+                    favoriteExerciseIds={favoriteExerciseIds} onToggleFavorite={toggleFavorite} onUndo={handleUndoLast} canUndo={canUndo} timerHostRef={setFocusTimerHost} saveState={saveState} onSave={saveNow} />
+            </Suspense>}
             {/* Add Exercise Modal */}
             <AddExerciseModal
                 isOpen={addExerciseModal.isOpen}
                 onClose={addExerciseModal.close}
                 onAddExercise={handleAddExercise}
+                favoriteExerciseIds={favoriteExerciseIds}
+                onToggleFavorite={toggleFavorite}
                 muscleGroup={addExerciseModal.data && workoutPlan ? workoutPlan[addExerciseModal.data].name.split(' & ')[0] : ''}
                 language={language}
             />

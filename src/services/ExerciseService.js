@@ -78,7 +78,7 @@ class ExerciseService {
    * @param {string} exerciseData.reps - Reps (empty for cardio)
    * @returns {Exercise} New exercise object
    */
-  static createExercise({ name, dbId = null, sets, reps = '' }) {
+  static createExercise({ name, dbId = null, sets, reps = '', muscleGroup }) {
     const id = typeof crypto !== 'undefined' && crypto.randomUUID
       ? `ex_${crypto.randomUUID()}`
       : `ex_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
@@ -86,6 +86,7 @@ class ExerciseService {
       id,
       dbId,
       name,
+      ...(muscleGroup ? { muscleGroup } : {}),
       sets,
       reps,
       weight: '',

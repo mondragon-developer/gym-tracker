@@ -21,7 +21,7 @@ writeFileSync(join(here, '..', 'EXERCISES.md'), [
     `**${EXERCISE_DATABASE.length} exercises across ${new Set(EXERCISE_DATABASE.map(row => row.muscleGroup)).size} categories.**`, '',
     'Source: `src/constants/index.js`. Regenerate with `npm run build:plan-doc`.', '',
     'Choose **Browse functional fitness** in Add Exercise, or search **CrossFit**, to find Olympic lifts, kettlebell movements, gymnastics and conditioning. New IDs 246–277 include English/Spanish instructions and downloadable two-position GIF references. Intermediate phases are not shown. Technical lifts and gymnastics require appropriate progressions and coaching.', '',
-    'Strength categories use sets, reps and weight. Cardio and Combat use minutes. Functional fitness is a discovery collection, not a new tracking mode; this release does not add AMRAP, EMOM or rounds-for-time scoring.', '',
+    'Strength categories use sets, reps and weight. Cardio and Combat use minutes. Functional fitness is a discovery collection. The workout interface also supports EMOM, AMRAP and rounds-for-time; these timer configurations and results are separate from imported strength prescriptions.', '',
     '184 exercises have photo references: 152 existing Supabase-hosted pairs and 32 app-hosted GIF pairs. Instructions may be available without photos. See [media provenance and licenses](THIRD_PARTY_NOTICES.md).', '',
     ...[...new Set(EXERCISE_DATABASE.map(row => row.muscleGroup))].flatMap(group => {
         const rows = EXERCISE_DATABASE.filter(row => row.muscleGroup === group);

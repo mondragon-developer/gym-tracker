@@ -7,6 +7,7 @@ import { translateExercise } from '../translations/exercises';
 import { translateEquipment } from '../translations/exerciseTerms';
 import { getExerciseEquipment, listEquipment, hasExerciseEnrichment } from '../services/ExerciseEnrichmentService.js';
 import { hasExerciseMedia } from '../services/ExerciseMediaService.js';
+import FavoriteButton from './FavoriteButton.jsx';
 import ExerciseDemoModal from './ExerciseDemoModal.jsx';
 import { fold } from '../utils/textFold.js';
 import { FUNCTIONAL_IDS } from '../data/functionalExercises.js';
@@ -93,7 +94,7 @@ const navigationStyle = (active) => ({
     color: active ? 'var(--on-brand)' : 'var(--text-3)'
 });
 
-const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, language = 'en' }) => {
+const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, language = 'en', favoriteExerciseIds = [], onToggleFavorite }) => {
     const [searchTerm, setSearchTerm] = useState('');
     // Preselect the day's muscle group as the filter when a known group is supplied.
     const initialFilter = EXERCISE_DATABASE.some(ex => ex.muscleGroup === muscleGroup)
@@ -103,6 +104,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
     const [selectedEquipment, setSelectedEquipment] = useState('All');
     const [isCustom, setIsCustom] = useState(false);
     const [isFunctional, setIsFunctional] = useState(false);
+    const [favoritesOnly, setFavoritesOnly] = useState(false);
     // Exercise whose demo is open on top of the picker, before it is added.
     // Cleared on close so a reopened picker does not start with a demo up.
     const [previewExercise, setPreviewExercise] = useState(null);
@@ -110,6 +112,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
         if (!isOpen) setPreviewExercise(null);
     }, [isOpen]);
     const [customName, setCustomName] = useState('');
+    const [customMuscleGroup, setCustomMuscleGroup] = useState('');
     const [customSets, setCustomSets] = useState('3');
     const [customReps, setCustomReps] = useState('10-12');
     const [defaultSets, setDefaultSets] = useState('3');
@@ -131,7 +134,8 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
         const matchesMuscleGroup = selectedMuscleGroup === 'All' || ex.muscleGroup === selectedMuscleGroup;
         const matchesEquipment = selectedEquipment === 'All' || getExerciseEquipment(ex.id) === selectedEquipment;
         return matchesSearch && matchesMuscleGroup && matchesEquipment
-            && (!isFunctional || functionalIds.has(ex.id));
+            && (!isFunctional || functionalIds.has(ex.id))
+            && (!favoritesOnly || favoriteExerciseIds.includes(ex.id));
     });
 
     // Handle adding exercise from library
@@ -170,6 +174,7 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
         onAddExercise({
             dbId: null,
             name: customName.trim(),
+            ...(customMuscleGroup ? { muscleGroup: customMuscleGroup } : {}),
             sets: customSets,
             reps: customReps
         });
@@ -184,7 +189,9 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
         setSelectedEquipment('All');
         setIsCustom(false);
         setIsFunctional(false);
+        setFavoritesOnly(false);
         setCustomName('');
+        setCustomMuscleGroup('');
         setCustomSets('3');
         setCustomReps('10-12');
         setDefaultSets('3');
@@ -265,6 +272,13 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                             />
                         </div>
                         
+                        <label style={{ display: 'block', color: 'var(--text-2)', fontSize: 14, marginBottom: 16 }}>
+                            {language === 'es' ? 'Músculo principal (opcional)' : 'Primary muscle (optional)'}
+                            <select value={customMuscleGroup} onChange={e => setCustomMuscleGroup(e.target.value)} style={{ display: 'block', width: '100%', marginTop: 8, padding: 12, borderRadius: 8, border: '1px solid var(--border)', color: 'var(--text)', background: 'var(--surface)' }}>
+                                <option value="">{language === 'es' ? 'Sin especificar' : 'Not specified'}</option>
+                                {INDIVIDUAL_MUSCLE_GROUPS.filter(group => !['Rest', 'Cardio', 'Combat'].includes(group)).map(group => <option key={group} value={group}>{translateExercise(group, language)}</option>)}
+                            </select>
+                        </label>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
                             <div>
                                 <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'var(--text-2)', marginBottom: '8px' }}>{t("Target Sets", language)}</label>
@@ -341,6 +355,15 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                 ) : (
                     // Exercise Library
                     <div>
+                        {onToggleFavorite && <button type="button" aria-pressed={favoritesOnly}
+                            onClick={() => {
+                                const next = !favoritesOnly;
+                                setFavoritesOnly(next);
+                                if (next) { setSelectedMuscleGroup('All'); setSelectedEquipment('All'); setSearchTerm(''); }
+                            }}
+                            style={{ ...navigationStyle(favoritesOnly), marginBottom: 12, border: '1px solid var(--border)' }}>
+                            &#9733; {language === 'es' ? 'Favoritos' : 'Favorites'} ({favoriteExerciseIds.length})
+                        </button>}
                         {/* Search Input */}
                         <div style={{ marginBottom: '12px' }}>
                             <input
@@ -595,6 +618,7 @@ aria-label={t("Max Reps", language)}
                                                     }
                                                 </div>
                                             </div>
+                                            {onToggleFavorite && <FavoriteButton active={favoriteExerciseIds.includes(ex.id)} onClick={() => onToggleFavorite(ex.id)} name={translateExercise(ex.name, language)} language={language} />}
                                             {(hasExerciseMedia(ex.id) || hasExerciseEnrichment(ex.id)) && (
                                                 <button
                                                     type="button"

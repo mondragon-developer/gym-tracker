@@ -164,3 +164,16 @@ input:focus-visible,
     padding-right: 0 !important;
   }
 }
+
+/* Larger tap targets in the one-exercise workout view, including on phones. */
+.focus-workout .stepper-button { min-width: 40px !important; width: 40px !important; }
+.focus-workout .stepper-field { min-height: 44px; font-size: 17px !important; }
+.focus-workout button:disabled { opacity: 0.45; cursor: not-allowed !important; }
+.focus-workout .exercise-card-focused { padding: 16px !important; }
+@media (max-width: 420px) {
+  .focus-workout .exercise-card-focused { padding: 10px !important; }
+  .focus-workout .stepper-button { min-width: 32px !important; width: 32px !important; }
+}
+
+.focus-workout .exercise-planning-fields { grid-template-columns: 1fr !important; }
+.focus-workout h2 { padding-right: 32px; }

@@ -5,10 +5,19 @@ import { t } from '../translations/ui';
  * Displays the user's weekly workout progress.
  */
 const ProgressBar = ({ workoutPlan, language = 'en' }) => {
-    const [total, completed] = React.useMemo(() => {
+    const [total, completed, timed] = React.useMemo(() => {
         let totalExercises = 0;
         let completedOrSkipped = 0;
+        let timedWorkouts = 0;
         Object.values(workoutPlan).forEach(day => {
+            if (day.conditioning?.mode && day.conditioning.mode !== 'standard') {
+                if (day.exercises.length) {
+                    timedWorkouts++;
+                    totalExercises++;
+                    if (day.conditioning.session?.status === 'finished') completedOrSkipped++;
+                }
+                return;
+            }
             totalExercises += day.exercises.length;
             day.exercises.forEach(ex => {
                 if (ex.status === 'completed' || ex.status === 'skipped') {
@@ -16,7 +25,7 @@ const ProgressBar = ({ workoutPlan, language = 'en' }) => {
                 }
             });
         });
-        return [totalExercises, completedOrSkipped];
+        return [totalExercises, completedOrSkipped, timedWorkouts];
     }, [workoutPlan]);
 
     const progressPercentage = total > 0 ? Math.round((completed / total) * 100) : 0;
@@ -46,7 +55,7 @@ const ProgressBar = ({ workoutPlan, language = 'en' }) => {
                     fontWeight: '500',
                     margin: '0'
                 }}>
-                    {completed} {t("of", language)} {total} {t("exercises", language)} {t("completed", language)}
+                    {completed} {t("of", language)} {total} {timed ? (language === 'es' ? 'ejercicios y entrenamientos por tiempo' : 'exercises and timed workouts') : t("exercises", language)} {t("completed", language)}
                 </p>
             </div>
             

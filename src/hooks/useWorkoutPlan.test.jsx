@@ -344,6 +344,40 @@ describe('useWorkoutPlan session undo', () => {
     expect(result.current.canUndo).toBe(false);
   });
 
+  it('saves favorites through the account history and supports undo', async () => {
+    const { result } = await renderPlan();
+    act(() => { result.current.toggleFavorite(1); });
+    expect(result.current.favoriteExerciseIds).toEqual([1]);
+    await act(async () => { vi.advanceTimersByTime(2000); });
+    expect(mocks.saveWorkoutPlan).toHaveBeenCalledWith(expect.objectContaining({ favoriteExerciseIds: [1] }), expect.objectContaining({ expectedUpdatedAt: 'v1' }));
+    act(() => { result.current.undoLast(); });
+    expect(result.current.favoriteExerciseIds).toEqual([]);
+  });
+
+  it('undoes a logged set separately from an immediately preceding weight edit', async () => {
+    const { result } = await renderPlan();
+    const original = result.current.workoutPlan.Monday.exercises[0];
+    const change = updates => act(() => {
+      const day = result.current.workoutPlan.Monday;
+      result.current.updateDay('Monday', { ...day, exercises: day.exercises.map(ex => ex.id === original.id ? { ...ex, ...updates } : ex) });
+    });
+    change({ weight: '150' });
+    change({ effectiveSets: '1' });
+    act(() => { result.current.undoLast(); });
+    expect(result.current.workoutPlan.Monday.exercises[0]).toMatchObject({ weight: '150', effectiveSets: original.effectiveSets });
+    act(() => { result.current.undoLast(); });
+    expect(result.current.workoutPlan.Monday.exercises[0].weight).toBe(original.weight);
+  });
+
+  it('undoes conditioning actions independently without losing their setup', async () => {
+    const { result } = await renderPlan();
+    const setup = { mode: 'amrap', minutes: 10 };
+    act(() => { result.current.updateDay('Monday', { ...result.current.workoutPlan.Monday, conditioning: setup }); });
+    act(() => { result.current.updateDay('Monday', { ...result.current.workoutPlan.Monday, conditioning: { ...setup, session: { status: 'running', startedAt: Date.now(), rounds: 0 } } }); });
+    act(() => { result.current.undoLast(); });
+    expect(result.current.workoutPlan.Monday.conditioning).toEqual(setup);
+  });
+
   it('steps back one edit at a time, even after the edits were saved', async () => {
     const { result } = await renderPlan();
     rename(result, 'Monday', 'First');

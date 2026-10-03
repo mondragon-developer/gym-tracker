@@ -937,6 +937,7 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
                         onOpenAddExercise={(d) => addExerciseModal.open(d)}
                         language={language}
                         readOnly={isPastWeek}
+                        allowRun={false}
                         date={formatDayDate(viewedWeek, day, language)}
                       />
                     ))}

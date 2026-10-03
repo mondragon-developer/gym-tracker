@@ -7,6 +7,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { t } from '../translations/ui';
 import { formatSeconds } from '../utils/restTimer.js';
 import { canUsePush, ensurePushSubscription, scheduleRestPush, cancelRestPush } from '../utils/restPush.js';
@@ -193,7 +194,7 @@ const actionStyle = (primary) => ({
     cursor: 'pointer'
 });
 
-export default function RestTimer({ language = 'en' }) {
+export default function RestTimer({ language = 'en', portalTarget = null }) {
     const [duration, setDuration] = useState(60);
     const [saved] = useState(readSavedRest);
     // remaining === null means idle: the display then shows the preset itself.
@@ -462,7 +463,7 @@ export default function RestTimer({ language = 'en' }) {
         if (!running) setRemaining(null);
     };
 
-    return (
+    const content = (
         <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -570,4 +571,5 @@ export default function RestTimer({ language = 'en' }) {
             </div>
         </div>
     );
+    return portalTarget ? createPortal(content, portalTarget) : content;
 }

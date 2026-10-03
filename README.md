@@ -22,7 +22,12 @@ A modern, responsive React-based gym workout tracking application that helps you
 - **One-Thumb Entry**: Sets, reps, weight and minutes fields have minus/plus steppers and open the numeric keypad on phones (rep ranges like 8-10 step both ends)
 - **Undo, Not Confirm**: Delete exercise, Reset Day and Restart This Week apply at once and offer Undo in a toast for a few seconds
 - **Log Set**: One tap per set counts it, starts the rest timer, and marks the exercise completed on the last set
-- **Last Week Inline**: Each exercise shows last week's weight, reps and sets for the same movement, with a one-tap +5 lb / +2.5 kg button
+- **Last Logged Values**: Shows the most recent logged performance from an earlier workout day. Reuse its weight and reps without changing completion; the +5 lb / +2.5 kg shortcut remains available.
+- **Exercise Favorites**: Star library exercises and filter the picker to your favorites; favorites sync with your workout account.
+- **Muscle Labels**: Primary muscle appears prominently below the exercise name. Supporting muscles stay readable; chest presses emphasize triceps then shoulders. Other supporting groups have equal emphasis, without inferred activation percentages.
+- **Focus Workout**: Open one exercise at a time with larger controls, previous/next navigation, undo, save status, and the same running rest timer.
+- **Timed Workouts**: EMOM, AMRAP and rounds-for-time on current-week days. Pause/resume, log rounds, correct counts, and save one result per day. For-time finishes when the target round is logged before the cap. Keep the app visible for visual interval cues; these modes do not provide background notifications.
+- **Saved Prescriptions**: Starting a timed session captures its movements and loads. Focus mode uses that read-only snapshot even if the weekly plan later changes. Reset replaces the session; Undo can restore it. Results survive JSON backup/cloud sync and appear in the weekly summary, separately from strength-set volume. Copying a week retains timer setup and clears results.
 - **Day Notes**: A notes box per day, shared between a client and their trainers through the plan and carried into following weeks
 - **First-Run Chooser**: New accounts pick one of the three templates or keep the default
 - **Updated Elsewhere Notice**: A toast when a newer cloud copy is loaded on return to the app

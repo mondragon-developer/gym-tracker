@@ -1,0 +1,1 @@
+export const workoutControlStyle = { minHeight: 44, padding: '10px 14px', border: '1px solid var(--border-strong)', borderRadius: 10, background: 'var(--surface-3)', color: 'var(--text)', fontSize: 14, cursor: 'pointer' };
