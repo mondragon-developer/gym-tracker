@@ -320,7 +320,31 @@ const useWorkoutPlan = () => {
   };
 
   const updateDay = (day, dayData) => {
-    editViewedWeek(prev => ({ ...prev, [day]: dayData }), day);
+    const before = workoutPlan?.[day];
+    let mergeKey = null;
+    // Merge typing in a single field, never distinct actions such as logging
+    // a set, deleting an exercise, starting a clock or recording a round.
+    if (before && before.conditioning === dayData.conditioning && before.exercises?.length === dayData.exercises?.length) {
+      const changes = dayData.exercises.flatMap((exercise, index) => {
+        const previous = before.exercises[index];
+        if (exercise.id !== previous.id) return ['reorder'];
+        return Object.keys(exercise).filter(key => exercise[key] !== previous[key]).map(key => `${exercise.id}:${key}`);
+      });
+      if (changes.length === 1 && /:(weight|reps|sets)$/.test(changes[0])) mergeKey = `${day}:${changes[0]}`;
+      if (!changes.length && before.note !== dayData.note) mergeKey = `${day}:note`;
+      if (!changes.length && before.name !== dayData.name) mergeKey = `${day}:name`;
+    }
+    editViewedWeek(prev => ({ ...prev, [day]: dayData }), mergeKey);
+  };
+
+  const toggleFavorite = (id) => {
+    if (!history) return;
+    recordUndo(viewedWeekStart);
+    setHistory(prev => {
+      if (!prev) return prev;
+      const ids = prev.favoriteExerciseIds || [];
+      return { ...prev, favoriteExerciseIds: ids.includes(id) ? ids.filter(value => value !== id) : [...ids, id] };
+    });
   };
 
   const addExercise = (day, exerciseData) => {
@@ -441,6 +465,8 @@ const useWorkoutPlan = () => {
   };
 
   return {
+    favoriteExerciseIds: history?.favoriteExerciseIds || [],
+    toggleFavorite,
     workoutPlan,
     isLoading,
     error,

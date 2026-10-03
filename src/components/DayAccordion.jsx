@@ -15,6 +15,8 @@ import {
     arrayMove,
     sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
+import ConditioningPanel from './ConditioningPanel.jsx';
+import { lastPerformance } from '../utils/lastPerformance.js';
 import ExerciseItem from './ExerciseItem.jsx';
 import { INDIVIDUAL_MUSCLE_GROUPS } from '../constants/AppConstants.js';
 import { t } from '../translations/ui';
@@ -23,9 +25,10 @@ import { translateExercise, translateMuscleGroup } from '../translations/exercis
 /**
  * An accordion component for a single day's workout plan.
  */
-const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, onOpenAddExercise, onExerciseDeleted, previousData = null, activeDayRef, language = 'en', readOnly = false, date }) => {
+const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, onOpenAddExercise, onExerciseDeleted, previousData = null, activeDayRef, language = 'en', readOnly = false, date, history, weekStart, favoriteExerciseIds = [], onToggleFavorite, onFocusWorkout, onUndo, canUndo = false, allowRun = true }) => {
     // Same exercise last week, by library id or (custom exercises) by name.
     const findPrevious = (exercise) => {
+        if (history && weekStart) return lastPerformance(history, weekStart, day, exercise);
         const list = previousData?.exercises ?? [];
         return list.find(p => (exercise.dbId ? p.dbId === exercise.dbId : p.name === exercise.name)) ?? null;
     };
@@ -375,7 +378,9 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                             borderRadius: '12px',
                             backdropFilter: 'blur(4px)'
                         }}>
-                            {completedCount}/{exerciseCount}
+                            {data.conditioning?.mode && data.conditioning.mode !== 'standard'
+                                ? (data.conditioning.session?.status === 'finished' ? (language === 'es' ? 'Resultado guardado' : 'Result logged') : data.conditioning.mode === 'forTime' ? (language === 'es' ? 'Por tiempo' : 'For time') : data.conditioning.mode.toUpperCase())
+                                : `${completedCount}/${exerciseCount}`}
                         </span>
                     )}
                     <ChevronDown
@@ -446,6 +451,10 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                             )}
                         </div>
                     )}
+                    {!readOnly && onFocusWorkout && data.exercises.length > 0 && <button type="button" onClick={() => onFocusWorkout(day)} style={{ width: '100%', minHeight: 46, padding: 12, marginBottom: 12, borderRadius: 12, border: 'none', background: 'var(--brand)', color: 'var(--on-brand)', fontWeight: 700, fontSize: 15, cursor: 'pointer' }}>
+                        {language === 'es' ? 'Abrir entrenamiento enfocado' : 'Open focus workout'}
+                    </button>}
+                    <ConditioningPanel value={data.conditioning} exercises={data.exercises} onChange={value => onUpdateDay(day, { ...data, conditioning: value })} language={language} readOnly={readOnly} canRun={allowRun} onUndo={onUndo} canUndo={canUndo} />
                     <div className="day-exercises" style={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -466,6 +475,9 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                             key={ex.id}
                                             exercise={ex}
                                             previous={findPrevious(ex)}
+                                            favorite={favoriteExerciseIds.includes(ex.dbId)}
+                                            onToggleFavorite={onToggleFavorite}
+                                            conditioning={Boolean(data.conditioning?.mode && data.conditioning.mode !== "standard")}
                                             onUpdate={handleUpdateExercise}
                                             onDelete={handleDeleteExercise}
                                             language={language}

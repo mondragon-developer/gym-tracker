@@ -25,6 +25,11 @@
 import workoutService from './workoutService.js';
 import { getWeekStart, parseISODate, addWeeks } from '../utils/dateHelper.js';
 import { DAYS_OF_WEEK } from '../constants/AppConstants.js';
+import { EXERCISE_DATABASE } from '../constants/index.js';
+const libraryIds = new Set(EXERCISE_DATABASE.map(exercise => exercise.id));
+const favoriteFields = raw => Array.isArray(raw?.favoriteExerciseIds)
+    ? { favoriteExerciseIds: [...new Set(raw.favoriteExerciseIds.filter(id => libraryIds.has(id)))] }
+    : {};
 
 const CURRENT_VERSION = 2;
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -69,6 +74,7 @@ const carryForward = (plan) => {
         const dayPlan = plan?.[day];
         carried[day] = {
             ...dayPlan,
+            ...(dayPlan?.conditioning ? { conditioning: { ...dayPlan.conditioning, session: null } } : {}),
             exercises: (dayPlan?.exercises ?? []).map(ex => ({
                 ...ex,
                 status: 'incomplete',
@@ -128,7 +134,7 @@ const WeekPlanService = {
                 : (Object.keys(weeks).sort().pop() || getWeekStart(today));
             if (!weeks[currentWeekStart]) weeks[currentWeekStart] = workoutService.getInitialPlan();
 
-            return WeekPlanService.rollForward({ version: CURRENT_VERSION, currentWeekStart, weeks }, today);
+            return WeekPlanService.rollForward({ version: CURRENT_VERSION, currentWeekStart, weeks, ...favoriteFields(raw) }, today);
         }
 
         // Treat anything else as a v1 bare plan (day-keyed WorkoutPlan).
@@ -165,6 +171,7 @@ const WeekPlanService = {
         return {
             version: CURRENT_VERSION,
             currentWeekStart: thisWeek,
+            ...favoriteFields(history),
             weeks: { ...deepClone(history.weeks), [thisWeek]: carryForward(plan) }
         };
     },
@@ -264,6 +271,7 @@ const WeekPlanService = {
         return {
             version: CURRENT_VERSION,
             currentWeekStart: weekStart,
+            ...favoriteFields(history),
             weeks: { ...deepClone(history.weeks), [weekStart]: carryForward(currentPlan) }
         };
     }

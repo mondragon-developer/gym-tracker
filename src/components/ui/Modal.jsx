@@ -95,6 +95,7 @@ const Modal = ({
 }) => {
   // Latest onClose without re-registering the listener on every render.
   const titleId = React.useId();
+  const dialogRef = useRef(null);
   const onCloseRef = useRef(onClose);
   useEffect(() => {
     onCloseRef.current = onClose;
@@ -104,10 +105,29 @@ const Modal = ({
     if (!isOpen) return undefined;
 
     const entry = {};
+    const opener = document.activeElement;
+    const dialog = dialogRef.current;
+    const focusable = () => [...dialog.querySelectorAll('button, input, select, textarea, a[href], [tabindex]')].filter(el => !el.disabled && el.tabIndex >= 0 && !el.closest('[hidden]'));
     openModals.push(entry);
     document.body.style.overflow = 'hidden';
+    dialog.focus();
+    const containFocus = (e) => {
+      if (openModals.at(-1) === entry && !dialog.contains(e.target)) dialog.focus();
+    };
+    document.addEventListener('focusin', containFocus);
 
     const handleEscape = (e) => {
+      if (openModals.at(-1) !== entry) return;
+      if (e.key === 'Tab') {
+        const items = focusable();
+        const first = items[0];
+        const last = items.at(-1);
+        if (!first || (e.shiftKey && (document.activeElement === first || document.activeElement === dialog))) {
+          e.preventDefault(); (last || dialog).focus();
+        } else if (!e.shiftKey && (document.activeElement === last || document.activeElement === dialog)) {
+          e.preventDefault(); (first || dialog).focus();
+        }
+      }
       if (e.key === 'Escape' && openModals[openModals.length - 1] === entry) {
         onCloseRef.current();
       }
@@ -116,9 +136,11 @@ const Modal = ({
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('focusin', containFocus);
       const index = openModals.indexOf(entry);
       if (index !== -1) openModals.splice(index, 1);
       if (openModals.length === 0) document.body.style.overflow = 'unset';
+      if (opener?.isConnected) opener.focus();
     };
   }, [isOpen]);
 
@@ -134,6 +156,8 @@ const Modal = ({
     <div style={overlayStyles} onClick={handleOverlayClick}>
       <div
         role="dialog"
+        ref={dialogRef}
+        tabIndex={-1}
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
         style={{ ...modalStyles, ...style }}

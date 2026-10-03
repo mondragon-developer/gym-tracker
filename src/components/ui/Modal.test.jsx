@@ -10,6 +10,22 @@ afterEach(() => {
 const pressEscape = () => fireEvent.keyDown(document, { key: 'Escape' });
 
 describe('Modal nesting', () => {
+    it('contains keyboard focus, restores nested focus, and returns to the opener', () => {
+        const opener = document.createElement('button'); document.body.appendChild(opener); opener.focus();
+        const view = inner => <Modal isOpen onClose={() => {}} title="Outer"><button>Outer action</button>{inner && <Modal isOpen onClose={() => {}} title="Inner"><button>Inner action</button></Modal>}</Modal>;
+        const { rerender, unmount } = render(view(false));
+        const outer = document.querySelector('[role="dialog"]');
+        expect(document.activeElement).toBe(outer);
+        fireEvent.keyDown(document, { key: 'Tab', shiftKey: true });
+        expect(document.activeElement.textContent).toBe('Outer action');
+        rerender(view(true));
+        expect(document.activeElement).not.toBe(outer);
+        opener.focus();
+        expect(document.activeElement.getAttribute('role')).toBe('dialog');
+        rerender(view(false));
+        expect(document.activeElement.textContent).toBe('Outer action');
+        unmount(); expect(document.activeElement).toBe(opener); opener.remove();
+    });
     it('locks body scroll while open and releases it on close', () => {
         const { rerender } = render(<Modal isOpen onClose={() => {}} title="One">x</Modal>);
         expect(document.body.style.overflow).toBe('hidden');

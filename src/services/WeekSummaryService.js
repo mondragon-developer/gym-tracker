@@ -51,6 +51,7 @@ class WeekSummaryService {
     DAYS_OF_WEEK.forEach(day => {
       const dayPlan = workoutPlan?.[day];
       if (!dayPlan) return;
+      const conditioning = Boolean(dayPlan.conditioning?.mode && dayPlan.conditioning.mode !== 'standard');
       (dayPlan.exercises || []).forEach(exercise => {
         rows.push({
           day,
@@ -58,11 +59,11 @@ class WeekSummaryService {
           name: exercise.name,
           muscleGroup: resolveMuscleGroup(exercise, dayPlan),
           isCardio: ExerciseService.isCardioExercise(exercise),
-          targetSets: toCount(exercise.sets),
-          doneSets: toCount(exercise.effectiveSets),
+          targetSets: conditioning ? 0 : toCount(exercise.sets),
+          doneSets: conditioning ? 0 : toCount(exercise.effectiveSets),
           reps: exercise.reps || '',
           weight: exercise.weight || '',
-          status: exercise.status || 'incomplete'
+          status: conditioning ? 'incomplete' : exercise.status || 'incomplete'
         });
       });
     });

@@ -44,6 +44,8 @@ class ProgressService {
       let exercises = 0;
 
       DAYS_OF_WEEK.forEach(day => {
+        // Circuit scores do not imply strength sets or tonnage.
+        if (plan?.[day]?.conditioning?.mode && plan[day].conditioning.mode !== 'standard') return;
         (plan?.[day]?.exercises || []).forEach(exercise => {
           exercises += 1;
           const done = toCount(exercise.effectiveSets);
