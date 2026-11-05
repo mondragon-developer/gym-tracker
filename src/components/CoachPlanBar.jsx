@@ -16,13 +16,14 @@ const ABOVE_CHAT = 2147483647;
 const COPIED_MS = 2000;
 
 const buttonStyle = (primary) => ({
-    minHeight: '32px',
-    padding: '6px 12px',
-    borderRadius: '8px',
-    border: primary ? 'none' : '1px solid var(--toast-text)',
-    backgroundColor: primary ? 'var(--brand)' : 'transparent',
-    color: primary ? 'var(--on-brand)' : 'var(--toast-text)',
-    fontSize: '14px',
+    minHeight: '44px',
+    padding: primary ? '10px 20px' : '8px 12px',
+    borderRadius: primary ? '999px' : '8px',
+    border: primary ? '2px solid #67e8f9' : '1px solid var(--toast-text)',
+    backgroundColor: primary ? '#22d3ee' : 'transparent',
+    color: primary ? '#083344' : 'var(--toast-text)',
+    boxShadow: primary ? '0 0 0 3px rgba(34, 211, 238, 0.18)' : 'none',
+    fontSize: primary ? '16px' : '14px',
     fontWeight: 700,
     cursor: 'pointer'
 });
@@ -64,6 +65,7 @@ const CoachPlanBar = ({ plan, onImport, onDismiss, target = null, blockedHint = 
                 gap: '8px 10px',
                 padding: '10px 12px',
                 borderRadius: '12px',
+                border: '1px solid #22d3ee',
                 backgroundColor: 'var(--toast-bg)',
                 color: 'var(--toast-text)',
                 boxShadow: '0 10px 30px var(--shadow-strong)',
@@ -81,7 +83,7 @@ const CoachPlanBar = ({ plan, onImport, onDismiss, target = null, blockedHint = 
                     </span>
                 )}
             </div>
-            <div style={{ display: 'flex', gap: '8px', marginLeft: 'auto' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginLeft: 'auto' }}>
                 {!blockedHint && (
                     <button type="button" onClick={() => onImport(plan)} style={buttonStyle(true)}>
                         {t('Import', language)}
