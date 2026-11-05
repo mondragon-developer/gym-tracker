@@ -42,7 +42,15 @@ assistant provider and GPT-6 Luna remains the selected dashboard model.
 
 - Full Vitest suite: 68 files, 495 tests passed.
 - ESLint and production build passed. The existing large chunk warning remains.
-- Dependency audit reported zero vulnerabilities at the time of this review.
+- After GitHub exposed alerts absent from the initial audit, updated Vite to
+  7.3.7, Vitest/mocker to 4.1.12, undici to 7.30.2, fast-uri to 3.1.9,
+  source-map-js to 1.2.2 and serialize-javascript to 7.1.4 within existing
+  dependency ranges. The complete test, lint and build checks passed again.
+  Production-only npm audit reports zero findings. The full audit retains
+  six development findings (two low, four moderate) in the PWA build chain:
+  deepmerge, glob, minimatch and their parent packages. The suggested forced
+  downgrade of vite-plugin-pwa was not applied. These dependencies consume
+  repository build inputs, not incoming workout or chat requests.
 - Isolated PGlite schema fixture applied both security migrations twice, then
   passed `supabase/tests/trainer-access.sql` and
   `supabase/tests/security-hardening.sql`. This fixture is not a hosted Supabase
