@@ -35,8 +35,24 @@ assistant provider and GPT-6 Luna remains the selected dashboard model.
   reloading Settings. This allowance is separate from Anthropic credits.
 - Chatbase domain allowlist: `https://gym.mdragonsolutions.com`; direct iframe
   access blocking enabled. Saved through the immediate-change confirmation.
-- Chatbase instructions/display are currently a draft. Source refresh and
-  publication are in progress. Frontend deployment is pending.
+- Uploaded refreshed guides 01, 03, 05, 06 and 08 in both languages plus
+  README.txt. After explicit owner approval, removed the ten superseded
+  copies. The Spanish roadmap had not existed as a separate source, so the
+  final inventory is 17 files plus the existing text snippet, 471 KB, synced.
+- Published Chatbase instructions and display settings. Returning to the
+  dashboard showed no pending changes and a disabled Publish button.
+- Frontend commit `9a962e33969c8f5f3be12a77565fb6521d198e1e` was released
+  through Git on main. Vercel production deployment
+  `dpl_CWqdDeGPQd7wGxiSkNsYLYBkvqe3` is READY and assigned to
+  `gym.mdragonsolutions.com`. Live HTTP 200 includes CSP, X-Frame-Options,
+  X-Content-Type-Options and Referrer-Policy as configured.
+- After the owner signed in, the production widget loaded on the restricted
+  domain with the localized welcome and four suggestions. A synthetic request
+  for two Wednesday leg exercises produced the app's Import and Copy bar.
+  Import opened a Wednesday-only preview, recognized both library exercises,
+  and exposed Replace day, Add to day and Skip. Selecting Skip dimmed the day;
+  Back exposed editable plan text. The preview was closed without applying.
+  The public sign-in screen was observed without the assistant bubble.
 
 ## Validation
 
@@ -51,6 +67,9 @@ assistant provider and GPT-6 Luna remains the selected dashboard model.
   deepmerge, glob, minimatch and their parent packages. The suggested forced
   downgrade of vite-plugin-pwa was not applied. These dependencies consume
   repository build inputs, not incoming workout or chat requests.
+  After main updated, GitHub showed only two open dependency alerts:
+  minimatch (medium) and deepmerge (low). npm and GitHub counts differ because
+  npm also reports affected parent packages and uses its own advisory feed.
 - Isolated PGlite schema fixture applied both security migrations twice, then
   passed `supabase/tests/trainer-access.sql` and
   `supabase/tests/security-hardening.sql`. This fixture is not a hosted Supabase
@@ -59,6 +78,8 @@ assistant provider and GPT-6 Luna remains the selected dashboard model.
 - Draft Chatbase preview returned valid-looking GYMPLAN blocks for an English
   Wednesday leg request, a Spanish Monday/Wednesday request, and the follow-up
   removing Monday. Exercise names were checked against the app's library.
+  A fresh "Let's create a workout" request also returned the expected
+  Wednesday-only block after the training sources were replaced.
 
 ## Operations and limits
 
