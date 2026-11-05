@@ -20,6 +20,7 @@
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 import { isValidEmail, buildInviteUrl, buildInviteEmail } from './inviteEmail.js';
+import { sendInvitation } from './sendInvitation.js';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -74,34 +75,24 @@ Deno.serve(async (req) => {
   let email = '';
   try {
     const body = await req.json();
-    email = String(body?.email ?? '').trim();
+    email = typeof body?.email === 'string' ? body.email.trim() : '';
   } catch {
     return json(400, { error: 'Invalid request body' });
   }
-  if (!isValidEmail(email)) return json(400, { error: 'Invalid email address' });
+  if (email.length > 254 || !isValidEmail(email)) return json(400, { error: 'Invalid email address' });
 
   const inviteUrl = buildInviteUrl(APP_URL, profile.invite_code);
   const { subject, html } = buildInviteEmail({ inviteUrl });
 
-  // 4. Send via Brevo.
-  const brevo = await fetch('https://api.brevo.com/v3/smtp/email', {
-    method: 'POST',
-    headers: {
-      'api-key': BREVO_API_KEY,
-      'Content-Type': 'application/json',
-      accept: 'application/json',
-    },
-    body: JSON.stringify({
+  // 4. Atomically reserve quota before sending. Never expose provider details.
+  const result = await sendInvitation({
+    service, userId: user.id, apiKey: BREVO_API_KEY,
+    message: {
       sender: { name: SENDER_NAME, email: SENDER_EMAIL },
       to: [{ email }],
       subject,
       htmlContent: html,
-    }),
+    },
   });
-
-  if (!brevo.ok) {
-    const detail = await brevo.text();
-    return json(502, { error: `Email provider rejected the send (${brevo.status})`, detail });
-  }
-  return json(200, { sent: true });
+  return json(result.status, result.body);
 });

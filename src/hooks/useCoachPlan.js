@@ -33,12 +33,16 @@ export default function useCoachPlan() {
             const block = extractPlanBlock(event?.data?.content);
             if (block) setPlan(block);
         };
+        const clearPlan = () => setPlan(null);
+        window.addEventListener('gym:coach-session-cleared', clearPlan);
         try {
             api.addEventListener('assistant-message', onMessage);
         } catch {
+            window.removeEventListener('gym:coach-session-cleared', clearPlan);
             return undefined;
         }
         return () => {
+            window.removeEventListener('gym:coach-session-cleared', clearPlan);
             try {
                 api.removeEventListener('assistant-message', onMessage);
             } catch {

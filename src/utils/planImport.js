@@ -20,6 +20,7 @@ import { fromDisplayWeight } from './weightUnits.js';
 import { resolveExerciseName, resolveMuscleGroups, resolveWeekday } from './exerciseResolver.js';
 
 export const PLAN_FORMAT_VERSION = 1;
+export const MAX_PLAN_TEXT_LENGTH = 20000;
 export const IMPORT_PRESETS = Object.freeze({ REPLACE: 'replace', MERGE: 'merge' });
 export const DAY_MODES = Object.freeze({ REPLACE: 'replace', ADD: 'add', SKIP: 'skip' });
 
@@ -82,7 +83,7 @@ const parseExerciseLine = (rawLine) => {
  */
 export const looksLikePlan = (text) => {
     const value = String(text ?? '');
-    if (!value.trim() || value.length > 20000) return false;
+    if (!value.trim() || value.length > MAX_PLAN_TEXT_LENGTH) return false;
     if (/gymplan\s*v?\d/i.test(value)) return true;
     return Object.keys(parsePlanText(value).days).length > 0;
 };
@@ -96,7 +97,8 @@ export const looksLikePlan = (text) => {
  * @returns {string|null}
  */
 export const extractPlanBlock = (text) => {
-    const lines = String(text ?? '').split(/\r?\n/);
+    if (typeof text !== 'string' || text.length > MAX_PLAN_TEXT_LENGTH) return null;
+    const lines = text.split(/\r?\n/);
     const start = lines.findIndex(line => HEADER.test(normalizeLine(line)));
     if (start === -1) return null;
     const fence = lines.findIndex((line, i) => i > start && /^\s*```/.test(line));
@@ -115,6 +117,10 @@ export const parsePlanText = (text) => {
     const warnings = [];
     let version = null;
     let currentDay = null;
+
+    if (typeof text !== 'string' || text.length > MAX_PLAN_TEXT_LENGTH) {
+        return { version, days, errors: [{ line: 1, message: 'No plan found in the text' }], warnings };
+    }
 
     const lines = String(text ?? '').split(/\r?\n/);
     lines.forEach((raw, index) => {

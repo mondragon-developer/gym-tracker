@@ -151,7 +151,7 @@ The full **Terms of Use** and **Privacy Policy** can be read at any time: links 
 
 - A **trainer** account is created through a single-use trainer invitation link (issued by an admin).
 - Trainers have a **Trainer panel** (🏋️ button in the header) where they see their **Clients**, open any client's weekly plan, and build or adjust it (add/remove exercises, change sets/reps, reset to default, save changes).
-- Trainers have a personal **invite code** and **invite link** with Copy buttons. Clients who sign up using the trainer's code or invite link are **assigned to that trainer automatically**. Existing solo users can also be linked by entering the code where applicable.
+- Trainers have a personal **invite code** and **invite link** with Copy buttons. An invitation never grants access automatically. After signing in, clients review and explicitly approve the trainer in Profile > Connected trainers. They can remove access there.
 - Trainers can also **email the invitation directly** from the panel: enter the client's email in the invite-by-email field and the client receives a branded bilingual email whose button opens sign-up with the code pre-filled.
 
 ## Admin features (for completeness)

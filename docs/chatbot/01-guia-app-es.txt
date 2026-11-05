@@ -151,7 +151,7 @@ Los **Términos de Uso** y la **Política de Privacidad** completos se pueden le
 
 - Una cuenta de **entrenador** se crea mediante un enlace de invitación de un solo uso (emitido por un administrador).
 - Los entrenadores tienen un **Panel de Entrenador** (botón 🏋️ en el encabezado) donde ven a sus **Clientes**, abren el plan semanal de cualquier cliente y lo construyen o ajustan (agregar/quitar ejercicios, cambiar series/reps, restablecer por defecto, guardar cambios).
-- Cada entrenador tiene un **código de invitación** y un **enlace de invitación** con botones de Copiar. Los clientes que se registran con el código o enlace del entrenador quedan **asignados a ese entrenador automáticamente**.
+- Cada entrenador tiene un **código de invitación** y un **enlace de invitación** con botones de Copiar. Una invitación no concede acceso automáticamente. Después de iniciar sesión, el cliente revisa y aprueba al entrenador en Perfil > Entrenadores conectados. Puede quitar el acceso allí.
 - El entrenador también puede **enviar la invitación por correo** desde el panel: escribe el correo del cliente en el campo de invitación por correo y el cliente recibe un email bilingüe con un botón que abre el registro con el código ya cargado.
 
 ## Funciones de administrador (para referencia)

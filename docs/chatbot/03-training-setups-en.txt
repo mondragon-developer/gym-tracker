@@ -40,7 +40,7 @@ To build it by hand instead: set Tuesday, Thursday, Saturday (and Sunday) to **R
 
 **Day C (Friday):** Leg Press 3×12-15 · Dumbbell Press 3×8-12 · Bent-Over Barbell Rows 3×8-10 · Lateral Raises 3×12-15 · Barbell Curls 2×10-12 · Rope Pushdowns 2×10-12
 
-Ready to paste into **Import plan** (under the days):
+Tap **Import** on the coach bar to review this plan. You can skip days, add or replace exercises, or go Back to edit the text. If the bar is absent, copy the block into **Import plan**:
 
 ```
 GYMPLAN v1
@@ -83,7 +83,7 @@ Building it by hand: Wednesday, Saturday, Sunday → Rest (or light cardio, see 
 
 **Lower B (Friday):** Deadlifts 3×5-8 · Front Squats 3×8-10 · Lying Leg Curls 3×12-15 · Seated Calf Raises 3×15-20 · Hanging Leg Raises 3×10-15
 
-Ready to paste into **Import plan** (under the days):
+Tap **Import** on the coach bar to review this plan. You can skip days, add or replace exercises, or go Back to edit the text. If the bar is absent, copy the block into **Import plan**:
 
 ```
 GYMPLAN v1
@@ -132,7 +132,7 @@ One focus per day; weekend rest. Label each day with its group.
 
 **Friday — Arms + Forearms:** Close-Grip Bench Press 4×8-12 · Barbell Curls 4×8-12 · Rope Pushdowns 3×10-15 · Hammer Curls 3×10-15 · Wrist Curls 2×15-20 · Dead Hangs 2× (max comfortable hold)
 
-Ready to paste into **Import plan** (under the days):
+Tap **Import** on the coach bar to review this plan. You can skip days, add or replace exercises, or go Back to edit the text. If the bar is absent, copy the block into **Import plan**:
 
 ```
 GYMPLAN v1
@@ -184,7 +184,7 @@ All these exist in the app and need little or no equipment. Example 3-day patter
 
 **Day C:** Burpees 3×10-15 · Step-Ups 3×12-15 · Bench Dips 3×10-15 (sturdy chair) · Dead Bug 3×10 per side · Side Plank 2× per side (20–40s) · Jump Rope 10 min
 
-Ready to paste into **Import plan** (under the days):
+Tap **Import** on the coach bar to review this plan. You can skip days, add or replace exercises, or go Back to edit the text. If the bar is absent, copy the block into **Import plan**:
 
 ```
 GYMPLAN v1

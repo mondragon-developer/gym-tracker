@@ -4,7 +4,7 @@
 // bot copies names from. The prose lives here so a rerun after a library
 // change never loses it. Run with `npm run build:plan-doc`.
 
-import { writeFileSync, copyFileSync } from 'node:fs';
+import { writeFileSync, copyFileSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { EXERCISE_DATABASE } from '../src/constants/index.js';
@@ -13,6 +13,7 @@ import { exerciseTranslations } from '../src/translations/exercises.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const outDir = join(here, '..', 'docs', 'chatbot');
+const systemPrompt = readFileSync(join(outDir, 'system-prompt.txt'), 'utf8').trim();
 
 const es = (name) => exerciseTranslations[name] ?? name;
 // Keep the public exercise reference synchronized with stable library IDs.
@@ -103,11 +104,13 @@ Gym Tracker has an **Import plan** button under the day cards. The user pastes a
 3. Strength exercises: \`Name SETSxREPS\`, for example \`Barbell Bench Press 4x6-8\`. Reps can be a number, a range like \`8-10\`, a hold like \`30-60s\`, or \`max\`.
 4. Cardio and Combat exercises: \`Name MINUTES min\`, for example \`Stationary Bike 20 min\`. Never sets x reps for them.
 5. One line per weekday, \`Weekday: Group\` with up to three groups from the group table joined by \`&\` (or \`y\` in Spanish). Off days are \`Weekday: Rest\` (\`Descanso\`).
-6. List all seven weekdays, Monday to Sunday, in order.
+6. For a whole-week request list all seven weekdays, Monday to Sunday. For specific days, include only the requested days; do not mark unspecified days Rest. Honor the requested exercise count. When revising a draft, return its complete revised block, including remaining days, so the latest Import/Copy button holds the updated plan.
 7. At most 8 exercises per day. Put an optional day note on its own line as \`note: ...\` (\`nota: ...\`).
 8. No weights. The app keeps last week's weights and the user fills in the rest.
 9. Do not invent exercise names. If the user explicitly asks for something the library lacks (a machine, a sport drill), write it with the prefix \`custom:\` so the app creates a custom exercise, for example \`- custom: Sled Push with rope 4x20\`.
 10. Every exercise in the block must exist in the table, unless it carries the \`custom:\` prefix.
+11. "Create workout", "create me a workout", "let's create a workout", "generate a workout", "make a routine", and their Spanish equivalents all use this same flow. Ask one brief question for missing days/equipment only when necessary. Never invent an import URL or claim the plan is saved.
+12. Import opens the editable preview. Users can choose a week, Skip one or more days (preserving those saved days), Add to day, Replace day, or go Back to edit the text. Copy and manual Import plan are the fallback if the automatic bar is absent. Only applying changes the saved workout.
 
 ## Example (English chat)
 
@@ -139,11 +142,13 @@ Gym Tracker tiene un botón **Importar plan** debajo de las tarjetas de los día
 3. Ejercicios de fuerza: \`Nombre SERIESxREPS\`, por ejemplo \`Press de Banca con Barra 4x6-8\`. Las reps pueden ser un número, un rango como \`8-10\`, un aguante como \`30-60s\` o \`max\`.
 4. Ejercicios de Cardio y Combate: \`Nombre MINUTOS min\`, por ejemplo \`Bicicleta Estática 20 min\`. Nunca series x reps para ellos.
 5. Una línea por día, \`Día: Grupo\` con hasta tres grupos de la tabla de grupos unidos con \`y\` (o \`&\` en inglés). Los días libres son \`Día: Descanso\` (\`Rest\`).
-6. Lista los siete días, de lunes a domingo, en orden.
+6. Para una semana completa lista los siete días, de lunes a domingo. Para días concretos, incluye solo los solicitados; no marques los demás como Descanso. Respeta la cantidad de ejercicios. Al revisar un borrador, devuelve su bloque completo actualizado con los días restantes para que Importar/Copiar use la última versión.
 7. Máximo 8 ejercicios por día. Una nota opcional del día va en su propia línea como \`nota: ...\` (\`note: ...\`).
 8. Sin pesos. La app conserva los pesos de la semana pasada y el usuario completa el resto.
 9. No inventes nombres de ejercicios. Si el usuario pide explícitamente algo que no está en la biblioteca (una máquina, un ejercicio de un deporte), escríbelo con el prefijo \`personalizado:\` para que la app cree un ejercicio personalizado, por ejemplo \`- personalizado: Empuje de trineo con cuerda 4x20\`.
 10. Todo ejercicio del bloque debe existir en la tabla, salvo que lleve el prefijo \`personalizado:\`.
+11. "Crear entrenamiento", "créame una rutina", "hagamos un entrenamiento", "genera una rutina" y sus equivalentes en inglés usan este mismo flujo. Pregunta brevemente por los días/equipo que falten solo si es necesario. Nunca inventes un enlace de importación ni afirmes que el plan está guardado.
+12. Importar abre la vista previa editable. Se puede elegir semana, Omitir uno o varios días (conservando esos días guardados), Añadir al día, Reemplazar día o Volver para editar el texto. Copiar e Importar plan manualmente son la alternativa si no aparece la barra. Solo aplicar modifica el entrenamiento guardado.
 
 ## Ejemplo (chat en español)
 
@@ -166,6 +171,14 @@ ${exerciseTable('es')}`;
 
 writeFileSync(join(outDir, '08-plan-format-en.txt'), EN, 'utf8');
 writeFileSync(join(outDir, '08-formato-plan-es.txt'), ES, 'utf8');
+// Keep one authoritative prompt for the dashboard and the documented copy.
+const readmePath = join(outDir, 'README.md');
+const readme = readFileSync(readmePath, 'utf8').replace(
+    /## Suggested Chatbase system prompt[\s\S]*?(?=## Notes)/,
+    '## Suggested Chatbase system prompt\n\nSource: `system-prompt.txt`. Paste it into Chatbase Instructions, not just Sources. Local edits do not publish the live agent.\n\n' +
+        systemPrompt.split('\n').map(line => line ? '> ' + line : '>').join('\n') + '\n\n'
+);
+writeFileSync(readmePath, readme, 'utf8');
 // README.md stays for GitHub; README.txt is the same text for the Chatbase upload.
 copyFileSync(join(outDir, 'README.md'), join(outDir, 'README.txt'));
 console.log(`wrote 08-plan-format-en.txt, 08-formato-plan-es.txt (${EXERCISE_DATABASE.length} exercises) and README.txt`);

@@ -245,6 +245,13 @@ describe('looksLikePlan', () => {
 });
 
 describe('extractPlanBlock', () => {
+    it('rejects oversized and non-text messages without parsing them', () => {
+        const text = 'GYMPLAN v1\nWednesday: Legs\n' + 'x'.repeat(20000);
+        expect(extractPlanBlock(text)).toBeNull();
+        expect(extractPlanBlock({ content: text })).toBeNull();
+        expect(parsePlanText(text).errors).toHaveLength(1);
+        expect(parsePlanText(text).days).toEqual({});
+    });
     it('takes the fenced block out of a coach reply', () => {
         const reply = [
             'Here is your week:',

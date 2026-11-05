@@ -40,7 +40,7 @@ Para armarlo a mano: pon martes, jueves, sábado (y domingo) en **Rest** con el 
 
 **Día C (viernes):** Leg Press 3×12-15 · Dumbbell Press 3×8-12 · Bent-Over Barbell Rows 3×8-10 · Lateral Raises 3×12-15 · Barbell Curls 2×10-12 · Rope Pushdowns 2×10-12
 
-Listo para pegar en **Importar plan** (debajo de los días):
+Toca **Importar** en la barra del coach para revisar el plan. Puedes omitir días, añadir o reemplazar ejercicios o Volver para editar el texto. Si no aparece la barra, copia el bloque en **Importar plan**:
 
 ```
 GYMPLAN v1
@@ -83,7 +83,7 @@ Para armarlo a mano: miércoles, sábado y domingo → Descanso (o cardio suave,
 
 **Pierna B (viernes):** Deadlifts 3×5-8 · Front Squats 3×8-10 · Lying Leg Curls 3×12-15 · Seated Calf Raises 3×15-20 · Hanging Leg Raises 3×10-15
 
-Listo para pegar en **Importar plan** (debajo de los días):
+Toca **Importar** en la barra del coach para revisar el plan. Puedes omitir días, añadir o reemplazar ejercicios o Volver para editar el texto. Si no aparece la barra, copia el bloque en **Importar plan**:
 
 ```
 GYMPLAN v1
@@ -132,7 +132,7 @@ Un enfoque por día; fin de semana de descanso. Etiqueta cada día con su grupo.
 
 **Viernes — Brazos + Antebrazos:** Close-Grip Bench Press 4×8-12 · Barbell Curls 4×8-12 · Rope Pushdowns 3×10-15 · Hammer Curls 3×10-15 · Wrist Curls 2×15-20 · Dead Hangs 2× (aguante máximo cómodo)
 
-Listo para pegar en **Importar plan** (debajo de los días):
+Toca **Importar** en la barra del coach para revisar el plan. Puedes omitir días, añadir o reemplazar ejercicios o Volver para editar el texto. Si no aparece la barra, copia el bloque en **Importar plan**:
 
 ```
 GYMPLAN v1
@@ -184,7 +184,7 @@ Todos estos existen en la app y requieren poco o ningún equipo. Ejemplo de patr
 
 **Día C:** Burpees 3×10-15 · Step-Ups 3×12-15 · Bench Dips 3×10-15 (silla firme) · Dead Bug 3×10 por lado · Side Plank 2× por lado (20–40s) · Jump Rope 10 min
 
-Listo para pegar en **Importar plan** (debajo de los días):
+Toca **Importar** en la barra del coach para revisar el plan. Puedes omitir días, añadir o reemplazar ejercicios o Volver para editar el texto. Si no aparece la barra, copia el bloque en **Importar plan**:
 
 ```
 GYMPLAN v1

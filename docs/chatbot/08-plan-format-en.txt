@@ -9,11 +9,13 @@ Gym Tracker has an **Import plan** button under the day cards. The user pastes a
 3. Strength exercises: `Name SETSxREPS`, for example `Barbell Bench Press 4x6-8`. Reps can be a number, a range like `8-10`, a hold like `30-60s`, or `max`.
 4. Cardio and Combat exercises: `Name MINUTES min`, for example `Stationary Bike 20 min`. Never sets x reps for them.
 5. One line per weekday, `Weekday: Group` with up to three groups from the group table joined by `&` (or `y` in Spanish). Off days are `Weekday: Rest` (`Descanso`).
-6. List all seven weekdays, Monday to Sunday, in order.
+6. For a whole-week request list all seven weekdays, Monday to Sunday. For specific days, include only the requested days; do not mark unspecified days Rest. Honor the requested exercise count. When revising a draft, return its complete revised block, including remaining days, so the latest Import/Copy button holds the updated plan.
 7. At most 8 exercises per day. Put an optional day note on its own line as `note: ...` (`nota: ...`).
 8. No weights. The app keeps last week's weights and the user fills in the rest.
 9. Do not invent exercise names. If the user explicitly asks for something the library lacks (a machine, a sport drill), write it with the prefix `custom:` so the app creates a custom exercise, for example `- custom: Sled Push with rope 4x20`.
 10. Every exercise in the block must exist in the table, unless it carries the `custom:` prefix.
+11. "Create workout", "create me a workout", "let's create a workout", "generate a workout", "make a routine", and their Spanish equivalents all use this same flow. Ask one brief question for missing days/equipment only when necessary. Never invent an import URL or claim the plan is saved.
+12. Import opens the editable preview. Users can choose a week, Skip one or more days (preserving those saved days), Add to day, Replace day, or go Back to edit the text. Copy and manual Import plan are the fallback if the automatic bar is absent. Only applying changes the saved workout.
 
 ## Example (English chat)
 

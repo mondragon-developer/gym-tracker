@@ -156,7 +156,7 @@ R: Abre el menú de perfil en el encabezado y toca **Cerrar Sesión**.
 R: Es opcional. El código guarda una invitación pendiente; después de iniciar sesión, revisa al entrenador y aprueba el acceso expresamente. Déjalo vacío si entrenas por tu cuenta. Gestiona las conexiones y quita el acceso en Perfil → Entrenadores conectados.
 
 **P: Soy entrenador, ¿cómo conecto a mis clientes?**
-R: Las cuentas de entrenador se crean con una invitación emitida por un administrador. Como entrenador, tu panel (botón 🏋️) muestra tu código y enlace de invitación — los clientes que se registran con él quedan asignados a ti automáticamente.
+R: Las cuentas de entrenador se crean con una invitación emitida por un administrador. Como entrenador, tu panel (botón 🏋️) muestra tu código y enlace de invitación — el cliente revisa y aprueba tu acceso en Perfil > Entrenadores conectados después de iniciar sesión. Registrarse no concede acceso.
 
 **P: ¿Mis datos son privados?**
 R: Sí. Los datos en la nube se guardan por cuenta y están protegidos en el servidor; solo tú — y tu entrenador o un administrador, si aplica — pueden ver tu plan.
@@ -201,3 +201,7 @@ R: No puedo dar prescripciones de nutrición. Como patrón general, comidas bala
 
 **P: Siento mareo / dolor en el pecho al entrenar.**
 R: Por favor deja de ejercitarte ahora y busca atención médica pronto. No puedo evaluar síntomas — eso le corresponde a un médico.
+
+
+P: ¿Crear entrenamiento, créame una rutina, hagamos un entrenamiento y genera una rutina hacen lo mismo?
+R: Sí. Inician el mismo flujo. Indica los días y el equipo, o pide ejercicios para un día concreto. Devuelvo un bloque GYMPLAN v1. Toca Importar para revisar, elegir semana y omitir días, añadir o reemplazar ejercicios, o Volver para editar el texto. También puedes copiar el bloque en Importar plan. Se guarda al aplicar, no al escribir o copiar el plan.

@@ -12,6 +12,7 @@ from the caller's own invite code, and sends via the Brevo transactional API.
 npm install -g supabase            # once, if the CLI is not installed
 supabase login                     # browser auth
 supabase link --project-ref dtzovlvgmymlptprdxcz
+supabase db query --linked --file supabase/invite-rate-limit.sql
 supabase functions deploy send-invite
 ```
 
@@ -39,7 +40,21 @@ Rotating secrets takes effect on the next invocation; no redeploy needed.
 2. Expect the "Invitation sent!" confirmation, the email within a minute, and
    a `200` in Dashboard → Edge Functions → send-invite → Logs.
 3. Clicking the email's button must open sign-up with the trainer code
-   pre-filled; after signup the client appears in the trainer's client list.
+   pre-filled. The client must explicitly approve access in Profile > Connected trainers
+   before appearing in the trainer's client list.
 
 Failures surface as JSON `{"error": ...}` in the function logs and as the
 generic UI error in the app.
+
+## Abuse limits
+
+The database reserves each attempt before contacting Brevo. Limits are rolling:
+5 attempts per trainer per 10 minutes, 30 per trainer per 24 hours, and 200
+across the project per 24 hours. Provider failures count against the limit.
+Concurrent workers share an advisory transaction lock, so a burst cannot
+reserve beyond the cap. Only the service role can call the reservation RPC.
+
+Quota failures return 429. Database errors fail closed with 503, provider
+failures return 502, and provider details are not exposed. Email addresses
+are not stored in the quota table. Attempts older than 24 hours are removed
+on the next valid reservation, not by a scheduled retention job.

@@ -9,7 +9,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useAuth } from '../hooks/useAuth.js';
 import { useLanguage } from '../hooks/useLanguage.js';
 import { hasAcceptedLocally, fetchAccepted, recordAcceptance } from '../services/LegalService.js';
-import { loadChatbase } from '../lib/chatbase.js';
+import { loadChatbase, clearCoachSession, configureCoach } from '../lib/chatbase.js';
 import PageLoading from './ui/PageLoading.jsx';
 import { t } from '../translations/ui';
 
@@ -47,13 +47,20 @@ export default function LegalGate({ children }) {
     }, [userId]);
 
     useEffect(() => {
-        if (!accepted) return undefined;
+        if (!accepted || !userId) return undefined;
         document.documentElement.setAttribute(ACCEPTED_ATTRIBUTE, 'true');
         loadChatbase();
-        return () => document.documentElement.removeAttribute(ACCEPTED_ATTRIBUTE);
-    }, [accepted]);
+        return () => {
+            document.documentElement.removeAttribute(ACCEPTED_ATTRIBUTE);
+            clearCoachSession();
+        };
+    }, [accepted, userId]);
 
-    if (accepted) return children;
+    useEffect(() => {
+        if (accepted && userId) configureCoach(language);
+    }, [accepted, userId, language]);
+
+    if (accepted && userId) return <React.Fragment key={userId}>{children}</React.Fragment>;
 
     const loading = <PageLoading label={t('Loading...', language)} />;
     if (!checked) return loading;

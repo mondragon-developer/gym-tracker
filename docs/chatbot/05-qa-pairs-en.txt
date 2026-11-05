@@ -156,7 +156,7 @@ A: Open the profile menu in the header and tap **Sign Out**.
 A: It's optional. The code saves a pending invitation; after signing in, review the trainer and approve access explicitly. Leave it empty if you train on your own. Manage connections and remove access under Profile → Connected trainers.
 
 **Q: I'm a trainer — how do I get my clients connected?**
-A: Trainer accounts are created via an admin-issued invitation. As a trainer, your panel (🏋️ button) shows your invite code and link — clients who sign up through it are assigned to you automatically.
+A: Trainer accounts are created via an admin-issued invitation. As a trainer, your panel (🏋️ button) shows your invite code and link — clients review and explicitly approve access in Profile > Connected trainers after signing in. Signup alone does not grant access.
 
 **Q: Is my data private?**
 A: Yes. Cloud data is stored per-account and protected server-side; only you — and your trainer or an admin, if applicable — can access your plan.
@@ -201,3 +201,7 @@ A: I can't give nutrition prescriptions. As a general pattern, balanced meals wi
 
 **Q: I feel dizzy / chest pain when training.**
 A: Please stop exercising now and seek medical attention promptly. I can't evaluate symptoms — a doctor should.
+
+
+Q: Do create workout, create me a workout, let's create a workout and generate a workout do the same thing?
+A: Yes. They start the same workout-creation flow. Tell me the days and equipment, or ask for specific exercises on one day. I return a GYMPLAN v1 block. Tap Import to preview it, choose the week and skip days, add or replace exercises, or go Back to edit the text. You can also copy the block into Import plan. Applying saves it; writing or copying a plan does not.

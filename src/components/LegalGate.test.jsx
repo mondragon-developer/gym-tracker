@@ -4,7 +4,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 const legal = vi.hoisted(() => ({ hasAcceptedLocally: vi.fn(), fetchAccepted: vi.fn(), recordAcceptance: vi.fn() }));
 vi.mock('../services/LegalService.js', () => legal);
 
-const chatbase = vi.hoisted(() => ({ loadChatbase: vi.fn(), ensureChatbaseStub: vi.fn() }));
+const chatbase = vi.hoisted(() => ({ loadChatbase: vi.fn(), ensureChatbaseStub: vi.fn(), clearCoachSession: vi.fn(), configureCoach: vi.fn() }));
 vi.mock('../lib/chatbase.js', () => chatbase);
 
 const auth = vi.hoisted(() => ({ user: { id: 'u1' }, signOut: vi.fn() }));
@@ -23,12 +23,30 @@ beforeEach(() => {
     legal.fetchAccepted.mockReset();
     legal.recordAcceptance.mockReset();
     chatbase.loadChatbase.mockReset();
+    chatbase.clearCoachSession.mockReset();
+    chatbase.configureCoach.mockReset();
     auth.signOut.mockReset();
     auth.user = { id: 'u1' };
     lang.language = 'en';
 });
 
 describe('LegalGate', () => {
+    it('clears the chat on account changes and unmount, but not a language change', async () => {
+        legal.hasAcceptedLocally.mockReturnValue(true);
+        legal.fetchAccepted.mockResolvedValue(true);
+        const view = render(gate());
+        await waitFor(() => expect(chatbase.configureCoach).toHaveBeenCalledWith('en'));
+        lang.language = 'es';
+        view.rerender(gate());
+        expect(chatbase.configureCoach).toHaveBeenLastCalledWith('es');
+        expect(chatbase.clearCoachSession).not.toHaveBeenCalled();
+        auth.user = { id: 'u2' };
+        view.rerender(gate());
+        expect(chatbase.clearCoachSession).toHaveBeenCalledTimes(1);
+        await waitFor(() => expect(legal.fetchAccepted).toHaveBeenCalledWith('u2'));
+        view.unmount();
+        expect(chatbase.clearCoachSession).toHaveBeenCalledTimes(2);
+    });
     it('opens the app at once for an account known to have accepted, and still asks the database', async () => {
         legal.hasAcceptedLocally.mockReturnValue(true);
         legal.fetchAccepted.mockResolvedValue(true);

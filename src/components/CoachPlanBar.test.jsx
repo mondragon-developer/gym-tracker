@@ -22,6 +22,15 @@ afterEach(() => {
 });
 
 describe('useCoachPlan', () => {
+    it('clears a pending import when the chat session changes', () => {
+        const chat = fakeChatbase();
+        window.chatbase = chat;
+        const { result } = renderHook(() => useCoachPlan());
+        act(() => chat.reply(PLAN));
+        expect(result.current.plan).toBe(PLAN);
+        act(() => window.dispatchEvent(new Event('gym:coach-session-cleared')));
+        expect(result.current.plan).toBeNull();
+    });
     it('picks up a plan from a coach reply and ignores other replies', () => {
         const chat = fakeChatbase();
         window.chatbase = chat;
