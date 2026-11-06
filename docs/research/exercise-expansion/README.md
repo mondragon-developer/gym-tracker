@@ -2,7 +2,7 @@
 
 Implementation update, November 6, 2026: the 12 preferred pairs are now integrated as catalog IDs 278-289 with English/Spanish names, edited instructions, descriptions and 24 app-hosted static JPEGs. The catalog contains 225 exercises, 196 with media. Existing IDs and workouts are preserved. Run `node scripts/enrichment/build-photo-expansion.mjs` to verify source hashes and rebuild this batch. See `public/exercise-media/photos/provenance.json` for the shipped files.
 
-The remaining 11 held pairs, one rejected pair and 18 reference-only coaching links are still excluded from the app. Soccer ball skills and specific boxing drills need suitable demonstrations before a further media batch. The notes below are the original research snapshot, not the current catalog inventory. Updated Chatbase source documents are in this repo; editing them does not retrain the hosted agent.
+The remaining 11 held pairs, one rejected pair and 18 reference-only coaching links are still excluded from the app. Soccer ball skills and specific boxing drills need suitable demonstrations before a further media batch. The notes below are the original research snapshot, not the current catalog inventory. The hosted Chatbase source refresh was subsequently verified; see [the refresh record](../../CHATBASE_CATALOG_REFRESH.md). Editing local documents alone does not update the hosted agent.
 
 Researched November 6, 2026. Research package only, no catalog changes, uploads or deployment.
 
@@ -43,7 +43,7 @@ These are coaching references, not cleared downloadable media. Full video playba
 | Boxing | Jab practice, virtual pad combinations, check hook, double-step footwork, ladder footwork, head movement | [England Boxing's coaching resource index](https://www.englandboxing.org/members/stay-active/). Treat these as drills within existing boxing entries. |
 | Soccer | Inside-foot touches, sole-to-sole transfers, outside touch with sole pullback, Cruyff turn, low juggling, wall passing and first touch | [FIFA ball-control session](https://www.fifatrainingcentre.com/en/practice/elite-sessions/in-possession/mastering-ball-control.php), [Arlington Soccer's player resources](https://www.arlingtonsoccer.com/recplayerresources). |
 
-The freely licensed Commons football video found during research is stop-motion, so it was rejected as a human technique demonstration. The Commons boxing footage was not visually verified; the jab illustration is only one image. Neither solves the requested instructional sequence.
+The freely licensed Commons football video found during research is stop-motion, so it was rejected as a human technique demonstration. On November 6, the original [Boxer.webm](https://commons.wikimedia.org/wiki/File:Boxer.webm) was downloaded and decoded. A contact sheet sampled every 0.5 seconds across its 14.071 seconds shows general shadowboxing with direction changes and other athletes in frame, rather than an isolated drill sequence. It remains excluded from this batch. Its publisher lists Evworo and CC BY-SA 3.0; the manifest records its checksum, dimensions and review limits. Audio was not reviewed. The jab illustration is only one image. Neither solves the requested instructional sequence.
 
 ## Recommended media format and integration
 

@@ -18,6 +18,6 @@ The files ship with the application, using the same app-hosted approach as the e
 
 Run `node scripts/enrichment/build-photo-expansion.mjs`, `node scripts/build-exercise-muscles.mjs` and `npm run build:plan-doc`. The photo builder checks all inputs before writing the batch; it uses local research images when present or fetches the exact pinned URLs otherwise. Run `node scripts/verify-photo-release.mjs` after deployment to check the live catalog bundle, provenance and all 24 photo checksums.
 
-The Chatbase training documents are updated locally, including the exercise-name tables and bilingual instructions. They have not been uploaded or retrained in the hosted agent as part of this release. Manual imports and app search use the new catalog immediately.
+The Chatbase training documents were updated locally with this frontend release, including the exercise-name tables and bilingual instructions. A subsequent November 6 follow-up uploaded the 11 changed source files, removed their superseded copies with owner approval, and verified the hosted agent's synced catalog and bilingual GYMPLAN responses. See [the Chatbase refresh record](CHATBASE_CATALOG_REFRESH.md) for evidence and limits. Manual imports and app search use the new catalog immediately.
 
 The 11 held pairs, the rejected push-up-to-side-plank pair and the 18 reference-only coaching links remain outside the app. A further boxing or soccer media batch needs suitable demonstrations; this release does not substitute generic conditioning for ball skills or specific boxing technique.

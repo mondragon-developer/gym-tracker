@@ -1161,7 +1161,19 @@
     },
     {
       "url": "https://commons.wikimedia.org/wiki/File:Boxer.webm",
-      "reason": "Generic footage, movement suitability not visually verified."
+      "reason": "Reviewed November 6, 2026 using 2 fps contact sheets across the 14.071-second clip. Shows general shadowboxing with changes of direction, other athletes in frame and no isolated drill sequence. Excluded from the specific boxing-drill batch.",
+      "review": {
+        "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Boxer.webm",
+        "author": "Evworo",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "sha256": "02d4734eebb771e83991a9e1ba942a3770524adbfc4868719ffca19da3d98520",
+        "bytes": 10105846,
+        "durationSeconds": 14.071,
+        "width": 1920,
+        "height": 1080,
+        "method": "Original file decoded with FFmpeg; sampled every 0.5 seconds for visual review. Audio was not reviewed. No app media produced."
+      }
     },
     {
       "url": "https://commons.wikimedia.org/wiki/File:Jab_bw.png",
