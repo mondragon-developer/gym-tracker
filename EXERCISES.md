@@ -1,6 +1,6 @@
 # Exercise Library
 
-**225 exercises across 10 categories.**
+**230 exercises across 10 categories.**
 
 Source: `src/constants/index.js`. Regenerate with `npm run build:plan-doc`.
 
@@ -8,7 +8,7 @@ Choose **Browse functional fitness** in Add Exercise, or search **CrossFit**, to
 
 Strength categories use sets, reps and weight. Cardio and Combat use minutes. Functional fitness is a discovery collection. The workout interface also supports EMOM, AMRAP and rounds-for-time; these timer configurations and results are separate from imported strength prescriptions.
 
-196 exercises have photo references: 152 existing Supabase-hosted pairs, 32 app-hosted GIF pairs and 12 app-hosted static photo pairs. IDs 278-289 include bilingual instructions and descriptions of each photograph. Instructions may be available without photos. See [media provenance and licenses](THIRD_PARTY_NOTICES.md).
+201 exercises have visual references: 152 existing Supabase-hosted pairs, 32 app-hosted GIF pairs 12 app-hosted static photo pairs and 5 user-started sports videos. IDs 290-294 cover boxing blocks, combinations and feints, soccer cone dribbling and ball juggling, with bilingual instructions and source credits. IDs 278-289 include bilingual instructions and descriptions of each photograph. Instructions may be available without photos. See [media provenance and licenses](THIRD_PARTY_NOTICES.md).
 
 ## Chest (21)
 
@@ -245,7 +245,7 @@ Strength categories use sets, reps and weight. Cardio and Combat use minutes. Fu
 | 273 | Kettlebell Turkish Get-Up | Levantamiento turco con pesa rusa |
 | 286 | Spider Crawl | Desplazamiento de araña |
 
-## Cardio (18)
+## Cardio (20)
 
 | ID | Exercise | Ejercicio (ES) |
 |---|---|---|
@@ -267,8 +267,10 @@ Strength categories use sets, reps and weight. Cardio and Combat use minutes. Fu
 | 208 | Sled Pull | Arrastre de Trineo |
 | 209 | Ski Erg | Ski Erg |
 | 210 | Jump Rope HIIT | Saltar la Cuerda HIIT |
+| 293 | Soccer Cone Dribbling | Conducción de fútbol entre conos |
+| 294 | Soccer Ball Juggling | Toques de fútbol sin dejar caer el balón |
 
-## Combat (12)
+## Combat (15)
 
 | ID | Exercise | Ejercicio (ES) |
 |---|---|---|
@@ -284,3 +286,6 @@ Strength categories use sets, reps and weight. Cardio and Combat use minutes. Fu
 | 220 | Defensive Drills (Slips & Rolls) | Defensa (Esquivas y Giros) |
 | 221 | Grappling Drills | Ejercicios de Grappling |
 | 222 | MMA Conditioning Circuit | Circuito de Acondicionamiento MMA |
+| 290 | Boxing Forearm Block Drill | Bloqueo con antebrazos de boxeo |
+| 291 | Boxing Punch Combination Drill | Combinaciones de golpes de boxeo |
+| 292 | Boxing Feint Drill | Fintas de boxeo |

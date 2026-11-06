@@ -1,7 +1,7 @@
 /**
  * Exercise Demo Modal
- * Displays reference positions as a two-photo loop or a packaged GIF, plus
- * step-by-step instructions. These photos do not cover intermediate phases.
+ * Displays photo references, a packaged GIF or a user-started video, plus
+ * step-by-step instructions. Photo pairs do not cover intermediate phases.
  * Mounted only while open, so the animation timer and image loads are lazy.
  *
  * The enrichment data is a large module, loaded lazily (dynamic import inside
@@ -11,6 +11,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import Modal from './ui/Modal.jsx';
+import ExerciseVideo from './ExerciseVideo.jsx';
 import { getExerciseMedia } from '../services/ExerciseMediaService.js';
 import { getExerciseEnrichment, hasExerciseEnrichment } from '../services/ExerciseEnrichmentService.js';
 import { t } from '../translations/ui';
@@ -58,7 +59,11 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
     <Modal isOpen onClose={onClose} title={`▶ ${translateExercise(exercise.name, language)}`} style={{ width: 560 }}>
       {media && !mediaFailed && (
         <div style={{ textAlign: 'center' }}>
-          {media.still ? (
+          {media.video ? (
+            <ExerciseVideo key={exercise.dbId} media={media} name={translateExercise(exercise.name, language)}
+              description={enrichment?.description?.[language] || enrichment?.description?.en}
+              language={language} onError={() => setMediaFailed(true)} />
+          ) : media.still ? (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 190px), 1fr))', gap: 16 }}>
               {media.frames.map((src, index) => {
                 const label = language === 'es' ? `Foto de referencia ${index + 1}` : `Reference photo ${index + 1}`;
@@ -110,21 +115,28 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
               />
             ))}
           </div>}
-          <p style={{ marginTop: '12px', fontSize: '13px', color: 'var(--text-3)' }}>
+          {!media.video && <p style={{ marginTop: '12px', fontSize: '13px', color: 'var(--text-3)' }}>
             {language === 'es' ? 'Dos posiciones de referencia. No se muestran las fases intermedias.' : 'Two reference positions. Intermediate phases are not shown.'}
-          </p>
-          {!media.still && <button type="button" onClick={() => setPlaying(value => !value)} style={{ ...chipStyle, padding: '10px 14px', border: '1px solid var(--border-strong)', cursor: 'pointer', textTransform: 'none' }}>
+          </p>}
+          {!media.video && !media.still && <button type="button" onClick={() => setPlaying(value => !value)} style={{ ...chipStyle, padding: '10px 14px', border: '1px solid var(--border-strong)', cursor: 'pointer', textTransform: 'none' }}>
             {playing ? (language === 'es' ? 'Pausar demo' : 'Pause demo') : (language === 'es' ? 'Reproducir demo' : 'Play demo')}
           </button>}
           {media.gif && <a href={media.gif} download style={{ marginLeft: 16, fontSize: 13, color: 'var(--info)' }}>
             {language === 'es' ? 'Descargar GIF' : 'Download GIF'}
           </a>}
-          <p style={{ fontSize: 11, color: 'var(--text-3)' }}>
+          {!media.video && <p style={{ fontSize: 11, color: 'var(--text-3)' }}>
             <a href="https://github.com/yuhonas/free-exercise-db" target="_blank" rel="noreferrer" style={{ color: 'var(--info)' }}>free-exercise-db</a>
             {' · '}<a href="https://unlicense.org/" target="_blank" rel="noreferrer" style={{ color: 'var(--info)' }}>Unlicense</a>
-          </p>
+          </p>}
         </div>
       )}
+
+      {enrichment?.attribution && <p style={{ fontSize: 12, color: 'var(--text-3)', lineHeight: 1.5, overflowWrap: 'anywhere' }}>
+        <a href={enrichment.attribution.url} target="_blank" rel="noreferrer" style={{ color: 'var(--info)' }}>{enrichment.attribution.title}</a>
+        {' - '}{enrichment.attribution.author}{' - '}
+        <a href={enrichment.attribution.licenseUrl} target="_blank" rel="noreferrer" style={{ color: 'var(--info)' }}>{enrichment.attribution.license}</a>
+        <br />{language === 'es' ? 'Fragmento sin audio y foto extraída, adaptados por Gym Tracker.' : 'Silent excerpt and extracted poster, adapted by Gym Tracker.'}
+      </p>}
 
       {mediaFailed && <p role="status">{language === 'es' ? 'No se pudo cargar la demo. Consulta las instrucciones.' : 'The demo could not load. Refer to the instructions.'}</p>}
 
@@ -156,7 +168,9 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
           </ol>
 
           <p style={{ marginTop: '14px', fontSize: '11px', color: 'var(--text-3)' }}>
-            {media?.still
+            {enrichment.source === 'sports-video'
+              ? (language === 'es' ? 'Instrucciones y descripciones adaptadas por Gym Tracker de la demostración citada.' : 'Instructions and descriptions adapted by Gym Tracker from the credited demonstration.')
+              : media?.still
               ? (language === 'es' ? 'Fotos: free-exercise-db (Unlicense). Instrucciones y descripciones: Gym Tracker.' : 'Photos: free-exercise-db (Unlicense). Instructions and descriptions: Gym Tracker.')
               : enrichment.source === 'free-exercise-db'
               ? (language === 'es' ? 'Datos: free-exercise-db (Unlicense). Resumen en español: Gym Tracker.' : 'Data: free-exercise-db (Unlicense). Spanish summary: Gym Tracker.')

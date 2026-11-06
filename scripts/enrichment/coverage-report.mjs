@@ -9,11 +9,10 @@
  */
 
 import { EXERCISE_DATABASE } from '../../src/constants/index.js';
-import { MEDIA_FOLDERS } from '../../src/data/exerciseMediaFolders.js';
-import * as equipmentModule from '../../src/data/exerciseEquipment.js';
+import { hasExerciseMedia } from '../../src/services/ExerciseMediaService.js';
+import { getExerciseEquipment } from '../../src/services/ExerciseEnrichmentService.js';
 
 const SOURCE = 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/dist/exercises.json';
-const equipment = equipmentModule.default ?? equipmentModule.EXERCISE_EQUIPMENT ?? Object.values(equipmentModule)[0] ?? {};
 
 const fold = (s) => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
   .replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
@@ -35,7 +34,7 @@ if (!response.ok) {
 }
 const source = (await response.json()).filter(e => e.images?.length);
 
-const missing = EXERCISE_DATABASE.filter(e => !MEDIA_FOLDERS[e.id]);
+const missing = EXERCISE_DATABASE.filter(e => !hasExerciseMedia(e.id));
 console.log(`Library: ${EXERCISE_DATABASE.length} exercises, ${EXERCISE_DATABASE.length - missing.length} with a demo, ${missing.length} without.`);
 console.log(`Source: ${source.length} exercises with frames.\n`);
 
@@ -67,5 +66,5 @@ pool(f => f.equipment === 'dumbbell', 'Dumbbell-only pool');
 pool(f => f.equipment === 'body only', 'Body-only pool');
 
 const ours = {};
-EXERCISE_DATABASE.forEach(e => { const k = equipment[e.id] ?? 'unknown'; ours[k] = (ours[k] || 0) + 1; });
+EXERCISE_DATABASE.forEach(e => { const k = getExerciseEquipment(e.id) ?? 'unknown'; ours[k] = (ours[k] || 0) + 1; });
 console.log('\nOur equipment coverage: ' + Object.entries(ours).sort((a, b) => b[1] - a[1]).map(([k, c]) => `${k}:${c}`).join(', '));

@@ -30,3 +30,16 @@ Existing two-photo demos use the same free-exercise-db source and remain self-ho
 ## Sources evaluated but not imported
 
 [Wikimedia Commons: Burpee.gif](https://commons.wikimedia.org/wiki/File:Burpee.gif) is available under CC BY-SA 4.0, credited to Taco Fleur (loop by Jahobr). It depicts the original squat-thrust variation, so it was not substituted for the existing generic Burpees entry. No assets from this file are included.
+
+
+## Boxing and soccer video demonstrations (IDs 290-294)
+
+Gym Tracker adapts five licensed original videos into silent H.264 excerpts and JPEG posters. Soccer footage is reduced to 720 pixels wide. Boxing remains at its original 320-pixel width. There are no generated frames, mirroring or speed changes. Exact timestamps, original and output checksums, dimensions and sizes are recorded in [the provenance manifest](public/exercise-media/sports/provenance.json). Rebuild with `node scripts/enrichment/build-sport-media.mjs`.
+
+The three boxing clips, their posters, and the adapted English/Spanish descriptions and instructions are distributed under **CC BY-SA 2.5 Colombia**, the source license. This applies to those adaptations, not unrelated application code. Credit: Escuela Virtual de Deportes / COLDEPORTES (Evdcoldeportes). The two soccer excerpts and posters use the Pexels License. Credit: Tima Miroshnichenko / Pexels. No creator or athlete endorsement is implied.
+
+- 290, Boxing Forearm Block Drill: [Bloqueo con los antebrazos](https://commons.wikimedia.org/wiki/File:EVD-boxeo-002.ogv), [CC BY-SA 2.5 Colombia](https://creativecommons.org/licenses/by-sa/2.5/co/).
+- 291, Boxing Punch Combination Drill: [Combinaciones](https://commons.wikimedia.org/wiki/File:EVD-boxeo-003.ogv), [CC BY-SA 2.5 Colombia](https://creativecommons.org/licenses/by-sa/2.5/co/).
+- 292, Boxing Feint Drill: [Fintas y movimientos de engaño](https://commons.wikimedia.org/wiki/File:EVD-boxeo-004.ogv), [CC BY-SA 2.5 Colombia](https://creativecommons.org/licenses/by-sa/2.5/co/).
+- 293, Soccer Cone Dribbling: [Soccer Players Training](https://www.pexels.com/video/soccer-players-training-6084027/), [Pexels License](https://www.pexels.com/license/).
+- 294, Soccer Ball Juggling: [Football Player Juggling with Ball](https://www.pexels.com/video/football-player-juggling-with-ball-6078265/), [Pexels License](https://www.pexels.com/license/).

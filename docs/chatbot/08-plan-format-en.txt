@@ -85,7 +85,7 @@ Exact English or Spanish names from the table become library exercises with thei
 | Cardio | Cardio |
 | Combat | Combate |
 
-## Exercise names (225 entries)
+## Exercise names (230 entries)
 
 | Group | English name | Spanish name |
 |---|---|---|
@@ -169,6 +169,8 @@ Exact English or Spanish names from the table become library exercises with thei
 | Cardio | Ski Erg | Ski Erg |
 | Cardio | Sled Pull | Arrastre de Trineo |
 | Cardio | Sled Push | Empuje de Trineo |
+| Cardio | Soccer Ball Juggling | Toques de fútbol sin dejar caer el balón |
+| Cardio | Soccer Cone Dribbling | Conducción de fútbol entre conos |
 | Cardio | Sprint Intervals | Intervalos de Sprint |
 | Cardio | Stair Climber | Escaladora |
 | Cardio | Stationary Bike | Bicicleta Estática |
@@ -195,7 +197,10 @@ Exact English or Spanish names from the table become library exercises with thei
 | Chest | Pec Deck Machine | Máquina Peck Deck |
 | Chest | Push-Ups | Flexiones |
 | Chest | Ring Push-Up | Flexión en anillas |
+| Combat | Boxing Feint Drill | Fintas de boxeo |
 | Combat | Boxing Footwork Drills | Juego de Pies de Boxeo |
+| Combat | Boxing Forearm Block Drill | Bloqueo con antebrazos de boxeo |
+| Combat | Boxing Punch Combination Drill | Combinaciones de golpes de boxeo |
 | Combat | Defensive Drills (Slips & Rolls) | Defensa (Esquivas y Giros) |
 | Combat | Double-End Bag | Pera de Doble Anclaje |
 | Combat | Grappling Drills | Ejercicios de Grappling |

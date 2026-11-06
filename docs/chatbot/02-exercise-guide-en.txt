@@ -1,6 +1,6 @@
 # Gym Tracker — Exercise Guide (English)
 
-This guide covers all 225 exercises available in the Gym Tracker app (gym.mdragonsolutions.com). Strength exercises log **Sets, Reps, and Weight (lbs)**. **Cardio** and **Combat** exercises are time-based and log **Duration in minutes (1–120)**. Most gym exercises (196 of 225) include a visual demo: tap the ▶ button on the exercise to open "How to do this exercise", which shows selected reference positions and instructions. Media availability varies by exercise. To find any exercise, go to **"Add Exercise"** and use the search bar or the muscle-group filter.
+This guide covers all 230 exercises available in the Gym Tracker app (gym.mdragonsolutions.com). Strength exercises log **Sets, Reps, and Weight (lbs)**. **Cardio** and **Combat** exercises are time-based and log **Duration in minutes (1-120)**. Most gym exercises (201 of 230) include a visual demo: tap the ▶ button on the exercise to open "How to do this exercise", which shows selected reference positions or a sports video, with instructions. Media availability varies by exercise. To find any exercise, go to **"Add Exercise"** and use the search bar or the muscle-group filter.
 
 **Safety disclaimer:** This guide gives general technique pointers only — it is NOT medical advice. Always use weights you can control through a full range of motion, warm up before training, and stop if you feel sharp pain. Consult a qualified professional (doctor or certified trainer) for pain, injuries, or any health condition.
 
@@ -2648,3 +2648,73 @@ These 12 variations have two labeled reference photographs with bilingual descri
 2. Push sideways from that leg toward the opposite foot, beginning with a short distance.
 3. Land on the opposite foot with a bent knee and hip, keeping your knee aligned with the toes. Stabilize before moving again.
 4. Repeat in the opposite direction. Count each sideways bound as one repetition. These stills do not show the full flight or landing sequence.
+
+
+## Boxing and soccer videos
+
+These five exercises log minutes. Select Play video to start each silent excerpt. Descriptions, instructions and source credits accompany the clips. The boxing originals are low resolution and remain 320 pixels wide. Boxing adaptations, including these instructions, are offered under CC BY-SA 2.5 Colombia: https://creativecommons.org/licenses/by-sa/2.5/co/.
+
+### Boxing Forearm Block Drill
+
+ID: 290. Combat.
+
+A boxer in blue raises a forearm to meet a controlled straight punch, then returns to guard. The clip includes a closer view of the block.
+
+1. Start in a balanced boxing stance with hands beside your cheeks and chin tucked.
+2. Bring a forearm across the incoming punch line, keeping your other hand up. Practice the movement slowly without contact first.
+3. Return to your guard after each block without leaning backward or losing your stance.
+4. The demonstration uses a partner. Use a qualified coach for partner drills and controlled contact, not unsupervised sparring. Log practice time in minutes.
+
+Source: Escuela Virtual de Deportes / COLDEPORTES (Evdcoldeportes), https://commons.wikimedia.org/wiki/File:EVD-boxeo-002.ogv. CC BY-SA 2.5 Colombia, https://creativecommons.org/licenses/by-sa/2.5/co/.
+
+### Boxing Punch Combination Drill
+
+ID: 291. Combat.
+
+Two boxers demonstrate short punch combinations, returning their hands to guard between sequences. Both athletes and their foot positions remain visible.
+
+1. Begin in your boxing stance with a clear practice area and both hands guarding your face.
+2. Practice a short sequence slowly, such as a lead straight followed by a rear straight. Bring each hand back to guard.
+3. Keep your balance through the sequence, then reset before repeating. Accuracy and control come before speed.
+4. Start without contact. The partner demonstration is for technique reference; contact drills need a qualified coach and suitable protective equipment. Record minutes.
+
+Source: Escuela Virtual de Deportes / COLDEPORTES (Evdcoldeportes), https://commons.wikimedia.org/wiki/File:EVD-boxeo-003.ogv. CC BY-SA 2.5 Colombia, https://creativecommons.org/licenses/by-sa/2.5/co/.
+
+### Boxing Feint Drill
+
+ID: 292. Combat.
+
+The boxer in blue makes small hand and body feints toward a partner and recovers the guard. A brief straight punch follows one of the feints.
+
+1. Settle into your boxing stance with a balanced base and your hands up.
+2. Make a small hand, shoulder or body movement that suggests a punch without committing your weight to it.
+3. Recover your guard and stance before repeating. Keep the movement controlled rather than reaching toward the partner.
+4. Practice without contact first. Work with a qualified coach before adding a partner's responses or punches. Record practice time in minutes.
+
+Source: Escuela Virtual de Deportes / COLDEPORTES (Evdcoldeportes), https://commons.wikimedia.org/wiki/File:EVD-boxeo-004.ogv. CC BY-SA 2.5 Colombia, https://creativecommons.org/licenses/by-sa/2.5/co/.
+
+### Soccer Cone Dribbling
+
+ID: 293. Cardio.
+
+A player guides the ball around a line of cones and moves away from the camera. This excerpt shows part of the course, not a complete out-and-back run.
+
+1. Place cones in a line on a clear, level surface, leaving enough space to turn comfortably with the ball.
+2. Walk or jog through the course with short touches, steering the ball around each cone rather than kicking it far ahead.
+3. Use both feet and glance up between touches to check the path. Slow down whenever the ball moves out of control.
+4. Reset at the end of the course and repeat at a comfortable pace. Log practice time in minutes.
+
+Source: Tima Miroshnichenko / Pexels, https://www.pexels.com/video/soccer-players-training-6084027/. Pexels License, https://www.pexels.com/license/.
+
+### Soccer Ball Juggling
+
+ID: 294. Cardio.
+
+A player repeatedly taps the ball upward with the feet, keeping it close and mostly below the hips. The full body and ball are visible.
+
+1. Stand on a clear, level surface with a soccer ball and enough room to recover a dropped ball.
+2. Drop the ball from your hands and tap it gently upward with the top of one foot. Begin with one touch and a catch if needed.
+3. Progress to consecutive small touches with either foot, keeping the ball close rather than kicking it high or chasing it.
+4. Reset when the ball falls and continue at a comfortable pace. Log minutes of practice, not a required number of consecutive touches.
+
+Source: Tima Miroshnichenko / Pexels, https://www.pexels.com/video/football-player-juggling-with-ball-6078265/. Pexels License, https://www.pexels.com/license/.

@@ -13,8 +13,10 @@
 import { MEDIA_FOLDERS } from '../data/exerciseMediaFolders.js';
 import { FUNCTIONAL_IDS } from '../data/functionalExercises.js';
 import { PHOTO_EXERCISES } from '../data/photoExercises.js';
+import { SPORT_EXERCISES } from '../data/sportExercises.js';
 const functional = new Set(FUNCTIONAL_IDS);
 const photos = new Set(PHOTO_EXERCISES.map(exercise => exercise.id));
+const sports = new Map(SPORT_EXERCISES.map(exercise => [exercise.id, exercise]));
 
 // Read lazily so tests can stub import.meta.env before each call.
 const mediaBase = () => {
@@ -28,7 +30,7 @@ const mediaBase = () => {
  * @returns {boolean}
  */
 export function hasExerciseMedia(dbId) {
-  return dbId != null && (photos.has(Number(dbId)) || functional.has(Number(dbId)) || Boolean(MEDIA_FOLDERS[dbId]));
+  return dbId != null && (sports.has(Number(dbId)) || photos.has(Number(dbId)) || functional.has(Number(dbId)) || Boolean(MEDIA_FOLDERS[dbId]));
 }
 
 /**
@@ -36,9 +38,13 @@ export function hasExerciseMedia(dbId) {
  * exercises have no dbId; others may simply not be mapped yet; or Supabase is
  * not configured, e.g. offline dev).
  * @param {number|string|undefined|null} dbId
- * @returns {{ frames: string[], gif?: string, poster?: string, source?: string } | null}
+ * @returns {{ frames: string[], gif?: string, video?: string, poster?: string, width?: number, source?: string } | null}
  */
 export function getExerciseMedia(dbId) {
+  if (dbId != null && sports.has(Number(dbId))) {
+    const base = `${import.meta.env.BASE_URL || '/'}exercise-media/sports/${Number(dbId)}`;
+    return { video: `${base}.mp4`, poster: `${base}.jpg`, frames: [], source: 'sports-video', width: sports.get(Number(dbId)).videoWidth };
+  }
   if (dbId != null && photos.has(Number(dbId))) {
     const base = `${import.meta.env.BASE_URL || '/'}exercise-media/photos/${Number(dbId)}`;
     return { frames: [`${base}-0.jpg`, `${base}-1.jpg`], still: true, source: 'free-exercise-db' };

@@ -13,7 +13,7 @@ afterEach(() => vi.unstubAllEnvs());
 describe('reviewed photo expansion', () => {
   it('resolves every English and Spanish name to the intended stable catalog ID', async () => {
     expect(PHOTO_EXERCISES).toHaveLength(12);
-    expect(EXERCISE_DATABASE).toHaveLength(225);
+    expect(EXERCISE_DATABASE).toHaveLength(230);
     for (const exercise of PHOTO_EXERCISES) {
       for (const name of [exercise.name, exercise.nameEs]) {
         expect(resolveExerciseName(name).dbId).toBe(exercise.id);

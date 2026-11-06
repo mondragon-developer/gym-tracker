@@ -85,7 +85,7 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Cardio | Cardio |
 | Combate | Combat |
 
-## Nombres de ejercicios (225 entradas)
+## Nombres de ejercicios (230 entradas)
 
 | Grupo | Nombre en español | Nombre en inglés |
 |---|---|---|
@@ -169,6 +169,8 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Cardio | Ski Erg | Ski Erg |
 | Cardio | Arrastre de Trineo | Sled Pull |
 | Cardio | Empuje de Trineo | Sled Push |
+| Cardio | Toques de fútbol sin dejar caer el balón | Soccer Ball Juggling |
+| Cardio | Conducción de fútbol entre conos | Soccer Cone Dribbling |
 | Cardio | Intervalos de Sprint | Sprint Intervals |
 | Cardio | Escaladora | Stair Climber |
 | Cardio | Bicicleta Estática | Stationary Bike |
@@ -195,7 +197,10 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Pecho | Máquina Peck Deck | Pec Deck Machine |
 | Pecho | Flexiones | Push-Ups |
 | Pecho | Flexión en anillas | Ring Push-Up |
+| Combate | Fintas de boxeo | Boxing Feint Drill |
 | Combate | Juego de Pies de Boxeo | Boxing Footwork Drills |
+| Combate | Bloqueo con antebrazos de boxeo | Boxing Forearm Block Drill |
+| Combate | Combinaciones de golpes de boxeo | Boxing Punch Combination Drill |
 | Combate | Defensa (Esquivas y Giros) | Defensive Drills (Slips & Rolls) |
 | Combate | Pera de Doble Anclaje | Double-End Bag |
 | Combate | Ejercicios de Grappling | Grappling Drills |

@@ -1127,5 +1127,20 @@ export const EXERCISE_MUSCLES = {
     "Glutes",
     "Hamstrings",
     "Calves"
+  ],
+  "290": [
+    "Combat"
+  ],
+  "291": [
+    "Combat"
+  ],
+  "292": [
+    "Combat"
+  ],
+  "293": [
+    "Cardio"
+  ],
+  "294": [
+    "Cardio"
   ]
 };

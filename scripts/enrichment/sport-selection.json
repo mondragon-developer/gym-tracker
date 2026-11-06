@@ -1,0 +1,52 @@
+[
+  {
+    "id": 290, "name": "Boxing Forearm Block Drill", "nameEs": "Bloqueo con antebrazos de boxeo", "muscleGroup": "Combat", "equipment": "boxing gloves", "activity": "boxing",
+    "source": {"file": "EVD-boxeo-002.ogv", "url": "https://upload.wikimedia.org/wikipedia/commons/b/b9/EVD-boxeo-002.ogv", "page": "https://commons.wikimedia.org/wiki/File:EVD-boxeo-002.ogv", "title": "Bloqueo con los antebrazos", "author": "Escuela Virtual de Deportes / COLDEPORTES (Evdcoldeportes)", "license": "CC BY-SA 2.5 Colombia", "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5/co/", "sha256": "767a2c8747f2f02ccba254da8ac94a248166f83eba749783794fa88e00030c72", "bytes": 200019},
+    "clip": {"start": 5, "duration": 7, "width": 320, "posterTime": 1},
+    "description": {"en": "A boxer in blue raises a forearm to meet a controlled straight punch, then returns to guard. The clip includes a closer view of the block.", "es": "El boxeador de azul eleva un antebrazo ante un golpe recto controlado y vuelve a la guardia. El clip incluye una vista más cercana del bloqueo."},
+    "instructions": {
+      "en": ["Start in a balanced boxing stance with hands beside your cheeks and chin tucked.", "Bring a forearm across the incoming punch line, keeping your other hand up. Practice the movement slowly without contact first.", "Return to your guard after each block without leaning backward or losing your stance.", "The demonstration uses a partner. Use a qualified coach for partner drills and controlled contact, not unsupervised sparring. Log practice time in minutes."],
+      "es": ["Empieza en una postura de boxeo equilibrada, con las manos junto a las mejillas y el mentón recogido.", "Lleva un antebrazo a la trayectoria del golpe y mantén la otra mano arriba. Practica primero el movimiento lentamente y sin contacto.", "Vuelve a la guardia tras cada bloqueo, sin inclinarte hacia atrás ni perder la postura.", "La demostración usa una pareja. Practica el contacto controlado con supervisión de un entrenador, no como combate sin supervisión. Registra el tiempo en minutos."]
+    }
+  },
+  {
+    "id": 291, "name": "Boxing Punch Combination Drill", "nameEs": "Combinaciones de golpes de boxeo", "muscleGroup": "Combat", "equipment": "boxing gloves", "activity": "boxing",
+    "source": {"file": "EVD-boxeo-003.ogv", "url": "https://upload.wikimedia.org/wikipedia/commons/0/08/EVD-boxeo-003.ogv", "page": "https://commons.wikimedia.org/wiki/File:EVD-boxeo-003.ogv", "title": "Combinaciones", "author": "Escuela Virtual de Deportes / COLDEPORTES (Evdcoldeportes)", "license": "CC BY-SA 2.5 Colombia", "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5/co/", "sha256": "d134d739c84c3a64e63440c157057fb374f4685e609dfda441aec5ed0ed09ca6", "bytes": 931807},
+    "clip": {"start": 5.5, "duration": 9.5, "width": 320, "posterTime": 1},
+    "description": {"en": "Two boxers demonstrate short punch combinations, returning their hands to guard between sequences. Both athletes and their foot positions remain visible.", "es": "Dos boxeadores demuestran combinaciones cortas de golpes y vuelven a la guardia entre secuencias. Se ven ambos atletas y la posición de sus pies."},
+    "instructions": {
+      "en": ["Begin in your boxing stance with a clear practice area and both hands guarding your face.", "Practice a short sequence slowly, such as a lead straight followed by a rear straight. Bring each hand back to guard.", "Keep your balance through the sequence, then reset before repeating. Accuracy and control come before speed.", "Start without contact. The partner demonstration is for technique reference; contact drills need a qualified coach and suitable protective equipment. Record minutes."],
+      "es": ["Empieza en tu postura de boxeo, en un espacio despejado y con ambas manos protegiendo la cara.", "Practica lentamente una secuencia corta, por ejemplo un recto delantero seguido de un recto trasero. Devuelve cada mano a la guardia.", "Mantén el equilibrio durante la secuencia y reajusta la postura antes de repetir. Prioriza el control antes que la velocidad.", "Empieza sin contacto. El vídeo con pareja es una referencia técnica; los ejercicios con contacto requieren entrenador y protección adecuada. Registra minutos."]
+    }
+  },
+  {
+    "id": 292, "name": "Boxing Feint Drill", "nameEs": "Fintas de boxeo", "muscleGroup": "Combat", "equipment": "boxing gloves", "activity": "boxing",
+    "source": {"file": "EVD-boxeo-004.ogv", "url": "https://upload.wikimedia.org/wikipedia/commons/5/56/EVD-boxeo-004.ogv", "page": "https://commons.wikimedia.org/wiki/File:EVD-boxeo-004.ogv", "title": "Fintas y movimientos de engaño", "author": "Escuela Virtual de Deportes / COLDEPORTES (Evdcoldeportes)", "license": "CC BY-SA 2.5 Colombia", "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5/co/", "sha256": "247b8d9cebe2fc0dea4d464aa2126b1bbda9279fd62304406d0de467e875331d", "bytes": 2759137},
+    "clip": {"start": 6, "duration": 9, "width": 320, "posterTime": 1},
+    "description": {"en": "The boxer in blue makes small hand and body feints toward a partner and recovers the guard. A brief straight punch follows one of the feints.", "es": "El boxeador de azul hace pequeñas fintas de manos y cuerpo ante una pareja y recupera la guardia. Una de las fintas va seguida de un breve golpe recto."},
+    "instructions": {
+      "en": ["Settle into your boxing stance with a balanced base and your hands up.", "Make a small hand, shoulder or body movement that suggests a punch without committing your weight to it.", "Recover your guard and stance before repeating. Keep the movement controlled rather than reaching toward the partner.", "Practice without contact first. Work with a qualified coach before adding a partner's responses or punches. Record practice time in minutes."],
+      "es": ["Adopta tu postura de boxeo con una base equilibrada y las manos arriba.", "Haz un pequeño movimiento de mano, hombro o cuerpo que sugiera un golpe sin volcar el peso hacia delante.", "Recupera la guardia y la postura antes de repetir. Controla el movimiento sin estirarte hacia la pareja.", "Practica primero sin contacto. Trabaja con un entrenador antes de añadir respuestas o golpes de una pareja. Registra el tiempo en minutos."]
+    }
+  },
+  {
+    "id": 293, "name": "Soccer Cone Dribbling", "nameEs": "Conducción de fútbol entre conos", "muscleGroup": "Cardio", "equipment": "soccer ball and cones", "activity": "soccer",
+    "source": {"file": "soccer-6084027.mp4", "url": "https://videos.pexels.com/video-files/6084027/6084027-uhd_3840_2160_25fps.mp4", "page": "https://www.pexels.com/video/soccer-players-training-6084027/", "title": "Soccer Players Training", "author": "Tima Miroshnichenko / Pexels", "license": "Pexels License", "licenseUrl": "https://www.pexels.com/license/", "sha256": "f40d9f870426a8fb9f7cb9b92dbd9cbc0170158ab666cce28ef3c75896889278", "bytes": 20480846},
+    "clip": {"start": 2, "duration": 6, "width": 720, "posterTime": 1},
+    "description": {"en": "A player guides the ball around a line of cones and moves away from the camera. This excerpt shows part of the course, not a complete out-and-back run.", "es": "Un jugador conduce el balón alrededor de una fila de conos y se aleja de la cámara. El fragmento muestra parte del recorrido, no una ida y vuelta completa."},
+    "instructions": {
+      "en": ["Place cones in a line on a clear, level surface, leaving enough space to turn comfortably with the ball.", "Walk or jog through the course with short touches, steering the ball around each cone rather than kicking it far ahead.", "Use both feet and glance up between touches to check the path. Slow down whenever the ball moves out of control.", "Reset at the end of the course and repeat at a comfortable pace. Log practice time in minutes."],
+      "es": ["Coloca conos en fila sobre una superficie plana y despejada, dejando espacio para girar cómodamente con el balón.", "Recorre los conos caminando o trotando con toques cortos. Rodea cada cono sin lanzar el balón lejos.", "Usa ambos pies y levanta la mirada entre toques para comprobar el recorrido. Reduce la velocidad si pierdes el control.", "Recolócate al terminar y repite a un ritmo cómodo. Registra el tiempo de práctica en minutos."]
+    }
+  },
+  {
+    "id": 294, "name": "Soccer Ball Juggling", "nameEs": "Toques de fútbol sin dejar caer el balón", "muscleGroup": "Cardio", "equipment": "soccer ball", "activity": "soccer",
+    "source": {"file": "soccer-6078265.mp4", "url": "https://videos.pexels.com/video-files/6078265/6078265-uhd_3840_2160_25fps.mp4", "page": "https://www.pexels.com/video/football-player-juggling-with-ball-6078265/", "title": "Football Player Juggling with Ball", "author": "Tima Miroshnichenko / Pexels", "license": "Pexels License", "licenseUrl": "https://www.pexels.com/license/", "sha256": "06a971994a702bbb259202abe479a0ff09ebf9949ebece2c55c2e90f8fa63ec2", "bytes": 47741969},
+    "clip": {"start": 1, "duration": 9, "width": 720, "posterTime": 1},
+    "description": {"en": "A player repeatedly taps the ball upward with the feet, keeping it close and mostly below the hips. The full body and ball are visible.", "es": "Un jugador mantiene el balón en el aire con toques de los pies, cerca del cuerpo y principalmente por debajo de la cadera. Se ven el cuerpo completo y el balón."},
+    "instructions": {
+      "en": ["Stand on a clear, level surface with a soccer ball and enough room to recover a dropped ball.", "Drop the ball from your hands and tap it gently upward with the top of one foot. Begin with one touch and a catch if needed.", "Progress to consecutive small touches with either foot, keeping the ball close rather than kicking it high or chasing it.", "Reset when the ball falls and continue at a comfortable pace. Log minutes of practice, not a required number of consecutive touches."],
+      "es": ["Sitúate en una superficie plana y despejada, con un balón de fútbol y espacio para recogerlo si cae.", "Deja caer el balón desde las manos y elévalo suavemente con el empeine. Si hace falta, empieza con un toque y recógelo.", "Progresa a varios toques pequeños con cualquiera de los pies, manteniendo el balón cerca en vez de golpearlo muy alto o perseguirlo.", "Reinicia cuando caiga el balón y continúa a un ritmo cómodo. Registra minutos de práctica, no una cantidad obligatoria de toques seguidos."]
+    }
+  }
+]

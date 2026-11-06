@@ -1,8 +1,8 @@
 # Gym Tracker — Guía de Ejercicios (Español)
 
-Esta guía cubre los 225 ejercicios disponibles en Gym Tracker. Los ejercicios de fuerza (Pecho, Espalda, Hombros, Bíceps, Tríceps, Antebrazos, Piernas, Abdominales) registran Series, Reps y Peso en libras (lbs). Los ejercicios de Cardio y Combate se miden por tiempo: registras la Duración en minutos (de 1 a 120).
+Esta guía cubre los 230 ejercicios disponibles en Gym Tracker. Los ejercicios de fuerza (Pecho, Espalda, Hombros, Bíceps, Tríceps, Antebrazos, Piernas, Abdominales) registran Series, Reps y Peso en libras (lbs). Los ejercicios de Cardio y Combate se miden por tiempo: registras la Duración en minutos (de 1 a 120).
 
-La mayoría de los ejercicios de gimnasio (196 de 225) tienen demostración visual: toca el botón ▶ del ejercicio para abrir "Cómo hacer este ejercicio", que muestra posiciones de referencia e instrucciones. La disponibilidad de imágenes varía según el ejercicio.
+La mayoría de los ejercicios de gimnasio (201 de 230) tienen demostración visual: toca el botón ▶ del ejercicio para abrir "Cómo hacer este ejercicio", que muestra posiciones de referencia o un vídeo deportivo, con instrucciones. La disponibilidad de imágenes varía según el ejercicio.
 
 Para encontrar cualquier ejercicio, ve a "Agregar Ejercicio" y usa la barra de búsqueda o el filtro por grupo muscular. Puedes buscar por el nombre en inglés o en español, con o sin tildes.
 
@@ -2537,3 +2537,73 @@ Estas 12 variantes tienen dos fotografías de referencia con descripciones en am
 2. Impúlsate de lado hacia el pie contrario, comenzando con una distancia corta.
 3. Aterriza sobre el pie contrario con rodilla y cadera flexionadas, y alinea la rodilla con los dedos. Estabilízate antes de volver a saltar.
 4. Repite hacia el lado opuesto. Cuenta cada salto lateral como una repetición. Estas fotos no muestran toda la fase de vuelo ni el aterrizaje.
+
+
+## Vídeos de boxeo y fútbol
+
+Estos cinco ejercicios registran minutos. El vídeo comienza al pulsar Reproducir vídeo. Son fragmentos sin sonido, con descripción, instrucciones y créditos. Los originales de boxeo son de baja resolución y se conservan a 320 píxeles de ancho. Las adaptaciones de boxeo, incluidas estas instrucciones, se ofrecen bajo CC BY-SA 2.5 Colombia: https://creativecommons.org/licenses/by-sa/2.5/co/.
+
+### Bloqueo con antebrazos de boxeo
+
+ID: 290. Combat.
+
+El boxeador de azul eleva un antebrazo ante un golpe recto controlado y vuelve a la guardia. El clip incluye una vista más cercana del bloqueo.
+
+1. Empieza en una postura de boxeo equilibrada, con las manos junto a las mejillas y el mentón recogido.
+2. Lleva un antebrazo a la trayectoria del golpe y mantén la otra mano arriba. Practica primero el movimiento lentamente y sin contacto.
+3. Vuelve a la guardia tras cada bloqueo, sin inclinarte hacia atrás ni perder la postura.
+4. La demostración usa una pareja. Practica el contacto controlado con supervisión de un entrenador, no como combate sin supervisión. Registra el tiempo en minutos.
+
+Fuente: Escuela Virtual de Deportes / COLDEPORTES (Evdcoldeportes), https://commons.wikimedia.org/wiki/File:EVD-boxeo-002.ogv. CC BY-SA 2.5 Colombia, https://creativecommons.org/licenses/by-sa/2.5/co/.
+
+### Combinaciones de golpes de boxeo
+
+ID: 291. Combat.
+
+Dos boxeadores demuestran combinaciones cortas de golpes y vuelven a la guardia entre secuencias. Se ven ambos atletas y la posición de sus pies.
+
+1. Empieza en tu postura de boxeo, en un espacio despejado y con ambas manos protegiendo la cara.
+2. Practica lentamente una secuencia corta, por ejemplo un recto delantero seguido de un recto trasero. Devuelve cada mano a la guardia.
+3. Mantén el equilibrio durante la secuencia y reajusta la postura antes de repetir. Prioriza el control antes que la velocidad.
+4. Empieza sin contacto. El vídeo con pareja es una referencia técnica; los ejercicios con contacto requieren entrenador y protección adecuada. Registra minutos.
+
+Fuente: Escuela Virtual de Deportes / COLDEPORTES (Evdcoldeportes), https://commons.wikimedia.org/wiki/File:EVD-boxeo-003.ogv. CC BY-SA 2.5 Colombia, https://creativecommons.org/licenses/by-sa/2.5/co/.
+
+### Fintas de boxeo
+
+ID: 292. Combat.
+
+El boxeador de azul hace pequeñas fintas de manos y cuerpo ante una pareja y recupera la guardia. Una de las fintas va seguida de un breve golpe recto.
+
+1. Adopta tu postura de boxeo con una base equilibrada y las manos arriba.
+2. Haz un pequeño movimiento de mano, hombro o cuerpo que sugiera un golpe sin volcar el peso hacia delante.
+3. Recupera la guardia y la postura antes de repetir. Controla el movimiento sin estirarte hacia la pareja.
+4. Practica primero sin contacto. Trabaja con un entrenador antes de añadir respuestas o golpes de una pareja. Registra el tiempo en minutos.
+
+Fuente: Escuela Virtual de Deportes / COLDEPORTES (Evdcoldeportes), https://commons.wikimedia.org/wiki/File:EVD-boxeo-004.ogv. CC BY-SA 2.5 Colombia, https://creativecommons.org/licenses/by-sa/2.5/co/.
+
+### Conducción de fútbol entre conos
+
+ID: 293. Cardio.
+
+Un jugador conduce el balón alrededor de una fila de conos y se aleja de la cámara. El fragmento muestra parte del recorrido, no una ida y vuelta completa.
+
+1. Coloca conos en fila sobre una superficie plana y despejada, dejando espacio para girar cómodamente con el balón.
+2. Recorre los conos caminando o trotando con toques cortos. Rodea cada cono sin lanzar el balón lejos.
+3. Usa ambos pies y levanta la mirada entre toques para comprobar el recorrido. Reduce la velocidad si pierdes el control.
+4. Recolócate al terminar y repite a un ritmo cómodo. Registra el tiempo de práctica en minutos.
+
+Fuente: Tima Miroshnichenko / Pexels, https://www.pexels.com/video/soccer-players-training-6084027/. Pexels License, https://www.pexels.com/license/.
+
+### Toques de fútbol sin dejar caer el balón
+
+ID: 294. Cardio.
+
+Un jugador mantiene el balón en el aire con toques de los pies, cerca del cuerpo y principalmente por debajo de la cadera. Se ven el cuerpo completo y el balón.
+
+1. Sitúate en una superficie plana y despejada, con un balón de fútbol y espacio para recogerlo si cae.
+2. Deja caer el balón desde las manos y elévalo suavemente con el empeine. Si hace falta, empieza con un toque y recógelo.
+3. Progresa a varios toques pequeños con cualquiera de los pies, manteniendo el balón cerca en vez de golpearlo muy alto o perseguirlo.
+4. Reinicia cuando caiga el balón y continúa a un ritmo cómodo. Registra minutos de práctica, no una cantidad obligatoria de toques seguidos.
+
+Fuente: Tima Miroshnichenko / Pexels, https://www.pexels.com/video/football-player-juggling-with-ball-6078265/. Pexels License, https://www.pexels.com/license/.

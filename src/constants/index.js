@@ -1,4 +1,5 @@
 import { PHOTO_EXERCISES } from '../data/photoExercises.js';
+import { SPORT_EXERCISES } from '../data/sportExercises.js';
 
 export const EXERCISE_DATABASE = [
   { "id": 1, "name": "Barbell Bench Press", "muscleGroup": "Chest" },
@@ -214,5 +215,6 @@ export const EXERCISE_DATABASE = [
   {"id":275,"name":"Ring Muscle-Up","muscleGroup":"Back"},
   {"id":276,"name":"Kipping Ring Muscle-Up","muscleGroup":"Back"},
   {"id":277,"name":"Rope Climb","muscleGroup":"Back"},
-  ...PHOTO_EXERCISES.map(({ id, name, muscleGroup }) => ({ id, name, muscleGroup }))
+  ...PHOTO_EXERCISES.map(({ id, name, muscleGroup }) => ({ id, name, muscleGroup })),
+  ...SPORT_EXERCISES.map(({ id, name, muscleGroup }) => ({ id, name, muscleGroup }))
 ];

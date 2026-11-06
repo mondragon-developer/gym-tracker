@@ -2,7 +2,9 @@
 
 Implementation update, November 6, 2026: the 12 preferred pairs are now integrated as catalog IDs 278-289 with English/Spanish names, edited instructions, descriptions and 24 app-hosted static JPEGs. The catalog contains 225 exercises, 196 with media. Existing IDs and workouts are preserved. Run `node scripts/enrichment/build-photo-expansion.mjs` to verify source hashes and rebuild this batch. See `public/exercise-media/photos/provenance.json` for the shipped files.
 
-The remaining 11 held pairs, one rejected pair and 18 reference-only coaching links are still excluded from the app. Soccer ball skills and specific boxing drills need suitable demonstrations before a further media batch. The notes below are the original research snapshot, not the current catalog inventory. The hosted Chatbase source refresh was subsequently verified; see [the refresh record](../../CHATBASE_CATALOG_REFRESH.md). Editing local documents alone does not update the hosted agent.
+Sports update, November 6, 2026: five separately reviewed video excerpts now cover boxing forearm blocks, combinations and feints, soccer cone dribbling and ball juggling (IDs 290-294). The catalog now contains 230 exercises, 201 with media. See [the sports review](sports-review.md).
+
+The remaining 11 held pairs, one rejected pair and 18 reference-only coaching links are still excluded from the app. The new sports batch uses separately licensed sources; the original reference-only coaching links remain excluded. The notes below are the original research snapshot, not the current catalog inventory. The hosted Chatbase source refresh was subsequently verified; see [the refresh record](../../CHATBASE_CATALOG_REFRESH.md). Editing local documents alone does not update the hosted agent.
 
 Researched November 6, 2026. Research package only, no catalog changes, uploads or deployment.
 

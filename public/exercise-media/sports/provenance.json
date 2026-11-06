@@ -1,0 +1,250 @@
+{
+  "reviewed": "2026-11-06",
+  "exercises": [
+    {
+      "id": 290,
+      "name": "Boxing Forearm Block Drill",
+      "source": {
+        "file": "EVD-boxeo-002.ogv",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/b/b9/EVD-boxeo-002.ogv",
+        "page": "https://commons.wikimedia.org/wiki/File:EVD-boxeo-002.ogv",
+        "title": "Bloqueo con los antebrazos",
+        "author": "Escuela Virtual de Deportes / COLDEPORTES (Evdcoldeportes)",
+        "license": "CC BY-SA 2.5 Colombia",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5/co/",
+        "sha256": "767a2c8747f2f02ccba254da8ac94a248166f83eba749783794fa88e00030c72",
+        "bytes": 200019
+      },
+      "clip": {
+        "start": 5,
+        "duration": 7,
+        "width": 320,
+        "posterTime": 1
+      },
+      "output": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 320,
+            "height": 224
+          }
+        ],
+        "format": {
+          "duration": "7.000000"
+        }
+      },
+      "files": [
+        {
+          "path": "290.mp4",
+          "bytes": 67863,
+          "sha256": "db4daa1ff17ef4e8c4280858fa3335a3024776fb35d9f278e2efd40fc4b8b90b"
+        },
+        {
+          "path": "290.jpg",
+          "bytes": 7535,
+          "sha256": "b79f1fbfddb216b8e104a95ddba54e2ce4ae435f9f2e9f9490a89dfe5d2f4eda"
+        }
+      ],
+      "modifications": "Excerpt trimmed at the recorded timestamps; audio removed; transcoded to H.264; soccer footage reduced to 720 pixels wide; poster extracted. No mirroring, generated frames or speed changes. Boxing video and poster adaptations remain CC BY-SA 2.5 Colombia."
+    },
+    {
+      "id": 291,
+      "name": "Boxing Punch Combination Drill",
+      "source": {
+        "file": "EVD-boxeo-003.ogv",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/0/08/EVD-boxeo-003.ogv",
+        "page": "https://commons.wikimedia.org/wiki/File:EVD-boxeo-003.ogv",
+        "title": "Combinaciones",
+        "author": "Escuela Virtual de Deportes / COLDEPORTES (Evdcoldeportes)",
+        "license": "CC BY-SA 2.5 Colombia",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5/co/",
+        "sha256": "d134d739c84c3a64e63440c157057fb374f4685e609dfda441aec5ed0ed09ca6",
+        "bytes": 931807
+      },
+      "clip": {
+        "start": 5.5,
+        "duration": 9.5,
+        "width": 320,
+        "posterTime": 1
+      },
+      "output": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 320,
+            "height": 224
+          }
+        ],
+        "format": {
+          "duration": "9.520000"
+        }
+      },
+      "files": [
+        {
+          "path": "291.mp4",
+          "bytes": 250351,
+          "sha256": "8e026402fc6bf99f9cd1367f9870de67d0942d534114241e8ffd3314ff08b640"
+        },
+        {
+          "path": "291.jpg",
+          "bytes": 8140,
+          "sha256": "6c2ce7e1209f45740f22553b85e53d3536a077645d774c2e4a77b7467b8bf1fd"
+        }
+      ],
+      "modifications": "Excerpt trimmed at the recorded timestamps; audio removed; transcoded to H.264; soccer footage reduced to 720 pixels wide; poster extracted. No mirroring, generated frames or speed changes. Boxing video and poster adaptations remain CC BY-SA 2.5 Colombia."
+    },
+    {
+      "id": 292,
+      "name": "Boxing Feint Drill",
+      "source": {
+        "file": "EVD-boxeo-004.ogv",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/5/56/EVD-boxeo-004.ogv",
+        "page": "https://commons.wikimedia.org/wiki/File:EVD-boxeo-004.ogv",
+        "title": "Fintas y movimientos de engaño",
+        "author": "Escuela Virtual de Deportes / COLDEPORTES (Evdcoldeportes)",
+        "license": "CC BY-SA 2.5 Colombia",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5/co/",
+        "sha256": "247b8d9cebe2fc0dea4d464aa2126b1bbda9279fd62304406d0de467e875331d",
+        "bytes": 2759137
+      },
+      "clip": {
+        "start": 6,
+        "duration": 9,
+        "width": 320,
+        "posterTime": 1
+      },
+      "output": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 320,
+            "height": 224
+          }
+        ],
+        "format": {
+          "duration": "9.000000"
+        }
+      },
+      "files": [
+        {
+          "path": "292.mp4",
+          "bytes": 209339,
+          "sha256": "b40bc28b498a4e507e122e57c89bb92d04e5ef2fc10991c14b2ffd14c801cbdf"
+        },
+        {
+          "path": "292.jpg",
+          "bytes": 8348,
+          "sha256": "cc45b7137980b86ff3af6114b5c0ebfb945df76164757088852c0127f4f2141a"
+        }
+      ],
+      "modifications": "Excerpt trimmed at the recorded timestamps; audio removed; transcoded to H.264; soccer footage reduced to 720 pixels wide; poster extracted. No mirroring, generated frames or speed changes. Boxing video and poster adaptations remain CC BY-SA 2.5 Colombia."
+    },
+    {
+      "id": 293,
+      "name": "Soccer Cone Dribbling",
+      "source": {
+        "file": "soccer-6084027.mp4",
+        "url": "https://videos.pexels.com/video-files/6084027/6084027-uhd_3840_2160_25fps.mp4",
+        "page": "https://www.pexels.com/video/soccer-players-training-6084027/",
+        "title": "Soccer Players Training",
+        "author": "Tima Miroshnichenko / Pexels",
+        "license": "Pexels License",
+        "licenseUrl": "https://www.pexels.com/license/",
+        "sha256": "f40d9f870426a8fb9f7cb9b92dbd9cbc0170158ab666cce28ef3c75896889278",
+        "bytes": 20480846
+      },
+      "clip": {
+        "start": 2,
+        "duration": 6,
+        "width": 720,
+        "posterTime": 1
+      },
+      "output": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 720,
+            "height": 406
+          }
+        ],
+        "format": {
+          "duration": "6.000000"
+        }
+      },
+      "files": [
+        {
+          "path": "293.mp4",
+          "bytes": 348860,
+          "sha256": "f7abe4c4bbd3b860e59f246f409df6528fb53132e399ec1c655681762bfd3024"
+        },
+        {
+          "path": "293.jpg",
+          "bytes": 29365,
+          "sha256": "01144977918f09482682889d5f2b9d8ce104880f617c085fc3aba6456bb81970"
+        }
+      ],
+      "modifications": "Excerpt trimmed at the recorded timestamps; audio removed; transcoded to H.264; soccer footage reduced to 720 pixels wide; poster extracted. No mirroring, generated frames or speed changes. Boxing video and poster adaptations remain CC BY-SA 2.5 Colombia."
+    },
+    {
+      "id": 294,
+      "name": "Soccer Ball Juggling",
+      "source": {
+        "file": "soccer-6078265.mp4",
+        "url": "https://videos.pexels.com/video-files/6078265/6078265-uhd_3840_2160_25fps.mp4",
+        "page": "https://www.pexels.com/video/football-player-juggling-with-ball-6078265/",
+        "title": "Football Player Juggling with Ball",
+        "author": "Tima Miroshnichenko / Pexels",
+        "license": "Pexels License",
+        "licenseUrl": "https://www.pexels.com/license/",
+        "sha256": "06a971994a702bbb259202abe479a0ff09ebf9949ebece2c55c2e90f8fa63ec2",
+        "bytes": 47741969
+      },
+      "clip": {
+        "start": 1,
+        "duration": 9,
+        "width": 720,
+        "posterTime": 1
+      },
+      "output": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 720,
+            "height": 406
+          }
+        ],
+        "format": {
+          "duration": "9.000000"
+        }
+      },
+      "files": [
+        {
+          "path": "294.mp4",
+          "bytes": 568348,
+          "sha256": "d5f23e4acd8f0979350a5b2d115e71f9b37133d273558716c43d47864e526e05"
+        },
+        {
+          "path": "294.jpg",
+          "bytes": 36924,
+          "sha256": "b3e101976f00f8f54bf674037effa5684fbbe48eaf24a6660baa44c2b1965249"
+        }
+      ],
+      "modifications": "Excerpt trimmed at the recorded timestamps; audio removed; transcoded to H.264; soccer footage reduced to 720 pixels wide; poster extracted. No mirroring, generated frames or speed changes. Boxing video and poster adaptations remain CC BY-SA 2.5 Colombia."
+    }
+  ]
+}

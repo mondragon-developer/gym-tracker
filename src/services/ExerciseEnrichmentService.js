@@ -15,10 +15,12 @@ import { ENRICHED_IDS } from '../data/exerciseEnrichmentIndex.js';
 import { EXERCISE_EQUIPMENT } from '../data/exerciseEquipment.js';
 import { FUNCTIONAL_IDS, FUNCTIONAL_EQUIPMENT } from '../data/functionalExercises.js';
 import { PHOTO_EXERCISES } from '../data/photoExercises.js';
+import { SPORT_EXERCISES } from '../data/sportExercises.js';
 
-const ENRICHED = new Set([...ENRICHED_IDS, ...FUNCTIONAL_IDS, ...PHOTO_EXERCISES.map(exercise => exercise.id)]);
+const ENRICHED = new Set([...ENRICHED_IDS, ...FUNCTIONAL_IDS, ...PHOTO_EXERCISES.map(exercise => exercise.id), ...SPORT_EXERCISES.map(exercise => exercise.id)]);
+const sportIds = new Set(SPORT_EXERCISES.map(exercise => exercise.id));
 const EQUIPMENT = { ...EXERCISE_EQUIPMENT, ...FUNCTIONAL_EQUIPMENT,
-  ...Object.fromEntries(PHOTO_EXERCISES.map(({ id, equipment }) => [id, equipment])) };
+  ...Object.fromEntries([...PHOTO_EXERCISES, ...SPORT_EXERCISES].map(({ id, equipment }) => [id, equipment])) };
 
 // Memoize the dynamic import so the chunk is fetched/parsed at most once.
 let dataPromise = null;
@@ -79,6 +81,10 @@ export function listEquipment() {
  */
 export async function getExerciseEnrichment(dbId) {
   if (!hasExerciseEnrichment(dbId)) return null;
+  if (sportIds.has(Number(dbId))) {
+    const { SPORT_ENRICHMENT } = await import('../data/sportEnrichment.js');
+    return SPORT_ENRICHMENT[dbId] || null;
+  }
   if (PHOTO_EXERCISES.some(exercise => exercise.id === Number(dbId))) {
     const { PHOTO_ENRICHMENT } = await import('../data/photoEnrichment.js');
     return PHOTO_ENRICHMENT[dbId] || null;

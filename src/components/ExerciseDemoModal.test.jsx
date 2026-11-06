@@ -54,3 +54,32 @@ describe('static photo references', () => {
     expect(screen.getByText(/Aterriza suavemente/)).toBeInTheDocument();
   });
 });
+
+describe('sports video demonstrations', () => {
+  it('loads only a poster until play is requested, then exposes native controls and source credits', async () => {
+    const { container } = render(<ExerciseDemoModal exercise={{ dbId: 290, name: 'Boxing Forearm Block Drill' }} onClose={() => {}} />);
+    expect(container.querySelector('video')).toBeNull();
+    expect(screen.getByRole('img').src).toMatch(/290.jpg$/);
+    expect(await screen.findByRole('link', { name: 'CC BY-SA 2.5 Colombia' })).toHaveAttribute('href', 'https://creativecommons.org/licenses/by-sa/2.5/co/');
+    expect(screen.queryByText(/Intermediate phases/)).toBeNull();
+    expect(screen.queryByRole('link', { name: 'Unlicense' })).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: 'Play video' }));
+    const video = screen.getByLabelText('Boxing Forearm Block Drill demonstration');
+    expect(video).toHaveAttribute('src', '/exercise-media/sports/290.mp4');
+    expect(video).toHaveAttribute('controls');
+    expect(video).toHaveAttribute('preload', 'none');
+    expect(video).not.toHaveAttribute('loop');
+  });
+
+  it('starts static for reduced motion and retains Spanish instructions and attribution after video failure', async () => {
+    vi.stubGlobal('matchMedia', () => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() }));
+    const { container } = render(<ExerciseDemoModal exercise={{ dbId: 293, name: 'Soccer Cone Dribbling' }} language="es" onClose={() => {}} />);
+    expect(container.querySelector('video')).toBeNull();
+    expect(await screen.findByText(/Coloca conos en fila/)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Reproducir vídeo' }));
+    fireEvent.error(screen.getByLabelText('Demostración de Conducción de fútbol entre conos'));
+    expect(screen.getByRole('status')).toHaveTextContent('No se pudo cargar la demo');
+    expect(screen.getByText(/Coloca conos en fila/)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Pexels License' })).toBeInTheDocument();
+  });
+});

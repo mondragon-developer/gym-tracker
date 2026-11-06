@@ -8,6 +8,9 @@
 
 export const equipmentTranslations = {
     "other": "otro equipo",
+    "boxing gloves": "guantes de boxeo",
+    "soccer ball": "balón de fútbol",
+    "soccer ball and cones": "balón de fútbol y conos",
     "rings": "anillas",
     "medicine ball": "balón medicinal",
     "band": "banda",

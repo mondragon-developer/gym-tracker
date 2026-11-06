@@ -3,9 +3,11 @@
  * Used for displaying exercise names in the selected language
  */
 import { PHOTO_EXERCISES } from '../data/photoExercises.js';
+import { SPORT_EXERCISES } from '../data/sportExercises.js';
 
 export const exerciseTranslations = {
     ...Object.fromEntries(PHOTO_EXERCISES.map(({ name, nameEs }) => [name, nameEs])),
+    ...Object.fromEntries(SPORT_EXERCISES.map(({ name, nameEs }) => [name, nameEs])),
     "Barbell Clean": "Cargada con barra",
     "Power Clean": "Cargada de potencia",
     "Hang Clean": "Cargada colgante",

@@ -16,6 +16,13 @@ const renderModal = (language = 'en') =>
 const equipmentSelect = (name) => screen.getByRole('combobox', { name });
 
 describe('AddExerciseModal equipment filter', () => {
+    it('finds soccer drills by Spanish search with the soccer equipment filter', () => {
+        renderModal();
+        fireEvent.change(equipmentSelect('Filter by Equipment'), { target: { value: 'soccer ball and cones' } });
+        fireEvent.change(screen.getByPlaceholderText(/Search exercises/), { target: { value: 'futbol' } });
+        expect(screen.getByText('Soccer Cone Dribbling')).toBeInTheDocument();
+        expect(screen.queryByText('Soccer Ball Juggling')).toBeNull();
+    });
     it('finds a new variation by its Spanish name and keeps the equipment filter', () => {
         renderModal();
         fireEvent.change(equipmentSelect('Filter by Equipment'), { target: { value: 'band' } });
