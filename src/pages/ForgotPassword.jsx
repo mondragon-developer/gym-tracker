@@ -42,7 +42,7 @@ export default function ForgotPassword({ onBackToSignIn }) {
   };
 
   return (
-    <div style={{
+    <main className="auth-shell" style={{
       minHeight: '100vh',
       backgroundColor: 'var(--bg-page)',
       display: 'flex',
@@ -89,7 +89,7 @@ export default function ForgotPassword({ onBackToSignIn }) {
               {t('Reset Password', language)}
             </h1>
             <p style={{
-              color: 'rgba(255, 255, 255, 0.8)',
+              color: 'var(--header-muted)',
               fontSize: '14px',
               margin: '0'
             }}>
@@ -122,7 +122,7 @@ export default function ForgotPassword({ onBackToSignIn }) {
           <form onSubmit={handleSubmit} style={{ padding: '32px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               {error && (
-                <div style={{
+                <div role="alert" style={{
                   padding: '12px 16px',
                   backgroundColor: 'var(--danger-soft)',
                   border: '1px solid var(--danger-border)',
@@ -135,7 +135,7 @@ export default function ForgotPassword({ onBackToSignIn }) {
               )}
 
               <div>
-                <label style={{
+                <label htmlFor="forgotpassword-email" style={{
                   display: 'block',
                   marginBottom: '8px',
                   fontSize: '14px',
@@ -145,6 +145,9 @@ export default function ForgotPassword({ onBackToSignIn }) {
                   {t('Email', language)}
                 </label>
                 <Input
+                id="forgotpassword-email"
+                name="email"
+                autoComplete="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -188,6 +191,6 @@ export default function ForgotPassword({ onBackToSignIn }) {
           </form>
         )}
       </div>
-    </div>
+    </main>
   );
 }

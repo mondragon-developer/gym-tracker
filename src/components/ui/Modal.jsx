@@ -3,13 +3,11 @@
  * Replaces CustomModal and NewModal to follow Interface Segregation Principle
  */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useRef, useContext } from 'react';
+import useDialogFocus from '../../hooks/useDialogFocus.js';
+import { LanguageContext } from '../../contexts/languageContextDef.js';
 import { createPortal } from 'react-dom';
 
-// Open modals, outermost first. Modals can nest (a demo on top of the
-// exercise picker), so only the topmost one answers Escape and the body
-// scroll lock is released only when the last one closes.
-const openModals = [];
 import Button from './Button.jsx';
 import { ButtonVariant, ButtonSize } from './Button.constants.js';
 
@@ -49,7 +47,9 @@ const titleStyles = {
   fontSize: '20px',
   fontWeight: '600',
   color: 'var(--text)',
-  margin: '0 0 16px 0'
+  margin: '0 0 16px 0',
+  paddingRight: '40px',
+  overflowWrap: 'anywhere'
 };
 
 const contentStyles = {
@@ -93,56 +93,10 @@ const Modal = ({
   style = {},
   className = ''
 }) => {
-  // Latest onClose without re-registering the listener on every render.
   const titleId = React.useId();
   const dialogRef = useRef(null);
-  const onCloseRef = useRef(onClose);
-  useEffect(() => {
-    onCloseRef.current = onClose;
-  }, [onClose]);
-
-  useEffect(() => {
-    if (!isOpen) return undefined;
-
-    const entry = {};
-    const opener = document.activeElement;
-    const dialog = dialogRef.current;
-    const focusable = () => [...dialog.querySelectorAll('button, input, select, textarea, a[href], [tabindex]')].filter(el => !el.disabled && el.tabIndex >= 0 && !el.closest('[hidden]'));
-    openModals.push(entry);
-    document.body.style.overflow = 'hidden';
-    dialog.focus();
-    const containFocus = (e) => {
-      if (openModals.at(-1) === entry && !dialog.contains(e.target)) dialog.focus();
-    };
-    document.addEventListener('focusin', containFocus);
-
-    const handleEscape = (e) => {
-      if (openModals.at(-1) !== entry) return;
-      if (e.key === 'Tab') {
-        const items = focusable();
-        const first = items[0];
-        const last = items.at(-1);
-        if (!first || (e.shiftKey && (document.activeElement === first || document.activeElement === dialog))) {
-          e.preventDefault(); (last || dialog).focus();
-        } else if (!e.shiftKey && (document.activeElement === last || document.activeElement === dialog)) {
-          e.preventDefault(); (first || dialog).focus();
-        }
-      }
-      if (e.key === 'Escape' && openModals[openModals.length - 1] === entry) {
-        onCloseRef.current();
-      }
-    };
-    document.addEventListener('keydown', handleEscape);
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.removeEventListener('focusin', containFocus);
-      const index = openModals.indexOf(entry);
-      if (index !== -1) openModals.splice(index, 1);
-      if (openModals.length === 0) document.body.style.overflow = 'unset';
-      if (opener?.isConnected) opener.focus();
-    };
-  }, [isOpen]);
+  const language = useContext(LanguageContext)?.language || 'en';
+  useDialogFocus(isOpen, dialogRef, onClose);
 
   if (!isOpen) return null;
 
@@ -174,7 +128,7 @@ const Modal = ({
                 size={ButtonSize.SMALL}
                 onClick={onClose}
                 style={closeButtonStyles}
-                aria-label="Close modal"
+                aria-label={language === 'es' ? 'Cerrar ventana' : 'Close modal'}
               >
                 ×
               </Button>
@@ -183,7 +137,7 @@ const Modal = ({
         )}
         
         {/* Content */}
-        <div style={contentStyles}>
+        <div className="modal-content" style={contentStyles}>
           {children}
         </div>
       </div>

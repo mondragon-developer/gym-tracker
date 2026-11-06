@@ -30,9 +30,9 @@ const buttonStyle = (variant, disabled) => ({
   borderRadius: '10px',
   border: variant === 'primary' ? 'none' : '1px solid var(--border)',
   background: variant === 'primary'
-    ? 'var(--brand)'
+    ? 'var(--action)'
     : 'var(--surface)',
-  color: variant === 'primary' ? 'var(--on-brand)' : 'var(--text-2)',
+  color: variant === 'primary' ? 'var(--on-action)' : 'var(--text-2)',
   fontSize: '14px',
   fontWeight: 600,
   cursor: disabled ? 'not-allowed' : 'pointer',
@@ -112,6 +112,7 @@ const SaveStatusBar = ({ saveState, lastSavedAt, onSave, onReload, onOverwrite, 
 
   return (
     <div
+      className="save-status-bar"
       role="status"
       aria-live="polite"
       style={{
@@ -124,7 +125,7 @@ const SaveStatusBar = ({ saveState, lastSavedAt, onSave, onReload, onOverwrite, 
         gap: '12px',
         flexWrap: 'wrap',
         padding: '12px 16px',
-        margin: '20px -32px -24px',
+        margin: '20px calc(-1 * var(--section-gutter)) -24px',
         borderTop: `1px solid ${palette.border}`,
         backgroundColor: palette.bg,
         boxShadow: '0 -6px 16px var(--shadow)'
@@ -153,7 +154,7 @@ const SaveStatusBar = ({ saveState, lastSavedAt, onSave, onReload, onOverwrite, 
           {message}
         </span>
       </div>
-      <div style={{ display: 'flex', gap: '8px' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
         {onUndo && (
           <button
             type="button"

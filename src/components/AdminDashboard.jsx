@@ -484,7 +484,7 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
             <h1 style={{ color: 'white', fontSize: '22px', margin: '0 0 4px 0' }}>
               {isTrainer ? `🏋️ ${t('Trainer panel', language)}` : `🛡️ ${t('Admin panel', language)}`}
             </h1>
-            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '13px', margin: 0 }}>
+            <p style={{ color: 'var(--header-muted)', fontSize: '13px', margin: 0 }}>
               {isTrainer
                 ? t("Manage your clients' weekly training plans.", language)
                 : t("Build and adjust each user's weekly training plan.", language)}

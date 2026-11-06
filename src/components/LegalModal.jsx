@@ -12,8 +12,8 @@ const tabStyle = (active) => ({
     padding: '8px 14px',
     borderRadius: '8px',
     border: '1px solid var(--border-strong)',
-    backgroundColor: active ? 'var(--brand)' : 'var(--surface)',
-    color: active ? 'var(--on-brand)' : 'var(--text)',
+    backgroundColor: active ? 'var(--action)' : 'var(--surface)',
+    color: active ? 'var(--on-action)' : 'var(--text)',
     fontSize: '14px',
     fontWeight: 600,
     cursor: 'pointer'

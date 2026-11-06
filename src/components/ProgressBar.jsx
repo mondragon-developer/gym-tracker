@@ -59,7 +59,7 @@ const ProgressBar = ({ workoutPlan, language = 'en' }) => {
                 </p>
             </div>
             
-            <div style={{
+            <div role="progressbar" aria-label={t('Weekly Progress', language)} aria-valuenow={progressPercentage} aria-valuemin={0} aria-valuemax={100} style={{
                 background: 'var(--surface-3)',
                 borderRadius: '20px',
                 height: '40px',

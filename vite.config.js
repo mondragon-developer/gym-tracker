@@ -15,10 +15,9 @@ export default defineConfig({
         name: 'Gym Tracker',
         short_name: 'Gym Tracker',
         description: 'Plan and track your weekly Push/Pull/Leg workouts.',
-        theme_color: '#0e7490',
-        background_color: '#e9f7be',
+        theme_color: '#0f172a',
+        background_color: '#ecf5fa',
         display: 'standalone',
-        orientation: 'portrait',
         start_url: '/',
         icons: [
           { src: 'pwa-icon.jpeg', sizes: '192x192', type: 'image/jpeg' },

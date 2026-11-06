@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, X, Trash2, GripVertical, PlayCircle } from 'lucide-react';
+import { Check, X, Trash2, GripVertical, PlayCircle, ArrowUp, ArrowDown } from 'lucide-react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import ExerciseService from '../services/ExerciseService.js';
@@ -27,7 +27,7 @@ const startRestTimer = () => {
     }
 };
 
-const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language = 'en', readOnly = false, focused = false, conditioning = false, favorite = false, onToggleFavorite, onUndo, canUndo = false }) => {
+const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language = 'en', readOnly = false, focused = false, conditioning = false, favorite = false, onToggleFavorite, onUndo, canUndo = false, onMove, canMoveUp = false, canMoveDown = false }) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
         id: exercise.id,
     });
@@ -210,8 +210,8 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                             onClick={() => handleStatusChange('skipped')}
                             aria-pressed={exercise.status === 'skipped'}
                             style={actionButtonStyle(exercise.status === 'skipped', 'var(--skipped)', 'var(--skipped)')}
-                            title="Mark as skipped"
-                            aria-label="Mark as skipped"
+                            title={t('Mark as skipped', language)}
+                            aria-label={t('Mark as skipped', language)}
                         >
                             <X size={16} />
                         </button>
@@ -233,6 +233,20 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                     </div>
                     )}
                 </div>
+                {!readOnly && !focused && onMove && (
+                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                        {[-1, 1].map(direction => {
+                            const up = direction === -1;
+                            const label = language === 'es' ? (up ? 'Subir' : 'Bajar') : (up ? 'Move up' : 'Move down');
+                            const Icon = up ? ArrowUp : ArrowDown;
+                            return <button key={direction} type="button" disabled={up ? !canMoveUp : !canMoveDown}
+                                onClick={() => onMove(direction)} aria-label={`${label}: ${translateExercise(exercise.name, language)}`}
+                                style={{ minHeight: 36, padding: '6px 10px', display: 'inline-flex', alignItems: 'center', gap: 6, border: '1px solid var(--border-strong)', borderRadius: 8, color: 'var(--text-2)', background: 'var(--surface)', cursor: 'pointer' }}>
+                                <Icon size={14} aria-hidden="true" />{label}
+                            </button>;
+                        })}
+                    </div>
+                )}
 
                 {/* Inputs. A disabled <fieldset> makes every control inside
                     read-only in one shot when viewing a past week. */}
@@ -293,7 +307,7 @@ const ExerciseItem = ({ exercise, onUpdate, onDelete, previous = null, language 
                     <>
                         {/* Row 1: the plan. Row 2: what got done. */}
                         {/* Reps holds ranges like "10-12", so it gets the widest column. */}
-                        <div className="exercise-planning-fields" style={{ display: 'grid', gridTemplateColumns: conditioning ? '1fr 1fr' : 'minmax(0, 0.8fr) minmax(0, 1.3fr) minmax(0, 1.1fr)', gap: '8px', fontSize: '14px' }}>
+                        <div className="exercise-planning-fields" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 120px), 1fr))', gap: '8px', fontSize: '14px' }}>
                             {!conditioning && <>
                             <div style={fieldStyle}>
                                 <label style={labelStyle('var(--accent-a)')}>{t("Sets", language)}</label>

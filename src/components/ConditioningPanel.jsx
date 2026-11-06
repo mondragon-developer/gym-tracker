@@ -75,7 +75,7 @@ export default function ConditioningPanel({ value, exercises = [], onChange, lan
                     {config.mode === 'amrap' && <label style={{ color: 'var(--text-2)', fontSize: 13 }}>{es ? 'Reps adicionales' : 'Extra reps'}
                         <input aria-label={es ? 'Reps adicionales' : 'Extra reps'} type="number" min="0" max="9999" value={session.extraReps || 0} onChange={e => onChange({ ...value, session: { ...session, extraReps: Math.max(0, Math.min(9999, Math.floor(Number(e.target.value) || 0))) } })} style={{ ...field, width: 100 }} />
                     </label>}
-                    <button type="button" onClick={() => act('finish')} style={{ ...workoutControlStyle, background: 'var(--brand)', color: 'var(--on-brand)' }}>{es ? 'Finalizar y guardar' : 'Finish and save'}</button>
+                    <button type="button" onClick={() => act('finish')} style={{ ...workoutControlStyle, background: 'var(--action)', color: 'var(--on-action)' }}>{es ? 'Finalizar y guardar' : 'Finish and save'}</button>
                 </>}
                 {session && <button type="button" onClick={() => act('reset')} style={workoutControlStyle}>{es ? 'Reiniciar sesión' : 'Reset session'}</button>}
                 {onUndo && <button type="button" disabled={!canUndo} onClick={onUndo} style={workoutControlStyle}>{es ? 'Deshacer' : 'Undo'}</button>}

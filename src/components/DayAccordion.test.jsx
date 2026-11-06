@@ -53,3 +53,21 @@ describe('DayAccordion header', () => {
         expect(screen.getByText('1/2')).toBeInTheDocument();
     });
 });
+
+describe('DayAccordion tap reordering', () => {
+    it('moves an exercise without dragging and announces its new position', () => {
+        const second = { ...exercise, id: 'e2', name: 'Push-Ups' };
+        const data = { name: 'Chest', note: 'Keep this note', exercises: [exercise, second] };
+        const { onUpdateDay } = renderDay(data);
+        expect(screen.getByRole('button', { name: 'Move up: Bench Press' })).toBeDisabled();
+        expect(screen.getByRole('button', { name: 'Move down: Push-Ups' })).toBeDisabled();
+        fireEvent.click(screen.getByRole('button', { name: 'Move down: Bench Press' }));
+        expect(onUpdateDay).toHaveBeenCalledWith('Monday', { ...data, exercises: [second, exercise] });
+        expect(screen.getByText('Bench Press, position 2 of 2')).toHaveAttribute('role', 'status');
+    });
+
+    it('does not offer reordering for a read-only week', () => {
+        renderDay({ name: 'Chest', exercises: [exercise] }, { readOnly: true });
+        expect(screen.queryByRole('button', { name: /Move (up|down):/ })).toBeNull();
+    });
+});

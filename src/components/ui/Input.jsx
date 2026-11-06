@@ -18,8 +18,9 @@ const baseStyles = {
   fontSize: '14px',
   fontFamily: 'inherit',
   transition: 'all 0.2s ease',
-  outline: 'none',
   width: '100%',
+  minWidth: 0,
+  minHeight: '44px',
   boxSizing: 'border-box'
 };
 

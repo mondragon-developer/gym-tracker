@@ -436,6 +436,7 @@ function AppContent() {
                 margin: '32px auto',
                 boxShadow: '0 25px 50px -12px var(--shadow-strong)'
             }} className="app-shell">
+                <a className="skip-link" href="#workout-content">{language === 'es' ? 'Ir al entrenamiento' : 'Skip to workout'}</a>
                 {/* Header (compact on phones via .app-header in index.css) */}
                 <div className="app-header" style={{
                     padding: '40px 32px',
@@ -472,7 +473,7 @@ function AppContent() {
                             {t("Track your weekly fitness progress", language)}
                         </h1>
                         <p className="app-tagline" style={{
-                            color: 'rgba(255, 255, 255, 0.8)',
+                            color: 'var(--header-muted)',
                             fontSize: '14px',
                             margin: '0 0 16px 0',
                             fontWeight: '400'
@@ -495,8 +496,8 @@ function AppContent() {
                                     onClick={() => setShowAdmin(true)}
                                     style={{
                                         padding: '8px 12px',
-                                        backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                                        border: '1px solid rgba(255, 255, 255, 0.3)',
+                                        backgroundColor: 'var(--header-control)',
+                                        border: '1px solid var(--header-control-border)',
                                         borderRadius: '8px',
                                         color: 'white',
                                         fontSize: '14px',
@@ -522,8 +523,8 @@ function AppContent() {
                 )}
 
                 {/* Week navigator — shows the viewed week's dates and steps through history */}
-                <div style={{
-                    padding: '16px 32px 0 32px',
+                <div id="workout-content" tabIndex={-1} style={{
+                    padding: '16px var(--section-gutter) 0',
                     backgroundColor: 'var(--surface)',
                     display: 'flex',
                     alignItems: 'center',
@@ -579,8 +580,8 @@ function AppContent() {
                             onClick={goToCurrentWeek}
                             style={{
                                 padding: '8px 14px', borderRadius: '10px', border: 'none',
-                                background: 'var(--brand)',
-                                color: 'var(--on-brand)', fontSize: '13px', fontWeight: 600, cursor: 'pointer'
+                                background: 'var(--action)',
+                                color: 'var(--on-action)', fontSize: '13px', fontWeight: 600, cursor: 'pointer'
                             }}
                         >
                             {t('Back to current week', language)}
@@ -708,10 +709,10 @@ function AppContent() {
                                 width: '100%',
                                 maxWidth: '320px',
                                 padding: '14px 28px',
-                                background: 'var(--brand)',
-                                border: 'none',
+                                background: 'var(--action)',
+                                border: '1px solid var(--action-border)',
                                 borderRadius: '12px',
-                                color: 'var(--text-inverse)',
+                                color: 'var(--on-action)',
                                 fontSize: '16px',
                                 fontWeight: '600',
                                 cursor: 'pointer',
@@ -727,12 +728,12 @@ function AppContent() {
                             onMouseOver={(e) => {
                                 e.currentTarget.style.transform = 'translateY(-2px)';
                                 e.currentTarget.style.boxShadow = '0 8px 20px var(--shadow)';
-                                e.currentTarget.style.background = 'var(--brand-strong)';
+                                e.currentTarget.style.background = 'var(--action-hover)';
                             }}
                             onMouseOut={(e) => {
                                 e.currentTarget.style.transform = 'translateY(0)';
                                 e.currentTarget.style.boxShadow = '0 4px 14px var(--shadow)';
-                                e.currentTarget.style.background = 'var(--brand)';
+                                e.currentTarget.style.background = 'var(--action)';
                             }}
                         >
                             <svg 

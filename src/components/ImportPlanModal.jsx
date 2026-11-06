@@ -52,8 +52,8 @@ const segmentStyle = (active) => ({
     padding: '8px 10px',
     borderRadius: '10px',
     border: `1px solid ${active ? 'var(--brand)' : 'var(--border)'}`,
-    background: active ? 'var(--brand)' : 'var(--surface)',
-    color: active ? 'var(--on-brand)' : 'var(--text-2)',
+    background: active ? 'var(--action)' : 'var(--surface)',
+    color: active ? 'var(--on-action)' : 'var(--text-2)',
     fontSize: '13px',
     fontWeight: 600,
     cursor: 'pointer'

@@ -54,7 +54,7 @@ export default function UpdatePassword() {
   };
 
   return (
-    <div style={{
+    <main className="auth-shell" style={{
       minHeight: '100vh',
       backgroundColor: 'var(--bg-page)',
       display: 'flex',
@@ -101,7 +101,7 @@ export default function UpdatePassword() {
               {t('Set New Password', language)}
             </h1>
             <p style={{
-              color: 'rgba(255, 255, 255, 0.8)',
+              color: 'var(--header-muted)',
               fontSize: '14px',
               margin: '0'
             }}>
@@ -114,7 +114,7 @@ export default function UpdatePassword() {
         <form onSubmit={handleSubmit} style={{ padding: '32px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {error && (
-              <div style={{
+              <div role="alert" style={{
                 padding: '12px 16px',
                 backgroundColor: 'var(--danger-soft)',
                 border: '1px solid var(--danger-border)',
@@ -127,7 +127,7 @@ export default function UpdatePassword() {
             )}
 
             <div>
-              <label style={{
+              <label htmlFor="updatepassword-password" style={{
                 display: 'block',
                 marginBottom: '8px',
                 fontSize: '14px',
@@ -137,6 +137,9 @@ export default function UpdatePassword() {
                 {t('New Password', language)}
               </label>
               <PasswordInput
+                id="updatepassword-password"
+                name="password"
+                autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder={t('At least 6 characters', language)}
@@ -146,7 +149,7 @@ export default function UpdatePassword() {
             </div>
 
             <div>
-              <label style={{
+              <label htmlFor="updatepassword-confirm-password" style={{
                 display: 'block',
                 marginBottom: '8px',
                 fontSize: '14px',
@@ -156,6 +159,9 @@ export default function UpdatePassword() {
                 {t('Confirm New Password', language)}
               </label>
               <PasswordInput
+                id="updatepassword-confirm-password"
+                name="confirm-password"
+                autoComplete="new-password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder={t('Re-enter your password', language)}
@@ -175,6 +181,6 @@ export default function UpdatePassword() {
           </div>
         </form>
       </div>
-    </div>
+    </main>
   );
 }

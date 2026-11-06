@@ -1,6 +1,5 @@
-// Checks the WCAG 2.2 contrast of the token pairs the UI relies on, in both
-// themes, so a token edit cannot silently drop below AA. Run with
-// `npm run check:contrast`; exits 1 on any failing pair.
+// Checks configured color combinations, including action and header states.
+// This is a contrast regression check, not a full WCAG conformance audit.
 
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -23,13 +22,14 @@ const parse = (block) => {
 };
 
 const hexToRgb = (hex) => {
+  if (!/^#(?:[\da-f]{3}|[\da-f]{6})$/i.test(hex)) throw new Error(`Unsupported color: ${hex}`);
   const h = hex.replace('#', '');
   const full = h.length === 3 ? h.split('').map((c) => c + c).join('') : h;
   return [0, 2, 4].map((i) => parseInt(full.slice(i, i + 2), 16) / 255);
 };
 
 const luminance = (hex) => {
-  const [r, g, b] = hexToRgb(hex).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+  const [r, g, b] = hexToRgb(hex).map((c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 };
 
@@ -40,6 +40,11 @@ const ratio = (a, b) => {
 
 // [foreground, background, minimum]. 4.5 for text, 3 for borders and icons.
 const pairs = [
+  ['on-action', 'action', 4.5], ['on-action', 'action-hover', 4.5],
+  ['header-text', 'header-control', 4.5], ['header-text', 'header-control-hover', 4.5],
+  ['header-control-border', 'header-control', 3], ['header-control-border', 'header-control-hover', 3],
+  ['focus-inner', 'focus-outer', 3],
+  ['text-inverse', 'done', 4.5], ['text-inverse', 'danger', 4.5], ['text-inverse', 'info', 4.5],
   ['text', 'surface', 4.5], ['text-2', 'surface', 4.5], ['text-3', 'surface', 4.5],
   ['text', 'surface-2', 4.5], ['text-2', 'surface-2', 4.5], ['text-3', 'surface-2', 4.5],
   ['text', 'surface-3', 4.5], ['text-2', 'surface-3', 4.5],
@@ -68,7 +73,7 @@ const pairs = [
 
 let failures = 0;
 for (const [theme, block] of Object.entries(blocks)) {
-  const tokens = parse(block);
+  const tokens = { ...parse(blocks.light), ...parse(block) };
   for (const [fg, bg, min] of pairs) {
     if (!tokens[fg] || !tokens[bg]) {
       console.log(`${theme}: missing token ${fg} or ${bg}`);
@@ -80,6 +85,29 @@ for (const [theme, block] of Object.entries(blocks)) {
     if (!ok) failures += 1;
     console.log(`${ok ? 'ok  ' : 'FAIL'} ${theme.padEnd(5)} ${fg.padEnd(16)} on ${bg.padEnd(16)} ${r.toFixed(2)} (min ${min})`);
   }
+  // Both opaque header stops are dark enough for normal text. Check muted
+  // text too, instead of assuming a large heading's 3:1 threshold applies.
+  const stops = tokens['header-bg'].match(/#[\da-f]{6}/gi) || [];
+  if (!stops.length) throw new Error(`No header colors in ${theme}`);
+  for (const stop of stops) {
+    for (const foreground of ['header-text', 'header-muted']) {
+      const contrast = ratio(tokens[foreground], stop);
+      if (contrast < 4.5) failures++;
+      console.log(`${contrast >= 4.5 ? 'ok  ' : 'FAIL'} ${theme} ${foreground} on header ${stop}: ${contrast.toFixed(2)}`);
+    }
+  }
+  for (const background of ['surface', 'surface-2', 'surface-3', 'bg-page', 'toast-bg', 'action', 'action-hover', 'day-open-bg', 'day-today-bg', 'day-idle-bg', 'header-control', 'header-control-hover', 'done-soft', 'skipped-soft', 'danger-soft']) {
+    const contrast = Math.max(ratio(tokens['focus-inner'], tokens[background]), ratio(tokens['focus-outer'], tokens[background]));
+    if (contrast < 3) failures++;
+    console.log(`${contrast >= 3 ? 'ok  ' : 'FAIL'} ${theme} two-color focus on ${background}: ${contrast.toFixed(2)}`);
+  }
+}
+
+const autoDark = parse(css.slice(css.indexOf('@media (prefers-color-scheme: dark)'), css.indexOf(':root[data-theme="dark"]')));
+const manualDark = parse(blocks.dark);
+if (JSON.stringify(autoDark) !== JSON.stringify(manualDark)) {
+  failures++;
+  console.log('FAIL system and manual dark theme tokens differ');
 }
 
 if (failures > 0) {

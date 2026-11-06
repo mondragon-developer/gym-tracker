@@ -31,6 +31,6 @@ describe('Button hover', () => {
         expect(button.style.transform).toBe('scale(1.02)');
         fireEvent.mouseOut(label, { relatedTarget: document.body });
         expect(button.style.transform).toBe('scale(1)');
-        expect(button.style.background).toBe('var(--brand)');
+        expect(button.style.background).toBe('var(--action)');
     });
 });

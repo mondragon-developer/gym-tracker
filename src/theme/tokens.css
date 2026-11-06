@@ -7,7 +7,18 @@
 :root {
   color-scheme: light;
 
-  --bg-page: #e9f7be;
+  --bg-page: #ecf5fa;
+  --action: #22d3ee;
+  --action-hover: #67e8f9;
+  --action-border: #0e7490;
+  --on-action: #083344;
+  --header-control: #164e63;
+  --header-control-hover: #155e75;
+  --header-control-border: #67e8f9;
+  --header-text: #ffffff;
+  --header-muted: #cffafe;
+  --focus-inner: #ffffff;
+  --focus-outer: #0f172a;
   --surface: #ffffff;
   --surface-2: #f8fafc;
   --surface-3: #eef2f7;
@@ -55,10 +66,10 @@
   --shadow-strong: rgba(15, 23, 42, 0.22);
   --overlay: rgba(15, 23, 42, 0.55);
 
-  --header-bg: linear-gradient(135deg, #06b6d4 0%, #0e7490 40%, #164e63 80%, #0f172a 100%);
-  --day-open-bg: #0f766e;
+  --header-bg: linear-gradient(135deg, #164e63 0%, #0f172a 75%);
+  --day-open-bg: #0e7490;
   --day-today-bg: #1d4ed8;
-  --day-idle-bg: #475569;
+  --day-idle-bg: #334155;
   --on-day: #ffffff;
   --day-chip-bg: rgba(0, 0, 0, 0.28);
 
@@ -84,6 +95,7 @@
     --text-inverse: #0f172a;
 
     --brand: #22d3ee;
+    --action-border: #67e8f9;
     --brand-strong: #67e8f9;
     --brand-soft: #164e63;
     --brand-border: #22d3ee;
@@ -119,7 +131,7 @@
     --overlay: rgba(0, 0, 0, 0.7);
 
     --header-bg: linear-gradient(135deg, #164e63 0%, #0f172a 70%, #020617 100%);
-    --day-open-bg: #115e59;
+    --day-open-bg: #155e75;
     --day-today-bg: #1e3a8a;
     --day-idle-bg: #334155;
     --on-day: #f8fafc;
@@ -147,6 +159,7 @@
   --text-inverse: #0f172a;
 
   --brand: #22d3ee;
+  --action-border: #67e8f9;
   --brand-strong: #67e8f9;
   --brand-soft: #164e63;
   --brand-border: #22d3ee;
@@ -182,7 +195,7 @@
   --overlay: rgba(0, 0, 0, 0.7);
 
   --header-bg: linear-gradient(135deg, #164e63 0%, #0f172a 70%, #020617 100%);
-  --day-open-bg: #115e59;
+  --day-open-bg: #155e75;
   --day-today-bg: #1e3a8a;
   --day-idle-bg: #334155;
   --on-day: #f8fafc;

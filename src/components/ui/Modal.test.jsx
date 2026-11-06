@@ -10,6 +10,22 @@ afterEach(() => {
 const pressEscape = () => fireEvent.keyDown(document, { key: 'Escape' });
 
 describe('Modal nesting', () => {
+    it('makes the background inert, preserves existing inert state and restores scroll style', () => {
+        const background = document.createElement('button');
+        const alreadyInert = document.createElement('div');
+        alreadyInert.inert = true;
+        document.body.append(background, alreadyInert);
+        document.body.style.overflow = 'auto';
+        const { unmount } = render(<Modal isOpen title="Dialog" onClose={() => {}}>Content</Modal>);
+        expect(background.inert).toBe(true);
+        expect(alreadyInert.inert).toBe(true);
+        unmount();
+        expect(background.inert).toBeFalsy();
+        expect(alreadyInert.inert).toBe(true);
+        expect(document.body.style.overflow).toBe('auto');
+        background.remove();
+        alreadyInert.remove();
+    });
     it('contains keyboard focus, restores nested focus, and returns to the opener', () => {
         const opener = document.createElement('button'); document.body.appendChild(opener); opener.focus();
         const view = inner => <Modal isOpen onClose={() => {}} title="Outer"><button>Outer action</button>{inner && <Modal isOpen onClose={() => {}} title="Inner"><button>Inner action</button></Modal>}</Modal>;
@@ -30,7 +46,7 @@ describe('Modal nesting', () => {
         const { rerender } = render(<Modal isOpen onClose={() => {}} title="One">x</Modal>);
         expect(document.body.style.overflow).toBe('hidden');
         rerender(<Modal isOpen={false} onClose={() => {}} title="One">x</Modal>);
-        expect(document.body.style.overflow).toBe('unset');
+        expect(document.body.style.overflow).toBe('');
     });
 
     it('sends Escape only to the topmost modal', () => {
@@ -67,7 +83,7 @@ describe('Modal nesting', () => {
                 <Modal isOpen={false} onClose={() => {}} title="Inner">inner</Modal>
             </>
         );
-        expect(document.body.style.overflow).toBe('unset');
+        expect(document.body.style.overflow).toBe('');
     });
 
     it('lets the outer modal answer Escape again once the inner one closed', () => {

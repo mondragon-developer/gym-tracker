@@ -111,7 +111,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
 
   if (success) {
     return (
-      <div style={{
+      <main className="auth-shell" style={{
         minHeight: '100vh',
         backgroundColor: 'var(--bg-page)',
         display: 'flex',
@@ -209,12 +209,12 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
             </Button>
           </div>
         </div>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div style={{
+    <main className="auth-shell" style={{
       minHeight: '100vh',
       backgroundColor: 'var(--bg-page)',
       display: 'flex',
@@ -261,7 +261,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
               {t('Create Account', language)}
             </h1>
             <p style={{
-              color: 'rgba(255, 255, 255, 0.8)',
+              color: 'var(--header-muted)',
               fontSize: '14px',
               margin: '0'
             }}>
@@ -288,7 +288,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
               </div>
             )}
             {error && (
-              <div style={{
+              <div role="alert" style={{
                 padding: '12px 16px',
                 backgroundColor: 'var(--danger-soft)',
                 border: '1px solid var(--danger-border)',
@@ -301,7 +301,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
             )}
 
             <div>
-              <label style={{
+              <label htmlFor="signup-name" style={{
                 display: 'block',
                 marginBottom: '8px',
                 fontSize: '14px',
@@ -311,6 +311,9 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
                 {t('Name', language)}
               </label>
               <Input
+                id="signup-name"
+                name="name"
+                autoComplete="name"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -321,7 +324,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
             </div>
 
             <div>
-              <label style={{
+              <label htmlFor="signup-email" style={{
                 display: 'block',
                 marginBottom: '8px',
                 fontSize: '14px',
@@ -331,6 +334,9 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
                 {t('Email', language)}
               </label>
               <Input
+                id="signup-email"
+                name="email"
+                autoComplete="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -341,7 +347,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
             </div>
 
             <div>
-              <label style={{
+              <label htmlFor="signup-password" style={{
                 display: 'block',
                 marginBottom: '8px',
                 fontSize: '14px',
@@ -351,6 +357,9 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
                 {t('Password', language)}
               </label>
               <PasswordInput
+                id="signup-password"
+                name="password"
+                autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder={t('At least 6 characters', language)}
@@ -360,7 +369,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
             </div>
 
             <div>
-              <label style={{
+              <label htmlFor="signup-confirm-password" style={{
                 display: 'block',
                 marginBottom: '8px',
                 fontSize: '14px',
@@ -370,6 +379,9 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
                 {t('Confirm Password', language)}
               </label>
               <PasswordInput
+                id="signup-confirm-password"
+                name="confirm-password"
+                autoComplete="new-password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder={t('Re-enter your password', language)}
@@ -382,7 +394,7 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
                 the client code field in that mode */}
             {!trainerInvite && (
               <div>
-                <label style={{
+                <label htmlFor="signup-trainer-code" style={{
                   display: 'block',
                   marginBottom: '8px',
                   fontSize: '14px',
@@ -392,6 +404,9 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
                   {t('Trainer code (optional)', language)}
                 </label>
                 <Input
+                id="signup-trainer-code"
+                name="trainer-code"
+                autoComplete="off"
                   type="text"
                   value={trainerCode}
                   onChange={(e) => setTrainerCode(e.target.value)}
@@ -455,6 +470,6 @@ export default function SignUp({ onToggleMode, initialTrainerCode = '', trainerI
           <LegalLinks language={language} />
         </div>
       </div>
-    </div>
+    </main>
   );
 }

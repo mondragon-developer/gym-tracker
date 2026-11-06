@@ -90,8 +90,8 @@ const navigationStyle = (active) => ({
     border: 'none',
     cursor: 'pointer',
     overflowWrap: 'anywhere',
-    backgroundColor: active ? 'var(--brand)' : 'transparent',
-    color: active ? 'var(--on-brand)' : 'var(--text-3)'
+    backgroundColor: active ? 'var(--action)' : 'transparent',
+    color: active ? 'var(--on-action)' : 'var(--text-3)'
 });
 
 const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, language = 'en', favoriteExerciseIds = [], onToggleFavorite }) => {
@@ -339,8 +339,8 @@ const AddExerciseModal = ({ isOpen, onClose, onAddExercise, muscleGroup, languag
                             onClick={handleAddCustom}
                             style={{
                                 width: '100%',
-                                backgroundColor: 'var(--brand)',
-                                color: 'var(--on-brand)',
+                                backgroundColor: 'var(--action)',
+                                color: 'var(--on-action)',
                                 padding: '12px',
                                 borderRadius: '8px',
                                 fontWeight: '600',

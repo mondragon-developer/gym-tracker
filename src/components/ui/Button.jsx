@@ -26,8 +26,9 @@ const baseStyles = {
  */
 const variantStyles = {
   [ButtonVariant.PRIMARY]: {
-    background: 'var(--brand)',
-    color: 'var(--on-brand)',
+    background: 'var(--action)',
+    border: '1px solid var(--action-border)',
+    color: 'var(--on-action)',
     boxShadow: '0 4px 12px var(--shadow)'
   },
   [ButtonVariant.SECONDARY]: {
@@ -70,7 +71,7 @@ const sizeStyles = {
  */
 const hoverEffects = {
   [ButtonVariant.PRIMARY]: {
-    background: 'var(--brand-strong)',
+    background: 'var(--action-hover)',
     transform: 'scale(1.02)',
     boxShadow: '0 6px 20px var(--shadow-strong)'
   },

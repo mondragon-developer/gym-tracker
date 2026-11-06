@@ -36,6 +36,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
     // Empty notes collapse to a one-line button so exercises sit higher on
     // phones; a day with a note always shows the textarea.
     const [noteOpen, setNoteOpen] = useState(false);
+    const [reorderNotice, setReorderNotice] = useState('');
     const showNote = Boolean(data.note) || noteOpen;
 
 
@@ -59,6 +60,16 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
     const handleUpdateExercise = (exerciseId, updatedExercise) => {
         const updatedExercises = data.exercises.map(ex => ex.id === exerciseId ? updatedExercise : ex);
         onUpdateDay(day, { ...data, exercises: updatedExercises });
+    };
+
+    const moveExercise = (exerciseId, direction) => {
+        if (readOnly) return;
+        const from = data.exercises.findIndex(ex => ex.id === exerciseId);
+        const to = from + direction;
+        if (from < 0 || to < 0 || to >= data.exercises.length) return;
+        onUpdateDay(day, { ...data, exercises: arrayMove(data.exercises, from, to) });
+        const name = translateExercise(data.exercises[from].name, language);
+        setReorderNotice(language === 'es' ? `${name}, posición ${to + 1} de ${data.exercises.length}` : `${name}, position ${to + 1} of ${data.exercises.length}`);
     };
 
     const handleDeleteExercise = (exerciseId) => {
@@ -346,7 +357,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                             width: '100%',
                                             padding: '8px 16px',
                                             background: 'var(--info)',
-                                            color: 'var(--on-brand)',
+                                            color: 'var(--text-inverse)',
                                             border: 'none',
                                             borderRadius: '8px',
                                             cursor: 'pointer',
@@ -451,7 +462,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                             )}
                         </div>
                     )}
-                    {!readOnly && onFocusWorkout && data.exercises.length > 0 && <button type="button" onClick={() => onFocusWorkout(day)} style={{ width: '100%', minHeight: 46, padding: 12, marginBottom: 12, borderRadius: 12, border: 'none', background: 'var(--brand)', color: 'var(--on-brand)', fontWeight: 700, fontSize: 15, cursor: 'pointer' }}>
+                    {!readOnly && onFocusWorkout && data.exercises.length > 0 && <button type="button" onClick={() => onFocusWorkout(day)} style={{ width: '100%', minHeight: 46, padding: 12, marginBottom: 12, borderRadius: 12, border: 'none', background: 'var(--action)', color: 'var(--on-action)', fontWeight: 700, fontSize: 15, cursor: 'pointer' }}>
                         {language === 'es' ? 'Abrir entrenamiento enfocado' : 'Open focus workout'}
                     </button>}
                     <ConditioningPanel value={data.conditioning} exercises={data.exercises} onChange={value => onUpdateDay(day, { ...data, conditioning: value })} language={language} readOnly={readOnly} canRun={allowRun} onUndo={onUndo} canUndo={canUndo} />
@@ -470,7 +481,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                     items={data.exercises.map(e => e.id)}
                                     strategy={verticalListSortingStrategy}
                                 >
-                                    {data.exercises.map((ex) => (
+                                    {data.exercises.map((ex, index) => (
                                         <ExerciseItem
                                             key={ex.id}
                                             exercise={ex}
@@ -482,6 +493,9 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                             onDelete={handleDeleteExercise}
                                             language={language}
                                             readOnly={readOnly}
+                                            onMove={direction => moveExercise(ex.id, direction)}
+                                            canMoveUp={index > 0}
+                                            canMoveDown={index < data.exercises.length - 1}
                                         />
                                     ))}
                                 </SortableContext>
@@ -500,6 +514,7 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                             </div>
                         )}
                     </div>
+                    <span className="sr-only" role="status">{reorderNotice}</span>
                     
                     {!readOnly && (
                     <div style={{
@@ -521,8 +536,8 @@ const DayAccordion = ({ day, data, isOpen, onToggle, onUpdateDay, onResetDay, on
                                 justifyContent: 'center',
                                 gap: '8px',
                                 padding: '12px 16px',
-                                background: 'var(--brand)',
-                                color: 'var(--on-brand)',
+                                background: 'var(--action)',
+                                color: 'var(--on-action)',
                                 fontWeight: '600',
                                 borderRadius: '12px',
                                 border: 'none',

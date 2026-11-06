@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import { render, screen, act, fireEvent } from '@testing-library/react';
 import RestTimer from './RestTimer.jsx';
+import Modal from './ui/Modal.jsx';
 
 const ENDS_AT_KEY = 'gymAppRestEndsAt';
 
@@ -107,6 +108,29 @@ describe('RestTimer in the background', () => {
 });
 
 describe('RestTimer after the page was discarded', () => {
+    it('contains focus above an open modal and returns it after Escape', () => {
+        const closeModal = vi.fn();
+        render(<Modal isOpen title="Workout" onClose={closeModal}><RestTimer /></Modal>);
+        const modal = screen.getByRole('dialog');
+        const start = screen.getByRole('button', { name: 'Start' });
+        start.focus();
+        fireEvent.click(start);
+        act(() => vi.advanceTimersByTime(60_000));
+        const alert = screen.getByRole('alertdialog');
+        const dismiss = screen.getByRole('button', { name: 'Tap to dismiss' });
+        expect(alert).toHaveAttribute('aria-modal', 'true');
+        expect(document.activeElement).toBe(dismiss);
+        expect(modal.closest('[inert]') || modal.parentElement.inert).toBeTruthy();
+        fireEvent.keyDown(document, { key: 'Tab' });
+        expect(document.activeElement).toBe(dismiss);
+        fireEvent.keyDown(document, { key: 'Tab', shiftKey: true });
+        expect(document.activeElement).toBe(dismiss);
+        fireEvent.keyDown(document, { key: 'Escape' });
+        expect(screen.queryByRole('alertdialog')).toBeNull();
+        expect(closeModal).not.toHaveBeenCalled();
+        expect(document.activeElement).toBe(start);
+        expect(document.body.style.overflow).toBe('hidden');
+    });
     it('resumes a running rest from its saved end time', () => {
         localStorage.setItem(ENDS_AT_KEY, String(Date.now() + 45_000));
         render(<RestTimer />);

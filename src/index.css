@@ -21,17 +21,69 @@ body {
 }
 
 #root {
-  min-width: 320px;
+  min-width: 0;
   max-width: 1200px;
   width: 100%;
 }
 
-/* Focus styles for accessibility */
-button:focus-visible,
-input:focus-visible,
-[role="button"]:focus-visible {
-  outline: 2px solid var(--focus);
+html {
+  scroll-padding-top: var(--coach-bar-height, 16px);
+  scroll-padding-bottom: 140px;
+}
+
+:root { --section-gutter: 32px; }
+
+.app-header {
+  border-top: 5px solid var(--action);
+  border-radius: 20px 20px 0 0;
+}
+
+/* The two rings remain distinguishable on both light and dark surfaces. */
+:focus-visible {
+  outline: 3px solid var(--focus-inner) !important;
   outline-offset: 2px;
+  box-shadow: 0 0 0 7px var(--focus-outer) !important;
+}
+
+button, input, select, textarea, [role="button"] {
+  scroll-margin-block: 16px;
+}
+
+button, [role="button"] {
+  min-width: 24px;
+  min-height: 24px;
+}
+
+input, select, textarea { max-width: 100%; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 2147483647;
+  padding: 12px 18px;
+  border-radius: 10px;
+  background: var(--action);
+  color: var(--on-action);
+  font-weight: 700;
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: none; }
+
+@media (forced-colors: active) {
+  :focus-visible { outline: 3px solid Highlight !important; box-shadow: none !important; }
 }
 
 /* Animation for smooth transitions */
@@ -49,13 +101,6 @@ input:focus-visible,
   }
 }
 
-/* End-of-rest alert: full-screen, blinks until the user taps it. Sound is
-   unreliable on phones, so this is the cue that always shows. */
-@keyframes rest-alert-blink {
-  0%, 45% { background-color: var(--danger); }
-  55%, 100% { background-color: var(--toast-bg); }
-}
-
 .rest-alert {
   position: fixed;
   inset: 0;
@@ -67,9 +112,10 @@ input:focus-visible,
   gap: 16px;
   padding: 24px;
   cursor: pointer;
-  color: var(--toast-text);
+  color: var(--header-text);
+  background: #0f172a;
+  border: 6px solid var(--action);
   text-align: center;
-  animation: rest-alert-blink 1s steps(1, end) infinite;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -98,15 +144,18 @@ input:focus-visible,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rest-alert {
-    animation: none;
-    background-color: var(--danger);
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
   }
 }
 
 /* Phones: compact chrome so the first day is above the fold.
    Components style inline, so these overrides need !important. */
 @media (max-width: 640px) {
+  :root { --section-gutter: 12px; }
+
   body {
     font-size: 14px;
     padding: 8px;
@@ -163,6 +212,12 @@ input:focus-visible,
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
+
+  .save-status-bar { position: static !important; }
+  .auth-shell { padding: 8px !important; }
+  .auth-shell form { padding: 24px 16px !important; }
+  .modal-content { padding: 20px 16px !important; }
+  input, select, textarea { font-size: 16px !important; }
 }
 
 /* Larger tap targets in the one-exercise workout view, including on phones. */

@@ -7,6 +7,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
+import useDialogFocus from '../hooks/useDialogFocus.js';
 import { createPortal } from 'react-dom';
 import { t } from '../translations/ui';
 import { formatSeconds } from '../utils/restTimer.js';
@@ -187,8 +188,8 @@ const actionStyle = (primary) => ({
     padding: '6px 14px',
     borderRadius: '8px',
     border: 'none',
-    backgroundColor: primary ? 'var(--brand)' : 'var(--surface-3)',
-    color: primary ? 'var(--on-brand)' : 'var(--text-2)',
+    backgroundColor: primary ? 'var(--action)' : 'var(--surface-3)',
+    color: primary ? 'var(--on-action)' : 'var(--text-2)',
     fontSize: '13px',
     fontWeight: 600,
     cursor: 'pointer'
@@ -284,7 +285,7 @@ export default function RestTimer({ language = 'en', portalTarget = null }) {
         }
     }, [endsAt]);
 
-    // End-of-rest alert: a full-screen blinking overlay that stays until the
+    // End-of-rest alert: a full-screen high-contrast overlay that stays until the
     // user taps it. Sound is best effort (phones on silent mute Web Audio),
     // so the overlay plus vibration is the cue that always works.
     const [alertOpen, setAlertOpen] = useState(false);
@@ -383,37 +384,9 @@ export default function RestTimer({ language = 'en', portalTarget = null }) {
         }
     }, [remaining]);
 
-    // Focus moves into the alert's dismiss button while it is open and goes
-    // back to where it was when it closes, so keyboard and screen-reader
-    // users land on the dialog instead of the timer underneath.
     const dismissRef = useRef(null);
-    const previousFocusRef = useRef(null);
-    useEffect(() => {
-        if (alertOpen) {
-            previousFocusRef.current = document.activeElement;
-            dismissRef.current?.focus();
-            return undefined;
-        }
-        const previous = previousFocusRef.current;
-        previousFocusRef.current = null;
-        if (previous && typeof previous.focus === 'function' && document.contains(previous)) {
-            previous.focus();
-        }
-        return undefined;
-    }, [alertOpen]);
-
-    // Keyboard users dismiss with Enter, Space or Escape.
-    useEffect(() => {
-        if (!alertOpen) return undefined;
-        const onKey = (e) => {
-            if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
-                e.preventDefault();
-                setAlertOpen(false);
-            }
-        };
-        document.addEventListener('keydown', onKey);
-        return () => document.removeEventListener('keydown', onKey);
-    }, [alertOpen]);
+    const alertRef = useRef(null);
+    useDialogFocus(alertOpen, alertRef, dismissAlert, dismissRef);
 
     const start = () => {
         unlockAudio(audioRef);
@@ -540,9 +513,12 @@ export default function RestTimer({ language = 'en', portalTarget = null }) {
                 />
             )}
 
-            {alertOpen && (
+            {alertOpen && createPortal(
                 <div
                     className="rest-alert"
+                    ref={alertRef}
+                    tabIndex={-1}
+                    aria-modal="true"
                     role="alertdialog"
                     aria-live="assertive"
                     aria-label={alertMessage}
@@ -558,7 +534,7 @@ export default function RestTimer({ language = 'en', portalTarget = null }) {
                     >
                         {t('Tap to dismiss', language)}
                     </button>
-                </div>
+                </div>, document.body
             )}
 
             <div style={{ display: 'flex', gap: '6px', marginLeft: 'auto' }}>

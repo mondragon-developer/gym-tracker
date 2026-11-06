@@ -56,8 +56,7 @@ const StepperInput = ({
         border: `2px solid ${borderColor}`,
         borderRadius: '12px',
         boxSizing: 'border-box',
-        transition: 'all 0.3s ease',
-        overflow: 'hidden'
+        transition: 'all 0.3s ease'
       }}
     >
       <button

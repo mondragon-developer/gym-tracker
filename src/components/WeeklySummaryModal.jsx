@@ -46,8 +46,8 @@ const tabStyle = (active) => ({
   padding: '8px 12px',
   borderRadius: '10px',
   border: `1px solid ${active ? 'var(--brand)' : 'var(--border)'}`,
-  background: active ? 'var(--brand)' : 'var(--surface)',
-  color: active ? 'var(--on-brand)' : 'var(--text-2)',
+  background: active ? 'var(--action)' : 'var(--surface)',
+  color: active ? 'var(--on-action)' : 'var(--text-2)',
   fontSize: '13px',
   fontWeight: 600,
   cursor: 'pointer'
@@ -182,7 +182,7 @@ export default function WeeklySummaryModal({ isOpen, onClose, workoutPlan, weekS
                       formatLabel={(label) => shortWeek(label, language)}
                     />
                   </div>
-                  <div style={{ overflowX: 'auto', marginTop: '10px' }}>
+                  <div tabIndex={0} role="region" aria-label={t('Weekly volume', language)} style={{ overflowX: 'auto', marginTop: '10px' }}>
                     <table style={{ borderCollapse: 'collapse', width: '100%' }}>
                       <thead>
                         <tr>
@@ -210,7 +210,7 @@ export default function WeeklySummaryModal({ isOpen, onClose, workoutPlan, weekS
                   <h3 style={{ fontSize: '14px', margin: '0 0 8px 0', color: 'var(--text-2)' }}>
                     {t('By exercise', language)}
                   </h3>
-                  <div style={{ overflowX: 'auto' }}>
+                  <div tabIndex={0} role="region" aria-label={t('By exercise', language)} style={{ overflowX: 'auto' }}>
                     <table style={{ borderCollapse: 'collapse', width: '100%' }}>
                       <thead>
                         <tr>
@@ -292,7 +292,7 @@ export default function WeeklySummaryModal({ isOpen, onClose, workoutPlan, weekS
             <h3 style={{ fontSize: '14px', margin: '0 0 8px 0', color: 'var(--text-2)' }}>
               {t('Sets per muscle group', language)}
             </h3>
-            <div style={{ overflowX: 'auto' }}>
+            <div tabIndex={0} role="region" aria-label={t('Sets per muscle group', language)} style={{ overflowX: 'auto' }}>
               <table style={{ borderCollapse: 'collapse', width: '100%' }}>
                 <thead>
                   <tr>
@@ -322,7 +322,7 @@ export default function WeeklySummaryModal({ isOpen, onClose, workoutPlan, weekS
           <h3 style={{ fontSize: '14px', margin: '0 0 8px 0', color: 'var(--text-2)' }}>
             {t('Week detail', language)}
           </h3>
-          <div style={{ overflowX: 'auto' }}>
+          <div tabIndex={0} role="region" aria-label={t('Week detail', language)} style={{ overflowX: 'auto' }}>
             <table style={{ borderCollapse: 'collapse', width: '100%' }}>
               <thead>
                 <tr>

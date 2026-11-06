@@ -63,7 +63,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
   };
 
   return (
-    <div style={{
+    <main className="auth-shell" style={{
       minHeight: '100vh',
       backgroundColor: 'var(--bg-page)',
       display: 'flex',
@@ -110,7 +110,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
               {t('Welcome Back', language)}
             </h1>
             <p style={{
-              color: 'rgba(255, 255, 255, 0.8)',
+              color: 'var(--header-muted)',
               fontSize: '14px',
               margin: '0'
             }}>
@@ -123,7 +123,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
         <form onSubmit={handleSubmit} style={{ padding: '32px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {error && (
-              <div style={{
+              <div role="alert" style={{
                 padding: '12px 16px',
                 backgroundColor: 'var(--danger-soft)',
                 border: '1px solid var(--danger-border)',
@@ -157,7 +157,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
             )}
 
             {resent && (
-              <div style={{
+              <div role="status" style={{
                 padding: '12px 16px',
                 backgroundColor: 'var(--done-soft)',
                 border: '1px solid var(--done-border)',
@@ -170,7 +170,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
             )}
 
             <div>
-              <label style={{
+              <label htmlFor="signin-email" style={{
                 display: 'block',
                 marginBottom: '8px',
                 fontSize: '14px',
@@ -180,6 +180,9 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
                 {t('Email', language)}
               </label>
               <Input
+                id="signin-email"
+                name="email"
+                autoComplete="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -190,7 +193,7 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
             </div>
 
             <div>
-              <label style={{
+              <label htmlFor="signin-password" style={{
                 display: 'block',
                 marginBottom: '8px',
                 fontSize: '14px',
@@ -200,6 +203,9 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
                 {t('Password', language)}
               </label>
               <PasswordInput
+                id="signin-password"
+                name="password"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder={t('Enter your password', language)}
@@ -266,6 +272,6 @@ export default function SignIn({ onToggleMode, onForgotPassword }) {
           <LegalLinks language={language} />
         </div>
       </div>
-    </div>
+    </main>
   );
 }
