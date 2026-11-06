@@ -2,7 +2,10 @@
  * Exercise name translations from English to Spanish
  * Used for displaying exercise names in the selected language
  */
+import { PHOTO_EXERCISES } from '../data/photoExercises.js';
+
 export const exerciseTranslations = {
+    ...Object.fromEntries(PHOTO_EXERCISES.map(({ name, nameEs }) => [name, nameEs])),
     "Barbell Clean": "Cargada con barra",
     "Power Clean": "Cargada de potencia",
     "Hang Clean": "Cargada colgante",

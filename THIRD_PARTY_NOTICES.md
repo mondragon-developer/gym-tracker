@@ -1,5 +1,13 @@
 # Exercise media and data
 
+## Reviewed photo expansion (IDs 278-289)
+
+Twelve additional exercises use 24 original JPEGs from the same pinned free-exercise-db revision `f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5`, published under the [Unlicense](https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/LICENSE.md). The files are copied without image modifications. The upstream declaration is recorded, without an independent guarantee of contributor ownership or model releases.
+
+The license and per-image source URLs, dimensions, byte sizes and SHA-256 hashes ship in `public/exercise-media/photos/`. Only the preferred pairs in `docs/research/exercise-expansion/manifest.json` are included. Held and rejected candidates are excluded. English and Spanish instructions and photo descriptions are edited by Gym Tracker.
+
+Both photos are displayed as labeled static references, with descriptions of their actual poses. They are not continuous footage. Instructions explain missing setup, alternating sides or landing phases. Media is served by the app and requested when its demo opens. Rebuild with `node scripts/enrichment/build-photo-expansion.mjs`, which checks every photo against the pinned research hashes before writing files, then `node scripts/build-exercise-muscles.mjs`.
+
 ## Functional fitness additions (IDs 246–277)
 
 The 32 exercise records and photo pairs come from [yuhonas/free-exercise-db](https://github.com/yuhonas/free-exercise-db), pinned to commit `f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5`. The upstream project publishes its dataset under the **Unlicense**, permitting commercial and noncommercial reuse. This records the upstream license declaration; it is not an independent guarantee of every contributor's ownership or model releases.

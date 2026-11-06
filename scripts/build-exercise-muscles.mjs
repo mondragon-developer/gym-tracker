@@ -2,8 +2,9 @@ import fs from 'node:fs';
 import { EXERCISE_DATABASE } from '../src/constants/index.js';
 import { EXERCISE_ENRICHMENT } from '../src/data/exerciseEnrichment.js';
 import { FUNCTIONAL_ENRICHMENT } from '../src/data/functionalEnrichment.js';
+import { PHOTO_ENRICHMENT } from '../src/data/photoEnrichment.js';
 const names = { pectorals: 'Chest', chest: 'Chest', triceps: 'Triceps', delts: 'Shoulders', shoulders: 'Shoulders', biceps: 'Biceps', lats: 'Back', 'upper back': 'Back', 'middle back': 'Back', traps: 'Traps', forearms: 'Forearms', abs: 'Abs', abdominals: 'Abs', quads: 'Quadriceps', quadriceps: 'Quadriceps', hamstrings: 'Hamstrings', glutes: 'Glutes', calves: 'Calves', 'lower back': 'Lower back', 'hip flexors': 'Hip flexors', 'cardiovascular system': 'Cardio' };
-const enrichment = { ...EXERCISE_ENRICHMENT, ...FUNCTIONAL_ENRICHMENT };
+const enrichment = { ...EXERCISE_ENRICHMENT, ...FUNCTIONAL_ENRICHMENT, ...PHOTO_ENRICHMENT };
 const muscles = Object.fromEntries(EXERCISE_DATABASE.map(ex => {
     const record = enrichment[ex.id];
     const primary = names[record?.target] || ex.muscleGroup;

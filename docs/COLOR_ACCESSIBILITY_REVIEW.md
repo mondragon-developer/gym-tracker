@@ -19,6 +19,8 @@ The audit uses the local `temp/a11y-runner.html` and `temp/a11y-fixture.jsx` wit
 
 This is a targeted accessibility improvement, not a full WCAG conformance certification. Screen-reader testing, all trainer/admin states, third-party chat, every error path and every text-resize configuration are not covered by this matrix. The historical review below describes the original state before implementation.
 
+Production release: commit `8e90ee7efbb466a0e1bc7db983b2731d86528acd`, Vercel deployment `dpl_GPMnjJsgauYCiYxRvBC1dDi6V7mP`, READY on November 6, 2026. The custom domain returned HTTP 200 with its configured security headers. The signed-in page visibly displayed the new theme, skip link and exercise reorder controls with All changes saved. Verification did not modify the user's workout.
+
 Reviewed November 5, 2026, against commit `1f105a067ee590840cbc9f03ca50b69c9deb319a`. This is an initial source and live UI review, not a complete WCAG 2.2 AA conformance assessment. No application colors or production settings were changed during this review.
 
 The proposed direction is electric cyan with deep navy. Use bright cyan for prominent actions and decorative accents, dark cyan for links on light surfaces, and white or pale neutral workout cards. Keep success, warning, and error colors distinct, with text and icons identifying their meaning. Replace the pale lime page background with a neutral tint so the cyan actions draw attention. Preserve light, dark, and system modes.

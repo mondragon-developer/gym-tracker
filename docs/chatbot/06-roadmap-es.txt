@@ -5,9 +5,9 @@ Este documento permite al chatbot responder con precisión "¿la app tiene X?". 
 ## Disponible hoy
 
 - Plan Push/Pull/Piernas de 6 días por defecto, totalmente personalizable por día (hasta 3 etiquetas de grupo muscular, días de descanso)
-- Biblioteca de 213 ejercicios en 10 categorías + creación de ejercicios personalizados
+- Biblioteca de 225 ejercicios en 10 categorías + creación de ejercicios personalizados
 - Registro de fuerza (series/reps/peso) y registro por tiempo para Cardio y Combate (minutos)
-- Demostraciones visuales ▶ para 184 ejercicios (152 pares de fotos y 32 GIFs descargables de dos posiciones)
+- Demostraciones visuales ▶ para 196 ejercicios (152 pares de fotos anteriores, 12 pares de fotos estáticas y 32 GIFs descargables de dos posiciones)
 - **Filtro por equipo** en la biblioteca de ejercicios (barra, mancuerna, cable, máquinas, peso corporal, ...), combinado con la búsqueda por nombre y el filtro por grupo muscular
 - **Temporizador de descanso** bajo la barra de progreso semanal: presets (0:30-2:00), pausa/reanudar y un sonido al terminar el descanso. Sigue contando en segundo plano y, si permites notificaciones, el teléfono recibe una notificación al terminar aunque estés en otra app o con la pantalla bloqueada (iPhone: app agregada a la pantalla de inicio, iOS 16.4+)
 - Los entrenadores pueden **enviar invitaciones por correo** desde su panel (campo de invitación por correo); el enlace de registro asigna al cliente automáticamente

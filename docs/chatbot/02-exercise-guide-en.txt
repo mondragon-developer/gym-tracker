@@ -1,6 +1,6 @@
 # Gym Tracker — Exercise Guide (English)
 
-This guide covers all 213 exercises available in the Gym Tracker app (gym.mdragonsolutions.com). Strength exercises log **Sets, Reps, and Weight (lbs)**. **Cardio** and **Combat** exercises are time-based and log **Duration in minutes (1–120)**. Most gym exercises (184 of 213) include a visual demo: tap the ▶ button on the exercise to open "How to do this exercise", which shows selected reference positions and instructions. Media availability varies by exercise. To find any exercise, go to **"Add Exercise"** and use the search bar or the muscle-group filter.
+This guide covers all 225 exercises available in the Gym Tracker app (gym.mdragonsolutions.com). Strength exercises log **Sets, Reps, and Weight (lbs)**. **Cardio** and **Combat** exercises are time-based and log **Duration in minutes (1–120)**. Most gym exercises (196 of 225) include a visual demo: tap the ▶ button on the exercise to open "How to do this exercise", which shows selected reference positions and instructions. Media availability varies by exercise. To find any exercise, go to **"Add Exercise"** and use the search bar or the muscle-group filter.
 
 **Safety disclaimer:** This guide gives general technique pointers only — it is NOT medical advice. Always use weights you can control through a full range of motion, warm up before training, and stop if you feel sharp pain. Consult a qualified professional (doctor or certified trainer) for pain, injuries, or any health condition.
 
@@ -2560,3 +2560,91 @@ Use Browse functional fitness or search CrossFit. These 32 exercises use sets, r
 3. Release the rope from your feet as you pull yourself up with your arms, bringing your knees towards your chest.
 4. Resecure your feet on the rope, and then stand up to take another high hold on the rope. Continue until you reach the top of the rope.
 5. To lower yourself, loosen the grip of your feet on the rope as you slide down using a hand over hand motion.
+
+## Static photo additions, November 2026
+
+These 12 variations have two labeled reference photographs with bilingual descriptions. The photos do not show every movement phase. Use the exact names below when writing GYMPLAN blocks.
+
+### Kettlebell Renegade Row
+
+1. Place two stable, flat-bottomed kettlebells on a firm floor. Hold their handles in a plank with your feet spread for balance.
+2. Brace your trunk and press one kettlebell into the floor while drawing the other toward your ribs.
+3. Keep your hips facing the floor instead of rotating with the weight. Lower the bell under control.
+4. Repeat on the other side. Count each arm's row as one repetition; use a load that lets both bells stay stable.
+
+### Partner Medicine Ball Chest Pass
+
+1. Use a medicine ball intended for throwing and a partner ready to catch it. Choose a clear area and an easy throwing distance.
+2. Face your partner with feet stable and hold the ball at chest height in both hands.
+3. Extend your arms to pass the ball toward your partner's chest. Wait until your partner is ready before each throw.
+4. Receive the return with both hands, bending your elbows to absorb it. Count each pass you throw as one repetition.
+
+### Chest-Supported Incline Dumbbell Row
+
+1. Set an adjustable bench to a comfortable incline and support your chest against it, with feet planted firmly.
+2. Hold a dumbbell in each hand, palms facing each other, and let your arms hang beneath your shoulders.
+3. Draw your elbows back to bring the weights toward your sides while keeping your chest on the pad.
+4. Lower both weights slowly until your arms are extended. Avoid lifting your torso off the bench to move the load.
+
+### Dumbbell Reverse Lunge
+
+1. Stand upright holding a dumbbell by each side, with enough clear space behind you.
+2. Step one foot straight back and bend both knees, lowering only as far as you can control.
+3. Keep the front foot planted and the front knee tracking in the direction of the toes. Do not cross the rear leg behind the front leg.
+4. Push through the front foot to return to standing. Alternate sides, counting each lunge as one repetition.
+
+### Neutral-Grip Dumbbell Bench Press
+
+1. Lie on a flat bench with your feet planted and a dumbbell in each hand. Keep your palms facing each other.
+2. With your shoulders supported on the bench, lower the weights toward the sides of your chest under control.
+3. Press the dumbbells upward while keeping the same neutral grip and your wrists aligned over your forearms.
+4. Repeat without bouncing or forcing a deeper range. The first photo shows the upper position and the second shows the lowered position.
+
+### Standing Single-Arm Dumbbell Shoulder Press
+
+1. Stand with feet stable and bring one dumbbell to shoulder height. The other arm stays at your side; the photos show it holding a second weight.
+2. Brace your trunk and press the working dumbbell overhead without leaning sideways or arching your lower back.
+3. Lower the working dumbbell to shoulder height with control.
+4. Complete the planned repetitions on one side, then switch arms. Record repetitions per arm.
+
+### Standing Alternating Dumbbell Press
+
+1. Stand with a dumbbell at each shoulder and palms facing forward. Keep your trunk steady.
+2. Press one dumbbell overhead while the other remains at shoulder height.
+3. Return that weight to the shoulder, then press with the other arm. Avoid leaning or using a leg drive.
+4. Continue alternating, counting each arm's press as one repetition. The photographs show only one side of the alternating pattern.
+
+### Band-Assisted Pull-Up
+
+1. Secure an undamaged assistance band to a stable pull-up bar using the band's setup instructions. Use a stable step to enter and exit the band without snapping it.
+2. Place a bent knee in the band as shown and grip the bar with palms facing away. Keep the band secure and your shoulders controlled.
+3. Draw your elbows toward your sides to raise your chin toward the bar without swinging.
+4. Lower slowly, keeping tension and control. Step out carefully after finishing; band setup and exit are not shown in the photos.
+
+### Spider Crawl
+
+1. Start close to the floor with hands and toes supporting you and elbows bent. Keep your trunk controlled.
+2. Bring one knee out toward the elbow on the same side, then return that leg.
+3. Repeat with the other knee. Count each knee drive as one repetition.
+4. The photos show alternating knee positions, not a complete traveling crawl. If adding forward travel, use small controlled hand and foot steps while maintaining the same low posture.
+
+### Bodyweight Jump Squat
+
+1. Stand on a clear, non-slip surface with feet about shoulder-width apart. Cross your arms over your chest as shown.
+2. Bend your hips and knees into a controlled squat, then extend your legs to make a small vertical jump.
+3. Land softly on both feet, bending your hips and knees to absorb the landing. Keep your knees tracking with your toes.
+4. Regain balance before the next jump. Count each jump and landing as one repetition. The landing is not pictured.
+
+### Ring Push-Up
+
+1. Secure two rings at equal height to a rated anchor. Start with the rings higher and your body more upright if you need an easier variation.
+2. Hold the rings in a plank with your feet on the floor and your body in a straight line.
+3. Bend your elbows to lower your chest between the rings only as far as you can keep them stable.
+4. Press back to straight arms without sagging through the hips. The photos show the lowered position first, then the extended position.
+
+### Lateral Bound
+
+1. Choose a clear, non-slip area. Start in a shallow squat with your weight over one leg.
+2. Push sideways from that leg toward the opposite foot, beginning with a short distance.
+3. Land on the opposite foot with a bent knee and hip, keeping your knee aligned with the toes. Stabilize before moving again.
+4. Repeat in the opposite direction. Count each sideways bound as one repetition. These stills do not show the full flight or landing sequence.

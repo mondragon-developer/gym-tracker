@@ -9,6 +9,7 @@
 export const equipmentTranslations = {
     "other": "otro equipo",
     "rings": "anillas",
+    "medicine ball": "balón medicinal",
     "band": "banda",
     "barbell": "barra",
     "body weight": "peso corporal",

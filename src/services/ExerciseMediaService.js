@@ -12,7 +12,9 @@
 
 import { MEDIA_FOLDERS } from '../data/exerciseMediaFolders.js';
 import { FUNCTIONAL_IDS } from '../data/functionalExercises.js';
+import { PHOTO_EXERCISES } from '../data/photoExercises.js';
 const functional = new Set(FUNCTIONAL_IDS);
+const photos = new Set(PHOTO_EXERCISES.map(exercise => exercise.id));
 
 // Read lazily so tests can stub import.meta.env before each call.
 const mediaBase = () => {
@@ -26,7 +28,7 @@ const mediaBase = () => {
  * @returns {boolean}
  */
 export function hasExerciseMedia(dbId) {
-  return dbId != null && (functional.has(Number(dbId)) || Boolean(MEDIA_FOLDERS[dbId]));
+  return dbId != null && (photos.has(Number(dbId)) || functional.has(Number(dbId)) || Boolean(MEDIA_FOLDERS[dbId]));
 }
 
 /**
@@ -37,6 +39,10 @@ export function hasExerciseMedia(dbId) {
  * @returns {{ frames: string[], gif?: string, poster?: string, source?: string } | null}
  */
 export function getExerciseMedia(dbId) {
+  if (dbId != null && photos.has(Number(dbId))) {
+    const base = `${import.meta.env.BASE_URL || '/'}exercise-media/photos/${Number(dbId)}`;
+    return { frames: [`${base}-0.jpg`, `${base}-1.jpg`], still: true, source: 'free-exercise-db' };
+  }
   if (dbId != null && functional.has(Number(dbId))) {
     const base = `${import.meta.env.BASE_URL || '/'}exercise-media/functional/${Number(dbId)}`;
     return { gif: `${base}.gif`, poster: `${base}.jpg`, frames: [], source: 'free-exercise-db' };

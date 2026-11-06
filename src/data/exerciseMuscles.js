@@ -1064,5 +1064,68 @@ export const EXERCISE_MUSCLES = {
     "Biceps",
     "Forearms",
     "Shoulders"
+  ],
+  "278": [
+    "Back",
+    "Abs",
+    "Biceps"
+  ],
+  "279": [
+    "Chest",
+    "Triceps",
+    "Shoulders"
+  ],
+  "280": [
+    "Back",
+    "Biceps",
+    "Forearms",
+    "Shoulders"
+  ],
+  "281": [
+    "Quadriceps",
+    "Calves",
+    "Glutes",
+    "Hamstrings"
+  ],
+  "282": [
+    "Chest",
+    "Triceps",
+    "Shoulders"
+  ],
+  "283": [
+    "Shoulders",
+    "Triceps"
+  ],
+  "284": [
+    "Shoulders",
+    "Triceps"
+  ],
+  "285": [
+    "Back",
+    "Abs",
+    "Forearms"
+  ],
+  "286": [
+    "Abs",
+    "Chest",
+    "Shoulders",
+    "Triceps"
+  ],
+  "287": [
+    "Quadriceps",
+    "Calves",
+    "Glutes",
+    "Hamstrings"
+  ],
+  "288": [
+    "Chest",
+    "Triceps",
+    "Shoulders"
+  ],
+  "289": [
+    "Quadriceps",
+    "Glutes",
+    "Hamstrings",
+    "Calves"
   ]
 };

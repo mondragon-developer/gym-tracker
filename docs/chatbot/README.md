@@ -17,7 +17,7 @@ Training material for the in-app help chatbot. Maintain the following guide file
 |---|---|---|
 | `01-app-guide-en.txt` | English | App overview, screen-by-screen navigation, accounts/sync, trainer & admin, default PPL plan, glossary, general recommendations, FAQ, chatbot behavior rules |
 | `01-guia-app-es.txt` | Spanish | Same content in Spanish |
-| `02-exercise-guide-en.txt` | English | All 213 exercises: muscles, equipment, technique steps, common mistakes, tips |
+| `02-exercise-guide-en.txt` | English | All 225 exercises: muscles, equipment, technique steps, common mistakes, tips |
 | `02-guia-ejercicios-es.txt` | Spanish | Same content in Spanish |
 | `03-training-setups-en.txt` | English | Warm-up/cool-down routine, weekly setups for 3/4/5/6 days, home/bodyweight week, cardio & boxing add-ons, volume/progression rules, in-app setup steps |
 | `03-planes-entrenamiento-es.txt` | Spanish | Same content in Spanish |
@@ -75,7 +75,7 @@ Source: `system-prompt.txt`. Paste it into Chatbase Instructions, not just Sourc
 
 - Exercise search inside the app matches English and Spanish names; Import plan reads both too.
 - The setups in `03-*` each carry a ready GYMPLAN block, so retrieval shows the format in context. After a library change run `npm run build:plan-doc` and re-upload both `08-*` files.
-- 184 of 213 exercises have ▶ visual demos; availability varies by exercise.
+- 196 of 225 exercises have ▶ visual demos; availability varies by exercise.
 - Strength = sets/reps/weight (lbs). Cardio & Combat = minutes (1–120).
 
 ## Trainer-access release (2026-10-02)

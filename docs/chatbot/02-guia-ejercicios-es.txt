@@ -1,10 +1,10 @@
 # Gym Tracker — Guía de Ejercicios (Español)
 
-Esta guía cubre los 213 ejercicios disponibles en Gym Tracker. Los ejercicios de fuerza (Pecho, Espalda, Hombros, Bíceps, Tríceps, Antebrazos, Piernas, Abdominales) registran Series, Reps y Peso en libras (lbs). Los ejercicios de Cardio y Combate se miden por tiempo: registras la Duración en minutos (de 1 a 120).
+Esta guía cubre los 225 ejercicios disponibles en Gym Tracker. Los ejercicios de fuerza (Pecho, Espalda, Hombros, Bíceps, Tríceps, Antebrazos, Piernas, Abdominales) registran Series, Reps y Peso en libras (lbs). Los ejercicios de Cardio y Combate se miden por tiempo: registras la Duración en minutos (de 1 a 120).
 
-La mayoría de los ejercicios de gimnasio (184 de 213) tienen demostración visual: toca el botón ▶ del ejercicio para abrir "Cómo hacer este ejercicio", que muestra posiciones de referencia e instrucciones. La disponibilidad de imágenes varía según el ejercicio.
+La mayoría de los ejercicios de gimnasio (196 de 225) tienen demostración visual: toca el botón ▶ del ejercicio para abrir "Cómo hacer este ejercicio", que muestra posiciones de referencia e instrucciones. La disponibilidad de imágenes varía según el ejercicio.
 
-Para encontrar cualquier ejercicio, ve a "Agregar Ejercicio" y usa la barra de búsqueda o el filtro por grupo muscular. IMPORTANTE: los nombres de los ejercicios en la app están en inglés, así que busca con el nombre en inglés aunque tu interfaz esté en español.
+Para encontrar cualquier ejercicio, ve a "Agregar Ejercicio" y usa la barra de búsqueda o el filtro por grupo muscular. Puedes buscar por el nombre en inglés o en español, con o sin tildes.
 
 Descargo de responsabilidad: esta guía ofrece indicaciones generales de técnica y NO es consejo médico. Usa pesos que puedas controlar, calienta antes de entrenar y, si tienes dolor, una lesión o una condición de salud, consulta a un profesional calificado (médico o entrenador certificado) antes de realizar cualquier ejercicio.
 
@@ -2449,3 +2449,91 @@ Usa Explorar entrenamiento funcional o busca CrossFit. Estos 32 ejercicios regis
 
 1. Sujeta una cuerda fija y usa un bloqueo de pies que hayas aprendido con supervisión.
 2. Acerca las rodillas, asegura la cuerda con los pies y extiende las piernas mientras subes las manos. Desciende paso a paso, sin deslizarte ni soltarte.
+
+## Nuevos ejercicios con fotos estáticas, noviembre de 2026
+
+Estas 12 variantes tienen dos fotografías de referencia con descripciones en ambos idiomas. Las fotos no muestran todas las fases del movimiento. Usa los nombres exactos al escribir bloques GYMPLAN.
+
+### Remo renegado con pesas rusas
+
+1. Coloca dos pesas rusas estables, de base plana, sobre un suelo firme. Sujeta las asas en posición de plancha, con los pies separados para mantener el equilibrio.
+2. Mantén firme el tronco y presiona una pesa contra el suelo mientras llevas la otra hacia las costillas.
+3. Mantén la cadera orientada al suelo, sin girarla con la pesa. Baja de forma controlada.
+4. Repite con el otro brazo. Cuenta cada remo como una repetición y usa una carga que permita mantener estables las pesas.
+
+### Pase de pecho con balón medicinal en pareja
+
+1. Usa un balón medicinal apto para lanzamientos y una pareja preparada para recibirlo. Elige una zona despejada y una distancia cómoda.
+2. Mira hacia tu pareja, apoya bien los pies y sostén el balón a la altura del pecho con ambas manos.
+3. Extiende los brazos para pasar el balón hacia el pecho de tu pareja. Espera a que esté preparada antes de cada lanzamiento.
+4. Recibe el pase con ambas manos y flexiona los codos para amortiguarlo. Cuenta cada pase que lanzas como una repetición.
+
+### Remo con mancuernas y pecho apoyado en banco inclinado
+
+1. Ajusta un banco a una inclinación cómoda y apoya el pecho, con los pies firmes en el suelo.
+2. Sujeta una mancuerna en cada mano, con las palmas enfrentadas, y deja los brazos bajo los hombros.
+3. Lleva los codos hacia atrás para acercar las pesas a los costados, manteniendo el pecho apoyado.
+4. Baja ambas pesas despacio hasta extender los brazos. Evita separar el tronco del banco para levantar la carga.
+
+### Zancada hacia atrás con mancuernas
+
+1. Ponte de pie con una mancuerna a cada lado y espacio libre detrás.
+2. Da un paso recto hacia atrás con un pie y flexiona ambas rodillas, bajando hasta donde mantengas el control.
+3. Mantén apoyado el pie delantero y orienta su rodilla en la dirección de los dedos. No cruces la pierna trasera detrás de la delantera.
+4. Empuja con el pie delantero para volver de pie. Alterna las piernas y cuenta cada zancada como una repetición.
+
+### Press de banca con mancuernas y agarre neutro
+
+1. Túmbate en un banco plano con los pies apoyados y una mancuerna en cada mano. Mantén las palmas enfrentadas.
+2. Con los hombros apoyados en el banco, baja las pesas hacia los lados del pecho de forma controlada.
+3. Empuja las mancuernas hacia arriba sin cambiar el agarre neutro y mantén las muñecas alineadas con los antebrazos.
+4. Repite sin rebotes ni forzar la profundidad. La primera foto muestra la posición alta y la segunda, la posición baja.
+
+### Press de hombro de pie con mancuerna a un brazo
+
+1. Ponte de pie con una base estable y lleva una mancuerna al hombro. El otro brazo queda al costado; las fotos muestran una segunda pesa en esa mano.
+2. Mantén firme el tronco y empuja la mancuerna sobre la cabeza, sin inclinarte de lado ni arquear la zona lumbar.
+3. Baja la mancuerna al hombro de forma controlada.
+4. Completa las repeticiones de un lado y cambia de brazo. Registra las repeticiones por brazo.
+
+### Press alterno de pie con mancuernas
+
+1. Ponte de pie con una mancuerna en cada hombro y las palmas hacia delante. Mantén estable el tronco.
+2. Empuja una mancuerna sobre la cabeza mientras la otra permanece a la altura del hombro.
+3. Devuelve esa pesa al hombro y repite con el otro brazo. Evita inclinarte o impulsarte con las piernas.
+4. Sigue alternando y cuenta cada press como una repetición. Las fotos muestran solo un lado del patrón alterno.
+
+### Dominada asistida con banda
+
+1. Fija una banda de asistencia en buen estado a una barra estable, siguiendo las instrucciones de la banda. Usa un escalón estable para entrar y salir sin soltarla de golpe.
+2. Coloca una rodilla flexionada en la banda como se muestra y agarra la barra con las palmas hacia fuera. Mantén la banda segura y controla los hombros.
+3. Lleva los codos hacia los costados para acercar la barbilla a la barra sin balancearte.
+4. Baja despacio, con tensión y control. Sal de la banda con cuidado al terminar; la colocación y la salida no aparecen en las fotos.
+
+### Desplazamiento de araña
+
+1. Empieza cerca del suelo, apoyado en manos y puntas de los pies, con los codos flexionados. Mantén controlado el tronco.
+2. Lleva una rodilla por fuera hacia el codo del mismo lado y devuelve la pierna.
+3. Repite con la otra rodilla. Cuenta cada acercamiento de rodilla como una repetición.
+4. Las fotos muestran posiciones alternas de rodilla, no un desplazamiento completo. Si avanzas, da pasos cortos y controlados con manos y pies, manteniendo la postura baja.
+
+### Sentadilla con salto sin peso
+
+1. Ponte de pie sobre una superficie despejada y antideslizante, con los pies aproximadamente al ancho de los hombros. Cruza los brazos sobre el pecho.
+2. Flexiona cadera y rodillas para hacer una sentadilla controlada y extiende las piernas para dar un pequeño salto vertical.
+3. Aterriza suavemente con ambos pies, flexionando cadera y rodillas para amortiguar. Orienta las rodillas en la dirección de los dedos.
+4. Recupera el equilibrio antes del siguiente salto. Cuenta cada salto con su aterrizaje como una repetición. El aterrizaje no aparece en las fotos.
+
+### Flexión en anillas
+
+1. Fija dos anillas a la misma altura en un anclaje adecuado. Para facilitar el ejercicio, coloca las anillas más altas y el cuerpo más vertical.
+2. Sujeta las anillas en posición de plancha, con los pies en el suelo y el cuerpo alineado.
+3. Flexiona los codos para bajar el pecho entre las anillas solo hasta donde puedas mantenerlas estables.
+4. Empuja hasta extender los brazos sin hundir la cadera. Las fotos muestran primero la posición baja y después la posición extendida.
+
+### Salto lateral
+
+1. Elige una zona despejada y antideslizante. Empieza en una sentadilla poco profunda, con el peso sobre una pierna.
+2. Impúlsate de lado hacia el pie contrario, comenzando con una distancia corta.
+3. Aterriza sobre el pie contrario con rodilla y cadera flexionadas, y alinea la rodilla con los dedos. Estabilízate antes de volver a saltar.
+4. Repite hacia el lado opuesto. Cuenta cada salto lateral como una repetición. Estas fotos no muestran toda la fase de vuelo ni el aterrizaje.

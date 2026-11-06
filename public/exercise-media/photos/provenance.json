@@ -1,0 +1,333 @@
+{
+  "repository": "https://github.com/yuhonas/free-exercise-db",
+  "revision": "f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5",
+  "license": "Unlicense",
+  "licenseUrl": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/LICENSE.md",
+  "modifications": "Original JPEG files copied without image modifications. Names, bilingual instructions and photo descriptions edited by Gym Tracker.",
+  "exercises": [
+    {
+      "id": 278,
+      "name": "Kettlebell Renegade Row",
+      "sourceId": "Alternating_Renegade_Row",
+      "images": [
+        {
+          "path": "278-0.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Alternating_Renegade_Row/0.jpg",
+          "sha256": "a85127300a8dcb1d926437e2d30180bdc283bc31b3d18f420f57283e35e694fc",
+          "bytes": 33835,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 569,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "path": "278-1.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Alternating_Renegade_Row/1.jpg",
+          "sha256": "3c18e0bd11d4ac3cd601bec55a589ad6114278e569ea048dc07b7162036a649e",
+          "bytes": 32913,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 569,
+          "decodedFormat": "JPEG"
+        }
+      ]
+    },
+    {
+      "id": 279,
+      "name": "Partner Medicine Ball Chest Pass",
+      "sourceId": "Medicine_Ball_Chest_Pass",
+      "images": [
+        {
+          "path": "279-0.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Medicine_Ball_Chest_Pass/0.jpg",
+          "sha256": "e5a1180336164dea6c017287e5766a2587ce73596245ccddfe2274e86e25101e",
+          "bytes": 51399,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "path": "279-1.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Medicine_Ball_Chest_Pass/1.jpg",
+          "sha256": "566654af5a25fd68636b5d273d91f10f1d42f08aeef6f7ca565d10ee77f53b5e",
+          "bytes": 50964,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ]
+    },
+    {
+      "id": 280,
+      "name": "Chest-Supported Incline Dumbbell Row",
+      "sourceId": "Dumbbell_Incline_Row",
+      "images": [
+        {
+          "path": "280-0.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Incline_Row/0.jpg",
+          "sha256": "6bdf4dd4c46fd9d50abe73802d49c87f3714dfd05774595e902a5b1765b45d46",
+          "bytes": 98338,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "path": "280-1.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Incline_Row/1.jpg",
+          "sha256": "8c0cc8f09e194825429a0e7b6c96d9a2a85a5ac6005cf25d31ab65b04adfe739",
+          "bytes": 99049,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ]
+    },
+    {
+      "id": 281,
+      "name": "Dumbbell Reverse Lunge",
+      "sourceId": "Dumbbell_Rear_Lunge",
+      "images": [
+        {
+          "path": "281-0.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Rear_Lunge/0.jpg",
+          "sha256": "c89ef2d68e66077a7c416c8ae634a9772b138ab387ba93742ba097dc1596ada4",
+          "bytes": 51169,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "path": "281-1.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Rear_Lunge/1.jpg",
+          "sha256": "e095d56b39fbae3789abcc56bdda9f278147e45a9da777186ff3d7f686bf8a3b",
+          "bytes": 49129,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ]
+    },
+    {
+      "id": 282,
+      "name": "Neutral-Grip Dumbbell Bench Press",
+      "sourceId": "Dumbbell_Bench_Press_with_Neutral_Grip",
+      "images": [
+        {
+          "path": "282-0.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Bench_Press_with_Neutral_Grip/0.jpg",
+          "sha256": "18c2f927a4a070b4702db0cf623526cb304bce687b321f9bc14302945ded3e73",
+          "bytes": 96451,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "path": "282-1.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Bench_Press_with_Neutral_Grip/1.jpg",
+          "sha256": "e4c01b6340d39dc92c33e732830a470fb73b6164ab30aae35b6004f8343c93ab",
+          "bytes": 95731,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ]
+    },
+    {
+      "id": 283,
+      "name": "Standing Single-Arm Dumbbell Shoulder Press",
+      "sourceId": "Dumbbell_One-Arm_Shoulder_Press",
+      "images": [
+        {
+          "path": "283-0.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_One-Arm_Shoulder_Press/0.jpg",
+          "sha256": "0a158a261801d982a288f59a69299d08a347a593b770e2d12f342131af7eae6a",
+          "bytes": 59478,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "path": "283-1.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_One-Arm_Shoulder_Press/1.jpg",
+          "sha256": "fb47b91cfd5406ae6d1396ee89b1cc81eff4c45c3286e943c9f29ddc0842f374",
+          "bytes": 59520,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ]
+    },
+    {
+      "id": 284,
+      "name": "Standing Alternating Dumbbell Press",
+      "sourceId": "Standing_Alternating_Dumbbell_Press",
+      "images": [
+        {
+          "path": "284-0.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Alternating_Dumbbell_Press/0.jpg",
+          "sha256": "9eba2b2e29ecb3e6b0cf3606ac8315f30e25e72ee5dcfbd5eeb662894cb4159a",
+          "bytes": 76248,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "path": "284-1.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Alternating_Dumbbell_Press/1.jpg",
+          "sha256": "54adc58f5a8743730d6d68796bace163bbd8c2287a2eaa377c2c1ee3fc0c8f6b",
+          "bytes": 76595,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ]
+    },
+    {
+      "id": 285,
+      "name": "Band-Assisted Pull-Up",
+      "sourceId": "Band_Assisted_Pull-Up",
+      "images": [
+        {
+          "path": "285-0.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Band_Assisted_Pull-Up/0.jpg",
+          "sha256": "7af060c6c064e6e8a074add38c950dc59f93801ecd54b7d652172bd9800b034d",
+          "bytes": 95314,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 1275,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "path": "285-1.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Band_Assisted_Pull-Up/1.jpg",
+          "sha256": "edc82e3a48ec624be2b920262d99399d055b96333850579b22fefa7375768a30",
+          "bytes": 100304,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 1275,
+          "decodedFormat": "JPEG"
+        }
+      ]
+    },
+    {
+      "id": 286,
+      "name": "Spider Crawl",
+      "sourceId": "Spider_Crawl",
+      "images": [
+        {
+          "path": "286-0.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Spider_Crawl/0.jpg",
+          "sha256": "a3db3cf8cf5cd939b8690b3ff8a5d1e2789a189fe59173095640ca899a9091e1",
+          "bytes": 42091,
+          "httpStatus": 200,
+          "width": 750,
+          "height": 500,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "path": "286-1.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Spider_Crawl/1.jpg",
+          "sha256": "4a4b541741c705c3344965ed2e3a6761a8a31acb8bdf3b0caec624d1d3ac8366",
+          "bytes": 41753,
+          "httpStatus": 200,
+          "width": 750,
+          "height": 500,
+          "decodedFormat": "JPEG"
+        }
+      ]
+    },
+    {
+      "id": 287,
+      "name": "Bodyweight Jump Squat",
+      "sourceId": "Freehand_Jump_Squat",
+      "images": [
+        {
+          "path": "287-0.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Freehand_Jump_Squat/0.jpg",
+          "sha256": "6efb2bc42ce6554aa70b8b4e1643e41d539342117ac1ad39327790eedd2f87ed",
+          "bytes": 69522,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "path": "287-1.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Freehand_Jump_Squat/1.jpg",
+          "sha256": "269e6d3308ead7b95a1b0c8ce102ce1bd892507e680740bde3b38bf20949ae97",
+          "bytes": 66114,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ]
+    },
+    {
+      "id": 288,
+      "name": "Ring Push-Up",
+      "sourceId": "Suspended_Push-Up",
+      "images": [
+        {
+          "path": "288-0.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Suspended_Push-Up/0.jpg",
+          "sha256": "2f73e37b4a2defc15f4f73f2bbcff27cb1942cd1a02c168357ad487df2081ea8",
+          "bytes": 64667,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "path": "288-1.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Suspended_Push-Up/1.jpg",
+          "sha256": "5be0bc94e6e65da28f0c63fcb1da2dba684401eb8818fe349f4a670bf403bf93",
+          "bytes": 68067,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ]
+    },
+    {
+      "id": 289,
+      "name": "Lateral Bound",
+      "sourceId": "Lateral_Bound",
+      "images": [
+        {
+          "path": "289-0.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Lateral_Bound/0.jpg",
+          "sha256": "0cfa2c12cae9bf09b005a8c68dae109060495e8c8ddca53f229cc0b973b3d653",
+          "bytes": 32542,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "path": "289-1.jpg",
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Lateral_Bound/1.jpg",
+          "sha256": "aed75d51ea6b9ebc85bd4517fb85a94df26a276ddd617f491c56d8d40c5b0110",
+          "bytes": 37248,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ]
+    }
+  ]
+}

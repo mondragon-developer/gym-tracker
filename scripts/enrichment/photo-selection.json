@@ -1,0 +1,110 @@
+[
+  {
+    "id": 278, "sourceId": "Alternating_Renegade_Row", "name": "Kettlebell Renegade Row", "nameEs": "Remo renegado con pesas rusas", "muscleGroup": "Back", "equipment": "kettlebell", "functional": true,
+    "target": "middle back", "secondaryMuscles": ["abdominals", "biceps", "lats"],
+    "instructions": {
+      "en": ["Place two stable, flat-bottomed kettlebells on a firm floor. Hold their handles in a plank with your feet spread for balance.", "Brace your trunk and press one kettlebell into the floor while drawing the other toward your ribs.", "Keep your hips facing the floor instead of rotating with the weight. Lower the bell under control.", "Repeat on the other side. Count each arm's row as one repetition; use a load that lets both bells stay stable."],
+      "es": ["Coloca dos pesas rusas estables, de base plana, sobre un suelo firme. Sujeta las asas en posición de plancha, con los pies separados para mantener el equilibrio.", "Mantén firme el tronco y presiona una pesa contra el suelo mientras llevas la otra hacia las costillas.", "Mantén la cadera orientada al suelo, sin girarla con la pesa. Baja de forma controlada.", "Repite con el otro brazo. Cuenta cada remo como una repetición y usa una carga que permita mantener estables las pesas."]
+    },
+    "photoDescriptions": {"en": ["Plank position with both hands supported on kettlebell handles.", "One kettlebell lifted toward the ribs while the opposite hand supports the plank."], "es": ["Posición de plancha con ambas manos apoyadas en las asas de las pesas rusas.", "Una pesa elevada hacia las costillas mientras la mano contraria sostiene la plancha."]}
+  },
+  {
+    "id": 279, "sourceId": "Medicine_Ball_Chest_Pass", "name": "Partner Medicine Ball Chest Pass", "nameEs": "Pase de pecho con balón medicinal en pareja", "muscleGroup": "Chest", "equipment": "medicine ball", "functional": true,
+    "target": "chest", "secondaryMuscles": ["shoulders", "triceps"],
+    "instructions": {
+      "en": ["Use a medicine ball intended for throwing and a partner ready to catch it. Choose a clear area and an easy throwing distance.", "Face your partner with feet stable and hold the ball at chest height in both hands.", "Extend your arms to pass the ball toward your partner's chest. Wait until your partner is ready before each throw.", "Receive the return with both hands, bending your elbows to absorb it. Count each pass you throw as one repetition."],
+      "es": ["Usa un balón medicinal apto para lanzamientos y una pareja preparada para recibirlo. Elige una zona despejada y una distancia cómoda.", "Mira hacia tu pareja, apoya bien los pies y sostén el balón a la altura del pecho con ambas manos.", "Extiende los brazos para pasar el balón hacia el pecho de tu pareja. Espera a que esté preparada antes de cada lanzamiento.", "Recibe el pase con ambas manos y flexiona los codos para amortiguarlo. Cuenta cada pase que lanzas como una repetición."]
+    },
+    "photoDescriptions": {"en": ["Two partners face each other; the thrower holds the ball at chest height.", "The thrower's arms are extended as the ball travels toward the receiving partner."], "es": ["Dos personas frente a frente; quien lanza sostiene el balón a la altura del pecho.", "Quien lanza extiende los brazos mientras el balón se dirige a su pareja."]}
+  },
+  {
+    "id": 280, "sourceId": "Dumbbell_Incline_Row", "name": "Chest-Supported Incline Dumbbell Row", "nameEs": "Remo con mancuernas y pecho apoyado en banco inclinado", "muscleGroup": "Back", "equipment": "dumbbell", "functional": false,
+    "target": "middle back", "secondaryMuscles": ["biceps", "forearms", "lats", "shoulders"],
+    "instructions": {
+      "en": ["Set an adjustable bench to a comfortable incline and support your chest against it, with feet planted firmly.", "Hold a dumbbell in each hand, palms facing each other, and let your arms hang beneath your shoulders.", "Draw your elbows back to bring the weights toward your sides while keeping your chest on the pad.", "Lower both weights slowly until your arms are extended. Avoid lifting your torso off the bench to move the load."],
+      "es": ["Ajusta un banco a una inclinación cómoda y apoya el pecho, con los pies firmes en el suelo.", "Sujeta una mancuerna en cada mano, con las palmas enfrentadas, y deja los brazos bajo los hombros.", "Lleva los codos hacia atrás para acercar las pesas a los costados, manteniendo el pecho apoyado.", "Baja ambas pesas despacio hasta extender los brazos. Evita separar el tronco del banco para levantar la carga."]
+    },
+    "photoDescriptions": {"en": ["Chest supported on an incline bench with dumbbells hanging below the shoulders.", "Elbows bent and drawn back with the dumbbells beside the bench."], "es": ["Pecho apoyado en un banco inclinado y mancuernas colgando bajo los hombros.", "Codos flexionados hacia atrás y mancuernas junto al banco."]}
+  },
+  {
+    "id": 281, "sourceId": "Dumbbell_Rear_Lunge", "name": "Dumbbell Reverse Lunge", "nameEs": "Zancada hacia atrás con mancuernas", "muscleGroup": "Legs", "equipment": "dumbbell", "functional": true,
+    "target": "quadriceps", "secondaryMuscles": ["calves", "glutes", "hamstrings"],
+    "instructions": {
+      "en": ["Stand upright holding a dumbbell by each side, with enough clear space behind you.", "Step one foot straight back and bend both knees, lowering only as far as you can control.", "Keep the front foot planted and the front knee tracking in the direction of the toes. Do not cross the rear leg behind the front leg.", "Push through the front foot to return to standing. Alternate sides, counting each lunge as one repetition."],
+      "es": ["Ponte de pie con una mancuerna a cada lado y espacio libre detrás.", "Da un paso recto hacia atrás con un pie y flexiona ambas rodillas, bajando hasta donde mantengas el control.", "Mantén apoyado el pie delantero y orienta su rodilla en la dirección de los dedos. No cruces la pierna trasera detrás de la delantera.", "Empuja con el pie delantero para volver de pie. Alterna las piernas y cuenta cada zancada como una repetición."]
+    },
+    "photoDescriptions": {"en": ["Standing upright with dumbbells held at the sides.", "Rear foot stepped back and both knees bent in a reverse lunge."], "es": ["De pie con mancuernas a los costados.", "Pie trasero llevado hacia atrás y ambas rodillas flexionadas en una zancada."]}
+  },
+  {
+    "id": 282, "sourceId": "Dumbbell_Bench_Press_with_Neutral_Grip", "name": "Neutral-Grip Dumbbell Bench Press", "nameEs": "Press de banca con mancuernas y agarre neutro", "muscleGroup": "Chest", "equipment": "dumbbell", "functional": false,
+    "target": "chest", "secondaryMuscles": ["shoulders", "triceps"],
+    "instructions": {
+      "en": ["Lie on a flat bench with your feet planted and a dumbbell in each hand. Keep your palms facing each other.", "With your shoulders supported on the bench, lower the weights toward the sides of your chest under control.", "Press the dumbbells upward while keeping the same neutral grip and your wrists aligned over your forearms.", "Repeat without bouncing or forcing a deeper range. The first photo shows the upper position and the second shows the lowered position."],
+      "es": ["Túmbate en un banco plano con los pies apoyados y una mancuerna en cada mano. Mantén las palmas enfrentadas.", "Con los hombros apoyados en el banco, baja las pesas hacia los lados del pecho de forma controlada.", "Empuja las mancuernas hacia arriba sin cambiar el agarre neutro y mantén las muñecas alineadas con los antebrazos.", "Repite sin rebotes ni forzar la profundidad. La primera foto muestra la posición alta y la segunda, la posición baja."]
+    },
+    "photoDescriptions": {"en": ["Dumbbells above the chest with arms extended and palms facing each other.", "Dumbbells lowered beside the chest with elbows bent, maintaining the neutral grip."], "es": ["Mancuernas sobre el pecho, brazos extendidos y palmas enfrentadas.", "Mancuernas junto al pecho, codos flexionados y agarre neutro."]}
+  },
+  {
+    "id": 283, "sourceId": "Dumbbell_One-Arm_Shoulder_Press", "name": "Standing Single-Arm Dumbbell Shoulder Press", "nameEs": "Press de hombro de pie con mancuerna a un brazo", "muscleGroup": "Shoulders", "equipment": "dumbbell", "functional": true,
+    "target": "shoulders", "secondaryMuscles": ["triceps"],
+    "instructions": {
+      "en": ["Stand with feet stable and bring one dumbbell to shoulder height. The other arm stays at your side; the photos show it holding a second weight.", "Brace your trunk and press the working dumbbell overhead without leaning sideways or arching your lower back.", "Lower the working dumbbell to shoulder height with control.", "Complete the planned repetitions on one side, then switch arms. Record repetitions per arm."],
+      "es": ["Ponte de pie con una base estable y lleva una mancuerna al hombro. El otro brazo queda al costado; las fotos muestran una segunda pesa en esa mano.", "Mantén firme el tronco y empuja la mancuerna sobre la cabeza, sin inclinarte de lado ni arquear la zona lumbar.", "Baja la mancuerna al hombro de forma controlada.", "Completa las repeticiones de un lado y cambia de brazo. Registra las repeticiones por brazo."]
+    },
+    "photoDescriptions": {"en": ["One dumbbell held at shoulder height while the opposite arm hangs at the side.", "Working arm extended overhead while the opposite arm stays lowered."], "es": ["Una mancuerna a la altura del hombro y el brazo contrario al costado.", "Brazo de trabajo extendido sobre la cabeza y brazo contrario abajo."]}
+  },
+  {
+    "id": 284, "sourceId": "Standing_Alternating_Dumbbell_Press", "name": "Standing Alternating Dumbbell Press", "nameEs": "Press alterno de pie con mancuernas", "muscleGroup": "Shoulders", "equipment": "dumbbell", "functional": true,
+    "target": "shoulders", "secondaryMuscles": ["triceps"],
+    "instructions": {
+      "en": ["Stand with a dumbbell at each shoulder and palms facing forward. Keep your trunk steady.", "Press one dumbbell overhead while the other remains at shoulder height.", "Return that weight to the shoulder, then press with the other arm. Avoid leaning or using a leg drive.", "Continue alternating, counting each arm's press as one repetition. The photographs show only one side of the alternating pattern."],
+      "es": ["Ponte de pie con una mancuerna en cada hombro y las palmas hacia delante. Mantén estable el tronco.", "Empuja una mancuerna sobre la cabeza mientras la otra permanece a la altura del hombro.", "Devuelve esa pesa al hombro y repite con el otro brazo. Evita inclinarte o impulsarte con las piernas.", "Sigue alternando y cuenta cada press como una repetición. Las fotos muestran solo un lado del patrón alterno."]
+    },
+    "photoDescriptions": {"en": ["Both dumbbells held at shoulder height.", "One dumbbell pressed overhead while the other remains at the shoulder."], "es": ["Ambas mancuernas a la altura de los hombros.", "Una mancuerna sobre la cabeza mientras la otra permanece en el hombro."]}
+  },
+  {
+    "id": 285, "sourceId": "Band_Assisted_Pull-Up", "name": "Band-Assisted Pull-Up", "nameEs": "Dominada asistida con banda", "muscleGroup": "Back", "equipment": "band", "functional": true,
+    "target": "lats", "secondaryMuscles": ["abdominals", "forearms", "middle back"],
+    "instructions": {
+      "en": ["Secure an undamaged assistance band to a stable pull-up bar using the band's setup instructions. Use a stable step to enter and exit the band without snapping it.", "Place a bent knee in the band as shown and grip the bar with palms facing away. Keep the band secure and your shoulders controlled.", "Draw your elbows toward your sides to raise your chin toward the bar without swinging.", "Lower slowly, keeping tension and control. Step out carefully after finishing; band setup and exit are not shown in the photos."],
+      "es": ["Fija una banda de asistencia en buen estado a una barra estable, siguiendo las instrucciones de la banda. Usa un escalón estable para entrar y salir sin soltarla de golpe.", "Coloca una rodilla flexionada en la banda como se muestra y agarra la barra con las palmas hacia fuera. Mantén la banda segura y controla los hombros.", "Lleva los codos hacia los costados para acercar la barbilla a la barra sin balancearte.", "Baja despacio, con tensión y control. Sal de la banda con cuidado al terminar; la colocación y la salida no aparecen en las fotos."]
+    },
+    "photoDescriptions": {"en": ["Lower pull-up position with arms extended and an assistance band under a bent knee.", "Upper pull-up position with elbows bent and the band still supporting the knee."], "es": ["Posición baja de dominada, brazos extendidos y banda bajo una rodilla flexionada.", "Posición alta de dominada, codos flexionados y banda sosteniendo la rodilla."]}
+  },
+  {
+    "id": 286, "sourceId": "Spider_Crawl", "name": "Spider Crawl", "nameEs": "Desplazamiento de araña", "muscleGroup": "Abs", "equipment": "body weight", "functional": true,
+    "target": "abdominals", "secondaryMuscles": ["chest", "shoulders", "triceps"],
+    "instructions": {
+      "en": ["Start close to the floor with hands and toes supporting you and elbows bent. Keep your trunk controlled.", "Bring one knee out toward the elbow on the same side, then return that leg.", "Repeat with the other knee. Count each knee drive as one repetition.", "The photos show alternating knee positions, not a complete traveling crawl. If adding forward travel, use small controlled hand and foot steps while maintaining the same low posture."],
+      "es": ["Empieza cerca del suelo, apoyado en manos y puntas de los pies, con los codos flexionados. Mantén controlado el tronco.", "Lleva una rodilla por fuera hacia el codo del mismo lado y devuelve la pierna.", "Repite con la otra rodilla. Cuenta cada acercamiento de rodilla como una repetición.", "Las fotos muestran posiciones alternas de rodilla, no un desplazamiento completo. Si avanzas, da pasos cortos y controlados con manos y pies, manteniendo la postura baja."]
+    },
+    "photoDescriptions": {"en": ["Low plank with one knee drawn outward toward the elbow.", "Low plank showing the opposite knee drawn forward beside the torso."], "es": ["Plancha baja con una rodilla llevada por fuera hacia el codo.", "Plancha baja con la rodilla contraria adelantada junto al tronco."]}
+  },
+  {
+    "id": 287, "sourceId": "Freehand_Jump_Squat", "name": "Bodyweight Jump Squat", "nameEs": "Sentadilla con salto sin peso", "muscleGroup": "Legs", "equipment": "body weight", "functional": true,
+    "target": "quadriceps", "secondaryMuscles": ["calves", "glutes", "hamstrings"],
+    "instructions": {
+      "en": ["Stand on a clear, non-slip surface with feet about shoulder-width apart. Cross your arms over your chest as shown.", "Bend your hips and knees into a controlled squat, then extend your legs to make a small vertical jump.", "Land softly on both feet, bending your hips and knees to absorb the landing. Keep your knees tracking with your toes.", "Regain balance before the next jump. Count each jump and landing as one repetition. The landing is not pictured."],
+      "es": ["Ponte de pie sobre una superficie despejada y antideslizante, con los pies aproximadamente al ancho de los hombros. Cruza los brazos sobre el pecho.", "Flexiona cadera y rodillas para hacer una sentadilla controlada y extiende las piernas para dar un pequeño salto vertical.", "Aterriza suavemente con ambos pies, flexionando cadera y rodillas para amortiguar. Orienta las rodillas en la dirección de los dedos.", "Recupera el equilibrio antes del siguiente salto. Cuenta cada salto con su aterrizaje como una repetición. El aterrizaje no aparece en las fotos."]
+    },
+    "photoDescriptions": {"en": ["Squat position with arms crossed over the chest.", "Airborne position with both feet above the floor; the landing is not shown."], "es": ["Posición de sentadilla con brazos cruzados sobre el pecho.", "Posición en el aire con ambos pies separados del suelo; no se muestra el aterrizaje."]}
+  },
+  {
+    "id": 288, "sourceId": "Suspended_Push-Up", "name": "Ring Push-Up", "nameEs": "Flexión en anillas", "muscleGroup": "Chest", "equipment": "rings", "functional": true,
+    "target": "chest", "secondaryMuscles": ["shoulders", "triceps"],
+    "instructions": {
+      "en": ["Secure two rings at equal height to a rated anchor. Start with the rings higher and your body more upright if you need an easier variation.", "Hold the rings in a plank with your feet on the floor and your body in a straight line.", "Bend your elbows to lower your chest between the rings only as far as you can keep them stable.", "Press back to straight arms without sagging through the hips. The photos show the lowered position first, then the extended position."],
+      "es": ["Fija dos anillas a la misma altura en un anclaje adecuado. Para facilitar el ejercicio, coloca las anillas más altas y el cuerpo más vertical.", "Sujeta las anillas en posición de plancha, con los pies en el suelo y el cuerpo alineado.", "Flexiona los codos para bajar el pecho entre las anillas solo hasta donde puedas mantenerlas estables.", "Empuja hasta extender los brazos sin hundir la cadera. Las fotos muestran primero la posición baja y después la posición extendida."]
+    },
+    "photoDescriptions": {"en": ["Chest lowered between two rings with elbows bent and feet on the floor.", "Arms extended on the rings in a straight-body plank."], "es": ["Pecho entre dos anillas, codos flexionados y pies en el suelo.", "Brazos extendidos sobre las anillas y cuerpo alineado en plancha."]}
+  },
+  {
+    "id": 289, "sourceId": "Lateral_Bound", "name": "Lateral Bound", "nameEs": "Salto lateral", "muscleGroup": "Legs", "equipment": "body weight", "functional": true,
+    "target": "quadriceps", "secondaryMuscles": ["glutes", "hamstrings", "calves"],
+    "instructions": {
+      "en": ["Choose a clear, non-slip area. Start in a shallow squat with your weight over one leg.", "Push sideways from that leg toward the opposite foot, beginning with a short distance.", "Land on the opposite foot with a bent knee and hip, keeping your knee aligned with the toes. Stabilize before moving again.", "Repeat in the opposite direction. Count each sideways bound as one repetition. These stills do not show the full flight or landing sequence."],
+      "es": ["Elige una zona despejada y antideslizante. Empieza en una sentadilla poco profunda, con el peso sobre una pierna.", "Impúlsate de lado hacia el pie contrario, comenzando con una distancia corta.", "Aterriza sobre el pie contrario con rodilla y cadera flexionadas, y alinea la rodilla con los dedos. Estabilízate antes de volver a saltar.", "Repite hacia el lado opuesto. Cuenta cada salto lateral como una repetición. Estas fotos no muestran toda la fase de vuelo ni el aterrizaje."]
+    },
+    "photoDescriptions": {"en": ["Weight shifted over one bent leg with the other leg extended to the side.", "Weight supported on the opposite leg in the alternating lateral movement."], "es": ["Peso sobre una pierna flexionada y la otra extendida hacia un lado.", "Peso apoyado en la pierna contraria durante el movimiento lateral alterno."]}
+  }
+]

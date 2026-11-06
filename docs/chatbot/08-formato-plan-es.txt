@@ -85,7 +85,7 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Cardio | Cardio |
 | Combate | Combat |
 
-## Nombres de ejercicios (213 entradas)
+## Nombres de ejercicios (225 entradas)
 
 | Grupo | Nombre en español | Nombre en inglés |
 |---|---|---|
@@ -106,14 +106,17 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Abdominales | Giros Rusos | Russian Twists |
 | Abdominales | Tijeras | Scissor Kicks |
 | Abdominales | Plancha Lateral | Side Plank |
+| Abdominales | Desplazamiento de araña | Spider Crawl |
 | Abdominales | Toques de Punta | Toe Touches |
 | Abdominales | Abdominales en V | V-Ups |
 | Abdominales | Leñador | Wood Choppers |
+| Espalda | Dominada asistida con banda | Band-Assisted Pull-Up |
 | Espalda | Encogimientos con Barra | Barbell Shrugs |
 | Espalda | Remo con Barra Inclinado | Bent-Over Barbell Rows |
 | Espalda | Remo Inclinado con Mancuernas | Bent-Over Dumbbell Rows |
 | Espalda | Extensiones de Espalda sin Banco | Bodyweight Back Extensions |
 | Espalda | Encogimientos en Polea | Cable Shrugs |
+| Espalda | Remo con mancuernas y pecho apoyado en banco inclinado | Chest-Supported Incline Dumbbell Row |
 | Espalda | Dominadas Supinas | Chin-ups |
 | Espalda | Tirón de cargada | Clean Pull |
 | Espalda | Encogimientos con Mancuernas | Dumbbell Shrugs |
@@ -121,6 +124,7 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Espalda | Paseo del Granjero | Farmer's Walk |
 | Espalda | Hiperextensiones (Extensiones de Espalda) | Hyperextensions (Back Extensions) |
 | Espalda | Remo Invertido | Inverted Rows |
+| Espalda | Remo renegado con pesas rusas | Kettlebell Renegade Row |
 | Espalda | Tirón alto sumo con pesa rusa | Kettlebell Sumo High Pull |
 | Espalda | Muscle-up en anillas con impulso | Kipping Ring Muscle-Up |
 | Espalda | Jalón al Pecho | Lat Pulldowns |
@@ -186,8 +190,11 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Pecho | Flexiones Inclinadas | Incline Push-Ups |
 | Pecho | Press con Mina Terrestre | Landmine Press |
 | Pecho | Press de Pecho en Máquina | Machine Chest Press |
+| Pecho | Press de banca con mancuernas y agarre neutro | Neutral-Grip Dumbbell Bench Press |
+| Pecho | Pase de pecho con balón medicinal en pareja | Partner Medicine Ball Chest Pass |
 | Pecho | Máquina Peck Deck | Pec Deck Machine |
 | Pecho | Flexiones | Push-Ups |
+| Pecho | Flexión en anillas | Ring Push-Up |
 | Combate | Juego de Pies de Boxeo | Boxing Footwork Drills |
 | Combate | Defensa (Esquivas y Giros) | Defensive Drills (Slips & Rolls) |
 | Combate | Pera de Doble Anclaje | Double-End Bag |
@@ -213,6 +220,7 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Piernas | Cargada con barra | Barbell Clean |
 | Piernas | Empuje de Cadera | Barbell Hip Thrusts |
 | Piernas | Sentadillas con Barra | Barbell Squats |
+| Piernas | Sentadilla con salto sin peso | Bodyweight Jump Squat |
 | Piernas | Saltos al Cajón | Box Jumps |
 | Piernas | Sentadillas Búlgaras | Bulgarian Split Squats |
 | Piernas | Patada de Glúteo en Polea | Cable Kickbacks |
@@ -224,6 +232,7 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Piernas | Elevaciones de Gemelos con Mancuernas | Dumbbell Calf Raises |
 | Piernas | Cargada con mancuernas | Dumbbell Clean |
 | Piernas | Zancadas con Mancuernas | Dumbbell Lunges |
+| Piernas | Zancada hacia atrás con mancuernas | Dumbbell Reverse Lunge |
 | Piernas | Peso Muerto Rumano con Mancuernas | Dumbbell Romanian Deadlifts |
 | Piernas | Sentadillas con Mancuernas | Dumbbell Squats |
 | Piernas | Subidas al Cajón con Mancuernas | Dumbbell Step-Ups |
@@ -238,6 +247,7 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Piernas | Saltar la Cuerda | Jump Rope |
 | Piernas | Balanceo con Kettlebell | Kettlebell Swings |
 | Piernas | Thruster con pesas rusas | Kettlebell Thruster |
+| Piernas | Salto lateral | Lateral Bound |
 | Piernas | Extensiones de Cuádriceps | Leg Extensions |
 | Piernas | Prensa de Piernas | Leg Press |
 | Piernas | Zancadas | Lunges |
@@ -288,6 +298,8 @@ Los nombres exactos en español o inglés de la tabla pasan a ser ejercicios de 
 | Hombros | Arrancada con pesa rusa a un brazo | Single-Arm Kettlebell Snatch |
 | Hombros | Equilibrio de arrancada | Snatch Balance |
 | Hombros | Envión en tijera | Split Jerk |
+| Hombros | Press alterno de pie con mancuernas | Standing Alternating Dumbbell Press |
+| Hombros | Press de hombro de pie con mancuerna a un brazo | Standing Single-Arm Dumbbell Shoulder Press |
 | Hombros | Remo al Mentón | Upright Rows |
 | Tríceps | Fondos en Banco | Bench Dips |
 | Tríceps | Extensión sobre Cabeza en Polea | Cable Overhead Extension |

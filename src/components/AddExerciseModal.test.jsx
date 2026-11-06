@@ -16,6 +16,13 @@ const renderModal = (language = 'en') =>
 const equipmentSelect = (name) => screen.getByRole('combobox', { name });
 
 describe('AddExerciseModal equipment filter', () => {
+    it('finds a new variation by its Spanish name and keeps the equipment filter', () => {
+        renderModal();
+        fireEvent.change(equipmentSelect('Filter by Equipment'), { target: { value: 'band' } });
+        fireEvent.change(screen.getByPlaceholderText(/Search exercises/), { target: { value: 'dominada asistida' } });
+        expect(screen.getByText('Band-Assisted Pull-Up')).toBeInTheDocument();
+        expect(screen.queryByText('Pull-Ups')).toBeNull();
+    });
     it('finds functional movements across the preselected muscle group and filters ring equipment', () => {
         render(<AddExerciseModal isOpen onClose={() => {}} onAddExercise={() => {}} muscleGroup="Chest" />);
         fireEvent.click(screen.getByRole('button', { name: /Functional fitness/ }));

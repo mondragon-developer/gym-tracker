@@ -5,9 +5,9 @@ This document lets the chatbot answer "does the app have X?" accurately. **How t
 ## Available today
 
 - 6-day Push/Pull/Legs default plan, fully customizable per day (up to 3 muscle-group labels, Rest days)
-- 213-exercise library in 10 categories + custom exercise creation
+- 225-exercise library in 10 categories + custom exercise creation
 - Strength tracking (sets/reps/weight) and time-based Cardio & Combat tracking (minutes)
-- ▶ visual demonstrations for 184 exercises (152 photo pairs and 32 downloadable two-position GIFs)
+- ▶ visual demonstrations for 196 exercises (152 legacy photo pairs, 12 static photo pairs and 32 downloadable two-position GIFs)
 - **Equipment filter** in the exercise library (barbell, dumbbell, cable, machines, body weight, ...), combined with name search and the muscle-group filter
 - **Rest timer** under the weekly progress bar: presets (0:30-2:00), pause/resume, and a sound when the rest ends. It keeps time in the background, and with notifications allowed the phone gets an end-of-rest notification even from another app or with the screen locked (iPhone: app added to the home screen, iOS 16.4+)
 - Trainers can **email client invitations** from their panel (invite-by-email field); the signup link assigns the client automatically

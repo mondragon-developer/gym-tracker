@@ -33,3 +33,24 @@ describe('GIF exercise demos', () => {
     expect(await screen.findByText('How to perform')).toBeInTheDocument();
   });
 });
+
+describe('static photo references', () => {
+  it('shows both described photos without autoplay or a misleading start/end label', async () => {
+    render(<ExerciseDemoModal exercise={{ dbId: 282, name: 'Neutral-Grip Dumbbell Bench Press' }} onClose={() => {}} />);
+    expect(await screen.findByRole('img', { name: /Dumbbells above the chest/ })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: /Dumbbells lowered beside the chest/ })).toBeInTheDocument();
+    expect(screen.getByText('Reference photo 1')).toBeInTheDocument();
+    expect(screen.getByText('Reference photo 2')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Play demo|Pause demo/ })).toBeNull();
+    expect(screen.queryByRole('link', { name: 'Download GIF' })).toBeNull();
+  });
+
+  it('provides Spanish descriptions and keeps instructions if photos fail', async () => {
+    render(<ExerciseDemoModal exercise={{ dbId: 287, name: 'Bodyweight Jump Squat' }} language="es" onClose={() => {}} />);
+    const image = await screen.findByRole('img', { name: /Posición en el aire/ });
+    expect(screen.getByText('Foto de referencia 2')).toBeInTheDocument();
+    fireEvent.error(image);
+    expect(screen.getByRole('status')).toHaveTextContent('No se pudo cargar la demo');
+    expect(screen.getByText(/Aterriza suavemente/)).toBeInTheDocument();
+  });
+});

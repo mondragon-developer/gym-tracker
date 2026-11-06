@@ -23,7 +23,7 @@ writeFileSync(join(here, '..', 'EXERCISES.md'), [
     'Source: `src/constants/index.js`. Regenerate with `npm run build:plan-doc`.', '',
     'Choose **Browse functional fitness** in Add Exercise, or search **CrossFit**, to find Olympic lifts, kettlebell movements, gymnastics and conditioning. New IDs 246–277 include English/Spanish instructions and downloadable two-position GIF references. Intermediate phases are not shown. Technical lifts and gymnastics require appropriate progressions and coaching.', '',
     'Strength categories use sets, reps and weight. Cardio and Combat use minutes. Functional fitness is a discovery collection. The workout interface also supports EMOM, AMRAP and rounds-for-time; these timer configurations and results are separate from imported strength prescriptions.', '',
-    '184 exercises have photo references: 152 existing Supabase-hosted pairs and 32 app-hosted GIF pairs. Instructions may be available without photos. See [media provenance and licenses](THIRD_PARTY_NOTICES.md).', '',
+    '196 exercises have photo references: 152 existing Supabase-hosted pairs, 32 app-hosted GIF pairs and 12 app-hosted static photo pairs. IDs 278-289 include bilingual instructions and descriptions of each photograph. Instructions may be available without photos. See [media provenance and licenses](THIRD_PARTY_NOTICES.md).', '',
     ...[...new Set(EXERCISE_DATABASE.map(row => row.muscleGroup))].flatMap(group => {
         const rows = EXERCISE_DATABASE.filter(row => row.muscleGroup === group);
         return [`## ${group} (${rows.length})`, '', '| ID | Exercise | Ejercicio (ES) |', '|---|---|---|',
@@ -176,7 +176,7 @@ const readmePath = join(outDir, 'README.md');
 const readme = readFileSync(readmePath, 'utf8').replace(
     /## Suggested Chatbase system prompt[\s\S]*?(?=## Notes)/,
     '## Suggested Chatbase system prompt\n\nSource: `system-prompt.txt`. Paste it into Chatbase Instructions, not just Sources. Local edits do not publish the live agent.\n\n' +
-        systemPrompt.split('\n').map(line => line ? '> ' + line : '>').join('\n') + '\n\n'
+        systemPrompt.split(/\r?\n/).map(line => line ? '> ' + line : '>').join('\n') + '\n\n'
 );
 writeFileSync(readmePath, readme, 'utf8');
 // README.md stays for GitHub; README.txt is the same text for the Chatbase upload.

@@ -85,7 +85,7 @@ Exact English or Spanish names from the table become library exercises with thei
 | Cardio | Cardio |
 | Combat | Combate |
 
-## Exercise names (213 entries)
+## Exercise names (225 entries)
 
 | Group | English name | Spanish name |
 |---|---|---|
@@ -106,14 +106,17 @@ Exact English or Spanish names from the table become library exercises with thei
 | Abs | Russian Twists | Giros Rusos |
 | Abs | Scissor Kicks | Tijeras |
 | Abs | Side Plank | Plancha Lateral |
+| Abs | Spider Crawl | Desplazamiento de araña |
 | Abs | Toe Touches | Toques de Punta |
 | Abs | V-Ups | Abdominales en V |
 | Abs | Wood Choppers | Leñador |
+| Back | Band-Assisted Pull-Up | Dominada asistida con banda |
 | Back | Barbell Shrugs | Encogimientos con Barra |
 | Back | Bent-Over Barbell Rows | Remo con Barra Inclinado |
 | Back | Bent-Over Dumbbell Rows | Remo Inclinado con Mancuernas |
 | Back | Bodyweight Back Extensions | Extensiones de Espalda sin Banco |
 | Back | Cable Shrugs | Encogimientos en Polea |
+| Back | Chest-Supported Incline Dumbbell Row | Remo con mancuernas y pecho apoyado en banco inclinado |
 | Back | Chin-ups | Dominadas Supinas |
 | Back | Clean Pull | Tirón de cargada |
 | Back | Dumbbell Shrugs | Encogimientos con Mancuernas |
@@ -121,6 +124,7 @@ Exact English or Spanish names from the table become library exercises with thei
 | Back | Farmer's Walk | Paseo del Granjero |
 | Back | Hyperextensions (Back Extensions) | Hiperextensiones (Extensiones de Espalda) |
 | Back | Inverted Rows | Remo Invertido |
+| Back | Kettlebell Renegade Row | Remo renegado con pesas rusas |
 | Back | Kettlebell Sumo High Pull | Tirón alto sumo con pesa rusa |
 | Back | Kipping Ring Muscle-Up | Muscle-up en anillas con impulso |
 | Back | Lat Pulldowns | Jalón al Pecho |
@@ -186,8 +190,11 @@ Exact English or Spanish names from the table become library exercises with thei
 | Chest | Incline Push-Ups | Flexiones Inclinadas |
 | Chest | Landmine Press | Press con Mina Terrestre |
 | Chest | Machine Chest Press | Press de Pecho en Máquina |
+| Chest | Neutral-Grip Dumbbell Bench Press | Press de banca con mancuernas y agarre neutro |
+| Chest | Partner Medicine Ball Chest Pass | Pase de pecho con balón medicinal en pareja |
 | Chest | Pec Deck Machine | Máquina Peck Deck |
 | Chest | Push-Ups | Flexiones |
+| Chest | Ring Push-Up | Flexión en anillas |
 | Combat | Boxing Footwork Drills | Juego de Pies de Boxeo |
 | Combat | Defensive Drills (Slips & Rolls) | Defensa (Esquivas y Giros) |
 | Combat | Double-End Bag | Pera de Doble Anclaje |
@@ -213,6 +220,7 @@ Exact English or Spanish names from the table become library exercises with thei
 | Legs | Barbell Clean | Cargada con barra |
 | Legs | Barbell Hip Thrusts | Empuje de Cadera |
 | Legs | Barbell Squats | Sentadillas con Barra |
+| Legs | Bodyweight Jump Squat | Sentadilla con salto sin peso |
 | Legs | Box Jumps | Saltos al Cajón |
 | Legs | Bulgarian Split Squats | Sentadillas Búlgaras |
 | Legs | Cable Kickbacks | Patada de Glúteo en Polea |
@@ -224,6 +232,7 @@ Exact English or Spanish names from the table become library exercises with thei
 | Legs | Dumbbell Calf Raises | Elevaciones de Gemelos con Mancuernas |
 | Legs | Dumbbell Clean | Cargada con mancuernas |
 | Legs | Dumbbell Lunges | Zancadas con Mancuernas |
+| Legs | Dumbbell Reverse Lunge | Zancada hacia atrás con mancuernas |
 | Legs | Dumbbell Romanian Deadlifts | Peso Muerto Rumano con Mancuernas |
 | Legs | Dumbbell Squats | Sentadillas con Mancuernas |
 | Legs | Dumbbell Step-Ups | Subidas al Cajón con Mancuernas |
@@ -238,6 +247,7 @@ Exact English or Spanish names from the table become library exercises with thei
 | Legs | Jump Rope | Saltar la Cuerda |
 | Legs | Kettlebell Swings | Balanceo con Kettlebell |
 | Legs | Kettlebell Thruster | Thruster con pesas rusas |
+| Legs | Lateral Bound | Salto lateral |
 | Legs | Leg Extensions | Extensiones de Cuádriceps |
 | Legs | Leg Press | Prensa de Piernas |
 | Legs | Lunges | Zancadas |
@@ -288,6 +298,8 @@ Exact English or Spanish names from the table become library exercises with thei
 | Shoulders | Single-Arm Kettlebell Snatch | Arrancada con pesa rusa a un brazo |
 | Shoulders | Snatch Balance | Equilibrio de arrancada |
 | Shoulders | Split Jerk | Envión en tijera |
+| Shoulders | Standing Alternating Dumbbell Press | Press alterno de pie con mancuernas |
+| Shoulders | Standing Single-Arm Dumbbell Shoulder Press | Press de hombro de pie con mancuerna a un brazo |
 | Shoulders | Upright Rows | Remo al Mentón |
 | Triceps | Bench Dips | Fondos en Banco |
 | Triceps | Cable Overhead Extension | Extensión sobre Cabeza en Polea |

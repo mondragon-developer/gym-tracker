@@ -1,0 +1,1177 @@
+{
+  "researchedAt": "2026-11-06",
+  "scope": "Research only. No app catalog additions, production uploads or deployment.",
+  "inventory": {
+    "total": 213,
+    "mediaMapped": 184,
+    "missingMedia": [
+      {
+        "id": 153,
+        "name": "Landmine Press",
+        "muscleGroup": "Chest"
+      },
+      {
+        "id": 157,
+        "name": "Meadows Rows",
+        "muscleGroup": "Back"
+      },
+      {
+        "id": 122,
+        "name": "Towel Pull-Ups",
+        "muscleGroup": "Forearms"
+      },
+      {
+        "id": 169,
+        "name": "Dead Hangs",
+        "muscleGroup": "Forearms"
+      },
+      {
+        "id": 171,
+        "name": "Gripper Training",
+        "muscleGroup": "Forearms"
+      },
+      {
+        "id": 176,
+        "name": "Wall Sits",
+        "muscleGroup": "Legs"
+      },
+      {
+        "id": 184,
+        "name": "Bird Dog",
+        "muscleGroup": "Abs"
+      },
+      {
+        "id": 188,
+        "name": "Hollow Body Hold",
+        "muscleGroup": "Abs"
+      },
+      {
+        "id": 199,
+        "name": "Burpees",
+        "muscleGroup": "Cardio"
+      },
+      {
+        "id": 200,
+        "name": "High Knees",
+        "muscleGroup": "Cardio"
+      },
+      {
+        "id": 201,
+        "name": "Swimming",
+        "muscleGroup": "Cardio"
+      },
+      {
+        "id": 203,
+        "name": "Jumping Jacks",
+        "muscleGroup": "Cardio"
+      },
+      {
+        "id": 204,
+        "name": "Sprint Intervals",
+        "muscleGroup": "Cardio"
+      },
+      {
+        "id": 205,
+        "name": "Boxing",
+        "muscleGroup": "Cardio"
+      },
+      {
+        "id": 206,
+        "name": "Assault Bike",
+        "muscleGroup": "Cardio"
+      },
+      {
+        "id": 208,
+        "name": "Sled Pull",
+        "muscleGroup": "Cardio"
+      },
+      {
+        "id": 209,
+        "name": "Ski Erg",
+        "muscleGroup": "Cardio"
+      },
+      {
+        "id": 211,
+        "name": "Shadowboxing",
+        "muscleGroup": "Combat"
+      },
+      {
+        "id": 212,
+        "name": "Heavy Bag Rounds",
+        "muscleGroup": "Combat"
+      },
+      {
+        "id": 213,
+        "name": "Speed Bag",
+        "muscleGroup": "Combat"
+      },
+      {
+        "id": 214,
+        "name": "Double-End Bag",
+        "muscleGroup": "Combat"
+      },
+      {
+        "id": 215,
+        "name": "Pad Work (Mitts)",
+        "muscleGroup": "Combat"
+      },
+      {
+        "id": 216,
+        "name": "Sparring",
+        "muscleGroup": "Combat"
+      },
+      {
+        "id": 217,
+        "name": "Kickboxing Rounds",
+        "muscleGroup": "Combat"
+      },
+      {
+        "id": 218,
+        "name": "Kicking Drills",
+        "muscleGroup": "Combat"
+      },
+      {
+        "id": 219,
+        "name": "Boxing Footwork Drills",
+        "muscleGroup": "Combat"
+      },
+      {
+        "id": 220,
+        "name": "Defensive Drills (Slips & Rolls)",
+        "muscleGroup": "Combat"
+      },
+      {
+        "id": 221,
+        "name": "Grappling Drills",
+        "muscleGroup": "Combat"
+      },
+      {
+        "id": 222,
+        "name": "MMA Conditioning Circuit",
+        "muscleGroup": "Combat"
+      }
+    ],
+    "note": "Mapping availability is not a live URL or runtime playback test."
+  },
+  "source": {
+    "repository": "https://github.com/yuhonas/free-exercise-db",
+    "revision": "f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5",
+    "licenseDeclared": "Unlicense",
+    "licenseUrl": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/LICENSE.md",
+    "rightsNote": "Repository-level license declaration, not independent verification of each original photograph."
+  },
+  "photoCandidates": [
+    {
+      "category": "Functional training",
+      "name": "Alternating Renegade Row",
+      "sourceId": "Alternating_Renegade_Row",
+      "sourceEquipment": "kettlebells",
+      "sourceLevel": "expert",
+      "format": "two reference photographs",
+      "status": "preferred initial still-pair candidate",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Alternating_Renegade_Row/0.jpg",
+          "sha256": "a85127300a8dcb1d926437e2d30180bdc283bc31b3d18f420f57283e35e694fc",
+          "bytes": 33835,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 569,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Alternating_Renegade_Row/1.jpg",
+          "sha256": "3c18e0bd11d4ac3cd601bec55a589ad6114278e569ea048dc07b7162036a649e",
+          "bytes": 32913,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 569,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Photos show kettlebells. Do not label this as the dumbbell variation.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Functional training",
+      "name": "Overhead Slam",
+      "sourceId": "Overhead_Slam",
+      "sourceEquipment": "medicine ball",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "hold for clearer media or continuous clip",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Overhead_Slam/0.jpg",
+          "sha256": "7f36e638f03af6a59b024337fd5dfb11431b578ddc2bb4cd81d6b5fc4772ac8b",
+          "bytes": 79171,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 1275,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Overhead_Slam/1.jpg",
+          "sha256": "8af6fdaaa65fe372c64284c8160a67ad93a102fe6ccbef5de80fb052d6346b03",
+          "bytes": 86017,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 1275,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "No impact or complete release shown; prefer a continuous clip.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Functional training",
+      "name": "Medicine Ball Chest Pass",
+      "sourceId": "Medicine_Ball_Chest_Pass",
+      "sourceEquipment": "medicine ball",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "preferred initial still-pair candidate",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Medicine_Ball_Chest_Pass/0.jpg",
+          "sha256": "e5a1180336164dea6c017287e5766a2587ce73596245ccddfe2274e86e25101e",
+          "bytes": 51399,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Medicine_Ball_Chest_Pass/1.jpg",
+          "sha256": "566654af5a25fd68636b5d273d91f10f1d42f08aeef6f7ca565d10ee77f53b5e",
+          "bytes": 50964,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Photos show a partner drill; list partner and ball as requirements.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Functional training",
+      "name": "Medicine Ball Scoop Throw",
+      "sourceId": "Medicine_Ball_Scoop_Throw",
+      "sourceEquipment": "medicine ball",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "hold for clearer media or continuous clip",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Medicine_Ball_Scoop_Throw/0.jpg",
+          "sha256": "711f2456b8678ffb3b0e89e1163d1f02ee598a2c366c9cd5db5b945c8d43e61f",
+          "bytes": 75351,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Medicine_Ball_Scoop_Throw/1.jpg",
+          "sha256": "daefa5812e1d247bc309499821e45ad0821a4f27aaf682116a5a1de0b9838398",
+          "bytes": 76250,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Photos do not show full flight and landing; prefer a continuous clip.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Functional training",
+      "name": "Sledgehammer Swings",
+      "sourceId": "Sledgehammer_Swings",
+      "sourceEquipment": "other",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "hold for clearer media or continuous clip",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Sledgehammer_Swings/0.jpg",
+          "sha256": "b9c81c2d92e84b71191edb71bc7689749bb16e1ba406d672a042879ef371907f",
+          "bytes": 74571,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Sledgehammer_Swings/1.jpg",
+          "sha256": "125a77ec2603971d4b3b26c108440fae695e298b55975a64823f5c4de89b6dda",
+          "bytes": 76000,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Only two swing positions; prefer a continuous clip and equipment context.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Functional training",
+      "name": "Tire Flip",
+      "sourceId": "Tire_Flip",
+      "sourceEquipment": "other",
+      "sourceLevel": "intermediate",
+      "format": "two reference photographs",
+      "status": "hold for clearer media or continuous clip",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Tire_Flip/0.jpg",
+          "sha256": "7ef98dd2f945f896185742e7a662a8f41f72f477d1a912f92144561a34cbdffd",
+          "bytes": 37758,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Tire_Flip/1.jpg",
+          "sha256": "86c7540d92d8b574b63958eb91f2fe3c63d95f0e9bed4b46f97a83100f9ac5e4",
+          "bytes": 36192,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "No final upright or push-over phase; prefer a complete sequence.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Free weights",
+      "name": "Dumbbell Incline Row",
+      "sourceId": "Dumbbell_Incline_Row",
+      "sourceEquipment": "dumbbell",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "preferred initial still-pair candidate",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Incline_Row/0.jpg",
+          "sha256": "6bdf4dd4c46fd9d50abe73802d49c87f3714dfd05774595e902a5b1765b45d46",
+          "bytes": 98338,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Incline_Row/1.jpg",
+          "sha256": "8c0cc8f09e194825429a0e7b6c96d9a2a85a5ac6005cf25d31ab65b04adfe739",
+          "bytes": 99049,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Chest-supported incline variation is visible; distinct from existing bent-over rows.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Free weights",
+      "name": "Dumbbell Rear Lunge",
+      "sourceId": "Dumbbell_Rear_Lunge",
+      "sourceEquipment": "dumbbell",
+      "sourceLevel": "intermediate",
+      "format": "two reference photographs",
+      "status": "preferred initial still-pair candidate",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Rear_Lunge/0.jpg",
+          "sha256": "c89ef2d68e66077a7c416c8ae634a9772b138ab387ba93742ba097dc1596ada4",
+          "bytes": 51169,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Rear_Lunge/1.jpg",
+          "sha256": "e095d56b39fbae3789abcc56bdda9f278147e45a9da777186ff3d7f686bf8a3b",
+          "bytes": 49129,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Label reverse lunge clearly; retain distinction from existing crossover reverse lunge.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Free weights",
+      "name": "Dumbbell Bench Press with Neutral Grip",
+      "sourceId": "Dumbbell_Bench_Press_with_Neutral_Grip",
+      "sourceEquipment": "dumbbell",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "preferred initial still-pair candidate",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Bench_Press_with_Neutral_Grip/0.jpg",
+          "sha256": "18c2f927a4a070b4702db0cf623526cb304bce687b321f9bc14302945ded3e73",
+          "bytes": 96451,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Bench_Press_with_Neutral_Grip/1.jpg",
+          "sha256": "e4c01b6340d39dc92c33e732830a470fb73b6164ab30aae35b6004f8343c93ab",
+          "bytes": 95731,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Grip variation is visible. Source photo order is extended arms then lowered weights, not start then finish.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Free weights",
+      "name": "Dumbbell One-Arm Shoulder Press",
+      "sourceId": "Dumbbell_One-Arm_Shoulder_Press",
+      "sourceEquipment": "dumbbell",
+      "sourceLevel": "intermediate",
+      "format": "two reference photographs",
+      "status": "preferred initial still-pair candidate",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_One-Arm_Shoulder_Press/0.jpg",
+          "sha256": "0a158a261801d982a288f59a69299d08a347a593b770e2d12f342131af7eae6a",
+          "bytes": 59478,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_One-Arm_Shoulder_Press/1.jpg",
+          "sha256": "fb47b91cfd5406ae6d1396ee89b1cc81eff4c45c3286e943c9f29ddc0842f374",
+          "bytes": 59520,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Single-arm variant, not a duplicate of the bilateral shoulder press.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Free weights",
+      "name": "Standing Alternating Dumbbell Press",
+      "sourceId": "Standing_Alternating_Dumbbell_Press",
+      "sourceEquipment": "dumbbell",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "preferred initial still-pair candidate",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Alternating_Dumbbell_Press/0.jpg",
+          "sha256": "9eba2b2e29ecb3e6b0cf3606ac8315f30e25e72ee5dcfbd5eeb662894cb4159a",
+          "bytes": 76248,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Alternating_Dumbbell_Press/1.jpg",
+          "sha256": "54adc58f5a8743730d6d68796bace163bbd8c2287a2eaa377c2c1ee3fc0c8f6b",
+          "bytes": 76595,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Only one side of the alternating pattern shown; explain the other side in text.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Free weights",
+      "name": "Dumbbell Scaption",
+      "sourceId": "Dumbbell_Scaption",
+      "sourceEquipment": "dumbbell",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "hold for clearer media or continuous clip",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Scaption/0.jpg",
+          "sha256": "38f97aa4f4ca62bba0f072fd7c4e6695705c8b5c0079a6bf28dba3bf4446fed1",
+          "bytes": 64408,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Scaption/1.jpg",
+          "sha256": "5203eab981041875b83ee241397e65a0eb8f6f421ddbaeae9b40fae1cd0aff9d",
+          "bytes": 65280,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Frontal view does not clearly establish the intended raising plane; find a clearer angle.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Calisthenics",
+      "name": "Band Assisted Pull-Up",
+      "sourceId": "Band_Assisted_Pull-Up",
+      "sourceEquipment": "other",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "preferred initial still-pair candidate",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Band_Assisted_Pull-Up/0.jpg",
+          "sha256": "7af060c6c064e6e8a074add38c950dc59f93801ecd54b7d652172bd9800b034d",
+          "bytes": 95314,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 1275,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Band_Assisted_Pull-Up/1.jpg",
+          "sha256": "edc82e3a48ec624be2b920262d99399d055b96333850579b22fefa7375768a30",
+          "bytes": 100304,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 1275,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Assistance variation; explain band setup separately from the two poses.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Calisthenics",
+      "name": "Push Up to Side Plank",
+      "sourceId": "Push_Up_to_Side_Plank",
+      "sourceEquipment": "body only",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "rejected media pair",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Push_Up_to_Side_Plank/0.jpg",
+          "sha256": "1e6ab73e9983ecedbf5a563ede5b41d1ff47b499c081ce3f72c623e48756cd39",
+          "bytes": 40866,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Push_Up_to_Side_Plank/1.jpg",
+          "sha256": "074c2525f339b03d24c8f0dfc9906a348895ef33d5eceeb42332c4e9ab8f36a7",
+          "bytes": 42449,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Rejected pair: both photos show the push-up phase, neither shows side plank.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Calisthenics",
+      "name": "Spider Crawl",
+      "sourceId": "Spider_Crawl",
+      "sourceEquipment": "body only",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "preferred initial still-pair candidate",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Spider_Crawl/0.jpg",
+          "sha256": "a3db3cf8cf5cd939b8690b3ff8a5d1e2789a189fe59173095640ca899a9091e1",
+          "bytes": 42091,
+          "httpStatus": 200,
+          "width": 750,
+          "height": 500,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Spider_Crawl/1.jpg",
+          "sha256": "4a4b541741c705c3344965ed2e3a6761a8a31acb8bdf3b0caec624d1d3ac8366",
+          "bytes": 41753,
+          "httpStatus": 200,
+          "width": 750,
+          "height": 500,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Two positions only; text must explain alternating sides and travel.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Calisthenics",
+      "name": "Plyo Push-up",
+      "sourceId": "Plyo_Push-up",
+      "sourceEquipment": "body only",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "hold for clearer media or continuous clip",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Plyo_Push-up/0.jpg",
+          "sha256": "c025801d0c087fe060cb029b8fef6fa8a5980ac79f208fffc3f0bf9096c6d7e5",
+          "bytes": 53226,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Plyo_Push-up/1.jpg",
+          "sha256": "211f4ee9312918e55d9ad0fe205e37ea3e1b978942cfbceab9d08caa53ba8747",
+          "bytes": 52649,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Flight phase is difficult to judge from the pair; prefer a continuous clip.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Calisthenics",
+      "name": "Freehand Jump Squat",
+      "sourceId": "Freehand_Jump_Squat",
+      "sourceEquipment": "body only",
+      "sourceLevel": "intermediate",
+      "format": "two reference photographs",
+      "status": "preferred initial still-pair candidate",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Freehand_Jump_Squat/0.jpg",
+          "sha256": "6efb2bc42ce6554aa70b8b4e1643e41d539342117ac1ad39327790eedd2f87ed",
+          "bytes": 69522,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Freehand_Jump_Squat/1.jpg",
+          "sha256": "269e6d3308ead7b95a1b0c8ce102ce1bd892507e680740bde3b38bf20949ae97",
+          "bytes": 66114,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Squat and airborne positions visible; landing is absent and needs instruction.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Calisthenics",
+      "name": "Suspended Push-Up",
+      "sourceId": "Suspended_Push-Up",
+      "sourceEquipment": "other",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "preferred initial still-pair candidate",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Suspended_Push-Up/0.jpg",
+          "sha256": "2f73e37b4a2defc15f4f73f2bbcff27cb1942cd1a02c168357ad487df2081ea8",
+          "bytes": 64667,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Suspended_Push-Up/1.jpg",
+          "sha256": "5be0bc94e6e65da28f0c63fcb1da2dba684401eb8818fe349f4a670bf403bf93",
+          "bytes": 68067,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Photos show rings. Equipment should be rings, not an unspecified machine.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Athletic conditioning",
+      "name": "Lateral Bound",
+      "sourceId": "Lateral_Bound",
+      "sourceEquipment": "body only",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "preferred initial still-pair candidate",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Lateral_Bound/0.jpg",
+          "sha256": "0cfa2c12cae9bf09b005a8c68dae109060495e8c8ddca53f229cc0b973b3d653",
+          "bytes": 32542,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Lateral_Bound/1.jpg",
+          "sha256": "aed75d51ea6b9ebc85bd4517fb85a94df26a276ddd617f491c56d8d40c5b0110",
+          "bytes": 37248,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Lateral positions visible; a clip would communicate direction and landing better.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Athletic conditioning",
+      "name": "Lateral Cone Hops",
+      "sourceId": "Lateral_Cone_Hops",
+      "sourceEquipment": "other",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "hold for clearer media or continuous clip",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Lateral_Cone_Hops/0.jpg",
+          "sha256": "15a49473d4ac15fcc23d8fb11f3dd63d98c2954d900d74fe0d81664919001f95",
+          "bytes": 41950,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Lateral_Cone_Hops/1.jpg",
+          "sha256": "561495d3477f9c7c3d8f8422cc734adbc8f9776bca8ef21df6dae4886d44f772",
+          "bytes": 40621,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Prefer clip or third landing frame for direction and rhythm.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Athletic conditioning",
+      "name": "Front Cone Hops (or hurdle hops)",
+      "sourceId": "Front_Cone_Hops_or_hurdle_hops",
+      "sourceEquipment": "other",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "hold for clearer media or continuous clip",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Front_Cone_Hops_or_hurdle_hops/0.jpg",
+          "sha256": "4418215681ed1b5824aa89042d2a768b72b9a541b78b442e6448fd0535402209",
+          "bytes": 51693,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 1275,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Front_Cone_Hops_or_hurdle_hops/1.jpg",
+          "sha256": "dc33221ef92e836a9381cee894e138a6089a57d026197dea19689c07164e38e1",
+          "bytes": 55624,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 1275,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Dark photos and incomplete landing sequence; replace before publishing.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Athletic conditioning",
+      "name": "Single-Cone Sprint Drill",
+      "sourceId": "Single-Cone_Sprint_Drill",
+      "sourceEquipment": "other",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "hold for clearer media or continuous clip",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Single-Cone_Sprint_Drill/0.jpg",
+          "sha256": "9c2fb9a8aa04e7e07b8444d7891191cabba748ad707109212e05dd88be8ba99c",
+          "bytes": 52995,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Single-Cone_Sprint_Drill/1.jpg",
+          "sha256": "a18374e489d89752bde8b5f07733262a075f35466411cc5005b3282fdfef5d44",
+          "bytes": 52814,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Pair does not establish full route; add an original route diagram or clip.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Athletic conditioning",
+      "name": "Single-Leg Hop Progression",
+      "sourceId": "Single-Leg_Hop_Progression",
+      "sourceEquipment": "other",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "hold for clearer media or continuous clip",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Single-Leg_Hop_Progression/0.jpg",
+          "sha256": "94ec0d8b664b87f648617fbae3b5924dc136e003a17da71b1f6005294c695e38",
+          "bytes": 78274,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Single-Leg_Hop_Progression/1.jpg",
+          "sha256": "4b49e474fdb989dec259b19e2a402f7ec04ac40d80b653355010ba4353c595e3",
+          "bytes": 77300,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Two poses cannot demonstrate all progressions; narrow the exercise or use a clip.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    },
+    {
+      "category": "Athletic conditioning",
+      "name": "Standing Long Jump",
+      "sourceId": "Standing_Long_Jump",
+      "sourceEquipment": "body only",
+      "sourceLevel": "beginner",
+      "format": "two reference photographs",
+      "status": "hold for clearer media or continuous clip",
+      "visualReview": "Both images inspected on a contact sheet, 2026-11-06",
+      "exactSourceAlreadyMapped": false,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Long_Jump/0.jpg",
+          "sha256": "3ee4b3d3686684ea3adfd0af938d546a95ae75e5e045d4b675f5de1bf01011a5",
+          "bytes": 36834,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Long_Jump/1.jpg",
+          "sha256": "6fd7f6db747834055b4fce943b824157115bb323484a140c700a6a66396d2ab4",
+          "bytes": 36097,
+          "httpStatus": 200,
+          "width": 850,
+          "height": 567,
+          "decodedFormat": "JPEG"
+        }
+      ],
+      "reviewNotes": "Take-off shown but no landing; seek a third frame or clip.",
+      "techniqueReview": "Editorial screening only, not a coaching certification"
+    }
+  ],
+  "coachingReferences": [
+    {
+      "category": "CrossFit movements",
+      "name": "Wall-ball shot",
+      "url": "https://www.crossfit.com/essentials/the-wall-ball",
+      "locator": "Official movement page",
+      "relationship": "new movement candidate",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "CrossFit movements",
+      "name": "Barbell thruster",
+      "url": "https://www.crossfit.com/essentials/the-thruster",
+      "locator": "Official movement page",
+      "relationship": "new movement candidate",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "CrossFit movements",
+      "name": "Dumbbell thruster",
+      "url": "https://www.crossfit.com/essentials/the-dumbbell-thruster",
+      "locator": "Official movement page",
+      "relationship": "new movement candidate",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "CrossFit movements",
+      "name": "Double-under",
+      "url": "https://www.crossfit.com/essentials/the-double-under",
+      "locator": "Official movement page",
+      "relationship": "new movement candidate",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "CrossFit movements",
+      "name": "Kipping toes-to-bar",
+      "url": "https://www.crossfit.com/essentials/the-kipping-toes-to-bar",
+      "locator": "Official movement page",
+      "relationship": "new movement candidate",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "CrossFit movements",
+      "name": "Dumbbell power snatch",
+      "url": "https://www.crossfit.com/essentials/the-dumbbell-power-snatch",
+      "locator": "Official movement page",
+      "relationship": "new movement candidate",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "Boxing",
+      "name": "Jab practice",
+      "url": "https://www.englandboxing.org/members/stay-active/",
+      "locator": "Developing the jab",
+      "relationship": "Specific drill under existing Shadowboxing",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "Boxing",
+      "name": "Virtual pad combinations",
+      "url": "https://www.englandboxing.org/members/stay-active/",
+      "locator": "Three combinations using virtual pad work",
+      "relationship": "Specific drill under existing Pad Work (Mitts)",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "Boxing",
+      "name": "Check hook",
+      "url": "https://www.englandboxing.org/members/stay-active/",
+      "locator": "How to throw the check hook",
+      "relationship": "Specific drill under existing Shadowboxing",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "Boxing",
+      "name": "Double-step footwork",
+      "url": "https://www.englandboxing.org/members/stay-active/",
+      "locator": "The double step",
+      "relationship": "Specific drill under existing Boxing Footwork Drills",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "Boxing",
+      "name": "Agility ladder boxing footwork",
+      "url": "https://www.englandboxing.org/members/stay-active/",
+      "locator": "Footwork drills using agility ladder",
+      "relationship": "Specific drill under existing Boxing Footwork Drills",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "Boxing",
+      "name": "Head movement practice",
+      "url": "https://www.englandboxing.org/members/stay-active/",
+      "locator": "Head movement drills",
+      "relationship": "Specific drill under existing Defensive Drills (Slips & Rolls)",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "Soccer ball skills",
+      "name": "Inside-foot alternating touches",
+      "url": "https://www.fifatrainingcentre.com/en/practice/elite-sessions/in-possession/mastering-ball-control.php",
+      "locator": "Part 1, inside-foot variation",
+      "relationship": "new drill candidate",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "Soccer ball skills",
+      "name": "Sole-to-sole transfers",
+      "url": "https://www.fifatrainingcentre.com/en/practice/elite-sessions/in-possession/mastering-ball-control.php",
+      "locator": "Part 1, sole variation",
+      "relationship": "new drill candidate",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "Soccer ball skills",
+      "name": "Outside touch and sole pullback",
+      "url": "https://www.fifatrainingcentre.com/en/practice/elite-sessions/in-possession/mastering-ball-control.php",
+      "locator": "Part 1, outside-foot and sole variation",
+      "relationship": "new drill candidate",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "Soccer ball skills",
+      "name": "Cruyff turn",
+      "url": "https://www.fifatrainingcentre.com/en/practice/elite-sessions/in-possession/mastering-ball-control.php",
+      "locator": "Part 1, Cruyff turns",
+      "relationship": "new drill candidate",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "Soccer ball skills",
+      "name": "Low ball juggling",
+      "url": "https://www.fifatrainingcentre.com/en/practice/elite-sessions/in-possession/mastering-ball-control.php",
+      "locator": "Part 1, juggling below hip height",
+      "relationship": "new drill candidate",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    },
+    {
+      "category": "Soccer ball skills",
+      "name": "Wall passing and first touch",
+      "url": "https://www.arlingtonsoccer.com/recplayerresources",
+      "locator": "Train Like a Pro - Wall Passing Drills",
+      "relationship": "new drill candidate",
+      "status": "reference only",
+      "reuse": "No permission to download, trim, rehost or extract frames established",
+      "playback": "Full video playback and duration not verified",
+      "proposedAppFormat": "5-10 second original or licensed clip, with a static poster and text instructions"
+    }
+  ],
+  "exclusions": [
+    {
+      "url": "https://commons.wikimedia.org/wiki/File:Football_training_video.webm",
+      "reason": "Stop-motion film, unsuitable as a human technique demo."
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/File:Boxer.webm",
+      "reason": "Generic footage, movement suitability not visually verified."
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/File:Jab_bw.png",
+      "reason": "Single image only, not the requested sequence. CC BY-SA 4.0 requires attribution and applicable adaptation terms."
+    }
+  ],
+  "selection": {
+    "preferredStillPairs": 12,
+    "heldForBetterMedia": 11,
+    "rejectedPairs": 1,
+    "referenceOnlyDrills": 18
+  }
+}

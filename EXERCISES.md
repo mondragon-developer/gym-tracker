@@ -1,6 +1,6 @@
 # Exercise Library
 
-**213 exercises across 10 categories.**
+**225 exercises across 10 categories.**
 
 Source: `src/constants/index.js`. Regenerate with `npm run build:plan-doc`.
 
@@ -8,9 +8,9 @@ Choose **Browse functional fitness** in Add Exercise, or search **CrossFit**, to
 
 Strength categories use sets, reps and weight. Cardio and Combat use minutes. Functional fitness is a discovery collection. The workout interface also supports EMOM, AMRAP and rounds-for-time; these timer configurations and results are separate from imported strength prescriptions.
 
-184 exercises have photo references: 152 existing Supabase-hosted pairs and 32 app-hosted GIF pairs. Instructions may be available without photos. See [media provenance and licenses](THIRD_PARTY_NOTICES.md).
+196 exercises have photo references: 152 existing Supabase-hosted pairs, 32 app-hosted GIF pairs and 12 app-hosted static photo pairs. IDs 278-289 include bilingual instructions and descriptions of each photograph. Instructions may be available without photos. See [media provenance and licenses](THIRD_PARTY_NOTICES.md).
 
-## Chest (18)
+## Chest (21)
 
 | ID | Exercise | Ejercicio (ES) |
 |---|---|---|
@@ -32,8 +32,11 @@ Strength categories use sets, reps and weight. Cardio and Combat use minutes. Fu
 | 236 | Dumbbell Pullovers | Pullover con Mancuerna |
 | 240 | Incline Push-Ups | Flexiones Inclinadas |
 | 241 | Decline Push-Ups | Flexiones Declinadas |
+| 279 | Partner Medicine Ball Chest Pass | Pase de pecho con balón medicinal en pareja |
+| 282 | Neutral-Grip Dumbbell Bench Press | Press de banca con mancuernas y agarre neutro |
+| 288 | Ring Push-Up | Flexión en anillas |
 
-## Back (31)
+## Back (34)
 
 | ID | Exercise | Ejercicio (ES) |
 |---|---|---|
@@ -68,8 +71,11 @@ Strength categories use sets, reps and weight. Cardio and Combat use minutes. Fu
 | 275 | Ring Muscle-Up | Muscle-up en anillas |
 | 276 | Kipping Ring Muscle-Up | Muscle-up en anillas con impulso |
 | 277 | Rope Climb | Trepa de cuerda |
+| 278 | Kettlebell Renegade Row | Remo renegado con pesas rusas |
+| 280 | Chest-Supported Incline Dumbbell Row | Remo con mancuernas y pecho apoyado en banco inclinado |
+| 285 | Band-Assisted Pull-Up | Dominada asistida con banda |
 
-## Shoulders (28)
+## Shoulders (30)
 
 | ID | Exercise | Ejercicio (ES) |
 |---|---|---|
@@ -101,6 +107,8 @@ Strength categories use sets, reps and weight. Cardio and Combat use minutes. Fu
 | 268 | Single-Arm Kettlebell Push Press | Push press con pesa rusa a un brazo |
 | 269 | Double Kettlebell Push Press | Push press con dos pesas rusas |
 | 270 | Double Kettlebell Jerk | Envión con dos pesas rusas |
+| 283 | Standing Single-Arm Dumbbell Shoulder Press | Press de hombro de pie con mancuerna a un brazo |
+| 284 | Standing Alternating Dumbbell Press | Press alterno de pie con mancuernas |
 
 ## Biceps (12)
 
@@ -152,7 +160,7 @@ Strength categories use sets, reps and weight. Cardio and Combat use minutes. Fu
 | 171 | Gripper Training | Entrenamiento con Gripper |
 | 172 | Finger Curls | Curl de Dedos |
 
-## Legs (51)
+## Legs (54)
 
 | ID | Exercise | Ejercicio (ES) |
 |---|---|---|
@@ -207,8 +215,11 @@ Strength categories use sets, reps and weight. Cardio and Combat use minutes. Fu
 | 263 | Dumbbell Clean | Cargada con mancuernas |
 | 264 | Kettlebell Thruster | Thruster con pesas rusas |
 | 266 | Single-Arm Kettlebell Clean | Cargada con pesa rusa a un brazo |
+| 281 | Dumbbell Reverse Lunge | Zancada hacia atrás con mancuernas |
+| 287 | Bodyweight Jump Squat | Sentadilla con salto sin peso |
+| 289 | Lateral Bound | Salto lateral |
 
-## Abs (20)
+## Abs (21)
 
 | ID | Exercise | Ejercicio (ES) |
 |---|---|---|
@@ -232,6 +243,7 @@ Strength categories use sets, reps and weight. Cardio and Combat use minutes. Fu
 | 192 | Toe Touches | Toques de Punta |
 | 272 | Kettlebell Windmill | Molino con pesa rusa |
 | 273 | Kettlebell Turkish Get-Up | Levantamiento turco con pesa rusa |
+| 286 | Spider Crawl | Desplazamiento de araña |
 
 ## Cardio (18)
 

@@ -11,8 +11,9 @@ import FavoriteButton from './FavoriteButton.jsx';
 import ExerciseDemoModal from './ExerciseDemoModal.jsx';
 import { fold } from '../utils/textFold.js';
 import { FUNCTIONAL_IDS } from '../data/functionalExercises.js';
+import { PHOTO_EXERCISES } from '../data/photoExercises.js';
 
-const functionalIds = new Set([...FUNCTIONAL_IDS, 9, 99, 102, 132, 134, 143, 148, 149, 161, 170, 173, 174, 175, 177, 178, 180, 188, 195, 198, 199, 206, 207, 208, 209, 210]);
+const functionalIds = new Set([...FUNCTIONAL_IDS, ...PHOTO_EXERCISES.filter(ex => ex.functional).map(ex => ex.id), 9, 99, 102, 132, 134, 143, 148, 149, 161, 170, 173, 174, 175, 177, 178, 180, 188, 195, 198, 199, 206, 207, 208, 209, 210]);
 
 // A library exercise matches when the term appears in its English name or
 // its Spanish name, whatever language the UI is in.

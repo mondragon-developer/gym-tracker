@@ -27,7 +27,7 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
 
   // Alternate start/end frames to convey the movement.
   useEffect(() => {
-    if (!playing || !media || media.frames.length < 2) return;
+    if (!playing || !media || media.still || media.frames.length < 2) return;
     const timer = setInterval(() => setFrame(f => (f === 0 ? 1 : 0)), 900);
     return () => clearInterval(timer);
   }, [media, playing]);
@@ -58,7 +58,22 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
     <Modal isOpen onClose={onClose} title={`▶ ${translateExercise(exercise.name, language)}`} style={{ width: 560 }}>
       {media && !mediaFailed && (
         <div style={{ textAlign: 'center' }}>
-          <div style={{
+          {media.still ? (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 190px), 1fr))', gap: 16 }}>
+              {media.frames.map((src, index) => {
+                const label = language === 'es' ? `Foto de referencia ${index + 1}` : `Reference photo ${index + 1}`;
+                const description = enrichment?.photoDescriptions?.[language]?.[index] || enrichment?.photoDescriptions?.en?.[index];
+                return <figure key={src} style={{ margin: 0, minWidth: 0 }}>
+                  <img src={src} alt={description || `${translateExercise(exercise.name, language)}, ${label.toLowerCase()}`}
+                    loading="lazy" onError={() => setMediaFailed(true)}
+                    style={{ width: '100%', aspectRatio: '3 / 2', objectFit: 'contain', background: 'var(--surface-3)', borderRadius: 8 }} />
+                  <figcaption style={{ color: 'var(--text-2)', fontSize: 13, lineHeight: 1.5 }}>
+                    <strong>{label}</strong>{description && <div>{description}</div>}
+                  </figcaption>
+                </figure>;
+              })}
+            </div>
+          ) : <div style={{
             position: 'relative',
             width: '100%',
             maxWidth: '360px',
@@ -94,13 +109,13 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
                 }}
               />
             ))}
-          </div>
+          </div>}
           <p style={{ marginTop: '12px', fontSize: '13px', color: 'var(--text-3)' }}>
             {language === 'es' ? 'Dos posiciones de referencia. No se muestran las fases intermedias.' : 'Two reference positions. Intermediate phases are not shown.'}
           </p>
-          <button type="button" onClick={() => setPlaying(value => !value)} style={{ ...chipStyle, padding: '10px 14px', border: '1px solid var(--border-strong)', cursor: 'pointer', textTransform: 'none' }}>
+          {!media.still && <button type="button" onClick={() => setPlaying(value => !value)} style={{ ...chipStyle, padding: '10px 14px', border: '1px solid var(--border-strong)', cursor: 'pointer', textTransform: 'none' }}>
             {playing ? (language === 'es' ? 'Pausar demo' : 'Pause demo') : (language === 'es' ? 'Reproducir demo' : 'Play demo')}
-          </button>
+          </button>}
           {media.gif && <a href={media.gif} download style={{ marginLeft: 16, fontSize: 13, color: 'var(--info)' }}>
             {language === 'es' ? 'Descargar GIF' : 'Download GIF'}
           </a>}
@@ -141,7 +156,9 @@ export default function ExerciseDemoModal({ exercise, onClose, language = 'en' }
           </ol>
 
           <p style={{ marginTop: '14px', fontSize: '11px', color: 'var(--text-3)' }}>
-            {enrichment.source === 'free-exercise-db'
+            {media?.still
+              ? (language === 'es' ? 'Fotos: free-exercise-db (Unlicense). Instrucciones y descripciones: Gym Tracker.' : 'Photos: free-exercise-db (Unlicense). Instructions and descriptions: Gym Tracker.')
+              : enrichment.source === 'free-exercise-db'
               ? (language === 'es' ? 'Datos: free-exercise-db (Unlicense). Resumen en español: Gym Tracker.' : 'Data: free-exercise-db (Unlicense). Spanish summary: Gym Tracker.')
               : t('Exercise data from the open exercises-dataset (MIT)', language)}
           </p>
