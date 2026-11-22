@@ -16,6 +16,8 @@ const FeedbackModal = React.lazy(() => import('./components/FeedbackModal'));
 const AdminDashboard = React.lazy(() => import('./components/AdminDashboard'));
 // Lazy: only loads when the user opens the weekly summary.
 const WeeklySummaryModal = React.lazy(() => import('./components/WeeklySummaryModal'));
+const SquatPilotModal = import.meta.env.VITE_ENABLE_SQUAT_PILOT === 'true'
+    ? React.lazy(() => import('./components/SquatPilotModal.jsx')) : null;
 import LanguageToggle from './components/LanguageToggle';
 import UnitsToggle from './components/UnitsToggle';
 import ThemeToggle from './components/ThemeToggle';
@@ -82,6 +84,7 @@ function AppContent() {
     const { language } = useLanguage();
     const { isAdmin, isTrainer, user, role, roleLoaded, signOut } = useAuth();
     const [showAdmin, setShowAdmin] = useState(false);
+    const [squatPilotOpen, setSquatPilotOpen] = useState(false);
     // Custom hooks for state management (Single Responsibility)
     const {
         workoutPlan,
@@ -286,7 +289,7 @@ function AppContent() {
     // past week too: the preview offers the current week and later ones.
     // The trainer panel listens for its own pastes and aims them at the client.
     useEffect(() => {
-        if (showAdmin) return undefined;
+        if (showAdmin || squatPilotOpen) return undefined;
         const onPaste = (event) => {
             const target = event.target;
             const inField = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable);
@@ -299,7 +302,7 @@ function AppContent() {
         document.addEventListener('paste', onPaste);
         return () => document.removeEventListener('paste', onPaste);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [importModal.isOpen, showAdmin]);
+    }, [importModal.isOpen, showAdmin, squatPilotOpen]);
 
     const coachPlan = useCoachPlan();
 
@@ -600,6 +603,10 @@ function AppContent() {
                     >
                         📊 {t('Weekly Summary', language)}
                     </button>
+                    {SquatPilotModal && <button type="button" onClick={() => setSquatPilotOpen(true)}
+                        style={{ padding: '8px 14px', borderRadius: '10px', border: '1px solid var(--border)', backgroundColor: 'var(--surface)', color: 'var(--brand)', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
+                        Squat measurement pilot
+                    </button>}
                 </div>
 
                 {/* Progress Section */}
@@ -903,6 +910,9 @@ function AppContent() {
                 </Suspense>
             )}
 
+            {SquatPilotModal && squatPilotOpen && <Suspense fallback={lazyFallback}>
+                <SquatPilotModal onClose={() => setSquatPilotOpen(false)} />
+            </Suspense>}
             {focusDay && isViewingCurrent && workoutPlan[focusDay] && <Suspense fallback={lazyFallback}>
                 <FocusWorkoutModal key={`${viewedWeekStart}:${focusDay}`} day={focusDay} data={workoutPlan[focusDay]} history={historySnapshot} weekStart={viewedWeekStart}
                     onChange={data => updateDay(focusDay, data)} onClose={() => setFocusDay(null)} language={language}

@@ -38,3 +38,6 @@ temp/
 
 # Enrichment builder's cached copy of the 17MB source dataset (fetched on demand)
 scripts/enrichment/.cache/
+
+# Verified model cache, downloaded only for an explicitly enabled squat pilot.
+.cache/motion-assets/
