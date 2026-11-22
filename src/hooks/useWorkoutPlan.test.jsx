@@ -29,6 +29,11 @@ vi.mock('../services/StorageService.js', () => ({
   }
 }));
 
+vi.mock('../services/AppUpdateService.js', () => ({
+  appUpdates: { complete: () => window.location.reload(), resume: vi.fn(), protect: vi.fn(() => () => {}) }
+}));
+
+import { appUpdates } from '../services/AppUpdateService.js';
 import useWorkoutPlan, { SaveState } from './useWorkoutPlan.js';
 import WeekPlanService from '../services/WeekPlanService.js';
 import workoutService from '../services/workoutService.js';
@@ -48,6 +53,7 @@ const renderPlan = async () => {
 
 describe('useWorkoutPlan persistence', () => {
   beforeEach(() => {
+    mocks.user = { id: 'user-1' };
     vi.useFakeTimers({ shouldAdvanceTime: true });
     mocks.getWorkoutPlanRecord.mockReset();
     mocks.saveWorkoutPlan.mockReset();
@@ -59,7 +65,34 @@ describe('useWorkoutPlan persistence', () => {
   });
 
   afterEach(() => {
+    mocks.user = { id: 'user-1' };
+    delete document.visibilityState;
     vi.useRealTimers();
+  });
+
+  it('finishes the initial load when the tab returns before its response', async () => {
+    let resolveRead;
+    mocks.getWorkoutPlanRecord.mockImplementationOnce(() => new Promise(resolve => { resolveRead = resolve; }));
+    const { result } = renderHook(() => useWorkoutPlan());
+    act(() => {
+      Object.defineProperty(document, 'visibilityState', { value: 'visible', configurable: true });
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+    expect(mocks.getWorkoutPlanRecord).toHaveBeenCalledTimes(1);
+    await act(async () => resolveRead({ data: cloudHistory(), updatedAt: 'v1' }));
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.workoutPlan.Monday.name).toBe('Cloud Day');
+  });
+
+  it('does not migrate or remove local history after the reader unmounts', async () => {
+    let resolveRead;
+    mocks.getWorkoutPlanRecord.mockImplementationOnce(() => new Promise(resolve => { resolveRead = resolve; }));
+    mocks.localGet.mockReturnValue(cloudHistory());
+    const { unmount } = renderHook(() => useWorkoutPlan());
+    unmount();
+    await act(async () => resolveRead(null));
+    expect(mocks.saveWorkoutPlan).not.toHaveBeenCalled();
+    expect(mocks.localRemove).not.toHaveBeenCalled();
   });
 
   it('loads the cloud plan and never writes back on a plain load', async () => {
@@ -106,7 +139,7 @@ describe('useWorkoutPlan persistence', () => {
     expect(mocks.saveWorkoutPlan).toHaveBeenCalledTimes(1);
     const [savedHistory, options] = mocks.saveWorkoutPlan.mock.calls[0];
     expect(savedHistory.weeks[savedHistory.currentWeekStart].Tuesday.name).toBe('Edited');
-    expect(options).toEqual({ expectedUpdatedAt: 'v1' });
+    expect(options).toEqual({ expectedUpdatedAt: 'v1', expectedUserId: 'user-1' });
     expect(result.current.isDirty).toBe(false);
     expect(result.current.lastSavedAt).toBeInstanceOf(Date);
   });
@@ -145,8 +178,51 @@ describe('useWorkoutPlan persistence', () => {
 
     await act(async () => { await result.current.saveOverwrite(); });
     expect(mocks.saveWorkoutPlan).toHaveBeenCalledTimes(2);
-    expect(mocks.saveWorkoutPlan.mock.calls[1][1]).toEqual({ overwrite: true });
+    expect(mocks.saveWorkoutPlan.mock.calls[1][1]).toEqual({ overwrite: true, expectedUserId: 'user-1' });
     expect(result.current.saveState).toBe(SaveState.SAVED);
+  });
+
+  it('does not overwrite a new edit with an in-flight foreground refresh', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValueOnce({ data: cloudHistory(), updatedAt: 'v1' });
+    const { result } = await renderPlan();
+    let resolveRefresh;
+    mocks.getWorkoutPlanRecord.mockImplementationOnce(() => new Promise(resolve => { resolveRefresh = resolve; }));
+    act(() => {
+      Object.defineProperty(document, 'visibilityState', { value: 'visible', configurable: true });
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+    act(() => result.current.updateDay('Monday', { ...result.current.workoutPlan.Monday, name: 'Unsaved edit' }));
+    await act(async () => resolveRefresh({ data: cloudHistory(), updatedAt: 'v2' }));
+    expect(result.current.workoutPlan.Monday.name).toBe('Unsaved edit');
+    expect(result.current.isDirty).toBe(true);
+    delete document.visibilityState;
+  });
+
+  it('ignores a completed save from the account that has signed out', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValueOnce({ data: cloudHistory(), updatedAt: 'first-account' });
+    const { result, rerender } = await renderPlan();
+    let resolveSave;
+    mocks.saveWorkoutPlan.mockImplementationOnce(() => new Promise(resolve => { resolveSave = resolve; }));
+    act(() => result.current.updateDay('Monday', { ...result.current.workoutPlan.Monday, name: 'First account edit' }));
+    let pendingSave;
+    act(() => { pendingSave = result.current.saveNow(); });
+    const second = cloudHistory();
+    second.weeks[second.currentWeekStart].Monday.name = 'Second account';
+    mocks.getWorkoutPlanRecord.mockResolvedValue({ data: second, updatedAt: 'second-account' });
+    mocks.user = { id: 'user-2' };
+    rerender();
+    await waitFor(() => expect(result.current.workoutPlan?.Monday.name).toBe('Second account'));
+    await act(async () => {
+      resolveSave({ ok: true, updatedAt: 'first-account-saved' });
+      await pendingSave;
+    });
+    expect(result.current.isDirty).toBe(false);
+    expect(result.current.saveState).toBe(SaveState.IDLE);
+    act(() => result.current.updateDay('Monday', { ...result.current.workoutPlan.Monday, name: 'Second account edit' }));
+    await act(async () => result.current.saveNow());
+    expect(mocks.saveWorkoutPlan.mock.calls.at(-1)[1]).toEqual({
+      expectedUpdatedAt: 'second-account', expectedUserId: 'user-2'
+    });
   });
 
   it('reload discards local edits and takes the newest cloud copy', async () => {
@@ -271,7 +347,7 @@ describe('useWorkoutPlan persistence', () => {
     await act(async () => { vi.advanceTimersByTime(1500); });
     await waitFor(() => expect(mocks.saveWorkoutPlan).toHaveBeenCalledTimes(1));
     // First save for this account: an insert, no version stamp.
-    expect(mocks.saveWorkoutPlan.mock.calls[0][1]).toEqual({ expectedUpdatedAt: null });
+    expect(mocks.saveWorkoutPlan.mock.calls[0][1]).toEqual({ expectedUpdatedAt: null, expectedUserId: 'user-1' });
     expect(mocks.saveWorkoutPlan.mock.calls[0][0].weeks[result.current.currentWeekStart].Monday.exercises.length).toBeGreaterThan(0);
   });
 
@@ -313,10 +389,38 @@ describe('useWorkoutPlan persistence', () => {
     const { result } = await renderPlan();
 
     expect(mocks.saveWorkoutPlan).toHaveBeenCalledTimes(1);
-    expect(mocks.saveWorkoutPlan.mock.calls[0][1]).toBeUndefined();
+    expect(mocks.saveWorkoutPlan.mock.calls[0][1]).toEqual({ expectedUserId: 'user-1' });
     expect(mocks.localRemove).toHaveBeenCalledWith('gymAppWorkoutPlan');
     expect(result.current.workoutPlan.Friday.name).toBe('Local Day');
     expect(result.current.saveState).toBe(SaveState.IDLE);
+  });
+
+  it('does not finish an app update from an unmounted account save', async () => {
+    mocks.getWorkoutPlanRecord.mockResolvedValue({ data: cloudHistory(), updatedAt: 'v1' });
+    const first = await renderPlan();
+    const releaseUpdate = vi.fn();
+    appUpdates.protect.mockReturnValueOnce(releaseUpdate);
+    let resolveSave;
+    mocks.saveWorkoutPlan.mockImplementationOnce(() => new Promise(resolve => { resolveSave = resolve; }));
+    const reload = vi.fn();
+    const original = window.location;
+    Object.defineProperty(window, 'location', { value: { ...original, reload }, configurable: true });
+    try {
+      act(() => first.result.current.updateDay('Monday', { ...first.result.current.workoutPlan.Monday, name: 'First edit' }));
+      act(() => window.dispatchEvent(new CustomEvent('gym:app-update-ready', { cancelable: true })));
+      first.unmount();
+      expect(releaseUpdate).not.toHaveBeenCalled();
+      mocks.user = { id: 'user-2' };
+      const second = await renderPlan();
+      act(() => second.result.current.updateDay('Monday', { ...second.result.current.workoutPlan.Monday, name: 'Second edit' }));
+      await act(async () => resolveSave({ ok: true, updatedAt: 'first-account-saved' }));
+      expect(releaseUpdate).toHaveBeenCalledTimes(1);
+      expect(reload).not.toHaveBeenCalled();
+      expect(second.result.current.isDirty).toBe(true);
+      expect(second.result.current.workoutPlan.Monday.name).toBe('Second edit');
+    } finally {
+      Object.defineProperty(window, 'location', { value: original, configurable: true });
+    }
   });
 });
 

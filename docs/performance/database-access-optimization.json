@@ -1,0 +1,454 @@
+{
+  "capturedAt": "2026-11-22T21:27:17.557Z",
+  "runtime": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "pgliteVersion": "0.3.14",
+  "syntheticRows": 3000,
+  "authorization": [
+    {
+      "phase": "before",
+      "fixture": "workout-access-optimization.sql",
+      "result": "passed"
+    },
+    {
+      "phase": "before",
+      "fixture": "trainer-access.sql",
+      "result": "passed"
+    },
+    {
+      "phase": "before",
+      "fixture": "security-hardening.sql",
+      "result": "passed"
+    },
+    {
+      "phase": "after",
+      "fixture": "workout-access-optimization.sql",
+      "result": "passed"
+    },
+    {
+      "phase": "after",
+      "fixture": "trainer-access.sql",
+      "result": "passed"
+    },
+    {
+      "phase": "after",
+      "fixture": "security-hardening.sql",
+      "result": "passed"
+    },
+    {
+      "phase": "rolled_back",
+      "fixture": "workout-access-optimization.sql",
+      "result": "passed"
+    },
+    {
+      "phase": "rolled_back",
+      "fixture": "trainer-access.sql",
+      "result": "passed"
+    },
+    {
+      "phase": "rolled_back",
+      "fixture": "security-hardening.sql",
+      "result": "passed"
+    }
+  ],
+  "checks": [
+    "Policy scope preserved",
+    "Trainer predicates unchanged",
+    "Unique constraints retained",
+    "Caller checks execute as initPlans",
+    "Invitation lookup uses its covering index",
+    "Rollback restores original policies and indexes",
+    "Policy drift aborts the migration without index changes",
+    "Missing unique constraint aborts before policy or index changes"
+  ],
+  "plans": {
+    "before": {
+      "preferenceExecutionMs": [
+        40.478,
+        38.357,
+        35.434,
+        43.486,
+        49.809
+      ],
+      "preferenceMedianExecutionMs": 40.478,
+      "preferenceInitPlans": [],
+      "invitationAccess": [
+        {
+          "node": "Seq Scan",
+          "index": null
+        }
+      ],
+      "preferencePlan": {
+        "Plan": {
+          "Node Type": "Aggregate",
+          "Strategy": "Plain",
+          "Partial Mode": "Simple",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Startup Cost": 932.28,
+          "Total Cost": 932.29,
+          "Plan Rows": 1,
+          "Plan Width": 8,
+          "Actual Startup Time": 49.782,
+          "Actual Total Time": 49.783,
+          "Actual Rows": 1,
+          "Actual Loops": 1,
+          "Shared Hit Blocks": 9048,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Index Only Scan",
+              "Parent Relationship": "Outer",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Scan Direction": "Forward",
+              "Index Name": "user_preferences_user_id_idx",
+              "Relation Name": "user_preferences",
+              "Alias": "user_preferences",
+              "Startup Cost": 0.28,
+              "Total Cost": 929.78,
+              "Plan Rows": 1001,
+              "Plan Width": 0,
+              "Actual Startup Time": 0.019,
+              "Actual Total Time": 48.625,
+              "Actual Rows": 3000,
+              "Actual Loops": 1,
+              "Filter": "(((NULLIF(current_setting('request.jwt.claim.sub'::text, true), ''::text))::uuid = user_id) OR is_admin())",
+              "Rows Removed by Filter": 0,
+              "Heap Fetches": 3000,
+              "Shared Hit Blocks": 9048,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          ]
+        },
+        "Planning": {
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.449,
+        "Triggers": [],
+        "Execution Time": 49.809
+      },
+      "invitationPlan": {
+        "Plan": {
+          "Node Type": "Seq Scan",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Relation Name": "trainer_invites",
+          "Alias": "trainer_invites",
+          "Startup Cost": 10000000000,
+          "Total Cost": 10000000816.5,
+          "Plan Rows": 1,
+          "Plan Width": 14,
+          "Actual Startup Time": 0.435,
+          "Actual Total Time": 0.783,
+          "Actual Rows": 1,
+          "Actual Loops": 1,
+          "Filter": "((created_by = '20000000-0000-4000-8000-000000000101'::uuid) AND is_admin())",
+          "Rows Removed by Filter": 2999,
+          "Shared Hit Blocks": 32,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning": {
+          "Shared Hit Blocks": 17,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.211,
+        "Triggers": [],
+        "Execution Time": 0.8
+      }
+    },
+    "after": {
+      "preferenceExecutionMs": [
+        1.973,
+        2.073,
+        1.925,
+        6.452,
+        3.889
+      ],
+      "preferenceMedianExecutionMs": 2.073,
+      "preferenceInitPlans": [
+        {
+          "name": "InitPlan 1",
+          "loops": 1
+        },
+        {
+          "name": "InitPlan 2",
+          "loops": 1
+        }
+      ],
+      "invitationAccess": [
+        {
+          "node": "Index Scan",
+          "index": "trainer_invites_created_by_idx"
+        }
+      ],
+      "preferencePlan": {
+        "Plan": {
+          "Node Type": "Aggregate",
+          "Strategy": "Plain",
+          "Partial Mode": "Simple",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Startup Cost": 151.19,
+          "Total Cost": 151.19,
+          "Plan Rows": 1,
+          "Plan Width": 8,
+          "Actual Startup Time": 3.842,
+          "Actual Total Time": 3.845,
+          "Actual Rows": 1,
+          "Actual Loops": 1,
+          "Shared Hit Blocks": 54,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Result",
+              "Parent Relationship": "InitPlan",
+              "Subplan Name": "InitPlan 1",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Startup Cost": 0,
+              "Total Cost": 0.02,
+              "Plan Rows": 1,
+              "Plan Width": 16,
+              "Actual Startup Time": 0.005,
+              "Actual Total Time": 0.006,
+              "Actual Rows": 1,
+              "Actual Loops": 1,
+              "Shared Hit Blocks": 0,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            },
+            {
+              "Node Type": "Result",
+              "Parent Relationship": "InitPlan",
+              "Subplan Name": "InitPlan 2",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Startup Cost": 0,
+              "Total Cost": 0.26,
+              "Plan Rows": 1,
+              "Plan Width": 1,
+              "Actual Startup Time": 0.204,
+              "Actual Total Time": 0.205,
+              "Actual Rows": 1,
+              "Actual Loops": 1,
+              "Shared Hit Blocks": 3,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            },
+            {
+              "Node Type": "Bitmap Heap Scan",
+              "Parent Relationship": "Outer",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Relation Name": "user_preferences",
+              "Alias": "user_preferences",
+              "Startup Cost": 71.66,
+              "Total Cost": 147.16,
+              "Plan Rows": 1500,
+              "Plan Width": 0,
+              "Actual Startup Time": 0.138,
+              "Actual Total Time": 2.359,
+              "Actual Rows": 3000,
+              "Actual Loops": 1,
+              "Filter": "(((InitPlan 1).col1 = user_id) OR (InitPlan 2).col1)",
+              "Rows Removed by Filter": 0,
+              "Exact Heap Blocks": 38,
+              "Lossy Heap Blocks": 0,
+              "Shared Hit Blocks": 54,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Plans": [
+                {
+                  "Node Type": "Bitmap Index Scan",
+                  "Parent Relationship": "Outer",
+                  "Parallel Aware": false,
+                  "Async Capable": false,
+                  "Index Name": "user_preferences_user_id_key",
+                  "Startup Cost": 0,
+                  "Total Cost": 71.28,
+                  "Plan Rows": 3000,
+                  "Plan Width": 0,
+                  "Actual Startup Time": 0.109,
+                  "Actual Total Time": 0.11,
+                  "Actual Rows": 3003,
+                  "Actual Loops": 1,
+                  "Shared Hit Blocks": 13,
+                  "Shared Read Blocks": 0,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Dirtied Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0
+                }
+              ]
+            }
+          ]
+        },
+        "Planning": {
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 1.43,
+        "Triggers": [],
+        "Execution Time": 3.889
+      },
+      "invitationPlan": {
+        "Plan": {
+          "Node Type": "Index Scan",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Scan Direction": "Forward",
+          "Index Name": "trainer_invites_created_by_idx",
+          "Relation Name": "trainer_invites",
+          "Alias": "trainer_invites",
+          "Startup Cost": 0.54,
+          "Total Cost": 8.56,
+          "Plan Rows": 1,
+          "Plan Width": 14,
+          "Actual Startup Time": 0.246,
+          "Actual Total Time": 0.248,
+          "Actual Rows": 1,
+          "Actual Loops": 1,
+          "Index Cond": "(created_by = '20000000-0000-4000-8000-000000000101'::uuid)",
+          "Rows Removed by Index Recheck": 0,
+          "Filter": "(InitPlan 1).col1",
+          "Rows Removed by Filter": 0,
+          "Shared Hit Blocks": 6,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Result",
+              "Parent Relationship": "InitPlan",
+              "Subplan Name": "InitPlan 1",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Startup Cost": 0,
+              "Total Cost": 0.26,
+              "Plan Rows": 1,
+              "Plan Width": 1,
+              "Actual Startup Time": 0.229,
+              "Actual Total Time": 0.23,
+              "Actual Rows": 1,
+              "Actual Loops": 1,
+              "Shared Hit Blocks": 3,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          ]
+        },
+        "Planning": {
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 3.776,
+        "Triggers": [],
+        "Execution Time": 0.28
+      }
+    }
+  },
+  "result": "passed"
+}

@@ -12,15 +12,16 @@
  * the real gatekeeper, so this UI failing open is not a security hole.
  */
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useCallback, useRef } from 'react';
 import { looksLikePlan } from '../utils/planImport.js';
 import { useAuth } from '../hooks/useAuth.js';
 import { useLanguage } from '../hooks/useLanguage.js';
 import useModal from '../hooks/useModal.js';
 import { t } from '../translations/ui';
-import { adminService } from '../services/AdminService';
+import { adminService, ADMIN_PAGE_SIZE } from '../services/AdminService';
 import workoutService from '../services/workoutService.js';
 import WeekPlanService from '../services/WeekPlanService.js';
+import { appUpdates } from '../services/AppUpdateService.js';
 import { formatWeekRange, formatDayDate, getWeekStart } from '../utils/dateHelper.js';
 import Button from './ui/Button.jsx';
 import { ButtonVariant } from './ui/Button.constants.js';
@@ -34,6 +35,7 @@ import { closeCoachChat } from '../hooks/useCoachPlan.js';
 import { activityLabel, isInactive } from '../utils/activity.js';
 import { getWorkoutTemplate } from '../constants/workoutTemplates.js';
 import AddExerciseModal from './AddExerciseModal.jsx';
+import TrainerPicker from './TrainerPicker.jsx';
 
 const cardStyle = {
   backgroundColor: 'var(--surface)',
@@ -91,6 +93,17 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
   const { language } = useLanguage();
 
   const [users, setUsers] = useState([]);
+  const [page, setPage] = useState(0);
+  const [hasMoreUsers, setHasMoreUsers] = useState(false);
+  const [searchDraft, setSearchDraft] = useState('');
+  const [search, setSearch] = useState('');
+  const [profile, setProfile] = useState(null);
+  const [assigningClientId, setAssigningClientId] = useState(null);
+  const usersRequest = useRef(null);
+  const usersRequestId = useRef(0);
+  const planRequestId = useRef(0);
+  const savingPlanRequestId = useRef(null);
+  const myProfile = profile?.id === currentUser?.id ? profile : null;
   // Admin view: only accounts past the inactivity warning point.
   const [onlyInactive, setOnlyInactive] = useState(false);
   const [links, setLinks] = useState([]); // trainer/client pairs
@@ -109,10 +122,19 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
   const [viewedWeekStart, setViewedWeekStart] = useState(null);
   const [planLoading, setPlanLoading] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
-    const [saveState, setSaveState] = useState('idle'); // idle | saving | saved | conflict
+  const [saveState, setSaveState] = useState('idle'); // idle | saving | saved | conflict
+  const historyRef = useRef(history);
   // updated_at of the row as loaded; the save refuses to clobber a newer one.
   const [planUpdatedAt, setPlanUpdatedAt] = useState(null);
   const [activeDay, setActiveDay] = useState(null);
+
+  useLayoutEffect(() => { historyRef.current = history; }, [history]);
+  // Acquire before the browser can handle an update after an edit. Keep the
+  // same token throughout saving so effect cleanup cannot briefly allow reload.
+  useLayoutEffect(() => {
+    if (!isDirty) return undefined;
+    return appUpdates.protect();
+  }, [isDirty]);
 
   const addExerciseModal = useModal();
 
@@ -133,28 +155,67 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
   const hasNewerWeek = viewedIndex >= 0 && viewedIndex < navWeeks.length - 1;
 
   const loadUsers = useCallback(async () => {
+    usersRequest.current?.abort();
+    const controller = new AbortController();
+    usersRequest.current = controller;
+    const requestId = ++usersRequestId.current;
+    const isCurrent = () => requestId === usersRequestId.current && !controller.signal.aborted;
     try {
       setUsersLoading(true);
       setError('');
-      const [list, pairs] = await Promise.all([
-        adminService.listUsers(),
-        adminService.listTrainerLinks()
-      ]);
-      setUsers(list);
+      const result = await adminService.listUsers({
+        page,
+        pageSize: ADMIN_PAGE_SIZE,
+        search,
+        onlyInactive: isAdmin && onlyInactive,
+        excludeUserId: isTrainer ? currentUser?.id : null,
+        signal: controller.signal
+      });
+      if (!isCurrent()) return;
+      const pairs = isAdmin
+        ? await adminService.listTrainerLinks(result.users.filter(user => user.role === 'user').map(user => user.id), { signal: controller.signal })
+        : [];
+      if (!isCurrent()) return;
+      setUsers(result.users);
+      setHasMoreUsers(result.hasMore);
       setLinks(pairs);
+      setAssigningClientId(null);
     } catch (err) {
+      if (!isCurrent()) return;
       console.error('Error loading users:', err);
+      setUsers([]);
+      setLinks([]);
+      setHasMoreUsers(false);
       setError(t('Failed to load users. Are you an admin?', language));
     } finally {
-      setUsersLoading(false);
+      if (isCurrent()) setUsersLoading(false);
     }
-  }, [language]);
+  }, [page, search, onlyInactive, isAdmin, isTrainer, currentUser?.id, language]);
 
   useEffect(() => {
     loadUsers();
+    return () => usersRequest.current?.abort();
   }, [loadUsers]);
 
+  useEffect(() => {
+    if (!isTrainer || !currentUser?.id) return undefined;
+    const controller = new AbortController();
+    let current = true;
+    adminService.getUserProfile(currentUser.id, { signal: controller.signal })
+      .then(result => { if (current) setProfile(result); })
+      .catch(err => {
+        if (current && !controller.signal.aborted) {
+          console.error('Error loading trainer profile:', err);
+          setError(t('Could not load your invitation details. Please try again.', language));
+        }
+      });
+    return () => { current = false; controller.abort(); };
+  }, [currentUser?.id, isTrainer, language]);
+
+  useEffect(() => () => { planRequestId.current += 1; }, []);
+
   const selectUser = async (user) => {
+    const requestId = ++planRequestId.current;
     setSelectedUser(user);
     setHistory(null);
     setActiveDay(null);
@@ -163,7 +224,8 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
     try {
       setPlanLoading(true);
       setError('');
-            const record = await adminService.getWorkoutPlanRecord(user.id);
+      const record = await adminService.getWorkoutPlanRecord(user.id);
+      if (requestId !== planRequestId.current) return;
       // record is null when the user has no cloud plan yet; otherwise migrate
       // the stored blob to the versioned history and edit its current week.
       const migrated = record ? WeekPlanService.migrate(record.data) : null;
@@ -171,19 +233,13 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
       setPlanUpdatedAt(record ? record.updatedAt : null);
       setViewedWeekStart(migrated ? migrated.currentWeekStart : null);
     } catch (err) {
+      if (requestId !== planRequestId.current) return;
       console.error('Error loading workout plan:', err);
       setError(`${t('Failed to load workout plan for', language)} ${user.email}`);
     } finally {
-      setPlanLoading(false);
+      if (requestId === planRequestId.current) setPlanLoading(false);
     }
   };
-
-  // Trainers see their own profile row through RLS; the client list should
-  // only show the people they coach. The super admin list shows everyone.
-  const listedUsers = isTrainer ? users.filter(u => u.id !== currentUser?.id) : users;
-  const visibleUsers = isAdmin && onlyInactive ? listedUsers.filter(u => isInactive(u.lastActiveAt)) : listedUsers;
-  const trainers = users.filter(u => u.role === 'trainer');
-  const myProfile = users.find(u => u.id === currentUser?.id);
 
   const changeRole = async (user, newRole) => {
     if (!ROLES.includes(newRole) || newRole === user.role) return;
@@ -201,17 +257,17 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
 
   const trainersOf = (userId) =>
     links.filter(l => l.clientId === userId)
-      .map(l => trainers.find(tr => tr.id === l.trainerId))
-      .filter(Boolean);
+      .map(link => link.trainer ?? { id: link.trainerId, email: link.trainerId });
 
-  const addTrainer = async (user, trainerId) => {
+  const addTrainer = async (user, trainer) => {
+    const trainerId = trainer?.id;
     if (!trainerId) return;
     try {
       setError('');
       await adminService.addTrainer(user.id, trainerId);
       setLinks(prev => (prev.some(l => l.clientId === user.id && l.trainerId === trainerId)
         ? prev
-        : [...prev, { trainerId, clientId: user.id }]));
+        : [...prev, { trainerId, clientId: user.id, trainer }]));
     } catch (err) {
       console.error('Error assigning trainer:', err);
       setError(`${t('Failed to assign trainer for', language)} ${user.email}`);
@@ -305,6 +361,11 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
     }
   };
 
+  const markPlanEdited = () => {
+    setIsDirty(true);
+    setSaveState(current => current === 'saving' ? current : 'idle');
+  };
+
   // Plan edits land on the viewed week (a previewed future week is stored on
   // its first edit). Past weeks are never touched.
   const editViewedWeek = (updater) => {
@@ -315,16 +376,14 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
       if (!base) return prev;
       return WeekPlanService.setWeek(prev, viewedWeek, updater(base));
     });
-    setIsDirty(true);
-    setSaveState('idle');
+    markPlanEdited();
   };
 
   const previousWeek = history && viewedWeek ? WeekPlanService.previousWeekOf(history, viewedWeek) : null;
   const copyPreviousWeek = () => {
     if (isPastWeek || !previousWeek) return;
     setHistory(prev => (prev ? WeekPlanService.copyWeek(prev, previousWeek, viewedWeek) : prev));
-    setIsDirty(true);
-    setSaveState('idle');
+    markPlanEdited();
   };
 
   const [templatesOpen, setTemplatesOpen] = useState(false);
@@ -380,8 +439,7 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
       const fresh = WeekPlanService.migrate(null);
       setHistory(WeekPlanService.setWeek(fresh, fresh.currentWeekStart, weekPlan));
       setViewedWeekStart(fresh.currentWeekStart);
-      setIsDirty(true);
-      setSaveState('idle');
+      markPlanEdited();
       return;
     }
     editViewedWeek(() => weekPlan);
@@ -410,25 +468,43 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
     addExerciseModal.close();
   };
 
-    const savePlan = async ({ overwrite = false } = {}) => {
+  const savePlan = async ({ overwrite = false } = {}) => {
+    const requestId = planRequestId.current;
+    if (!selectedUser || !history || savingPlanRequestId.current === requestId) return;
+    const target = history;
+    const client = selectedUser;
+    savingPlanRequestId.current = requestId;
+    // The request remains protected even if another client is selected or the
+    // panel is closed before it finishes.
+    const finishSaving = appUpdates.protect();
     try {
       setSaveState('saving');
       setError('');
-      const result = await adminService.saveWorkoutPlan(selectedUser.id, history, {
+      const result = await adminService.saveWorkoutPlan(client.id, target, {
         expectedUpdatedAt: planUpdatedAt,
         overwrite
       });
+      if (requestId !== planRequestId.current) return;
       if (!result.ok) {
         setSaveState('conflict');
         return;
       }
       setPlanUpdatedAt(result.updatedAt);
-      setIsDirty(false);
-      setSaveState('saved');
+      if (historyRef.current === target) {
+        setIsDirty(false);
+        setSaveState('saved');
+      } else {
+        // Edits made during the request still require an explicit save.
+        setSaveState('idle');
+      }
     } catch (err) {
+      if (requestId !== planRequestId.current) return;
       console.error('Error saving workout plan:', err);
-      setError(`${t('Failed to save workout plan for', language)} ${selectedUser.email}`);
+      setError(`${t('Failed to save workout plan for', language)} ${client.email}`);
       setSaveState('idle');
+    } finally {
+      if (savingPlanRequestId.current === requestId) savingPlanRequestId.current = null;
+      finishSaving();
     }
   };
 
@@ -443,8 +519,7 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
       setViewedWeekStart(fresh.currentWeekStart);
       return fresh;
     });
-    setIsDirty(true);
-    setSaveState('idle');
+    markPlanEdited();
   };
 
   const deleteCloudPlan = async () => {
@@ -650,20 +725,32 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
           <div style={{ ...cardStyle, flex: '1 1 300px', maxWidth: '420px' }}>
             <div style={{ padding: '16px', borderBottom: '1px solid var(--border)', fontWeight: 600 }}>
               {isTrainer ? t('Clients', language) : t('Users', language)}{' '}
-              {usersLoading ? '' : `(${visibleUsers.length})`}
+              {usersLoading ? '' : `(${users.length} ${t('on this page', language)})`}
               {isAdmin && (
                 <label style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '8px', fontSize: '13px', fontWeight: 500, color: 'var(--text-2)' }}>
-                  <input type="checkbox" checked={onlyInactive} onChange={(e) => setOnlyInactive(e.target.checked)} />
+                  <input type="checkbox" checked={onlyInactive} onChange={(e) => { setPage(0); setOnlyInactive(e.target.checked); }} />
                   {t('Inactive 60+ days only', language)}
                 </label>
               )}
+              <form onSubmit={event => { event.preventDefault(); setPage(0); setSearch(searchDraft.trim()); }} style={{ display: 'flex', gap: '6px', marginTop: '10px' }}>
+                <input
+                  type="search"
+                  aria-label={t('Search users by email', language)}
+                  placeholder={t('Search by email', language)}
+                  value={searchDraft}
+                  maxLength={254}
+                  onChange={event => setSearchDraft(event.target.value)}
+                  style={{ flex: 1, minWidth: 0, padding: '6px', border: '1px solid var(--border-strong)', borderRadius: '6px' }}
+                />
+                <Button type="submit" variant={ButtonVariant.SECONDARY} style={{ fontSize: '12px', padding: '6px 10px' }}>{t('Search', language)}</Button>
+              </form>
             </div>
             {usersLoading ? (
               <p style={{ padding: '16px', margin: 0, color: 'var(--text-3)' }}>
                 {t('Loading users...', language)}
               </p>
             ) : (
-              visibleUsers.map(user => (
+              users.map(user => (
                 <div
                   key={user.id}
                   style={{
@@ -726,7 +813,7 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
                           <option key={r} value={r}>{t(r, language)}</option>
                         ))}
                       </select>
-                      {user.role === 'user' && trainers.length > 0 && (
+                      {user.role === 'user' && (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'flex-end' }}>
                           {trainersOf(user.id).map(tr => (
                             <span
@@ -758,22 +845,17 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
                               </button>
                             </span>
                           ))}
-                          {trainers.some(tr => !trainersOf(user.id).some(mine => mine.id === tr.id)) && (
-                            <select
-                              value=""
-                              onChange={(e) => addTrainer(user, e.target.value)}
-                              aria-label={`${t('Trainer', language)} — ${user.email}`}
-                              style={roleSelectStyle}
-                            >
-                              <option value="">
-                                {trainersOf(user.id).length === 0 ? t('No trainer', language) : t('Add trainer...', language)}
-                              </option>
-                              {trainers
-                                .filter(tr => !trainersOf(user.id).some(mine => mine.id === tr.id))
-                                .map(tr => (
-                                  <option key={tr.id} value={tr.id}>{tr.email}</option>
-                                ))}
-                            </select>
+                          {assigningClientId === user.id ? (
+                            <TrainerPicker
+                              assignedIds={trainersOf(user.id).map(trainer => trainer.id)}
+                              language={language}
+                              onAssign={trainer => addTrainer(user, trainer)}
+                              onClose={() => setAssigningClientId(null)}
+                            />
+                          ) : (
+                            <Button variant={ButtonVariant.SECONDARY} onClick={() => setAssigningClientId(user.id)} style={{ fontSize: '12px', padding: '4px 8px' }}>
+                              {t('Add trainer...', language)}
+                            </Button>
                           )}
                         </div>
                       )}
@@ -782,6 +864,15 @@ export default function AdminDashboard({ onBack, coachPlan = null }) {
                 </div>
               ))
             )}
+            {!usersLoading && users.length === 0 && (
+              <p style={{ padding: '16px', color: 'var(--text-3)' }}>{t('No users match these filters.', language)}</p>
+            )}
+            <nav aria-label={t('User list pages', language)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', gap: '8px' }}>
+              <Button variant={ButtonVariant.SECONDARY} aria-label={t('Previous users page', language)} disabled={usersLoading || page === 0} onClick={() => setPage(value => value - 1)} style={{ fontSize: '12px', padding: '6px 10px' }}>← {t('Previous', language)}</Button>
+              <span aria-live="polite" style={{ fontSize: '12px' }}>{t('Page', language)} {page + 1}</span>
+              <Button variant={ButtonVariant.SECONDARY} aria-label={t('Refresh users', language)} disabled={usersLoading} onClick={loadUsers} style={{ fontSize: '12px', padding: '6px 10px' }}>{t('Refresh', language)}</Button>
+              <Button variant={ButtonVariant.SECONDARY} aria-label={t('Next users page', language)} disabled={usersLoading || !hasMoreUsers} onClick={() => setPage(value => value + 1)} style={{ fontSize: '12px', padding: '6px 10px' }}>{t('Next', language)} →</Button>
+            </nav>
           </div>
 
           {/* Plan editor — full tracker controls for the user's current week */}

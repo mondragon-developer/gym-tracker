@@ -21,6 +21,8 @@ import WeekPlanService from '../services/WeekPlanService.js';
 import { supabaseStorageService } from '../services/SupabaseStorageService.js';
 import { storageService } from '../services/StorageService.js';
 import { useAuth } from './useAuth.js';
+import { appUpdates } from '../services/AppUpdateService.js';
+import { performanceRecorder } from '../services/PerformanceService.js';
 
 const LOCAL_KEY = 'gymAppWorkoutPlan';
 const AUTOSAVE_DELAY_MS = 1200;
@@ -67,6 +69,15 @@ const useWorkoutPlan = () => {
   const savingRef = useRef(false);
   const conflictRef = useRef(false);
   const loadSeqRef = useRef(0);
+  const accountEpochRef = useRef(0);
+  const foregroundLoadRef = useRef(null);
+
+  useEffect(() => () => {
+    accountEpochRef.current += 1;
+    loadSeqRef.current += 1;
+    foregroundLoadRef.current = null;
+    clearTimeout(timerRef.current);
+  }, []);
 
   // Session undo: the history from before each user edit, newest last. It
   // lives in memory only, so it covers what this user did since opening the
@@ -76,21 +87,40 @@ const useWorkoutPlan = () => {
   const [undoDepth, setUndoDepth] = useState(0);
 
   useEffect(() => { historyRef.current = history; }, [history]);
-  useEffect(() => { userIdRef.current = userId; }, [userId]);
+  useEffect(() => {
+    if (userIdRef.current !== userId) {
+      accountEpochRef.current += 1;
+      clearTimeout(timerRef.current);
+      savingRef.current = false;
+      historyRef.current = null;
+      persistedRef.current = null;
+      versionRef.current = null;
+      conflictRef.current = false;
+    }
+    userIdRef.current = userId;
+  }, [userId]);
 
   const isDirty = Boolean(history) && history !== persistedRef.current;
 
   const load = useCallback(async ({ silent = false } = {}) => {
+    // A visibility event must not invalidate the initial load and leave its
+    // loading indicator waiting for a request that can no longer complete.
+    if (silent && foregroundLoadRef.current !== null) return;
     const seq = ++loadSeqRef.current;
     const uid = userIdRef.current;
-    if (!silent) setIsLoading(true);
+    const initialHistory = historyRef.current;
+    if (!silent) {
+      foregroundLoadRef.current = seq;
+      setIsLoading(true);
+    }
 
     try {
       let raw = null;
       let version = null;
 
       if (uid) {
-        const record = await supabaseStorageService.getWorkoutPlanRecord();
+        const record = await supabaseStorageService.getWorkoutPlanRecord({ expectedUserId: uid });
+        if (seq !== loadSeqRef.current) return;
         if (record) {
           raw = record.data;
           version = record.updatedAt;
@@ -104,7 +134,8 @@ const useWorkoutPlan = () => {
           const local = storageService.getWorkoutPlan(LOCAL_KEY);
           if (local) {
             raw = WeekPlanService.migrate(local);
-            const result = await supabaseStorageService.saveWorkoutPlan(raw);
+            const result = await supabaseStorageService.saveWorkoutPlan(raw, { expectedUserId: uid });
+            if (seq !== loadSeqRef.current) return;
             if (result.ok) {
               version = result.updatedAt;
               storageService.removeWorkoutPlan(LOCAL_KEY);
@@ -116,13 +147,18 @@ const useWorkoutPlan = () => {
       }
 
       if (seq !== loadSeqRef.current) return;
+      // A foreground refresh must not replace edits made while it was loading.
+      if (silent && (historyRef.current !== initialHistory
+        || historyRef.current !== persistedRef.current || savingRef.current)) return;
 
       if (silent && version && versionRef.current && version !== versionRef.current) {
         setRemoteUpdateAt(new Date());
       }
       if (!silent) setIsFirstRun(raw === null);
 
+      const finishPreparation = performanceRecorder.start('workout.prepare');
       const migrated = WeekPlanService.migrate(raw);
+      finishPreparation();
       // A silent reload of our own save keeps the steps. A different account
       // or a newer copy from another device or a trainer drops them, since
       // undoing to an older snapshot would erase those changes.
@@ -152,7 +188,10 @@ const useWorkoutPlan = () => {
         setHistory(null);
       }
     } finally {
-      if (seq === loadSeqRef.current && !silent) setIsLoading(false);
+      if (foregroundLoadRef.current === seq) {
+        foregroundLoadRef.current = null;
+        if (seq === loadSeqRef.current) setIsLoading(false);
+      }
     }
   }, []);
 
@@ -164,20 +203,25 @@ const useWorkoutPlan = () => {
     const target = historyRef.current;
     if (!target || target === persistedRef.current || savingRef.current) return;
     if (conflictRef.current && !force) return;
+    const accountEpoch = accountEpochRef.current;
+    const uid = userIdRef.current;
+    const releaseUpdate = appUpdates.protect();
 
     savingRef.current = true;
     clearTimeout(timerRef.current);
     setSaveState(SaveState.SAVING);
 
     try {
-      if (userIdRef.current) {
+      if (uid) {
         // Without a known version the row should not exist yet, so the
         // service inserts instead of upserting; a row that appeared in the
         // meantime surfaces as a conflict rather than being overwritten.
         const result = await supabaseStorageService.saveWorkoutPlan(
           target,
-          force ? { overwrite: true } : { expectedUpdatedAt: versionRef.current }
+          force ? { overwrite: true, expectedUserId: uid }
+            : { expectedUpdatedAt: versionRef.current, expectedUserId: uid }
         );
+        if (accountEpoch !== accountEpochRef.current) return;
         if (!result.ok) {
           if (result.reason === 'conflict') {
             conflictRef.current = true;
@@ -203,10 +247,12 @@ const useWorkoutPlan = () => {
         timerRef.current = setTimeout(() => { save(); }, AUTOSAVE_DELAY_MS);
       }
     } catch (err) {
+      if (accountEpoch !== accountEpochRef.current) return;
       console.error('Error saving workout plan:', err);
       setSaveState(SaveState.ERROR);
     } finally {
-      savingRef.current = false;
+      if (accountEpoch === accountEpochRef.current) savingRef.current = false;
+      releaseUpdate();
     }
   }, []);
 
@@ -251,13 +297,15 @@ const useWorkoutPlan = () => {
     // conflicting save keeps the current page so nothing is lost.
     const onUpdateReady = (event) => {
       event.preventDefault();
+      const accountEpoch = accountEpochRef.current;
       const pending = historyRef.current && historyRef.current !== persistedRef.current;
       if (!pending) {
-        window.location.reload();
+        appUpdates.complete();
         return;
       }
       save().then(() => {
-        if (historyRef.current === persistedRef.current) window.location.reload();
+        if (accountEpoch === accountEpochRef.current
+          && historyRef.current === persistedRef.current) appUpdates.complete();
       });
     };
     const onBeforeUnload = (event) => {
@@ -276,6 +324,11 @@ const useWorkoutPlan = () => {
       window.removeEventListener('gym:app-update-ready', onUpdateReady);
     };
   }, [save, load]);
+
+  // A save already in flight, or a resolved conflict, may unblock an update.
+  useEffect(() => {
+    if (saveState === SaveState.SAVED || saveState === SaveState.IDLE) appUpdates.resume();
+  }, [saveState]);
 
   const currentWeekStart = history?.currentWeekStart ?? null;
   // Oldest first: stored weeks, the current week, and twelve weeks ahead.

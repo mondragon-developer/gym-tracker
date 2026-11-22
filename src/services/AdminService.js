@@ -7,51 +7,108 @@
  */
 
 import { supabase } from '../lib/supabase';
+import { INACTIVE_WARN_DAYS } from '../utils/activity.js';
+
+export const ADMIN_PAGE_SIZE = 25;
+const MAX_PAGE_SIZE = 100;
+const PROFILE_COLUMNS = 'id, email, role, invite_code, created_at';
+
+const mapProfile = row => ({
+  id: row.id,
+  email: row.email ?? '',
+  role: row.role ?? 'user',
+  inviteCode: row.invite_code ?? null,
+  createdAt: row.created_at,
+  lastActiveAt: row.last_active_at ?? null
+});
+
+const emailPattern = value => `%${String(value).trim().slice(0, 254).replace(/[\\%_]/g, '\\$&')}%`;
+
+const pageRange = (page, pageSize) => {
+  const start = page * pageSize;
+  if (!Number.isSafeInteger(page) || page < 0 || !Number.isInteger(pageSize)
+    || pageSize < 1 || pageSize > MAX_PAGE_SIZE || !Number.isSafeInteger(start + pageSize)) {
+    throw new RangeError('Invalid administration page.');
+  }
+  // One extra row establishes whether another page exists without a COUNT query.
+  return [start, start + pageSize];
+};
 
 class AdminService {
   /**
-   * Lists the users visible to the caller: every profile for the super admin,
-   * or (via RLS) just their own profile + assigned users for a trainer.
-   * @returns {Promise<Array<{id: string, email: string, role: string, inviteCode: string|null, createdAt: string}>>}
+   * Returns one bounded page of profiles visible through RLS. Filters run on
+   * the server before pagination; a trainer's own row is excluded there too.
+   * Ordering by creation time and ID keeps rows with equal timestamps stable.
    */
-  async listUsers() {
-    let { data, error } = await supabase
-      .from('profiles')
-      .select('id, email, role, invite_code, created_at, last_active_at')
-      .order('created_at', { ascending: true });
+  async listUsers({ page = 0, pageSize = ADMIN_PAGE_SIZE, search = '', onlyInactive = false,
+    excludeUserId = null, role = null, signal } = {}) {
+    const [start, end] = pageRange(page, pageSize);
+    const inactiveBefore = new Date(Date.now() - INACTIVE_WARN_DAYS * 24 * 60 * 60 * 1000).toISOString();
+    const queryPage = includeActivity => {
+      let query = supabase.from('profiles')
+        .select(`${PROFILE_COLUMNS}${includeActivity ? ', last_active_at' : ''}`);
+      if (search.trim()) query = query.ilike('email', emailPattern(search));
+      if (excludeUserId) query = query.neq('id', excludeUserId);
+      if (role) query = query.eq('role', role);
+      if (onlyInactive && includeActivity) {
+        query = query.or(`last_active_at.is.null,last_active_at.lte.${inactiveBefore}`);
+      }
+      query = query.order('created_at', { ascending: true })
+        .order('id', { ascending: true }).range(start, end);
+      return signal ? query.abortSignal(signal) : query;
+    };
 
-    // 42703: last_active_at not there yet (account-activity.sql not run).
-    // The lists still load, without activity, instead of coming up empty.
-    if (error?.code === '42703') {
-      ({ data, error } = await supabase
-        .from('profiles')
-        .select('id, email, role, invite_code, created_at')
-        .order('created_at', { ascending: true }));
+    let { data, error } = await queryPage(true);
+    // Preserve compatibility until account-activity.sql is installed. Missing
+    // activity is treated as unknown/inactive, matching the existing display.
+    if (error?.code === '42703' && !signal?.aborted) {
+      ({ data, error } = await queryPage(false));
     }
-
     if (error) throw error;
-    return (data ?? []).map(row => ({
-      id: row.id,
-      email: row.email ?? '',
-      role: row.role ?? 'user',
-      inviteCode: row.invite_code ?? null,
-      createdAt: row.created_at,
-      lastActiveAt: row.last_active_at ?? null
-    }));
+    const rows = data ?? [];
+    return { users: rows.slice(0, pageSize).map(mapProfile), hasMore: rows.length > pageSize };
+  }
+
+  /** The caller's invite controls must not depend on the current list page. */
+  async getUserProfile(userId, { signal } = {}) {
+    if (!userId) return null;
+    let query = supabase.from('profiles').select(PROFILE_COLUMNS).eq('id', userId).maybeSingle();
+    if (signal) query = query.abortSignal(signal);
+    const { data, error } = await query;
+    if (error) throw error;
+    return data ? mapProfile(data) : null;
   }
 
   /**
-   * Lists trainer/client links visible to the caller: all of them for the
-   * super admin, or (via RLS) just the caller's own links.
-   * @returns {Promise<Array<{trainerId: string, clientId: string}>>}
+   * Loads assignments only for clients displayed on the current page. Related
+   * trainer labels avoid downloading the complete trainer directory.
    */
-  async listTrainerLinks() {
-    const { data, error } = await supabase
-      .from('trainer_clients')
-      .select('trainer_id, client_id');
-
-    if (error) throw error;
-    return (data ?? []).map(row => ({ trainerId: row.trainer_id, clientId: row.client_id }));
+  async listTrainerLinks(clientIds, { signal } = {}) {
+    if (!Array.isArray(clientIds) || clientIds.length > MAX_PAGE_SIZE) {
+      throw new RangeError('Trainer links require a bounded list of client IDs.');
+    }
+    if (clientIds.length === 0) return [];
+    const ids = [...new Set(clientIds)];
+    const rows = [];
+    // Each request is bounded, and additional pages prevent the Data API's
+    // response limit from silently hiding assignments for visible clients.
+    for (let offset = 0; ; offset += MAX_PAGE_SIZE) {
+      let query = supabase.from('trainer_clients')
+        .select('trainer_id, client_id, trainer:profiles!trainer_clients_trainer_id_fkey(id, email, role)')
+        .in('client_id', ids)
+        .order('client_id', { ascending: true }).order('trainer_id', { ascending: true })
+        .range(offset, offset + MAX_PAGE_SIZE - 1);
+      if (signal) query = query.abortSignal(signal);
+      const { data, error } = await query;
+      if (error) throw error;
+      rows.push(...(data ?? []));
+      if (!data || data.length < MAX_PAGE_SIZE) break;
+    }
+    return rows.map(row => ({
+      trainerId: row.trainer_id,
+      clientId: row.client_id,
+      trainer: row.trainer ? mapProfile(row.trainer) : null
+    }));
   }
 
   /**

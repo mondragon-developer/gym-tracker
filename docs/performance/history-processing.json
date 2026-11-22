@@ -1,0 +1,472 @@
+{
+  "scope": "Synthetic local processing only; same fixtures, three alternating process runs; no mobile, network, or production concurrency claim.",
+  "baselineCommit": "497ec2fe5dc341904260990653adb2f22ecb9578",
+  "runs": {
+    "baseline": [
+      {
+        "scope": "Synthetic local history processing; excludes network, database, and mobile-browser performance.",
+        "runtime": "v24.22.3",
+        "platform": "linux x64",
+        "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+        "samplesPerOperation": 100,
+        "results": [
+          {
+            "weeks": 1,
+            "payloadBytes": 4722,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 0.03723399999999799,
+              "p95Ms": 0.05911899999999548
+            },
+            "prepare": {
+              "p50Ms": 0.1065889999999996,
+              "p95Ms": 2.2898840000000007
+            },
+            "serialize": {
+              "p50Ms": 0.010705999999998994,
+              "p95Ms": 0.02553299999999581
+            }
+          },
+          {
+            "weeks": 12,
+            "payloadBytes": 56059,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 0.2279450000000054,
+              "p95Ms": 0.34061099999999556
+            },
+            "prepare": {
+              "p50Ms": 0.5375850000000071,
+              "p95Ms": 0.8614389999999901
+            },
+            "serialize": {
+              "p50Ms": 0.11436400000002322,
+              "p95Ms": 0.21383500000001732
+            }
+          },
+          {
+            "weeks": 52,
+            "payloadBytes": 242739,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 1.0826410000000237,
+              "p95Ms": 2.2257060000000024
+            },
+            "prepare": {
+              "p50Ms": 2.433002999999985,
+              "p95Ms": 2.927240999999981
+            },
+            "serialize": {
+              "p50Ms": 0.8187580000000025,
+              "p95Ms": 1.7016130000000658
+            }
+          },
+          {
+            "weeks": 104,
+            "payloadBytes": 485423,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 2.1410820000000967,
+              "p95Ms": 4.121848999999997
+            },
+            "prepare": {
+              "p50Ms": 4.926459000000023,
+              "p95Ms": 5.806927000000087
+            },
+            "serialize": {
+              "p50Ms": 1.7267209999999977,
+              "p95Ms": 3.168376999999964
+            }
+          }
+        ]
+      },
+      {
+        "scope": "Synthetic local history processing; excludes network, database, and mobile-browser performance.",
+        "runtime": "v24.22.3",
+        "platform": "linux x64",
+        "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+        "samplesPerOperation": 100,
+        "results": [
+          {
+            "weeks": 1,
+            "payloadBytes": 4722,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 0.021800000000013142,
+              "p95Ms": 0.03660200000000202
+            },
+            "prepare": {
+              "p50Ms": 0.051794000000001006,
+              "p95Ms": 0.08276299999999992
+            },
+            "serialize": {
+              "p50Ms": 0.010548000000000002,
+              "p95Ms": 0.01596800000000087
+            }
+          },
+          {
+            "weeks": 12,
+            "payloadBytes": 56059,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 0.23904600000000187,
+              "p95Ms": 0.3384889999999956
+            },
+            "prepare": {
+              "p50Ms": 0.5410699999999906,
+              "p95Ms": 0.7968450000000189
+            },
+            "serialize": {
+              "p50Ms": 0.11617499999999836,
+              "p95Ms": 0.241312999999991
+            }
+          },
+          {
+            "weeks": 52,
+            "payloadBytes": 242739,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 1.0467010000000414,
+              "p95Ms": 1.325569999999999
+            },
+            "prepare": {
+              "p50Ms": 2.4406020000000126,
+              "p95Ms": 3.0279760000000238
+            },
+            "serialize": {
+              "p50Ms": 0.8147330000000466,
+              "p95Ms": 1.2097899999999981
+            }
+          },
+          {
+            "weeks": 104,
+            "payloadBytes": 485423,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 2.219290000000001,
+              "p95Ms": 2.792597999999998
+            },
+            "prepare": {
+              "p50Ms": 5.111929000000146,
+              "p95Ms": 9.07884799999988
+            },
+            "serialize": {
+              "p50Ms": 1.742631000000074,
+              "p95Ms": 2.372575000000097
+            }
+          }
+        ]
+      },
+      {
+        "scope": "Synthetic local history processing; excludes network, database, and mobile-browser performance.",
+        "runtime": "v24.22.3",
+        "platform": "linux x64",
+        "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+        "samplesPerOperation": 100,
+        "results": [
+          {
+            "weeks": 1,
+            "payloadBytes": 4722,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 0.022159999999999513,
+              "p95Ms": 0.04619800000000396
+            },
+            "prepare": {
+              "p50Ms": 0.0534719999999993,
+              "p95Ms": 0.1959889999999973
+            },
+            "serialize": {
+              "p50Ms": 0.011362000000005423,
+              "p95Ms": 0.015124999999997613
+            }
+          },
+          {
+            "weeks": 12,
+            "payloadBytes": 56059,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 0.23467999999999734,
+              "p95Ms": 0.4468470000000053
+            },
+            "prepare": {
+              "p50Ms": 0.5523020000000258,
+              "p95Ms": 0.7557030000000111
+            },
+            "serialize": {
+              "p50Ms": 0.1300860000000057,
+              "p95Ms": 0.2674470000000042
+            }
+          },
+          {
+            "weeks": 52,
+            "payloadBytes": 242739,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 1.1033739999999739,
+              "p95Ms": 1.4624550000000056
+            },
+            "prepare": {
+              "p50Ms": 2.5802150000000665,
+              "p95Ms": 4.250088000000005
+            },
+            "serialize": {
+              "p50Ms": 0.8807789999999613,
+              "p95Ms": 1.56876299999999
+            }
+          },
+          {
+            "weeks": 104,
+            "payloadBytes": 485423,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 2.188193999999953,
+              "p95Ms": 2.725186000000008
+            },
+            "prepare": {
+              "p50Ms": 5.158790000000181,
+              "p95Ms": 6.194718000000194
+            },
+            "serialize": {
+              "p50Ms": 1.8881750000000466,
+              "p95Ms": 2.5169969999999466
+            }
+          }
+        ]
+      }
+    ],
+    "optimized": [
+      {
+        "scope": "Synthetic local history processing; excludes network, database, and mobile-browser performance.",
+        "runtime": "v24.22.3",
+        "platform": "linux x64",
+        "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+        "samplesPerOperation": 100,
+        "results": [
+          {
+            "weeks": 1,
+            "payloadBytes": 4722,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 0.03419199999999023,
+              "p95Ms": 0.052680000000009386
+            },
+            "prepare": {
+              "p50Ms": 0.019344999999987067,
+              "p95Ms": 0.052929000000006
+            },
+            "serialize": {
+              "p50Ms": 0.023820999999998094,
+              "p95Ms": 0.059410999999997216
+            }
+          },
+          {
+            "weeks": 12,
+            "payloadBytes": 56059,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 0.4188450000000046,
+              "p95Ms": 0.6725889999999879
+            },
+            "prepare": {
+              "p50Ms": 0.06019000000000574,
+              "p95Ms": 0.10547400000001517
+            },
+            "serialize": {
+              "p50Ms": 0.20270600000000627,
+              "p95Ms": 0.3554269999999917
+            }
+          },
+          {
+            "weeks": 52,
+            "payloadBytes": 242739,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 1.3156659999999647,
+              "p95Ms": 3.353887000000043
+            },
+            "prepare": {
+              "p50Ms": 0.19131800000002386,
+              "p95Ms": 0.6540709999999876
+            },
+            "serialize": {
+              "p50Ms": 0.9923379999999042,
+              "p95Ms": 1.901589999999942
+            }
+          },
+          {
+            "weeks": 104,
+            "payloadBytes": 485423,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 3.8827039999999897,
+              "p95Ms": 5.014302999999927
+            },
+            "prepare": {
+              "p50Ms": 0.802599999999984,
+              "p95Ms": 1.2288019999998596
+            },
+            "serialize": {
+              "p50Ms": 2.992010000000164,
+              "p95Ms": 4.672451000000137
+            }
+          }
+        ]
+      },
+      {
+        "scope": "Synthetic local history processing; excludes network, database, and mobile-browser performance.",
+        "runtime": "v24.22.3",
+        "platform": "linux x64",
+        "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+        "samplesPerOperation": 100,
+        "results": [
+          {
+            "weeks": 1,
+            "payloadBytes": 4722,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 0.022197999999988838,
+              "p95Ms": 0.05337799999999504
+            },
+            "prepare": {
+              "p50Ms": 0.007556999999991376,
+              "p95Ms": 0.037193999999999505
+            },
+            "serialize": {
+              "p50Ms": 0.012263000000004354,
+              "p95Ms": 0.027427000000002977
+            }
+          },
+          {
+            "weeks": 12,
+            "payloadBytes": 56059,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 0.23783299999999485,
+              "p95Ms": 0.4022159999999957
+            },
+            "prepare": {
+              "p50Ms": 0.03287600000000168,
+              "p95Ms": 0.05873099999999454
+            },
+            "serialize": {
+              "p50Ms": 0.11264700000000971,
+              "p95Ms": 0.1463149999999871
+            }
+          },
+          {
+            "weeks": 52,
+            "payloadBytes": 242739,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 1.0637189999999919,
+              "p95Ms": 1.8833159999999793
+            },
+            "prepare": {
+              "p50Ms": 0.16253299999999626,
+              "p95Ms": 0.3648689999999988
+            },
+            "serialize": {
+              "p50Ms": 0.7808899999999994,
+              "p95Ms": 1.0911569999999529
+            }
+          },
+          {
+            "weeks": 104,
+            "payloadBytes": 485423,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 2.150278000000071,
+              "p95Ms": 2.5688310000000456
+            },
+            "prepare": {
+              "p50Ms": 0.3945340000000215,
+              "p95Ms": 0.5863829999999552
+            },
+            "serialize": {
+              "p50Ms": 1.7484459999999444,
+              "p95Ms": 2.0979240000000345
+            }
+          }
+        ]
+      },
+      {
+        "scope": "Synthetic local history processing; excludes network, database, and mobile-browser performance.",
+        "runtime": "v24.22.3",
+        "platform": "linux x64",
+        "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+        "samplesPerOperation": 100,
+        "results": [
+          {
+            "weeks": 1,
+            "payloadBytes": 4722,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 0.02178500000000838,
+              "p95Ms": 0.042656999999991285
+            },
+            "prepare": {
+              "p50Ms": 0.007711999999997943,
+              "p95Ms": 0.03010999999999342
+            },
+            "serialize": {
+              "p50Ms": 0.01204900000000464,
+              "p95Ms": 0.026070000000004256
+            }
+          },
+          {
+            "weeks": 12,
+            "payloadBytes": 56059,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 0.22790800000001354,
+              "p95Ms": 0.40775499999999454
+            },
+            "prepare": {
+              "p50Ms": 0.03231099999999287,
+              "p95Ms": 0.13900099999999327
+            },
+            "serialize": {
+              "p50Ms": 0.11515199999999481,
+              "p95Ms": 0.26086999999998284
+            }
+          },
+          {
+            "weeks": 52,
+            "payloadBytes": 242739,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 1.079260000000005,
+              "p95Ms": 1.5983229999999935
+            },
+            "prepare": {
+              "p50Ms": 0.15497599999997647,
+              "p95Ms": 0.3590749999999616
+            },
+            "serialize": {
+              "p50Ms": 0.8414989999999989,
+              "p95Ms": 1.3819179999999847
+            }
+          },
+          {
+            "weeks": 104,
+            "payloadBytes": 485423,
+            "currentWeekBytes": 4653,
+            "parse": {
+              "p50Ms": 2.3364930000000186,
+              "p95Ms": 5.756347000000005
+            },
+            "prepare": {
+              "p50Ms": 0.3887439999999742,
+              "p95Ms": 0.9466539999999668
+            },
+            "serialize": {
+              "p50Ms": 1.7649329999999281,
+              "p95Ms": 2.2935039999999844
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -14,7 +14,8 @@
     "upload:media": "node --env-file=.env scripts/upload-exercise-media.mjs",
     "report:coverage": "node scripts/enrichment/coverage-report.mjs",
     "build:plan-doc": "node scripts/build-plan-format-doc.mjs",
-    "check:contrast": "node scripts/check-contrast.mjs"
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "benchmark:history": "node scripts/benchmark-history.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
