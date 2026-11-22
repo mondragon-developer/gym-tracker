@@ -2,7 +2,7 @@
 
 ## Status and purpose
 
-This is an experimental, local measurement pilot for side-view bodyweight squats. It implements camera and local-video capture, pose inference in a worker, complete-cycle counting, phase timing, optional comparison with a user-selected timing target, and a downloadable compact summary.
+This is an experimental, local measurement pilot for side-view bodyweight squats. It implements camera and local-video capture, explicit subject confirmation, bounded subject continuity checks, pose inference in a worker, complete-cycle counting, phase timing, optional comparison with a user-selected timing target, and a downloadable compact summary. An optional local-video evaluation export supports comparison with independent annotations.
 
 It does not provide a technique percentage, identify an optimal tempo for a training objective, certify exercise safety, or automatically identify arbitrary exercises. Movement thresholds are provisional detector parameters. They have not been calibrated or validated against independent recordings of people performing squats.
 
@@ -19,9 +19,25 @@ VITE_ENABLE_SQUAT_PILOT=true npm run build
 
 Use a current browser with module workers, transferable ImageBitmap, OffscreenCanvas, WebAssembly, and the worker GPU path required by MediaPipe. Camera access requires a secure origin, with localhost suitable for development. Unsupported initialization produces a visible error; the application does not move inference onto the UI thread as a fallback.
 
-After normal authentication and terms acceptance, open **Squat measurement pilot** beside Weekly Summary. Confirm the side-view setup and start the camera or choose a local recording. Local recordings are limited to two minutes and 100 MiB, run at normal playback speed, and are never uploaded. Begin standing still before the first repetition so the evaluator can calibrate.
+After normal authentication and terms acceptance, open **Squat measurement pilot** beside Weekly Summary. Confirm the side-view setup and start the camera or choose a local recording. Check the highlighted body and select **Measure highlighted person**. No movement frames reach the evaluator before this explicit confirmation. Local recordings pause when an eligible subject is found, then resume after the worker acknowledges confirmation. Camera previews continue updating. Begin standing still before the first repetition so the evaluator can calibrate. Local recordings are limited to two minutes and 100 MiB, run at normal playback speed, and are never uploaded.
 
 Finish the session to drain the last admitted frame and display confirmed measurements. Closing discards local state; downloading the JSON summary is an explicit user action. A page hide, seek, playback-rate change, or camera termination ends the current session. An incomplete or interrupted movement is excluded instead of being filled in from assumed positions.
+
+## Subject selection and interruption
+
+The worker requests at most two poses. An eligible, isolated candidate receives a session-scoped confirmation token and a highlighted region. The token remains valid only across geometrically continuous observations, and changes when the candidate is lost or discontinuous. It is not a person identifier or face-recognition enrollment.
+
+After confirmation, a missing pose, an additional returned pose, an excessive observation gap, implausible movement/scale, or an exercise-specific geometry failure terminates the measurement segment. Previously completed measurements remain available; the active repetition and calibration are invalidated. A new session is required to select a person again. The worker will not silently resume with another candidate or combine their measurements into the completed segment.
+
+This is a conservative, provisional geometry policy. Similar people replacing one another without an observable discontinuity may still be confused. Two requested pose outputs cannot establish that every bystander was detected, and multi-pose inference cost requires measurement on phones. The pilot therefore supports one clearly visible person; crowded-gym accuracy is not established. Front/back reference photographs are not required by this implementation.
+
+## Real-recording evaluation
+
+For a local recording, expand **Recording evaluation**, enable **Collect an evaluation report**, and provide an anonymous recording identifier matching independent annotation metadata. The summary then includes bounded source-time repetition events and processing latency percentiles. This option is unavailable for camera sessions. It retains neither frames nor landmark trajectories and makes no network request.
+
+The evaluator command is `npm run evaluate:squat-video -- --annotations <labels.json> --observations <summary.json>`. It validates both schemas and compares complete recordings using one-to-one temporal matching. Incomplete or truncated recordings are rejected for full-recording scoring. Identity tracking and technique quality are explicitly unassessed by that comparator. See [SQUAT_VIDEO_EVALUATION.md](SQUAT_VIDEO_EVALUATION.md) for the recording, annotation, and review procedure.
+
+Bundled numerical examples are explicitly marked `synthetic_fixture` / `software-regression-only`. They verify the comparison tool, not human recognition. Real footage and independent labels remain necessary.
 
 ## Camera placement and the meaning of a good movement
 
@@ -53,7 +69,10 @@ The implementation applies SOLID through focused responsibilities and explicit b
 | `useSquatSession` | Camera/video lifecycle, decoded-frame scheduling, source timestamps, React update throttling, and cleanup |
 | `PoseWorkerClient` | One admitted frame, transfer ownership, worker lifecycle, timeouts, stale-session rejection, and finalization |
 | `pose.worker` / `PoseWorkerRuntime` | MediaPipe adapter and worker protocol; pose inference stays off the UI thread |
+| `SubjectTracker` | Explicit candidate confirmation and bounded geometry continuity; terminal loss policy |
 | `SquatEvaluator` | Pure geometry validation, calibration, temporal state machine, timings, and bounded aggregates |
+| `EvaluationRecorder` | Opt-in local-file repetition events and bounded processing samples; no image or landmark history |
+| `scripts/motion-evaluation` | Strict independent-annotation comparison and a local CLI outside the application bundle |
 | `squatProfile` / `squatFeedback` | Versioned provisional parameters, supported criteria, and specific feedback |
 | `AppUpdateService` | Deferred reload coordination across edits, saves, capture, and local result review |
 
@@ -64,13 +83,13 @@ The evaluator does not depend on React, camera APIs, Supabase, or a language mod
 1. The video element displays the local camera or recording. No continuous video stream is sent to a server.
 2. The hook attempts admission at most once per 50 ms of source time. A decoded-frame callback is preferred; animation-frame fallback uses `video.currentTime` and rejects duplicate timestamps.
 3. The worker client reserves the only slot before asynchronous bitmap preparation, resizes to a maximum 640-pixel long edge, and transfers ownership to the worker. Busy frames are skipped. There is no accumulating queue.
-4. The worker infers one pose and evaluates it. The inference clock is strictly increasing and separate from the original timestamps used to calculate movement durations.
+4. The worker requests up to two poses, checks subject continuity, and evaluates only the explicitly confirmed subject. An additional returned pose interrupts measurement. The inference clock is strictly increasing and separate from the original timestamps used to calculate movement durations.
 5. The overlay draws the latest result directly. React measurements normally update at about 5 Hz, with immediate meaningful state/repetition events.
 6. Finalization waits for the admitted frame before requesting a compact summary. Timeouts show an unfinished session; they do not manufacture a successful total.
 
 Model initialization includes a warm-up inference. Initial model download and initialization are separate from steady-state inference. A warm cache reduces network work; it does not guarantee instant GPU startup. Frame preparation, inference, rendering, thermal throttling, battery, and browser behavior all require measurement on supported phones.
 
-The UI exposes latest inference time and frame-admission-to-worker-response time. Neither is total camera-to-display latency. The summary records pipeline counters, completed/interrupted cycles, timing aggregates, model/profile versions, and valid/rejected sample counts. Valid-sample ratio describes supplied observations; it is not independently annotated attempted-repetition coverage.
+The UI exposes latest inference time and frame-admission-to-worker-response time. Neither is total camera-to-display latency. The summary records pipeline counters, completed/interrupted cycles, timing aggregates, model/profile/tracking versions, and valid/rejected sample counts. Valid-sample ratio describes supplied observations; it is not independently annotated attempted-repetition coverage. Optional evaluation collection retains at most 200 repetition events and 2,400 processing-sample pairs; nearest-rank percentiles are calculated once at finalization. Any overflow is disclosed as truncation and cannot be scored as a complete recording.
 
 ## Caching and concurrent users
 
@@ -90,7 +109,18 @@ An Anthropic API is not in the live feedback path. A later optional explanation 
 
 Automated tests cover synthetic geometry, phase state, original timestamps, confidence loss, framing drift, bounded state, worker backpressure, stale callbacks, bitmap ownership, timeouts, session finalization, permission races, playback readiness, and UI setup gates. Passing those tests establishes software behavior only.
 
-### Verification recorded for this implementation
+### Subject selection and evaluation increment
+
+- The complete repository suite passed: **81 files and 726 tests**, including 175 motion, capture, UI, and comparison cases.
+- ESLint and both feature-disabled and feature-enabled production builds passed.
+- Confirmation acknowledgements are scoped to the current session and candidate token. Tests cover stale tokens, cancellation, deadlines, terminal loss, and retention of completed results.
+- Local-file candidate capture freezes before bitmap preparation, so inference delay does not advance the preview away from the confirmed image. A still-paused, unchanged frame remains admissible through slow preparation while retaining the five-second frame deadline. Tests cover resuming preview when no candidate is found and cancellation during resumed playback.
+- The recorder-to-comparator schema contract passed. Comparator tests cover missing/extra repetitions, one-to-one matching, timing, incompatible/incomplete inputs, and explicit synthetic evidence labels. Its bundled example ran as a software-only regression check.
+- The disabled build emitted zero pilot/model files. Both builds retained 28 ordinary precache entries; the enabled precache excludes the pilot, worker, and model/runtime files.
+- The enabled pilot chunk was 32.22 kB minified / 10.72 kB gzip, and the pose worker was 164.66 kB. The three pinned model/runtime artifacts remain 20,780,146 bytes.
+- No real human recording or phone was evaluated. These changes do not establish recognition accuracy, bystander recall, identity-switch rates, mobile compatibility, or latency targets. The existing default-disabled draft status remains appropriate.
+
+### Initial pilot verification before subject selection was added
 
 - The complete repository suite passed: **78 files and 637 tests**, with four workers.
 - ESLint and both feature-disabled and feature-enabled production builds passed.

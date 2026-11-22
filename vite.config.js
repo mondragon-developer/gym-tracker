@@ -96,7 +96,7 @@ export default defineConfig(({ mode }) => {
       environment: 'jsdom',
       globals: true,
       setupFiles: ['./src/test/setup.js'],
-      include: ['src/**/*.{test,spec}.{js,jsx}', 'supabase/functions/**/*.test.js'],
+      include: ['src/**/*.{test,spec}.{js,jsx}', 'supabase/functions/**/*.test.js', 'scripts/motion-evaluation/**/*.test.js'],
     },
   }
 })

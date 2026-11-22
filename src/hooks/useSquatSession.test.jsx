@@ -51,7 +51,7 @@ describe('useSquatSession capture lifecycle', () => {
         });
         mocks.createClient.mockReset().mockImplementation(callbacks => {
             const client = { callbacks, start: vi.fn().mockResolvedValue(), processFrame: vi.fn().mockReturnValue(true),
-                stop: vi.fn().mockResolvedValue(summary), dispose: vi.fn() };
+                confirmSubject: vi.fn().mockResolvedValue(true), stop: vi.fn().mockResolvedValue(summary), dispose: vi.fn() };
             clients.push(client);
             return client;
         });
@@ -79,6 +79,146 @@ describe('useSquatSession capture lifecycle', () => {
         const videoRef = { current: media.video };
         return { ...media, ...renderHook(() => useSquatSession({ videoRef, ...options })) };
     };
+
+    const candidate = { status: 'awaiting_confirmation', confirmationToken: 'candidate-1', restartRequired: false };
+    const candidateResult = { subject: candidate, snapshot: { state: 'setup', capture: { status: 'setup_required' } } };
+
+    it('pauses a local recording for subject confirmation and resumes only after the worker acknowledges it', async () => {
+        const { result, frame, video, callbacks } = setup();
+        await act(async () => result.current.startFile(recording(), confirmed));
+        act(() => { frame(0); clients[0].callbacks.onResult(candidateResult); });
+        expect(video.pause).toHaveBeenCalledOnce();
+        expect(callbacks.size).toBe(0);
+        expect(result.current.subject).toEqual(candidate);
+        const ack = deferred();
+        clients[0].confirmSubject.mockReturnValue(ack.promise);
+        let confirmation;
+        act(() => { confirmation = result.current.confirmSubject('candidate-1'); });
+        expect(result.current.confirmingSubject).toBe(true);
+        expect(video.play).toHaveBeenCalledTimes(1);
+        await act(async () => {
+            clients[0].callbacks.onSubject({ status: 'tracking', confirmationToken: null });
+            ack.resolve(true);
+            expect(await confirmation).toBe(true);
+        });
+        expect(video.play).toHaveBeenCalledTimes(2);
+        expect(callbacks.size).toBe(1);
+        expect(result.current.subject.status).toBe('tracking');
+        expect(result.current.confirmingSubject).toBe(false);
+    });
+
+    it('keeps the camera preview running while awaiting confirmation and rejects a stale UI token', async () => {
+        const { result, frame, video, callbacks } = setup();
+        await act(async () => result.current.startCamera(confirmed));
+        act(() => { frame(0); clients[0].callbacks.onResult(candidateResult); });
+        expect(video.pause).not.toHaveBeenCalled();
+        expect(callbacks.size).toBe(1);
+        await act(async () => { expect(await result.current.confirmSubject('old-candidate')).toBe(false); });
+        expect(clients[0].confirmSubject).not.toHaveBeenCalled();
+    });
+
+    it('freezes a recording before frame preparation so inference delay cannot advance the confirmed image', async () => {
+        const { result, frame, video, callbacks } = setup();
+        let playing = false;
+        video.play.mockImplementation(async () => { playing = true; });
+        video.pause.mockImplementation(() => { playing = false; });
+        await act(async () => result.current.startFile(recording(), confirmed));
+        act(() => frame(0));
+        expect(video.pause.mock.invocationCallOrder[0]).toBeLessThan(clients[0].processFrame.mock.invocationCallOrder[0]);
+        // Simulate 800 ms of inference wall time: the paused video must not advance.
+        if (playing) video.currentTime += 0.8;
+        expect(video.currentTime).toBe(0);
+        expect(callbacks.size).toBe(0);
+        act(() => clients[0].callbacks.onResult(candidateResult));
+        await act(async () => {
+            clients[0].confirmSubject.mockImplementation(async () => {
+                clients[0].callbacks.onSubject({ status: 'tracking', confirmationToken: null });
+                return true;
+            });
+            expect(await result.current.confirmSubject('candidate-1')).toBe(true);
+        });
+        act(() => frame(0.05));
+        expect(clients[0].processFrame.mock.calls.map(([, time]) => time)).toEqual([0, 50]);
+    });
+
+    it('advances the paused preview when the inspected frame contains no eligible subject', async () => {
+        const { result, frame, video, callbacks } = setup();
+        await act(async () => result.current.startFile(recording(), confirmed));
+        act(() => frame(0));
+        expect(callbacks.size).toBe(0);
+        await act(async () => clients[0].callbacks.onResult({ subject: { status: 'unavailable', reason: 'subject_missing' }, snapshot: {} }));
+        expect(video.play).toHaveBeenCalledTimes(2);
+        expect(callbacks.size).toBe(1);
+        act(() => frame(0.05));
+        expect(clients[0].processFrame).toHaveBeenCalledTimes(2);
+    });
+
+    it('preserves confirmed results and closes capture when subject continuity is lost', async () => {
+        const capture = makeStream();
+        getUserMedia.mockResolvedValue(capture.stream);
+        const { result } = setup();
+        await act(async () => result.current.startCamera(confirmed));
+        await act(async () => clients[0].callbacks.onResult({ subject: { status: 'confirmation_required',
+            confirmationToken: null, restartRequired: true, reason: 'multiple_people' },
+        snapshot: { state: 'interrupted', capture: { status: 'unavailable' }, repetitionsCompleted: 2 } }));
+        expect(result.current.status).toBe('completed');
+        expect(result.current.stopReason).toBe('subject_ambiguous');
+        expect(result.current.summary).toEqual(summary);
+        expect(clients[0].stop).toHaveBeenCalledOnce();
+        expect(capture.track.stop).toHaveBeenCalledOnce();
+        await act(async () => { expect(await result.current.confirmSubject('candidate-1')).toBe(false); });
+    });
+
+    it('does not resume a paused recording when a confirmation arrives after cancellation', async () => {
+        const { result, frame, video } = setup();
+        await act(async () => result.current.startFile(recording(), confirmed));
+        act(() => { frame(0); clients[0].callbacks.onResult(candidateResult); });
+        const ack = deferred();
+        clients[0].confirmSubject.mockReturnValue(ack.promise);
+        let confirmation;
+        act(() => { confirmation = result.current.confirmSubject('candidate-1'); });
+        act(() => result.current.cancel());
+        await act(async () => { ack.resolve(true); expect(await confirmation).toBe(false); });
+        expect(video.play).toHaveBeenCalledTimes(1);
+        expect(result.current.status).toBe('idle');
+    });
+
+    it('bounds resumed playback even when the browser leaves play pending', async () => {
+        vi.useFakeTimers();
+        const { result, frame, video } = setup();
+        await act(async () => result.current.startFile(recording(), confirmed));
+        act(() => { frame(0); clients[0].callbacks.onResult(candidateResult); });
+        video.play.mockReturnValue(new Promise(() => {}));
+        let confirmation;
+        act(() => { confirmation = result.current.confirmSubject('candidate-1'); });
+        await act(async () => { await vi.advanceTimersByTimeAsync(15001); expect(await confirmation).toBe(false); });
+        expect(result.current.status).toBe('error');
+        expect(result.current.error).toMatch(/ready in time/);
+        expect(guards[0]).toHaveBeenCalledOnce();
+    });
+
+    it('collects evaluation data only for explicitly enabled local videos and marks an early stop as partial', async () => {
+        const { result } = setup();
+        await act(async () => result.current.startFile(recording(), { ...confirmed, evaluation: { clipId: 'clip-01' } }));
+        clients[0].stop.mockResolvedValue({ ...summary, repetitionsCompleted: 1, modelVersion: 'model-test', profileId: 'squat-test',
+            profileVersion: '0.1', subjectTracking: { confirmedSegments: 1, restartRequired: false } });
+        act(() => clients[0].callbacks.onResult({ subject: { status: 'tracking' }, inferenceMs: 8, frameLatencyMs: 15,
+            snapshot: { event: 'repetition_completed', repetitionsCompleted: 1, lastRepetition: {
+                index: 1, startedAtMs: 1000, completedAtMs: 5000, descentSeconds: 2, bottomPauseSeconds: 0.5,
+            } } }));
+        await act(async () => result.current.finish());
+        expect(result.current.summary.evaluationTrace).toMatchObject({ clipId: 'clip-01', durationMs: 10000,
+            completed: false, truncated: false, repetitions: [{ startedAtMs: 1000, bottomReachedAtMs: 3000,
+                ascentStartedAtMs: 3500, completedAtMs: 5000 }], processing: { samples: 1 } });
+    });
+
+    it('rejects evaluation options for cameras or invalid recording identifiers before acquiring resources', async () => {
+        const { result } = setup();
+        await act(async () => { expect(await result.current.startCamera({ ...confirmed, evaluation: { clipId: 'clip' } })).toBe(false); });
+        await act(async () => { expect(await result.current.startFile(recording(), { ...confirmed, evaluation: { clipId: 'my video' } })).toBe(false); });
+        expect(mocks.createClient).not.toHaveBeenCalled();
+        expect(getUserMedia).not.toHaveBeenCalled();
+    });
 
     it('requires explicit setup and browser capability before requesting media or downloading a model', async () => {
         const { result } = setup();
@@ -219,6 +359,7 @@ describe('useSquatSession capture lifecycle', () => {
         expect(clients[0].processFrame).toHaveBeenCalledWith(video, 1250);
         act(() => scheduled(98800));
         expect(clients[0].processFrame).toHaveBeenCalledTimes(1);
+        await act(async () => clients[0].callbacks.onResult({ subject: { status: 'unavailable' }, snapshot: {} }));
         act(() => result.current.cancel());
         expect(cancel).toHaveBeenCalledWith(41);
     });

@@ -11,6 +11,9 @@
 .squat-pilot-placeholder { position: absolute; inset: 0; display: grid; place-content: center; padding: 24px; color: #f1f5f9; text-align: center; background: rgb(16 27 43 / 70%); }
 .squat-pilot-privacy, .squat-pilot-note { color: var(--text-2); font-size: 12px; }
 .squat-pilot-feedback { padding: 14px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--border); line-height: 1.5; }
+.squat-pilot-subject { margin: 12px 0; }
+.squat-pilot-subject p { color: var(--text-2); font-size: 13px; }
+.squat-pilot-subject .squat-pilot-button { width: 100%; }
 .squat-pilot-error { color: var(--danger); }
 .squat-pilot-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 16px 0; }
 .squat-pilot-metrics div { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 8px; }
@@ -23,13 +26,13 @@
 .squat-pilot-check input { flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px; accent-color: var(--brand); }
 .squat-pilot-targets { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 8px 0; }
 .squat-pilot-targets p { grid-column: 1 / -1; font-size: 12px; margin: 0; }
-.squat-pilot-targets label { font-size: 12px; min-width: 0; }
-.squat-pilot-targets input { box-sizing: border-box; width: 100%; margin-top: 6px; min-height: 42px; border: 1px solid var(--border); border-radius: 7px; padding: 8px; background: var(--surface); color: var(--text); font: inherit; }
+.squat-pilot-targets label, .squat-pilot-recording label { font-size: 12px; min-width: 0; }
+.squat-pilot-targets input, .squat-pilot-recording input { box-sizing: border-box; width: 100%; margin-top: 6px; min-height: 42px; border: 1px solid var(--border); border-radius: 7px; padding: 8px; background: var(--surface); color: var(--text); font: inherit; }
 .squat-pilot-actions { display: flex; flex-direction: column; gap: 8px; }
 .squat-pilot-button { min-height: 44px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface-2); color: var(--text); padding: 10px 14px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
 .squat-pilot-primary { background: var(--action); color: var(--on-action); border-color: transparent; }
 .squat-pilot-button:disabled { opacity: .5; cursor: not-allowed; }
-.squat-pilot-button:focus-visible, .squat-pilot-check input:focus-visible, .squat-pilot-scope summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+.squat-pilot-button:focus-visible, .squat-pilot-check input:focus-visible, .squat-pilot-targets input:focus-visible, .squat-pilot-recording input:focus-visible, .squat-pilot-scope summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
 .squat-pilot-scope { border-top: 1px solid var(--border); padding: 14px 0; font-size: 13px; }
 .squat-pilot-scope summary { cursor: pointer; font-weight: 600; }
 .squat-pilot-summary { border-top: 1px solid var(--border); margin-top: 20px; padding-top: 20px; }

@@ -60,6 +60,78 @@ afterEach(() => {
 });
 
 describe('background pose client', () => {
+    it('waits for the matching subject acknowledgement and ignores stale responses', async () => {
+        const onSubject = vi.fn();
+        const { client, start } = setup({ onSubject });
+        const worker = await start();
+        const confirmation = client.confirmSubject('candidate-1');
+        expect(client.confirmSubject('candidate-1')).toBe(confirmation);
+        let settled = false;
+        confirmation.then(() => { settled = true; });
+        const subject = { status: 'tracking', confirmationToken: null };
+        worker.emit({ type: 'subject_confirmed', sessionId: 'old-session', confirmationToken: 'candidate-1', subject });
+        worker.emit({ type: 'subject_confirmed', sessionId: 'session-1', confirmationToken: 'candidate-old', subject });
+        await flush();
+        expect(settled).toBe(false);
+        expect(onSubject).not.toHaveBeenCalled();
+        expect(worker.postMessage).toHaveBeenCalledWith({ type: 'confirm_subject', sessionId: 'session-1', confirmationToken: 'candidate-1' });
+        worker.emit({ type: 'subject_confirmed', sessionId: 'session-1', confirmationToken: 'candidate-1', subject });
+        await expect(confirmation).resolves.toBe(true);
+        expect(onSubject).toHaveBeenCalledWith(subject);
+    });
+
+    it('allows a fresh confirmation after a nonfatal stale-candidate rejection', async () => {
+        const onSubject = vi.fn();
+        const { client, start, onError } = setup({ onSubject });
+        const worker = await start();
+        const confirmation = client.confirmSubject('old-candidate');
+        const subject = { status: 'awaiting_confirmation', confirmationToken: 'new-candidate' };
+        worker.emit({ type: 'subject_confirmation_rejected', sessionId: 'session-1', confirmationToken: 'old-candidate', subject });
+        await expect(confirmation).resolves.toBe(false);
+        expect(client.getState()).toBe('running');
+        expect(onError).not.toHaveBeenCalled();
+        expect(onSubject).toHaveBeenCalledWith(subject);
+        const retry = client.confirmSubject('new-candidate');
+        worker.emit({ type: 'subject_confirmed', sessionId: 'session-1', confirmationToken: 'new-candidate', subject: { status: 'tracking' } });
+        await expect(retry).resolves.toBe(true);
+    });
+
+    it('cancels an outstanding confirmation on stop without leaving its timeout armed', async () => {
+        vi.useFakeTimers();
+        const { client, start, onError } = setup({ timeouts: { confirmationMs: 50, summaryMs: 500 } });
+        const worker = await start();
+        const confirmation = client.confirmSubject('candidate-1');
+        const completion = client.stop();
+        await expect(confirmation).resolves.toBe(false);
+        await vi.advanceTimersByTimeAsync(60);
+        expect(onError).not.toHaveBeenCalled();
+        worker.emit({ type: 'summary', sessionId: 'session-1', summary: {} });
+        await completion;
+        expect(vi.getTimerCount()).toBe(0);
+    });
+
+    it('fails visibly when the worker cannot acknowledge subject confirmation', async () => {
+        vi.useFakeTimers();
+        const { client, start, onError } = setup({ timeouts: { confirmationMs: 50 } });
+        const worker = await start();
+        const confirmation = client.confirmSubject('candidate-1');
+        await vi.advanceTimersByTimeAsync(51);
+        await expect(confirmation).resolves.toBe(false);
+        expect(client.getState()).toBe('error');
+        expect(worker.terminate).toHaveBeenCalledOnce();
+        expect(onError).toHaveBeenCalledWith(expect.objectContaining({ code: 'subject_confirmation_timeout', unfinished: true }));
+    });
+
+    it('forwards subject information with the original source time without a second frame queue', async () => {
+        const { client, start, onResult } = setup();
+        const worker = await start();
+        client.processFrame(video, 1000);
+        await flush();
+        const subject = { status: 'awaiting_confirmation', confirmationToken: 'candidate-1' };
+        worker.emit({ type: 'result', sessionId: 'session-1', frameId: 1, subject, landmarks: [], snapshot: {} });
+        expect(onResult).toHaveBeenCalledWith(expect.objectContaining({ subject, sourceTimestampMs: 1000 }));
+    });
+
     it('uses a module worker by default', async () => {
         const worker = new MockWorker();
         const WorkerConstructor = vi.fn(function () { return worker; });
@@ -138,6 +210,38 @@ describe('background pose client', () => {
         expect(image.close).toHaveBeenCalledOnce();
         expect(frameMessages(worker)).toHaveLength(0);
         expect(client.processFrame(video, 500)).toBe(true);
+    });
+
+    it('retains a slowly prepared paused candidate frame while its displayed source position is unchanged', async () => {
+        const preparation = pending();
+        const { client, start, advanceClock } = setup({ createBitmap: () => preparation.promise });
+        const worker = await start();
+        const frozenVideo = { ...video, paused: true, currentTime: 1 };
+        client.processFrame(frozenVideo, 1000);
+        await flush();
+        advanceClock(500);
+        const image = bitmap();
+        preparation.resolve(image);
+        await flush();
+        expect(frameMessages(worker)).toHaveLength(1);
+        expect(image.close).not.toHaveBeenCalled();
+        frameResult(worker);
+    });
+
+    it('does not preserve a stale paused candidate after the source position changes', async () => {
+        const preparation = pending();
+        const { client, start, advanceClock } = setup({ createBitmap: () => preparation.promise });
+        const worker = await start();
+        const frozenVideo = { ...video, paused: true, currentTime: 1 };
+        client.processFrame(frozenVideo, 1000);
+        await flush();
+        frozenVideo.currentTime = 2;
+        advanceClock(500);
+        const image = bitmap();
+        preparation.resolve(image);
+        await flush();
+        expect(frameMessages(worker)).toHaveLength(0);
+        expect(image.close).toHaveBeenCalledOnce();
     });
 
     it('closes a bitmap whose asynchronous preparation finishes after disposal', async () => {

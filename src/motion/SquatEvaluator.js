@@ -249,5 +249,9 @@ export function createSquatEvaluator({ sessionId = null, modelVersion = 'not-spe
         criteriaUnavailable: profile.unavailableCriteria.map(item => ({ ...item })),
     });
     reset();
-    return { update, getSummary, reset };
+    return { update, getSummary, reset,
+        // Subject continuity is owned by the worker. An external interruption
+        // clears the active cycle and calibration without discarding prior totals.
+        interrupt(reason = 'subject_tracking_lost') { interrupt(reason); return snapshot(); },
+    };
 }

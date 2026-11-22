@@ -1,6 +1,7 @@
 import { FilesetResolver, PoseLandmarker } from '@mediapipe/tasks-vision';
 import { createPoseWorkerRuntime } from './PoseWorkerRuntime.js';
 import { POSE_MODEL_PATH, POSE_WASM_BASE_PATH } from './modelAssets.js';
+import { SUBJECT_TRACKER_PROFILE } from './SubjectTracker.js';
 
 const createDetector = async () => {
     if (typeof OffscreenCanvas !== 'function') {
@@ -14,7 +15,9 @@ const createDetector = async () => {
         detector = await PoseLandmarker.createFromOptions(fileset, {
             baseOptions: { modelAssetPath: new URL(POSE_MODEL_PATH, self.location.origin).href, delegate: 'GPU' },
             canvas: new OffscreenCanvas(1, 1),
-            runningMode: 'VIDEO', numPoses: 1,
+            // A second returned body causes abstention. This limit does not prove
+            // that every bystander in the scene has been detected.
+            runningMode: 'VIDEO', numPoses: SUBJECT_TRACKER_PROFILE.maximumPoses,
             minPoseDetectionConfidence: 0.6,
             minPosePresenceConfidence: 0.6,
             minTrackingConfidence: 0.6,

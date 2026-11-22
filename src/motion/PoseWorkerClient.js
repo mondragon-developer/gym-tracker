@@ -1,4 +1,4 @@
-const DEFAULT_TIMEOUTS = Object.freeze({ initializationMs: 45000, frameMs: 5000, summaryMs: 5000 });
+const DEFAULT_TIMEOUTS = Object.freeze({ initializationMs: 45000, frameMs: 5000, summaryMs: 5000, confirmationMs: 5000 });
 const MAXIMUM_FRAME_EDGE = 640;
 const MAXIMUM_PREPARATION_AGE_MS = 350;
 
@@ -29,7 +29,7 @@ const createDefaultBitmap = (source, options) => globalThis.createImageBitmap(so
  * dispose() cancels immediately; callers must use stop() when they need a summary.
  */
 export function createPoseWorkerClient({
-    onResult = () => {}, onError = () => {}, onState = () => {},
+    onResult = () => {}, onError = () => {}, onState = () => {}, onSubject = () => {},
     createWorker = createDefaultWorker, createBitmap = createDefaultBitmap,
     now = () => performance.now(), timeouts = {},
     maximumPreparationAgeMs = MAXIMUM_PREPARATION_AGE_MS,
@@ -53,6 +53,9 @@ export function createPoseWorkerClient({
         clearTimeout(session.initializationTimer);
         clearTimeout(session.frame?.timer);
         clearTimeout(session.summaryTimer);
+        clearTimeout(session.confirmation?.timer);
+        session.confirmation?.resolve(false);
+        session.confirmation = null;
         session.worker?.removeEventListener('message', session.onMessage);
         session.worker?.removeEventListener('error', session.onWorkerError);
         session.worker?.removeEventListener('messageerror', session.onMessageError);
@@ -93,13 +96,20 @@ export function createPoseWorkerClient({
             session.frame = null;
             session.processedFrames += 1;
             notify(onResult, {
-                snapshot: message.snapshot, landmarks: message.landmarks,
+                snapshot: message.snapshot, landmarks: message.landmarks, subject: message.subject,
                 imageWidth: message.imageWidth, imageHeight: message.imageHeight,
                 sourceTimestampMs: admitted.sourceTimestampMs,
                 inferenceMs: message.inferenceMs,
                 frameLatencyMs: Math.max(0, now() - admitted.admittedAt),
             });
             requestSummary(session);
+        } else if ((message.type === 'subject_confirmed' || message.type === 'subject_confirmation_rejected')
+            && state === 'running' && session.confirmation?.token === message.confirmationToken) {
+            const pending = session.confirmation;
+            clearTimeout(pending.timer);
+            session.confirmation = null;
+            notify(onSubject, message.subject);
+            pending.resolve(message.type === 'subject_confirmed' && message.subject?.status === 'tracking');
         } else if (message.type === 'summary' && state === 'stopping' && session.summaryRequested) {
             lastSummary = {
                 ...message.summary,
@@ -133,7 +143,7 @@ export function createPoseWorkerClient({
         lastSummary = null;
         const session = { id: sessionId, ready: deferred(), frame: null, finish: null,
             nextFrameId: 0, processedFrames: 0, discardedFrames: 0, lastSourceTimestampMs: -Infinity,
-            summaryRequested: false, worker: null };
+            summaryRequested: false, worker: null, confirmation: null };
         current = session;
         transition('preparing');
         if (!isCurrent(session)) return session.ready.promise;
@@ -171,7 +181,8 @@ export function createPoseWorkerClient({
         const scale = Math.min(1, MAXIMUM_FRAME_EDGE / Math.max(width, height));
         const options = { resizeWidth: Math.max(1, Math.round(width * scale)),
             resizeHeight: Math.max(1, Math.round(height * scale)), resizeQuality: 'low' };
-        const admitted = { id: ++session.nextFrameId, admittedAt: now(), sourceTimestampMs };
+        const admitted = { id: ++session.nextFrameId, admittedAt: now(), sourceTimestampMs,
+            sourcePaused: source.paused === true, sourcePosition: source.currentTime };
         session.frame = admitted;
         session.lastSourceTimestampMs = sourceTimestampMs;
         admitted.timer = setTimeout(() => fail(session, error('frame_timeout',
@@ -188,7 +199,9 @@ export function createPoseWorkerClient({
                 return;
             }
             // A delayed preparation must never create a backlog of old images.
-            if (state !== 'stopping' && now() - admitted.admittedAt > maximumPreparationAgeMs) {
+            const unchangedPausedFrame = admitted.sourcePaused && source.paused === true
+                && Number.isFinite(admitted.sourcePosition) && source.currentTime === admitted.sourcePosition;
+            if (state !== 'stopping' && !unchangedPausedFrame && now() - admitted.admittedAt > maximumPreparationAgeMs) {
                 closeBitmap(bitmap);
                 clearTimeout(admitted.timer);
                 session.frame = null;
@@ -223,9 +236,31 @@ export function createPoseWorkerClient({
             return Promise.resolve(null);
         }
         session.finish = deferred();
+        clearTimeout(session.confirmation?.timer);
+        session.confirmation?.resolve(false);
+        session.confirmation = null;
         transition('stopping');
         requestSummary(session);
         return session.finish.promise;
+    };
+
+    const confirmSubject = confirmationToken => {
+        const session = current;
+        if (!session || state !== 'running' || typeof confirmationToken !== 'string'
+            || !confirmationToken || confirmationToken.length > 128) return Promise.resolve(false);
+        if (session.confirmation) return session.confirmation.token === confirmationToken
+            ? session.confirmation.promise : Promise.resolve(false);
+        const pending = { ...deferred(), token: confirmationToken };
+        session.confirmation = pending;
+        pending.timer = setTimeout(() => fail(session, error('subject_confirmation_timeout',
+            'The selected person could not be confirmed. Start a new session.', true)), limits.confirmationMs);
+        try {
+            session.worker.postMessage({ type: 'confirm_subject', sessionId: session.id, confirmationToken });
+        } catch {
+            fail(session, error('subject_confirmation_failed',
+                'The selected person could not be confirmed. Start a new session.', true));
+        }
+        return pending.promise;
     };
 
     const dispose = () => {
@@ -241,5 +276,5 @@ export function createPoseWorkerClient({
         transition('disposed');
     };
 
-    return { start, processFrame, stop, dispose, getState: () => state };
+    return { start, processFrame, confirmSubject, stop, dispose, getState: () => state };
 }
