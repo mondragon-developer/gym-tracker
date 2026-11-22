@@ -4,6 +4,7 @@
  */
 
 import { supabase } from '../lib/supabase';
+import { payloadBytes, performanceRecorder } from './PerformanceService.js';
 
 /**
  * Supabase storage implementation
@@ -19,20 +20,23 @@ class SupabaseStorageService {
    * so a swallowed error here would overwrite the user's real plan.
    * @returns {Promise<{data: Object, updatedAt: string}|null>} null when no row exists
    */
-  async getWorkoutPlanRecord() {
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError) throw authError;
-    if (!user) throw new Error('No authenticated user found');
+  async getWorkoutPlanRecord({ expectedUserId } = {}) {
+    return performanceRecorder.measure('workout.load', async () => {
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
+      if (authError) throw authError;
+      if (!user) throw new Error('No authenticated user found');
+      if (expectedUserId && user.id !== expectedUserId) throw new Error('The signed-in account changed.');
 
-    const { data, error } = await supabase
-      .from('workout_plans')
-      .select('data, updated_at')
-      .eq('user_id', user.id)
-      .maybeSingle();
+      const { data, error } = await supabase
+        .from('workout_plans')
+        .select('data, updated_at')
+        .eq('user_id', user.id)
+        .maybeSingle();
 
-    if (error) throw error;
-    if (!data) return null;
-    return { data: data.data, updatedAt: data.updated_at };
+      if (error) throw error;
+      if (!data) return null;
+      return { data: data.data, updatedAt: data.updated_at };
+    }, { outputBytes: record => payloadBytes(record?.data ?? null) });
   }
 
   /**
@@ -61,64 +65,67 @@ class SupabaseStorageService {
    *     since the read, the unique(user_id) violation is reported as a
    *     conflict instead of clobbering it.
    * @param {Object} workoutPlan - Workout plan to save
-   * @param {{expectedUpdatedAt?: string|null, overwrite?: boolean}} [options]
+   * @param {{expectedUpdatedAt?: string|null, overwrite?: boolean, expectedUserId?: string}} [options]
    * @returns {Promise<{ok: true, updatedAt: string}|{ok: false, reason: 'unauthenticated'|'conflict'|'error', error?: Error}>}
    */
-  async saveWorkoutPlan(workoutPlan, { expectedUpdatedAt = null, overwrite = false } = {}) {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
+  async saveWorkoutPlan(workoutPlan, { expectedUpdatedAt = null, overwrite = false, expectedUserId } = {}) {
+    return performanceRecorder.measure('workout.save', async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
 
-      if (!user) {
-        console.warn('No authenticated user found');
-        return { ok: false, reason: 'unauthenticated' };
-      }
-
-      const now = new Date().toISOString();
-      const row = { user_id: user.id, data: workoutPlan, updated_at: now };
-
-      if (expectedUpdatedAt && !overwrite) {
-        const { data, error } = await supabase
-          .from('workout_plans')
-          .update({ data: workoutPlan, updated_at: now })
-          .eq('user_id', user.id)
-          .eq('updated_at', expectedUpdatedAt)
-          .select('updated_at');
-
-        if (error) throw error;
-        if (!data || data.length === 0) {
-          return { ok: false, reason: 'conflict' };
+        if (!user) {
+          console.warn('No authenticated user found');
+          return { ok: false, reason: 'unauthenticated' };
         }
-        return { ok: true, updatedAt: data[0].updated_at };
-      }
+        if (expectedUserId && user.id !== expectedUserId) return { ok: false, reason: 'unauthenticated' };
 
-      if (overwrite) {
+        const now = new Date().toISOString();
+        const row = { user_id: user.id, data: workoutPlan, updated_at: now };
+
+        if (expectedUpdatedAt && !overwrite) {
+          const { data, error } = await supabase
+            .from('workout_plans')
+            .update({ data: workoutPlan, updated_at: now })
+            .eq('user_id', user.id)
+            .eq('updated_at', expectedUpdatedAt)
+            .select('updated_at');
+
+          if (error) throw error;
+          if (!data || data.length === 0) {
+            return { ok: false, reason: 'conflict' };
+          }
+          return { ok: true, updatedAt: data[0].updated_at };
+        }
+
+        if (overwrite) {
+          const { data, error } = await supabase
+            .from('workout_plans')
+            .upsert(row, { onConflict: 'user_id' })
+            .select('updated_at');
+
+          if (error) throw error;
+          return { ok: true, updatedAt: data?.[0]?.updated_at ?? now };
+        }
+
         const { data, error } = await supabase
           .from('workout_plans')
-          .upsert(row, { onConflict: 'user_id' })
+          .insert(row)
           .select('updated_at');
 
-        if (error) throw error;
+        if (error) {
+          // 23505 is Postgres unique_violation: a row for this user now exists.
+          if (error.code === '23505') {
+            return { ok: false, reason: 'conflict' };
+          }
+          throw error;
+        }
+
         return { ok: true, updatedAt: data?.[0]?.updated_at ?? now };
+      } catch (error) {
+        console.error('Error saving workout plan:', error);
+        return { ok: false, reason: 'error', error };
       }
-
-      const { data, error } = await supabase
-        .from('workout_plans')
-        .insert(row)
-        .select('updated_at');
-
-      if (error) {
-        // 23505 is Postgres unique_violation: a row for this user now exists.
-        if (error.code === '23505') {
-          return { ok: false, reason: 'conflict' };
-        }
-        throw error;
-      }
-
-      return { ok: true, updatedAt: data?.[0]?.updated_at ?? now };
-    } catch (error) {
-      console.error('Error saving workout plan:', error);
-      return { ok: false, reason: 'error', error };
-    }
+    }, { inputBytes: () => payloadBytes(workoutPlan) });
   }
 
   /**

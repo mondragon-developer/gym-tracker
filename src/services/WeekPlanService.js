@@ -45,10 +45,16 @@ const deepClone = (obj) =>
  * Pure (unlike workoutService.migrateWorkoutPlan, which writes to storage).
  */
 const ensureAllDays = (plan) => {
-    const initial = workoutService.getInitialPlan();
+    // Complete archived weeks need no default-plan allocation or deep clone.
+    let initial;
     const merged = {};
     DAYS_OF_WEEK.forEach(day => {
-        merged[day] = plan && plan[day] ? plan[day] : initial[day];
+        if (plan && plan[day]) {
+            merged[day] = plan[day];
+        } else {
+            initial ??= workoutService.getInitialPlan();
+            merged[day] = initial[day];
+        }
     });
     return merged;
 };

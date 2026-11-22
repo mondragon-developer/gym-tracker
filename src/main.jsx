@@ -4,6 +4,10 @@ import './theme/tokens.css'
 import './index.css'
 import App from './App.jsx'
 import { registerSW } from 'virtual:pwa-register'
+import { appUpdates } from './services/AppUpdateService.js'
+import { installPerformanceDiagnostics } from './services/PerformanceService.js'
+
+installPerformanceDiagnostics();
 
 // A phone that keeps the app open (or installed as a PWA) only asks for a
 // new build on a fresh load or once a day. Checking again whenever the app
@@ -43,7 +47,7 @@ window.addEventListener('vite:preloadError', (event) => {
   }
   if (recentlyTried) return;
   event.preventDefault();
-  window.location.reload();
+  appUpdates.request();
 });
 
 // The PWA service worker updates itself in the background, but the page
@@ -59,11 +63,15 @@ if (typeof navigator !== 'undefined' && navigator.serviceWorker) {
       hadController = true;
       return;
     }
-    const request = new CustomEvent('gym:app-update-ready', { cancelable: true });
-    const claimed = !window.dispatchEvent(request);
-    if (!claimed) window.location.reload();
+    appUpdates.request();
   });
 }
+
+window.addEventListener('beforeunload', (event) => {
+  if (!appUpdates.isProtected()) return;
+  event.preventDefault();
+  event.returnValue = '';
+});
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
