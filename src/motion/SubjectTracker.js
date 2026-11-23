@@ -4,7 +4,7 @@
  * a detector returning one pose does not establish that no bystander is present.
  */
 export const SUBJECT_TRACKER_PROFILE = Object.freeze({
-    version: '0.1.0-experimental',
+    version: '0.2.0-experimental',
     maximumPoses: 2,
     minimumVisibility: 0.6,
     minimumPresence: 0.5,
@@ -12,6 +12,9 @@ export const SUBJECT_TRACKER_PROFILE = Object.freeze({
     minimumSegmentLength: 0.045,
     minimumTorsoLength: 0.07,
     minimumFootLength: 0.015,
+    // Provisional startup parameters, not independently validated accuracy criteria.
+    minimumCandidateDurationMs: 300,
+    minimumCandidateObservations: 6,
     maximumObservationGapMs: 350,
     maximumAspectRatioChange: 0.02,
     maximumScaleChangeRatio: 0.3,
@@ -63,19 +66,21 @@ const continuous = (previous, candidate) => Math.abs(candidate.ratio / previous.
     && distance(candidate.ankle, previous.ankle) / previous.legLength <= profile.maximumAnkleDisplacementLegRatio;
 
 /**
- * One candidate and one confirmation token are retained. After a confirmed target
- * becomes uncertain, this segment is terminal: a new worker/session is required.
- * Tokens are session-scoped continuity tokens, not person identifiers.
+ * One candidate, a qualification start time, a capped observation count, and one
+ * confirmation token are retained. After a confirmed target becomes uncertain,
+ * this segment is terminal: a new worker/session is required. Tokens are
+ * session-scoped continuity tokens, not person identifiers.
  */
 export function createSubjectTracker() {
     let candidate = null, token = null, nextToken = 0, lastTimestamp = null;
+    let candidateStartedAt = null, candidateObservations = 0;
     let confirmed = false, restartRequired = false, reason = 'subject_missing', observedPoses = 0;
     let admittedFrames = 0, ambiguousFrames = 0, unavailableFrames = 0, interruptions = 0;
     const getSnapshot = () => ({
         version: profile.version,
         status: restartRequired ? 'confirmation_required' : confirmed ? 'tracking'
-            : candidate ? 'awaiting_confirmation' : 'unavailable',
-        reason: confirmed && !restartRequired ? null : candidate && !restartRequired ? 'confirm_subject' : reason,
+            : token ? 'awaiting_confirmation' : 'unavailable',
+        reason: confirmed && !restartRequired ? null : token && !restartRequired ? 'confirm_subject' : reason,
         confirmationToken: !confirmed && !restartRequired ? token : null,
         bounds: candidate ? { ...candidate.bounds } : null,
         observedPoses, restartRequired,
@@ -83,6 +88,7 @@ export function createSubjectTracker() {
     const interrupt = interruptionReason => {
         if (confirmed && !restartRequired) { interruptions += 1; restartRequired = true; }
         candidate = null; token = null; reason = interruptionReason;
+        candidateStartedAt = null; candidateObservations = 0;
         return getSnapshot();
     };
     const update = ({ poses, timestampMs, imageWidth, imageHeight }) => {
@@ -108,12 +114,20 @@ export function createSubjectTracker() {
         if (issue) {
             unavailableFrames += 1;
             interrupt(issue);
-            // Before selection, a new candidate is offered on the following frame;
-            // a command based on the old preview can never confirm the new person.
+            // Before selection, qualification restarts on the following frame;
+            // a command based on an old preview can never confirm a new candidate.
             return { subject: getSnapshot(), landmarks: [], trackingLost: wasTracking };
         }
         candidate = next;
-        token ??= `candidate-${++nextToken}`;
+        if (!confirmed) {
+            candidateStartedAt ??= timestampMs;
+            candidateObservations = Math.min(profile.minimumCandidateObservations, candidateObservations + 1);
+            reason = 'subject_stabilizing';
+            if (timestampMs - candidateStartedAt >= profile.minimumCandidateDurationMs
+                && candidateObservations >= profile.minimumCandidateObservations) {
+                token ??= `candidate-${++nextToken}`;
+            }
+        }
         return { subject: getSnapshot(), landmarks: poses[0], trackingLost: false };
     };
     const confirm = confirmationToken => {
@@ -124,7 +138,9 @@ export function createSubjectTracker() {
     };
     const getSummary = () => ({
         version: profile.version, validationStatus: 'not-validated',
-        selectionPolicy: 'explicit-single-subject-confirmation',
+        selectionPolicy: 'explicit-stable-single-subject-confirmation',
+        confirmationQualification: { minimumDurationMs: profile.minimumCandidateDurationMs,
+            minimumObservations: profile.minimumCandidateObservations, validationStatus: 'not-validated' },
         lossPolicy: 'finish-segment-and-restart',
         maximumPoses: profile.maximumPoses, confirmedSegments: confirmed ? 1 : 0,
         interruptions, ambiguousFrames, unavailableFrames, admittedFrames,

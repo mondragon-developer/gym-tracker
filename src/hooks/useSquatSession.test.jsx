@@ -153,6 +153,31 @@ describe('useSquatSession capture lifecycle', () => {
         expect(clients[0].processFrame).toHaveBeenCalledTimes(2);
     });
 
+    it('advances the file preview during qualification and holds it only for a qualified confirmation token', async () => {
+        const { result, frame, video, callbacks } = setup();
+        let playing = false;
+        video.play.mockImplementation(async () => { playing = true; });
+        video.pause.mockImplementation(() => { playing = false; });
+        await act(async () => result.current.startFile(recording(), confirmed));
+        const stabilizing = { status: 'unavailable', reason: 'subject_stabilizing', confirmationToken: null };
+        for (const time of [0, 0.06, 0.12, 0.18, 0.24]) {
+            act(() => frame(time));
+            // Preparation freezes each inspected image; an unqualified result must resume it.
+            expect(playing).toBe(false);
+            await act(async () => clients[0].callbacks.onResult({ subject: stabilizing, snapshot: {} }));
+            expect(playing).toBe(true);
+            expect(callbacks.size).toBe(1);
+            await act(async () => { expect(await result.current.confirmSubject('candidate-1')).toBe(false); });
+        }
+        act(() => { frame(0.30); clients[0].callbacks.onResult(candidateResult); });
+        expect(playing).toBe(false);
+        expect(callbacks.size).toBe(0);
+        expect(video.play).toHaveBeenCalledTimes(6);
+        expect(clients[0].processFrame.mock.calls.map(([, time]) => time)).toEqual([0, 60, 120, 180, 240, 300]);
+        expect(clients[0].confirmSubject).not.toHaveBeenCalled();
+        expect(result.current.subject).toEqual(candidate);
+    });
+
     it('preserves confirmed results and closes capture when subject continuity is lost', async () => {
         const capture = makeStream();
         getUserMedia.mockResolvedValue(capture.stream);

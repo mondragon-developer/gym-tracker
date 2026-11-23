@@ -24,14 +24,21 @@ const setup = overrides => {
     const createDetector = vi.fn(async () => detector);
     const postMessage = vi.fn();
     const runtime = createPoseWorkerRuntime({ createDetector, createEvaluator, postMessage, now: () => 10, ...overrides });
+    const offer = (sourceTimestampMs = 1150) => {
+        for (let step = 0; step < 6; step += 1) {
+            runtime.handleMessage(frame(image(), { frameId: step,
+                sourceTimestampMs: sourceTimestampMs - 300 + step * 60 }));
+        }
+        return postMessage.mock.calls.at(-1)[0].subject.confirmationToken;
+    };
     return { runtime, detector, evaluator, result, createDetector, createEvaluator, postMessage,
         async initialize() {
             await runtime.handleMessage({ type: 'initialize', sessionId: 'session-1', sideViewConfirmed: true,
                 tempoTarget: { descentSeconds: 3 } });
         },
+        offer,
         select(sourceTimestampMs = 1150) {
-            runtime.handleMessage(frame(image(), { frameId: 0, sourceTimestampMs }));
-            const { confirmationToken } = postMessage.mock.calls.at(-1)[0].subject;
+            const confirmationToken = offer(sourceTimestampMs);
             runtime.handleMessage({ type: 'confirm_subject', sessionId: 'session-1', confirmationToken });
             return confirmationToken;
         },
@@ -59,12 +66,13 @@ describe('pose worker runtime', () => {
         const { runtime, initialize, select, detector, evaluator, result, postMessage } = setup();
         await initialize();
         select();
+        const lastDetectorTime = detector.detectForVideo.mock.calls.at(-1)[1];
         detector.detectForVideo.mockClear();
         result.close.mockClear();
         const first = image(), second = image();
         runtime.handleMessage(frame(first));
         runtime.handleMessage(frame(second, { frameId: 2, sourceTimestampMs: 1250 }));
-        expect(detector.detectForVideo.mock.calls).toEqual([[first, 11], [second, 12]]);
+        expect(detector.detectForVideo.mock.calls).toEqual([[first, lastDetectorTime + 1], [second, lastDetectorTime + 2]]);
         expect(evaluator.update.mock.calls.map(([input]) => input.timestampMs)).toEqual([1200, 1250]);
         expect(evaluator.update).toHaveBeenCalledWith({ landmarks: result.landmarks[0], timestampMs: 1250,
             imageWidth: 640, imageHeight: 360, sideViewConfirmed: true });
@@ -117,7 +125,7 @@ describe('pose worker runtime', () => {
         const afterFinish = image();
         runtime.handleMessage(frame(afterFinish));
         expect(afterFinish.close).toHaveBeenCalledOnce();
-        expect(detector.detectForVideo).toHaveBeenCalledTimes(2);
+        expect(detector.detectForVideo).toHaveBeenCalledTimes(7);
     });
 
     it('reports a model initialization failure without announcing readiness', async () => {
@@ -156,10 +164,9 @@ describe('pose worker runtime', () => {
     });
 
     it('does not evaluate any frame before explicit subject confirmation', async () => {
-        const { initialize, runtime, evaluator, postMessage } = setup();
+        const { initialize, offer, evaluator, postMessage } = setup();
         await initialize();
-        runtime.handleMessage(frame());
-        runtime.handleMessage(frame(image(), { frameId: 2, sourceTimestampMs: 1250 }));
+        offer();
         expect(evaluator.update).not.toHaveBeenCalled();
         expect(postMessage).toHaveBeenLastCalledWith(expect.objectContaining({
             subject: expect.objectContaining({ status: 'awaiting_confirmation' }),
@@ -167,37 +174,57 @@ describe('pose worker runtime', () => {
         }));
     });
 
-    it('acknowledges confirmation with the request token and current subject state', async () => {
-        const { initialize, runtime, postMessage } = setup();
+    it('explains startup qualification and rejects confirmation until the stable candidate is offered', async () => {
+        const { initialize, runtime, evaluator, postMessage } = setup();
         await initialize();
-        runtime.handleMessage(frame());
-        const { confirmationToken } = postMessage.mock.calls.at(-1)[0].subject;
+        for (const sourceTimestampMs of [0, 60, 120, 180, 240]) {
+            runtime.handleMessage(frame(image(), { sourceTimestampMs }));
+            expect(postMessage.mock.calls.at(-1)[0]).toEqual(expect.objectContaining({
+                subject: expect.objectContaining({ status: 'unavailable', reason: 'subject_stabilizing', confirmationToken: null }),
+                snapshot: expect.objectContaining({ feedback: expect.objectContaining({
+                    message: 'Checking that the highlighted person remains clearly visible before confirmation.',
+                }) }),
+            }));
+        }
+        runtime.handleMessage({ type: 'confirm_subject', sessionId: 'session-1', confirmationToken: 'candidate-1' });
+        expect(postMessage.mock.calls.at(-1)[0].type).toBe('subject_confirmation_rejected');
+        runtime.handleMessage(frame(image(), { sourceTimestampMs: 300 }));
+        const subject = postMessage.mock.calls.at(-1)[0].subject;
+        expect(subject.status).toBe('awaiting_confirmation');
+        expect(evaluator.update).not.toHaveBeenCalled();
+        runtime.handleMessage({ type: 'confirm_subject', sessionId: 'session-1', confirmationToken: subject.confirmationToken });
+        runtime.handleMessage(frame(image(), { sourceTimestampMs: 350 }));
+        expect(evaluator.update).toHaveBeenCalledOnce();
+    });
+
+    it('acknowledges confirmation with the request token and current subject state', async () => {
+        const { initialize, offer, runtime, postMessage } = setup();
+        await initialize();
+        const confirmationToken = offer(1200);
         runtime.handleMessage({ type: 'confirm_subject', sessionId: 'session-1', confirmationToken });
         expect(postMessage).toHaveBeenLastCalledWith({ type: 'subject_confirmed', sessionId: 'session-1', confirmationToken,
             subject: expect.objectContaining({ status: 'tracking', confirmationToken: null }) });
     });
 
     it('rejects stale confirmation without failing the worker or selecting a new candidate', async () => {
-        const { initialize, runtime, detector, result, evaluator, postMessage } = setup();
+        const { initialize, offer, runtime, detector, result, evaluator, postMessage } = setup();
         await initialize();
-        runtime.handleMessage(frame());
-        const { confirmationToken } = postMessage.mock.calls.at(-1)[0].subject;
+        const confirmationToken = offer(1200);
         detector.detectForVideo.mockReturnValue({ landmarks: [], close: vi.fn() });
         runtime.handleMessage(frame(image(), { frameId: 2, sourceTimestampMs: 1250 }));
         detector.detectForVideo.mockReturnValue(result);
         runtime.handleMessage(frame(image(), { frameId: 3, sourceTimestampMs: 1300 }));
         runtime.handleMessage({ type: 'confirm_subject', sessionId: 'session-1', confirmationToken });
         expect(postMessage).toHaveBeenLastCalledWith({ type: 'subject_confirmation_rejected', sessionId: 'session-1',
-            confirmationToken, subject: expect.objectContaining({ status: 'awaiting_confirmation' }) });
+            confirmationToken, subject: expect.objectContaining({ status: 'unavailable', reason: 'subject_stabilizing' }) });
         expect(evaluator.update).not.toHaveBeenCalled();
         expect(detector.close).not.toHaveBeenCalled();
     });
 
     it('ignores confirmation commands from a different session', async () => {
-        const { initialize, runtime, postMessage } = setup();
+        const { initialize, offer, runtime, postMessage } = setup();
         await initialize();
-        runtime.handleMessage(frame());
-        const { confirmationToken } = postMessage.mock.calls.at(-1)[0].subject;
+        const confirmationToken = offer(1200);
         postMessage.mockClear();
         runtime.handleMessage({ type: 'confirm_subject', sessionId: 'previous-session', confirmationToken });
         expect(postMessage).not.toHaveBeenCalled();

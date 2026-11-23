@@ -120,6 +120,18 @@ describe('Squat measurement pilot controls', () => {
         expect(screen.getByRole('button', { name: 'Measure highlighted person' })).toBeEnabled();
     });
 
+    it('explains qualification while keeping subject confirmation disabled', () => {
+        mocks.session.status = 'running';
+        mocks.session.source = 'file';
+        mocks.session.subject = { status: 'unavailable', reason: 'subject_stabilizing',
+            observedPoses: 1, confirmationToken: null };
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('status')).toHaveTextContent(
+            'Checking that the highlighted person remains clearly visible before confirmation.');
+        expect(screen.getByRole('button', { name: 'Measure highlighted person' })).toBeDisabled();
+        expect(mocks.session.confirmSubject).not.toHaveBeenCalled();
+    });
+
     it('requires a valid evaluation identifier for local video while keeping camera options unchanged', () => {
         render(<SquatPilotModal onClose={vi.fn()} />);
         fireEvent.click(screen.getByLabelText(/I have confirmed a stable side view/));

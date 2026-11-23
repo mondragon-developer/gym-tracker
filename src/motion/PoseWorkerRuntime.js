@@ -9,6 +9,7 @@ const close = resource => {
 const subjectFeedback = subject => {
     if (subject.restartRequired) return 'Measurement stopped because the selected subject could not be followed. Start a new session to continue.';
     if (subject.status === 'awaiting_confirmation') return 'Confirm that the highlighted person is the subject to measure.';
+    if (subject.reason === 'subject_stabilizing') return 'Checking that the highlighted person remains clearly visible before confirmation.';
     if (subject.reason === 'multiple_people') return 'Keep only the intended subject in the camera view before confirming.';
     return 'Keep your full body and feet visible while the subject is located.';
 };

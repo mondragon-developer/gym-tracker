@@ -64,6 +64,7 @@ function subjectFeedback(session) {
     }
     if (subject?.status === 'tracking') return null;
     if (subject?.observedPoses > 1) return 'More than one person was detected. Keep only the intended person in view.';
+    if (subject?.reason === 'subject_stabilizing') return 'Checking that the highlighted person remains clearly visible before confirmation.';
     return 'Waiting for a clearly visible person. Keep your full body and feet in view.';
 }
 
