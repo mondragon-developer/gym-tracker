@@ -4,7 +4,7 @@
 
 This is an experimental, local measurement pilot for side-view bodyweight squats. It implements camera and local-video capture, explicit subject confirmation, bounded subject continuity checks, pose inference in a worker, complete-cycle counting, phase timing, optional comparison with a user-selected timing target, and a downloadable compact summary. An optional local-video evaluation export supports comparison with independent annotations.
 
-It does not provide a technique percentage, identify an optimal tempo for a training objective, certify exercise safety, or automatically identify arbitrary exercises. Movement thresholds are provisional detector parameters. They have not been calibrated or validated against independent recordings of people performing squats.
+It does not provide a technique percentage, identify an optimal tempo for a training objective, certify exercise safety, or automatically identify arbitrary exercises. Movement thresholds are provisional detector parameters. They have not been independently validated on held-out recordings of people performing squats.
 
 The performance foundation is a prerequisite. Its PostgreSQL migration remains a separately reviewed database release; enabling this frontend pilot does not apply that SQL or create motion records in Supabase.
 
@@ -33,6 +33,14 @@ After confirmation, a missing pose, an additional returned pose, an excessive ob
 
 This is a conservative, provisional geometry policy. Similar people replacing one another without an observable discontinuity may still be confused. Two requested pose outputs cannot establish that every bystander was detected, and multi-pose inference cost requires measurement on phones. The pilot therefore supports one clearly visible person; crowded-gym accuracy is not established. Front/back reference photographs are not required by this implementation.
 
+## Timing onset and bounded uncertainty
+
+Profile version `0.2.0-experimental` retains an existing descent-start candidate through a brief rebound below the knee-angle start threshold only when hip motion continues to corroborate descent. The hip must move downward relative to the preceding eligible observation, satisfy the existing standing-relative hip-displacement threshold, and progress by that same displacement threshold from the candidate's hip anchor. Weak knee evidence expires at the existing **100 ms source-time evidence deadline**, including when the first recovered observation arrives exactly at that deadline. These are provisional detection rules, not biomechanical correctness limits.
+
+When knee evidence recovers, the hip anchor retains the furthest downward position among its previous value, the last retained weak observation, and the recovery observation. It cannot move upward and make the same hip excursion count as fresh progress again. A later rebound therefore requires additional hip descent. Stationary or rising hips, insufficient corroboration, and the existing capture interruptions clear the candidate as applicable. The change adds two scalar fields to the existing candidate and does not retain a trajectory, add inference calls, or change numerical thresholds. Cycle confirmation still requires the existing knee excursion, hip excursion, and temporal evidence.
+
+This specifically addresses brief threshold-crossing noise. The pre-existing case of continuously shallow knee flexion that remains above the start threshold is not given a new candidate timeout by this change. Such a posture can still retain an early candidate until later descent, recovery, or interruption. Broader onset semantics and accuracy require separate labeled evaluation; the corrected development examples do not establish a general error bound.
+
 ## Real-recording evaluation
 
 For a local recording, expand **Recording evaluation**, enable **Collect an evaluation report**, and provide an anonymous recording identifier matching independent annotation metadata. The summary then includes bounded source-time repetition events and processing latency percentiles. This option is unavailable for camera sessions. It retains neither frames nor landmark trajectories and makes no network request.
@@ -44,6 +52,10 @@ Bundled numerical examples are explicitly marked `synthetic_fixture` / `software
 ## Camera placement and the meaning of a good movement
 
 Camera placement belongs to the exercise evaluation profile. There is no universal best view for all criteria. The first candidate setup is a fixed, level side view, approximately at hip height, with the full body and feet visible. The person confirms this view explicitly. Landmark visibility and geometry checks can reject unsuitable images, but passing them does not prove correct camera orientation.
+
+The setup includes an accessible top-down placement diagram: the phone views the person from either side, perpendicular to the direction the person faces. The instructions ask the person to face left or right across the preview, keep the torso and hips in side profile, and keep the near-side shoulder-to-foot chain visible. The diagram is static and adds no inference or network request. It does not measure or certify camera orientation.
+
+When capture terminates, the interface preserves the specific reason from the subject-tracking summary or latest observation. An unsupported view asks for side placement, inconsistent projected geometry asks for a fixed phone and clear framing, and unavailable landmarks ask for visibility of the required near-side points. These messages do not assert that a person physically moved or left the scene. Completed measurements and the existing restart policy are unchanged.
 
 | Criterion | What the pilot does | Requirement for a later technique assessment |
 | --- | --- | --- |
@@ -111,7 +123,22 @@ An Anthropic API is not in the live feedback path. A later optional explanation 
 
 Automated tests cover synthetic geometry, phase state, original timestamps, confidence loss, framing drift, bounded state, worker backpressure, stale callbacks, bitmap ownership, timeouts, session finalization, permission races, playback readiness, and UI setup gates. Passing those tests establishes software behavior only.
 
-### Subject selection and evaluation increment
+### Real-recording development and timing follow-up
+
+- The complete repository suite passed: **81 files and 765 tests**. Full ESLint and both feature-disabled and feature-enabled production builds passed.
+- The evaluator's 47 tests include brief knee rebounds, exact source-time deadlines, stationary/rising hips, repeated correlated noise, and capture interruption. Independent review exposed a larger hip/knee oscillation that could reuse the same excursion; the corrected non-regressing anchor passes that counterexample and the full suite.
+- The camera component's 19 tests cover explicit setup confirmation, accessible placement guidance, preserved counts, reason-specific interruptions, and stop-cause precedence. The static diagram was rendered and visually inspected; this was not a full-browser or phone visual test.
+- Four private development recordings were processed with genuine CPU pose-model observations and replayed through the actual application worker, tracker, and evaluator. The latest side-view replay measured four cycles without a postconfirmation interruption. The timing refinement corrected two late departure estimates while preserving the other phase boundaries and all earlier recording outcomes.
+- The reference intervals were frozen before comparison and were not widened. They come from a provisional AI visual review, not expert-verified ground truth. These recordings informed development and are not a held-out validation set. The successful inference runtime was Python MediaPipe `0.10.21` on CPU, using the pinned model; numerical equivalence to the application's JavaScript `1.2.3` GPU runtime is unverified.
+- The disabled build emitted zero pilot/model files. Both builds retained 28 ordinary precache entries; the enabled precache excludes the pilot UI/CSS, worker, model, and runtime files.
+- The enabled pilot chunk was 34.97 kB minified / 11.62 kB gzip, and its worker was 165.58 kB. The three pinned model/runtime artifacts remain 20,780,146 bytes. These are build sizes, not latency measurements. The existing main-bundle size warning remains.
+- Startup qualification and timing refinement retain bounded state. No additional inference calls, frame history, video upload, motion database write, or cloud-model dependency was introduced. Private recordings and landmark trajectories are excluded from the repository.
+
+The feature remains disabled by default and the pull request remains a draft. The remaining release gates below still apply, including actual phone execution, supported-view validation, independent timing labels, and authenticated staging load.
+
+### Subject selection and evaluation checkpoint
+
+The results in this subsection predate the private real-recording diagnostics and subsequent refinements.
 
 - The complete repository suite passed: **81 files and 726 tests**, including 175 motion, capture, UI, and comparison cases.
 - ESLint and both feature-disabled and feature-enabled production builds passed.
@@ -133,7 +160,7 @@ Automated tests cover synthetic geometry, phase state, original timestamps, conf
 - Local serving returned the expected content types, sizes, and immutable headers; unknown artifact paths/versions returned 404, and POST returned 405.
 - The enabled modal chunk was 23.15 kB minified / 8.16 kB gzip; its separate pose worker was 159.21 kB. These sizes do not establish startup or inference latency.
 
-Actual Chromium inference and visual checks could not run in this execution environment: Chromium aborted because its required profile IPC socket operation was not permitted. No real recording or phone was evaluated. Browser/GPU compatibility, camera-to-display latency, mobile visual behavior, and exercise accuracy remain unverified. The default feature flag therefore remains disabled and the change is a draft pilot for review.
+Actual Chromium inference and full-browser visual checks could not run in this execution environment: Chromium aborted because its required profile IPC socket operation was not permitted. Subsequent private diagnostics used genuine model observations from user-provided recordings in a CPU runtime, replayed through the application logic. They do not exercise the browser's GPU pipeline, capture scheduling, or interactive confirmation. Browser/GPU compatibility, camera-to-display latency, mobile visual behavior, and exercise accuracy remain unverified. The default feature flag therefore remains disabled and the change is a draft pilot for review.
 
 Before making technique or accuracy claims:
 

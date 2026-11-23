@@ -21,6 +21,11 @@
 .squat-pilot-metrics dd { margin: 0; font-size: 18px; font-weight: 700; overflow-wrap: anywhere; }
 .squat-pilot-controls ol { padding-left: 20px; margin-top: 0; font-size: 14px; line-height: 1.55; }
 .squat-pilot-controls li { padding-bottom: 8px; }
+.squat-pilot-camera-guide { margin: 0 0 16px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-2); }
+.squat-pilot-camera-guide svg { display: block; width: 100%; max-width: 340px; height: auto; margin: auto; color: var(--text); }
+.squat-pilot-camera-guide text { font: 12px system-ui, sans-serif; }
+.squat-pilot-camera-guide figcaption { margin-top: 8px; color: var(--text-2); font-size: 12px; line-height: 1.5; }
+.squat-pilot-guide-person { fill: var(--surface-2); }
 .squat-pilot-settings { margin: 16px 0; padding: 0; border: 0; min-width: 0; }
 .squat-pilot-check { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; font-size: 14px; line-height: 1.4; cursor: pointer; }
 .squat-pilot-check input { flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px; accent-color: var(--brand); }

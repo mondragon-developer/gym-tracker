@@ -30,6 +30,16 @@ describe('Squat measurement pilot controls', () => {
         expect(mocks.session.startCamera).toHaveBeenCalledWith({ sideViewConfirmed: true, tempoTarget: null });
     });
 
+    it('provides an accessible side-placement guide while keeping view confirmation explicit', () => {
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('img', { name: 'Side-view camera position from above' }))
+            .toHaveAccessibleDescription(/directly beside the person.*perpendicular to the facing direction/);
+        expect(screen.getByText(/Face left or right across the preview/)).toBeVisible();
+        expect(screen.getByText(/cannot certify the camera angle/)).toBeVisible();
+        expect(screen.getByLabelText(/I have confirmed a stable side view/)).not.toBeChecked();
+        expect(screen.getByRole('button', { name: 'Start camera' })).toBeDisabled();
+    });
+
     it('blocks invalid custom timing ranges and passes explicit valid ranges', () => {
         render(<SquatPilotModal onClose={vi.fn()} />);
         fireEvent.click(screen.getByLabelText(/I have confirmed/));
@@ -109,6 +119,59 @@ describe('Squat measurement pilot controls', () => {
         rendered.rerender(<SquatPilotModal onClose={vi.fn()} />);
         expect(screen.getByText('2 complete repetitions measured.')).toBeVisible();
         expect(screen.getByText(/Completed measurements are preserved/)).toHaveTextContent('start a new session');
+    });
+
+    it.each([
+        ['view_not_supported', 'a usable side view could not be established', 'Place the phone directly beside you'],
+        ['setup_changed', 'this view no longer provided consistent body measurements', 'Keep the phone fixed'],
+        ['required_landmarks_unavailable', 'the required body points could not be located clearly', 'Keep the near-side shoulder, hip, knee, ankle, heel, and toe visible'],
+    ])('explains %s from the completed summary and preserves measured repetitions', (reason, explanation, action) => {
+        mocks.session = { ...mocks.session, status: 'completed', stopReason: 'subject_lost',
+            subject: { reason: 'subject_stabilizing' },
+            summary: { repetitionsCompleted: 2, subjectTracking: { lastReason: reason } } };
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        const status = screen.getByRole('status');
+        expect(status).toHaveTextContent(explanation);
+        expect(status).toHaveTextContent(action);
+        expect(status).toHaveTextContent('start a new session');
+        expect(status).toHaveTextContent('Completed measurements are preserved');
+        expect(screen.getByText('2 complete repetitions measured.')).toBeVisible();
+        expect(screen.queryByText(/the confirmed person could no longer be followed/)).not.toBeInTheDocument();
+    });
+
+    it('uses the current capture reason for an interrupted subject without permitting reconfirmation', () => {
+        mocks.session.status = 'running';
+        mocks.session.subject = { status: 'confirmation_required', restartRequired: true,
+            reason: 'required_landmarks_unavailable', confirmationToken: 'stale' };
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('status')).toHaveTextContent('the required body points could not be located clearly');
+        expect(screen.getByRole('status')).toHaveTextContent('then start a new session');
+        expect(screen.getByRole('button', { name: 'Measure highlighted person' })).toBeDisabled();
+        expect(mocks.session.confirmSubject).not.toHaveBeenCalled();
+    });
+
+    it('uses an available capture observation and retains generic feedback for unknown tracking loss', () => {
+        mocks.session = { ...mocks.session, status: 'completed', stopReason: 'subject_lost',
+            snapshot: { capture: { reason: 'setup_changed' } }, summary: { repetitionsCompleted: 1 } };
+        const rendered = render(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('status')).toHaveTextContent('Keep the phone fixed');
+
+        mocks.session.summary.subjectTracking = { lastReason: 'unknown_tracking_loss' };
+        rendered.rerender(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('status')).toHaveTextContent('the confirmed person could no longer be followed');
+        expect(screen.getByRole('status')).not.toHaveTextContent('Keep the phone fixed');
+    });
+
+    it.each([
+        ['page_hidden', 'The session ended when this page was hidden.'],
+        ['subject_ambiguous', 'another person was detected or the subject became unclear'],
+    ])('keeps the %s stop cause ahead of an earlier capture observation', (stopReason, explanation) => {
+        mocks.session = { ...mocks.session, status: 'completed', stopReason,
+            summary: { repetitionsCompleted: 1, subjectTracking: { lastReason: 'setup_changed' } } };
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('status')).toHaveTextContent(explanation);
+        expect(screen.getByRole('status')).not.toHaveTextContent('Keep the phone fixed');
+        expect(screen.getByText('1 complete repetition measured.')).toBeVisible();
     });
 
     it('explains paused local-video confirmation separately from camera setup', () => {

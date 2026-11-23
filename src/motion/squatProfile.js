@@ -12,7 +12,7 @@ const freeze = (value) => {
  */
 export const SQUAT_SIDE_PROFILE = freeze({
     id: 'bodyweight-squat-side',
-    version: '0.1.0-experimental',
+    version: '0.2.0-experimental',
     scope: 'measurement-only',
     validationStatus: 'not-validated',
     cameraView: 'side',

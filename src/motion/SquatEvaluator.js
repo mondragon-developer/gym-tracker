@@ -181,6 +181,7 @@ export function createSquatEvaluator({ sessionId = null, modelVersion = 'not-spe
         if (aspectRatio != null && Math.abs(m.ratio / aspectRatio - 1) > profile.capture.maximumAspectRatioChange) {
             aspectRatio = m.ratio; interrupt('frame_geometry_changed'); return snapshot();
         }
+        const previousHipY = lastMeasure?.hip.y;
         aspectRatio = m.ratio; selectedSide ??= m.side; lastMeasure = m;
         if (!baseline) { validSamples += 1; calibrate(m, time); return snapshot(); }
         if (Math.abs(m.legLength / baseline.legLength - 1) > profile.capture.maximumScaleChangeRatio
@@ -192,9 +193,30 @@ export function createSquatEvaluator({ sessionId = null, modelVersion = 'not-spe
         const d = profile.detector;
         const drop = baseline.angle - m.kneeAngle;
         if (!repetition) {
-            if (drop < d.startDropDegrees) { pendingDescent = null; return snapshot(); }
-            pendingDescent ??= { startedAtMs: previousTime ?? time, since: time };
-            if ((m.hip.y - baseline.hipY) / baseline.legLength < d.minimumStartHipDescentLegRatio) return snapshot();
+            const hipDescent = (m.hip.y - baseline.hipY) / baseline.legLength;
+            // A brief knee-angle rebound may retain an onset only while hip
+            // descent corroborates it. Expire uncertainty in source time before
+            // considering recovery, so a late sample cannot revive a stale onset.
+            if (pendingDescent?.uncertainSince != null
+                && time - pendingDescent.uncertainSince >= d.phaseEvidenceMs) pendingDescent = null;
+            if (drop < d.startDropDegrees) {
+                if (pendingDescent && m.hip.y > previousHipY
+                    && hipDescent >= d.minimumStartHipDescentLegRatio
+                    && (m.hip.y - pendingDescent.hipAnchorY) / baseline.legLength >= d.minimumStartHipDescentLegRatio) {
+                    pendingDescent.uncertainSince ??= time;
+                } else pendingDescent = null;
+                return snapshot();
+            }
+            pendingDescent ??= { startedAtMs: previousTime ?? time, since: time,
+                hipAnchorY: m.hip.y, uncertainSince: null };
+            // Each later rebound needs fresh hip progress beyond the retained
+            // weak episode's peak. Never lower the anchor when recovery rises,
+            // or correlated hip/knee oscillations could reuse old descent.
+            if (pendingDescent.uncertainSince != null) {
+                pendingDescent.hipAnchorY = Math.max(pendingDescent.hipAnchorY, previousHipY, m.hip.y);
+            }
+            pendingDescent.uncertainSince = null;
+            if (hipDescent < d.minimumStartHipDescentLegRatio) return snapshot();
             if (drop < d.confirmDescentDropDegrees || time - pendingDescent.since < d.phaseEvidenceMs) return snapshot();
             repetition = { startedAtMs: pendingDescent.startedAtMs, minimumAngle: m.kneeAngle,
                 maximumHipY: m.hip.y, bottomFirst: time, bottomLast: time, ascentSince: null,

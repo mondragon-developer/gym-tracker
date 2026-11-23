@@ -5,7 +5,7 @@ import { SQUAT_SIDE_PROFILE } from './squatProfile.js';
 // An independent geometric fixture: rotate the thigh about the knee relative to
 // the shin, then normalize physical image coordinates using each image's size.
 // It tests algorithm behavior; it is not a recording or biomechanical validation.
-const makePose = (angle, { width = 1000, height = 1000, kneeTravel = 0 } = {}) => {
+const makePose = (angle, { width = 1000, height = 1000, kneeTravel = 0, hipOffset = 0 } = {}) => {
     const landmarks = Array.from({ length: 33 }, () => ({ x: 0.4, y: 0.3, z: 0, visibility: 1, presence: 1 }));
     const forward = kneeTravel * Math.max(0, (180 - angle) / 90);
     const shinLength = Math.hypot(forward, 0.25);
@@ -13,7 +13,7 @@ const makePose = (angle, { width = 1000, height = 1000, kneeTravel = 0 } = {}) =
     const radians = angle * Math.PI / 180;
     const hip = {
         x: 0.32 + forward + 0.25 * (shin.x * Math.cos(radians) - shin.y * Math.sin(radians)),
-        y: 0.65 + 0.25 * (shin.x * Math.sin(radians) + shin.y * Math.cos(radians)),
+        y: 0.65 + 0.25 * (shin.x * Math.sin(radians) + shin.y * Math.cos(radians)) + hipOffset,
     };
     for (const [side, indices] of Object.entries(SQUAT_SIDE_PROFILE.landmarks)) {
         const offset = side === 'left' ? 0 : 0.015;
@@ -46,6 +46,17 @@ const harness = (options = {}, image = {}) => {
     const calibrate = () => run(Array(7).fill(180)).at(-1);
     return { evaluator, send, run, calibrate, get time() { return time; }, jump: delta => { time += delta; } };
 };
+
+const DESCENT_AND_RETURN = [155, 145, 135, 125, 115, 105, 95, 90, 90, 90,
+    100, 110, 120, 130, 140, 150, 160, 170, 180, 180, 180, 180];
+const onsetHarness = () => {
+    const h = harness();
+    h.run(Array(13).fill(180), 50);
+    const sample = (angle, hipOffset = 0, step = 50, overrides = {}) => h.send(angle,
+        { landmarks: makePose(angle, { hipOffset }), ...overrides }, step);
+    return { h, sample };
+};
+const hipOffsetForY = (angle, y) => y - (0.65 + 0.25 * Math.cos(angle * Math.PI / 180));
 
 describe('experimental side-view squat measurements', () => {
     it('requires explicit side-view confirmation and never certifies the camera view', () => {
@@ -119,6 +130,108 @@ describe('experimental side-view squat measurements', () => {
         expect(summary.incompleteCycles).toBe(1);
         h.run(COMPLETE_CYCLE);
         expect(h.evaluator.getSummary().repetitionsCompleted).toBe(1);
+    });
+
+    it('preserves onset through one brief knee rebound corroborated by continuing hip descent', () => {
+        const { h, sample } = onsetHarness();
+        const onset = h.time - 50;
+        sample(170, 0.025); sample(169, 0.025);
+        const weak = sample(176, 0.04);
+        expect(weak.measurements.kneeAngleDegrees).toBeGreaterThan(180 - SQUAT_SIDE_PROFILE.detector.startDropDegrees);
+        expect(h.evaluator.getSummary()).toMatchObject({ activeCycleIncomplete: true, repetitionsCompleted: 0 });
+        sample(168, 0.04); h.run(DESCENT_AND_RETURN, 50);
+        expect(h.evaluator.getSummary()).toMatchObject({ repetitionsCompleted: 1,
+            lastRepetition: { startedAtMs: onset } });
+    });
+
+    it.each(['knee jitter', 'hip lowering'])('does not start a complete cycle from %s alone', kind => {
+        const { h, sample } = onsetHarness();
+        for (let i = 0; i < 80; i += 1) {
+            if (kind === 'knee jitter') sample([180, 174, 178, 170, 180][i % 5]);
+            else sample(180, 0.04);
+        }
+        expect(h.evaluator.getSummary()).toMatchObject({ repetitionsCompleted: 0, activeCycleIncomplete: false });
+    });
+
+    it.each([0, -0.001])('discards a weak onset when the hip is stationary or rising (%s)', hipChange => {
+        const { h, sample } = onsetHarness();
+        sample(170, 0.025); sample(169, 0.04);
+        const previousHipY = makePose(169, { hipOffset: 0.04 })[23].y;
+        const weakTime = h.time;
+        const weak = sample(176, hipOffsetForY(176, previousHipY + hipChange));
+        expect(weak.measurements.kneeAngleDegrees).toBeGreaterThan(175);
+        expect(h.evaluator.getSummary().activeCycleIncomplete).toBe(false);
+        h.run([170, 165, ...DESCENT_AND_RETURN], 50);
+        expect(h.evaluator.getSummary()).toMatchObject({ repetitionsCompleted: 1,
+            lastRepetition: { startedAtMs: weakTime } });
+    });
+
+    it.each([
+        { initialProgress: false, hipStep: 0.0001 },
+        { initialProgress: true, hipStep: 0.0001 },
+        { initialProgress: false, hipStep: 0.009 },
+    ])('does not reuse an onset through correlated hip/knee noise (%j)', ({ initialProgress, hipStep }) => {
+        const { h, sample } = onsetHarness();
+        if (initialProgress) sample(170, 0.025);
+        const hipY = initialProgress ? 0.445 : 0.425;
+        for (let i = 0; i < 200; i += 1) {
+            const angle = i % 2 ? 176 : 170;
+            const result = sample(angle, hipOffsetForY(angle, hipY + (i % 2 ? hipStep : 0)));
+            if (i % 2) expect(result.measurements.kneeAngleDegrees).toBeGreaterThan(175);
+        }
+        expect(h.evaluator.getSummary()).toMatchObject({ repetitionsCompleted: 0, activeCycleIncomplete: false });
+        const freshOnset = h.time - 50;
+        h.run([170, 165, ...DESCENT_AND_RETURN], 50);
+        expect(h.evaluator.getSummary()).toMatchObject({ repetitionsCompleted: 1,
+            lastRepetition: { startedAtMs: freshOnset } });
+    });
+
+    it.each([99, 100, 150])('expires retained weak evidence before recovery at %i ms of source time', delay => {
+        const { h, sample } = onsetHarness();
+        const initialOnset = h.time - 50;
+        sample(170, 0.025); sample(169, 0.025);
+        const weakTime = h.time;
+        sample(176, 0.04);
+        expect(h.evaluator.getSummary().activeCycleIncomplete).toBe(true);
+        h.jump(delay - 50); sample(168, 0.045);
+        h.run(DESCENT_AND_RETURN, 50);
+        const expectedOnset = delay < SQUAT_SIDE_PROFILE.detector.phaseEvidenceMs ? initialOnset : weakTime;
+        expect(h.evaluator.getSummary()).toMatchObject({ repetitionsCompleted: 1,
+            lastRepetition: { startedAtMs: expectedOnset } });
+    });
+
+    it('expires prolonged weak knee evidence even while the hip continues descending, and clears a long pause', () => {
+        const { h, sample } = onsetHarness();
+        sample(170, 0.025); sample(169, 0.025);
+        sample(176, 0.04);
+        expect(h.evaluator.getSummary().activeCycleIncomplete).toBe(true);
+        sample(176, 0.045);
+        expect(h.evaluator.getSummary().activeCycleIncomplete).toBe(true);
+        sample(176, 0.05);
+        expect(h.evaluator.getSummary().activeCycleIncomplete).toBe(false);
+        for (let i = 0; i < 100; i += 1) sample(176, 0.05);
+        expect(h.evaluator.getSummary()).toMatchObject({ repetitionsCompleted: 0, activeCycleIncomplete: false });
+        const freshOnset = h.time - 50;
+        h.run([170, 165, ...DESCENT_AND_RETURN], 50);
+        expect(h.evaluator.getSummary()).toMatchObject({ repetitionsCompleted: 1,
+            lastRepetition: { startedAtMs: freshOnset } });
+    });
+
+    it.each(['observation_gap', 'required_landmarks_unavailable'])('discards a retained onset on %s', reason => {
+        const { h, sample } = onsetHarness();
+        sample(170, 0.025); sample(169, 0.025); sample(176, 0.04);
+        expect(h.evaluator.getSummary().activeCycleIncomplete).toBe(true);
+        let interrupted;
+        if (reason === 'observation_gap') {
+            h.jump(SQUAT_SIDE_PROFILE.capture.maximumObservationGapMs - 50 + 1);
+            interrupted = sample(168, 0.04);
+        } else {
+            const landmarks = makePose(168, { hipOffset: 0.04 });
+            landmarks[27].visibility = 0.1; landmarks[28].visibility = 0.1;
+            interrupted = sample(168, 0.04, 50, { landmarks });
+        }
+        expect(interrupted.capture.reason).toBe(reason);
+        expect(h.evaluator.getSummary()).toMatchObject({ repetitionsCompleted: 0, activeCycleIncomplete: false });
     });
 
     it('does not finalize a repetition while still descending or before returning to standing', () => {

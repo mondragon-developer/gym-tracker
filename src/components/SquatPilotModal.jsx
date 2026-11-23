@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useId, useLayoutEffect, useRef, useState } from 'react';
 import Modal from './ui/Modal.jsx';
 import useSquatSession from '../hooks/useSquatSession.js';
 import { appUpdates } from '../services/AppUpdateService.js';
@@ -17,6 +17,40 @@ const stopMessages = {
     subject_lost: 'Measurement stopped because the confirmed person could no longer be followed. Completed measurements are preserved. Start a new session to continue.',
     subject_ambiguous: 'Measurement stopped because another person was detected or the subject became unclear. Completed measurements are preserved. Keep only the intended person in view and start a new session.',
 };
+const captureStopMessages = {
+    view_not_supported: 'Measurement stopped because a usable side view could not be established. Place the phone directly beside you, face left or right across the preview, and start a new session. Completed measurements are preserved.',
+    setup_changed: 'Measurement stopped because this view no longer provided consistent body measurements. Keep the phone fixed, restore a clear side view with your full body and feet visible, and start a new session. Completed measurements are preserved.',
+    required_landmarks_unavailable: 'Measurement stopped because the required body points could not be located clearly. Keep the near-side shoulder, hip, knee, ankle, heel, and toe visible, then start a new session. Completed measurements are preserved.',
+};
+const captureStopMessage = session => captureStopMessages[session.summary?.subjectTracking?.lastReason
+    ?? session.subject?.reason ?? session.snapshot?.capture?.reason] ?? null;
+
+function CameraPositionGuide() {
+    const id = useId();
+    return <figure className="squat-pilot-camera-guide">
+        <svg viewBox="0 0 320 164" role="img" aria-labelledby={`${id}-title`} aria-describedby={`${id}-description`}>
+            <title id={`${id}-title`}>Side-view camera position from above</title>
+            <desc id={`${id}-description`}>The phone is directly beside the person. The person faces forward while the camera looks across from the side, perpendicular to the facing direction. Either side can be used.</desc>
+            <g fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="30" y="77" width="29" height="45" rx="5" />
+                <circle cx="39" cy="86" r="2" />
+                <path d="M40 115h9" />
+                <path d="M77 100h103" strokeDasharray="5 5" />
+                <path d="m173 94 8 6-8 6" />
+                <path d="M220 60V31m-6 8 6-8 6 8" />
+                <ellipse cx="220" cy="104" rx="33" ry="15" className="squat-pilot-guide-person" />
+                <circle cx="220" cy="90" r="15" className="squat-pilot-guide-person" />
+            </g>
+            <g fill="currentColor" textAnchor="middle">
+                <text x="45" y="145">Phone</text>
+                <text x="128" y="85">Camera view</text>
+                <text x="220" y="18">Face this way</text>
+                <text x="220" y="145">You</text>
+            </g>
+        </svg>
+        <figcaption>Either side works. Keep the phone level, approximately at hip height.</figcaption>
+    </figure>;
+}
 
 function drawPose(canvas, result) {
     if (!canvas) return;
@@ -55,7 +89,8 @@ function drawPose(canvas, result) {
 function subjectFeedback(session) {
     if (session.status !== 'running') return null;
     const subject = session.subject;
-    if (subject?.restartRequired) return 'Tracking was interrupted. Finish this session and start again to confirm the person.';
+    if (subject?.restartRequired) return captureStopMessage(session)
+        ?? 'Tracking was interrupted. Finish this session and start again to confirm the person.';
     if (session.confirmingSubject) return 'Confirming the highlighted person…';
     if (subject?.status === 'awaiting_confirmation' && subject.confirmationToken) {
         return session.source === 'file'
@@ -93,6 +128,8 @@ export default function SquatPilotModal({ onClose }) {
     const summary = session.summary;
     const snapshot = session.snapshot;
     const subject = session.subject;
+    const stopMessage = session.stopReason === 'subject_lost'
+        ? captureStopMessage(session) ?? stopMessages.subject_lost : stopMessages[session.stopReason];
     const last = summary?.lastRepetition ?? snapshot?.lastRepetition;
     const canConfirmSubject = session.status === 'running' && subject?.status === 'awaiting_confirmation'
         && Boolean(subject.confirmationToken) && !subject.restartRequired && !session.confirmingSubject;
@@ -146,7 +183,7 @@ export default function SquatPilotModal({ onClose }) {
                 <p className="squat-pilot-privacy">Your video stays on this device. First use downloads the movement model. Recordings are not uploaded or saved by this pilot.</p>
                 <div className="squat-pilot-feedback" role="status" aria-live="polite">
                     {session.status === 'stopping' ? 'Finishing your measurements…'
-                        : subjectFeedback(session) ?? snapshot?.feedback?.message ?? 'Stand still with your full body and feet visible before the first repetition.'}
+                        : stopMessage ?? subjectFeedback(session) ?? snapshot?.feedback?.message ?? 'Stand still with your full body and feet visible before the first repetition.'}
                 </div>
                 {session.status === 'running' && subject?.status !== 'tracking' && <div className="squat-pilot-subject">
                     <p>Check that the highlighted body is the person you intend to measure. Counting starts after confirmation and a standing calibration.</p>
@@ -156,7 +193,6 @@ export default function SquatPilotModal({ onClose }) {
                     </button>
                 </div>}
                 {session.error && <p className="squat-pilot-error" role="alert">{session.error}</p>}
-                {stopMessages[session.stopReason] && <p>{stopMessages[session.stopReason]}</p>}
                 <dl className="squat-pilot-metrics">
                     <div><dt>Complete repetitions</dt><dd>{summary?.repetitionsCompleted ?? snapshot?.repetitionsCompleted ?? 0}</dd></div>
                     <div><dt>Last descent</dt><dd>{seconds(last?.descentSeconds)}</dd></div>
@@ -183,10 +219,12 @@ export default function SquatPilotModal({ onClose }) {
             </section>
             <section aria-label="Camera setup and session controls" className="squat-pilot-controls">
                 <h3>Set up the side view</h3>
+                <CameraPositionGuide />
                 <ol>
-                    <li>Place the phone on a stable support beside you, approximately at hip height, with a level view.</li>
-                    <li>Keep your full body and both feet in the frame, with space above and below. Use even lighting and keep other people out of view.</li>
-                    <li>Face across the image. Confirm the highlighted person in the preview, then stand still before the first repetition.</li>
+                    <li>Place the phone on a stable support directly beside you, approximately at hip height. Keep it level and use the normal 1× lens.</li>
+                    <li>Face left or right across the preview. Keep your torso and hips in side profile; the near and far shoulders and hips should mostly overlap.</li>
+                    <li>Keep your full body and feet in frame, with space above and below. Keep the near-side shoulder, hip, knee, ankle, heel, and toe visible. Use even lighting and keep other people out of view.</li>
+                    <li>Confirm the highlighted person, then stand still in your starting position until “Ready to begin” appears before your first repetition.</li>
                 </ol>
                 <p className="squat-pilot-note">This pilot supports one clearly visible person. It checks landmark visibility and framing; it cannot certify the camera angle or guarantee that every bystander will be detected.</p>
                 <fieldset disabled={active} className="squat-pilot-settings">
