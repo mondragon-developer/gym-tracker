@@ -1,0 +1,53 @@
+.squat-pilot { color: var(--text); }
+.squat-pilot p { line-height: 1.55; }
+.squat-pilot h3 { margin: 0 0 12px; font-size: 17px; }
+.squat-pilot-intro { margin-bottom: 20px; }
+.squat-pilot-label { color: var(--brand); font-size: 12px; font-weight: 700; letter-spacing: .03em; }
+.squat-pilot-intro p { margin-bottom: 0; color: var(--text-2); }
+.squat-pilot-layout { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 24px; }
+.squat-pilot-preview { position: relative; width: 100%; max-height: 50vh; overflow: hidden; border-radius: 12px; background: #101b2b; }
+.squat-pilot-preview video, .squat-pilot-preview canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.squat-pilot-preview canvas { pointer-events: none; }
+.squat-pilot-placeholder { position: absolute; inset: 0; display: grid; place-content: center; padding: 24px; color: #f1f5f9; text-align: center; background: rgb(16 27 43 / 70%); }
+.squat-pilot-privacy, .squat-pilot-note { color: var(--text-2); font-size: 12px; }
+.squat-pilot-feedback { padding: 14px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--border); line-height: 1.5; }
+.squat-pilot-subject { margin: 12px 0; }
+.squat-pilot-subject p { color: var(--text-2); font-size: 13px; }
+.squat-pilot-subject .squat-pilot-button { width: 100%; }
+.squat-pilot-error { color: var(--danger); }
+.squat-pilot-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 16px 0; }
+.squat-pilot-metrics div { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 8px; }
+.squat-pilot-metrics dt { font-size: 11px; color: var(--text-2); margin-bottom: 8px; }
+.squat-pilot-metrics dd { margin: 0; font-size: 18px; font-weight: 700; overflow-wrap: anywhere; }
+.squat-pilot-controls ol { padding-left: 20px; margin-top: 0; font-size: 14px; line-height: 1.55; }
+.squat-pilot-controls li { padding-bottom: 8px; }
+.squat-pilot-camera-guide { margin: 0 0 16px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-2); }
+.squat-pilot-camera-guide svg { display: block; width: 100%; max-width: 340px; height: auto; margin: auto; color: var(--text); }
+.squat-pilot-camera-guide text { font: 12px system-ui, sans-serif; }
+.squat-pilot-camera-guide figcaption { margin-top: 8px; color: var(--text-2); font-size: 12px; line-height: 1.5; }
+.squat-pilot-guide-person { fill: var(--surface-2); }
+.squat-pilot-settings { margin: 16px 0; padding: 0; border: 0; min-width: 0; }
+.squat-pilot-check { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; font-size: 14px; line-height: 1.4; cursor: pointer; }
+.squat-pilot-check input { flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px; accent-color: var(--brand); }
+.squat-pilot-targets { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 8px 0; }
+.squat-pilot-targets p { grid-column: 1 / -1; font-size: 12px; margin: 0; }
+.squat-pilot-targets label, .squat-pilot-recording label { font-size: 12px; min-width: 0; }
+.squat-pilot-targets input, .squat-pilot-recording input { box-sizing: border-box; width: 100%; margin-top: 6px; min-height: 42px; border: 1px solid var(--border); border-radius: 7px; padding: 8px; background: var(--surface); color: var(--text); font: inherit; }
+.squat-pilot-actions { display: flex; flex-direction: column; gap: 8px; }
+.squat-pilot-button { min-height: 44px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface-2); color: var(--text); padding: 10px 14px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.squat-pilot-primary { background: var(--action); color: var(--on-action); border-color: transparent; }
+.squat-pilot-button:disabled { opacity: .5; cursor: not-allowed; }
+.squat-pilot-button:focus-visible, .squat-pilot-check input:focus-visible, .squat-pilot-targets input:focus-visible, .squat-pilot-recording input:focus-visible, .squat-pilot-scope summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+.squat-pilot-scope { border-top: 1px solid var(--border); padding: 14px 0; font-size: 13px; }
+.squat-pilot-scope summary { cursor: pointer; font-weight: 600; }
+.squat-pilot-summary { border-top: 1px solid var(--border); margin-top: 20px; padding-top: 20px; }
+.squat-pilot-details div { display: flex; justify-content: space-between; gap: 10px; padding: 6px 0; font-size: 13px; }
+.squat-pilot-details dd { margin: 0; font-weight: 600; }
+.squat-pilot-diagnostics { width: 100%; margin-top: 12px; border-collapse: collapse; font-size: 12px; }
+.squat-pilot-diagnostics caption { margin-bottom: 8px; text-align: left; font-weight: 600; }
+.squat-pilot-diagnostics th, .squat-pilot-diagnostics td { padding: 6px 4px; border-bottom: 1px solid var(--border); text-align: left; overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+    .squat-pilot-layout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+    .squat-pilot .modal-content { padding: 16px; }
+    .squat-pilot-metrics dd { font-size: 16px; }
+}

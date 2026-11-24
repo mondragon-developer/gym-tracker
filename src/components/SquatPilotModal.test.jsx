@@ -1,0 +1,290 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { fireEvent, render, screen, within } from '@testing-library/react';
+
+const mocks = vi.hoisted(() => ({ session: {}, protect: vi.fn(), release: vi.fn(), onFrame: null, context: null }));
+vi.mock('../hooks/useSquatSession.js', () => ({ default: options => {
+    mocks.onFrame = options.onFrame;
+    return mocks.session;
+} }));
+vi.mock('../services/AppUpdateService.js', () => ({ appUpdates: { protect: mocks.protect } }));
+import SquatPilotModal from './SquatPilotModal.jsx';
+
+beforeEach(() => {
+    mocks.release.mockReset();
+    mocks.protect.mockReset().mockReturnValue(mocks.release);
+    mocks.session = { status: 'idle', snapshot: null, summary: null, error: null, timing: null, subject: null,
+        confirmingSubject: false, confirmSubject: vi.fn().mockResolvedValue(true),
+        startCamera: vi.fn(), startFile: vi.fn(), finish: vi.fn(), cancel: vi.fn() };
+    mocks.context = { clearRect: vi.fn(), strokeRect: vi.fn(), beginPath: vi.fn(), moveTo: vi.fn(),
+        lineTo: vi.fn(), stroke: vi.fn(), arc: vi.fn(), fill: vi.fn() };
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(mocks.context);
+});
+
+describe('Squat measurement pilot controls', () => {
+    it('requires camera-position confirmation and never starts capture on mount', () => {
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        expect(mocks.session.startCamera).not.toHaveBeenCalled();
+        expect(screen.getByRole('button', { name: 'Start camera' })).toBeDisabled();
+        fireEvent.click(screen.getByLabelText(/I have confirmed a stable side view/));
+        fireEvent.click(screen.getByRole('button', { name: 'Start camera' }));
+        expect(mocks.session.startCamera).toHaveBeenCalledWith({ sideViewConfirmed: true, tempoTarget: null });
+    });
+
+    it('provides an accessible side-placement guide while keeping view confirmation explicit', () => {
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('img', { name: 'Side-view camera position from above' }))
+            .toHaveAccessibleDescription(/directly beside the person.*perpendicular to the facing direction/);
+        expect(screen.getByText(/Face left or right across the preview/)).toBeVisible();
+        expect(screen.getByText(/cannot certify the camera angle/)).toBeVisible();
+        expect(screen.getByLabelText(/I have confirmed a stable side view/)).not.toBeChecked();
+        expect(screen.getByRole('button', { name: 'Start camera' })).toBeDisabled();
+    });
+
+    it('blocks invalid custom timing ranges and passes explicit valid ranges', () => {
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        fireEvent.click(screen.getByLabelText(/I have confirmed/));
+        fireEvent.click(screen.getByLabelText(/Compare timing/));
+        fireEvent.change(screen.getByLabelText('Descent maximum'), { target: { value: '1' } });
+        expect(screen.getByRole('button', { name: 'Start camera' })).toBeDisabled();
+        expect(screen.getByRole('alert')).toHaveTextContent('Enter valid ranges');
+        fireEvent.change(screen.getByLabelText('Descent maximum'), { target: { value: '4' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Start camera' }));
+        expect(mocks.session.startCamera).toHaveBeenCalledWith({ sideViewConfirmed: true,
+            tempoTarget: { descentSeconds: { min: 2, max: 4 }, ascentSeconds: { min: 1, max: 2 } } });
+    });
+
+    it('keeps completed local measurements protected until the dialog unmounts', () => {
+        const rendered = render(<SquatPilotModal onClose={vi.fn()} />);
+        mocks.session = { ...mocks.session, status: 'completed', summary: {
+            repetitionsCompleted: 3, incompleteCycles: 1, activeCycleIncomplete: false,
+            averages: { descentSeconds: 2.2, ascentSeconds: 1.3, bottomPauseSeconds: 0.4 },
+            lastRepetition: { descentSeconds: 2.4, ascentSeconds: 1.1 },
+        } };
+        rendered.rerender(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByText('3 complete repetitions measured.')).toBeVisible();
+        expect(screen.getByText(/excluded from the repetition count/)).toBeVisible();
+        expect(mocks.protect).toHaveBeenCalledTimes(1);
+        expect(mocks.release).not.toHaveBeenCalled();
+        rendered.unmount();
+        expect(mocks.release).toHaveBeenCalledTimes(1);
+    });
+
+    it('discards capture explicitly when the person closes the pilot', () => {
+        mocks.session.status = 'running';
+        const onClose = vi.fn();
+        render(<SquatPilotModal onClose={onClose} />);
+        expect(screen.getByRole('button', { name: 'Start camera' })).toBeDisabled();
+        fireEvent.click(screen.getByRole('button', { name: 'Close pilot' }));
+        expect(mocks.session.cancel).toHaveBeenCalledTimes(1);
+        expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    it('requires an eligible highlighted subject and submits the current confirmation token', () => {
+        mocks.session.status = 'running';
+        mocks.session.subject = { status: 'unavailable', observedPoses: 0, confirmationToken: null };
+        const rendered = render(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('button', { name: 'Measure highlighted person' })).toBeDisabled();
+        expect(mocks.session.confirmSubject).not.toHaveBeenCalled();
+
+        mocks.session.subject = { status: 'awaiting_confirmation', observedPoses: 1, confirmationToken: 'candidate-2' };
+        rendered.rerender(<SquatPilotModal onClose={vi.fn()} />);
+        fireEvent.click(screen.getByRole('button', { name: 'Measure highlighted person' }));
+        expect(mocks.session.confirmSubject).toHaveBeenCalledWith('candidate-2');
+
+        mocks.session.confirmingSubject = true;
+        rendered.rerender(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('button', { name: 'Confirming person…' })).toBeDisabled();
+
+        mocks.session.confirmingSubject = false;
+        mocks.session.subject = { status: 'tracking', observedPoses: 1, confirmationToken: null };
+        rendered.rerender(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.queryByRole('button', { name: 'Measure highlighted person' })).not.toBeInTheDocument();
+    });
+
+    it('prevents confirmation of an ambiguous or interrupted subject and explains restart', () => {
+        mocks.session.status = 'running';
+        mocks.session.subject = { status: 'unavailable', observedPoses: 2, confirmationToken: null };
+        const rendered = render(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('status')).toHaveTextContent('More than one person was detected');
+        expect(screen.getByRole('button', { name: 'Measure highlighted person' })).toBeDisabled();
+
+        mocks.session.subject = { status: 'confirmation_required', restartRequired: true, confirmationToken: 'stale' };
+        rendered.rerender(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('button', { name: 'Measure highlighted person' })).toBeDisabled();
+        expect(mocks.session.confirmSubject).not.toHaveBeenCalled();
+
+        mocks.session.status = 'completed';
+        mocks.session.stopReason = 'subject_ambiguous';
+        mocks.session.summary = { repetitionsCompleted: 2 };
+        rendered.rerender(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByText('2 complete repetitions measured.')).toBeVisible();
+        expect(screen.getByText(/Completed measurements are preserved/)).toHaveTextContent('start a new session');
+    });
+
+    it.each([
+        ['view_not_supported', 'a usable side view could not be established', 'Place the phone directly beside you'],
+        ['setup_changed', 'this view no longer provided consistent body measurements', 'Keep the phone fixed'],
+        ['required_landmarks_unavailable', 'the required body points could not be located clearly', 'Keep the near-side shoulder, hip, knee, ankle, heel, and toe visible'],
+    ])('explains %s from the completed summary and preserves measured repetitions', (reason, explanation, action) => {
+        mocks.session = { ...mocks.session, status: 'completed', stopReason: 'subject_lost',
+            subject: { reason: 'subject_stabilizing' },
+            summary: { repetitionsCompleted: 2, subjectTracking: { lastReason: reason } } };
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        const status = screen.getByRole('status');
+        expect(status).toHaveTextContent(explanation);
+        expect(status).toHaveTextContent(action);
+        expect(status).toHaveTextContent('start a new session');
+        expect(status).toHaveTextContent('Completed measurements are preserved');
+        expect(screen.getByText('2 complete repetitions measured.')).toBeVisible();
+        expect(screen.queryByText(/the confirmed person could no longer be followed/)).not.toBeInTheDocument();
+    });
+
+    it('uses the current capture reason for an interrupted subject without permitting reconfirmation', () => {
+        mocks.session.status = 'running';
+        mocks.session.subject = { status: 'confirmation_required', restartRequired: true,
+            reason: 'required_landmarks_unavailable', confirmationToken: 'stale' };
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('status')).toHaveTextContent('the required body points could not be located clearly');
+        expect(screen.getByRole('status')).toHaveTextContent('then start a new session');
+        expect(screen.getByRole('button', { name: 'Measure highlighted person' })).toBeDisabled();
+        expect(mocks.session.confirmSubject).not.toHaveBeenCalled();
+    });
+
+    it('uses an available capture observation and retains generic feedback for unknown tracking loss', () => {
+        mocks.session = { ...mocks.session, status: 'completed', stopReason: 'subject_lost',
+            snapshot: { capture: { reason: 'setup_changed' } }, summary: { repetitionsCompleted: 1 } };
+        const rendered = render(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('status')).toHaveTextContent('Keep the phone fixed');
+
+        mocks.session.summary.subjectTracking = { lastReason: 'unknown_tracking_loss' };
+        rendered.rerender(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('status')).toHaveTextContent('the confirmed person could no longer be followed');
+        expect(screen.getByRole('status')).not.toHaveTextContent('Keep the phone fixed');
+    });
+
+    it.each([
+        ['page_hidden', 'The session ended when this page was hidden.'],
+        ['subject_ambiguous', 'another person was detected or the subject became unclear'],
+    ])('keeps the %s stop cause ahead of an earlier capture observation', (stopReason, explanation) => {
+        mocks.session = { ...mocks.session, status: 'completed', stopReason,
+            summary: { repetitionsCompleted: 1, subjectTracking: { lastReason: 'setup_changed' } } };
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('status')).toHaveTextContent(explanation);
+        expect(screen.getByRole('status')).not.toHaveTextContent('Keep the phone fixed');
+        expect(screen.getByText('1 complete repetition measured.')).toBeVisible();
+    });
+
+    it('explains paused local-video confirmation separately from camera setup', () => {
+        mocks.session.status = 'running';
+        mocks.session.source = 'file';
+        mocks.session.subject = { status: 'awaiting_confirmation', confirmationToken: 'file-subject' };
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('status')).toHaveTextContent('The recording is paused');
+        expect(screen.getByRole('button', { name: 'Measure highlighted person' })).toBeEnabled();
+    });
+
+    it('explains qualification while keeping subject confirmation disabled', () => {
+        mocks.session.status = 'running';
+        mocks.session.source = 'file';
+        mocks.session.subject = { status: 'unavailable', reason: 'subject_stabilizing',
+            observedPoses: 1, confirmationToken: null };
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByRole('status')).toHaveTextContent(
+            'Checking that the highlighted person remains clearly visible before confirmation.');
+        expect(screen.getByRole('button', { name: 'Measure highlighted person' })).toBeDisabled();
+        expect(mocks.session.confirmSubject).not.toHaveBeenCalled();
+    });
+
+    it('requires a valid evaluation identifier for local video while keeping camera options unchanged', () => {
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        fireEvent.click(screen.getByLabelText(/I have confirmed a stable side view/));
+        fireEvent.click(screen.getByText('Recording evaluation'));
+        fireEvent.click(screen.getByLabelText('Collect an evaluation report'));
+        expect(screen.getByRole('button', { name: 'Choose local video' })).toBeDisabled();
+        expect(screen.getByRole('button', { name: 'Start camera' })).toBeEnabled();
+        const file = new File(['video'], 'squat.mp4', { type: 'video/mp4' });
+        const picker = screen.getByLabelText('Choose a local squat recording');
+        fireEvent.change(screen.getByLabelText('Recording identifier'), { target: { value: 'invalid name' } });
+        fireEvent.change(picker, { target: { files: [file] } });
+        expect(mocks.session.startFile).not.toHaveBeenCalled();
+
+        fireEvent.change(screen.getByLabelText('Recording identifier'), { target: { value: 'squat-side_01.v1' } });
+        expect(screen.getByRole('button', { name: 'Choose local video' })).toBeEnabled();
+        fireEvent.change(picker, { target: { files: [file] } });
+        expect(mocks.session.startFile).toHaveBeenCalledWith(file, {
+            sideViewConfirmed: true, tempoTarget: null, evaluation: { clipId: 'squat-side_01.v1' },
+        });
+        fireEvent.click(screen.getByRole('button', { name: 'Start camera' }));
+        expect(mocks.session.startCamera).toHaveBeenCalledWith({ sideViewConfirmed: true, tempoTarget: null });
+
+        fireEvent.click(screen.getByLabelText('Collect an evaluation report'));
+        fireEvent.change(picker, { target: { files: [file] } });
+        expect(mocks.session.startFile).toHaveBeenLastCalledWith(file, { sideViewConfirmed: true, tempoTarget: null });
+    });
+
+    it('labels partial evaluation reports without presenting them as full-recording results', () => {
+        mocks.session.status = 'completed';
+        mocks.session.summary = { repetitionsCompleted: 1, evaluationTrace: { completed: false, truncated: false } };
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        expect(screen.getByText(/partial evaluation report/)).toHaveTextContent('cannot establish full-recording accuracy');
+        expect(screen.getByRole('button', { name: 'Download summary and evaluation report' })).toBeVisible();
+    });
+
+    it('shows finalized camera percentiles with recent-window coverage and distinct preparation intervals', () => {
+        mocks.session.status = 'completed';
+        mocks.session.summary = { repetitionsCompleted: 1, processingDiagnostics: {
+            preparationMs: { workerReady: 350, mediaReady: 2000, sessionReady: 2100 },
+            processing: { observedResults: 5005, validSamples: 5000, invalidSamples: 5, retainedSamples: 2400,
+                overwrittenSamples: 2600, inferenceMs: { p50: 10, p95: 20 }, frameLatencyMs: { p50: 25, p95: 45 } },
+        } };
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        fireEvent.click(screen.getByText('Session diagnostics'));
+        const table = screen.getByRole('table', { name: 'Final camera processing measurements' });
+        expect(within(table).getByRole('row', { name: 'Inference 10 ms 20 ms' })).toBeVisible();
+        expect(within(table).getByRole('row', { name: 'Admission to response 25 ms 45 ms' })).toBeVisible();
+        expect(screen.getByText(/Latest 2400 of 5000/)).toHaveTextContent('2600 earlier pairs were replaced');
+        expect(screen.getByText(/Latest 2400 of 5000/)).toHaveTextContent('5 responses had unavailable timing');
+        expect(screen.getByText(/Preparation durations overlap/)).toHaveTextContent('permission response time');
+        expect(screen.getByText(/Processing measurements exclude camera capture/)).toBeVisible();
+        expect(screen.getByRole('button', { name: 'Download measurement summary' })).toBeVisible();
+    });
+
+    it('keeps unavailable camera timing distinct from zero and handles an empty finalized window', () => {
+        mocks.session.status = 'completed';
+        mocks.session.timing = { inferenceMs: NaN, frameLatencyMs: -1 };
+        mocks.session.summary = { repetitionsCompleted: 0, processingDiagnostics: {
+            preparationMs: { workerReady: null, mediaReady: 0, sessionReady: null },
+            processing: { observedResults: 2, validSamples: 0, invalidSamples: 2, retainedSamples: 0,
+                overwrittenSamples: 0, inferenceMs: { p50: null, p95: null }, frameLatencyMs: { p50: null, p95: null } },
+        } };
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        fireEvent.click(screen.getByText('Session diagnostics'));
+        expect(screen.getByText(/Latest inference:/)).toHaveTextContent('Latest inference: Unavailable');
+        expect(screen.getByRole('table', { name: 'Final camera processing measurements' })).toHaveTextContent('Unavailable');
+        expect(screen.getByText(/0 valid timing pairs retained from 2/)).toHaveTextContent('2 responses had unavailable timing');
+        expect(screen.getByText('0 ms')).toBeVisible();
+    });
+
+    it('draws the selected region in the same image coordinates as the pose and clears missing results', () => {
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        const video = screen.getByLabelText('Local squat video preview');
+        Object.defineProperties(video, { videoWidth: { value: 720 }, videoHeight: { value: 1280 } });
+        fireEvent.loadedMetadata(video);
+        expect(video.parentElement.style.aspectRatio).toBe('720 / 1280');
+
+        const result = { imageWidth: 360, imageHeight: 640,
+            landmarks: Array.from({ length: 33 }, () => ({ x: 0.5, y: 0.5, visibility: 0.8 })),
+            subject: { status: 'awaiting_confirmation', bounds: { x: 0.2, y: 0.1, width: 0.4, height: 0.8 } },
+        };
+        mocks.onFrame(result);
+        const canvas = video.parentElement.querySelector('canvas');
+        expect(canvas.width).toBe(360);
+        expect(canvas.height).toBe(640);
+        expect(mocks.context.strokeRect).toHaveBeenCalledWith(72, 64, 144, 512);
+        expect(mocks.context.moveTo).toHaveBeenCalledWith(180, 320);
+        mocks.context.strokeRect.mockClear();
+        mocks.onFrame({ ...result, landmarks: [], subject: { status: 'unavailable', bounds: null } });
+        expect(mocks.context.clearRect).toHaveBeenLastCalledWith(0, 0, 360, 640);
+        expect(mocks.context.strokeRect).not.toHaveBeenCalled();
+    });
+});

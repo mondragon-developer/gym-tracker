@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "kind": "squat-video-annotations",
+  "clipId": "synthetic-comparator-example-no-video",
+  "durationMs": 12000,
+  "view": "side",
+  "dataOrigin": "synthetic_fixture",
+  "independentlyReviewed": true,
+  "repetitions": [
+    { "id": "example-1", "startedAtMs": 3000, "bottomReachedAtMs": 4500, "ascentStartedAtMs": 4800, "completedAtMs": 6000 },
+    { "id": "example-2", "startedAtMs": 7000, "bottomReachedAtMs": 8500, "ascentStartedAtMs": 8800, "completedAtMs": 10000 }
+  ],
+  "exclusions": [
+    { "startedAtMs": 0, "endedAtMs": 2500, "reason": "Example setup interval. This does not remove predictions from scoring." }
+  ]
+}

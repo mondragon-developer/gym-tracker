@@ -448,3 +448,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 - [Performance foundation](docs/performance-foundation.md): bounded administration queries, persistence safeguards, diagnostics, and reproducible synthetic history measurements.
 - [Database access optimization](docs/DATABASE_OPTIMIZATION_RELEASE.md): incremental migration, authorization verification, staging procedure, and rollback.
+- [Experimental squat measurement pilot](docs/SQUAT_MEASUREMENT_PILOT.md): feature flag, camera placement, local processing, caching, measured scope, and validation requirements.

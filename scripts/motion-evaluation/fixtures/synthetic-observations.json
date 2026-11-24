@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "kind": "squat-video-observations",
+  "clipId": "synthetic-comparator-example-no-video",
+  "durationMs": 12000,
+  "sourceKind": "local_video",
+  "completed": true,
+  "truncated": false,
+  "modelVersion": "synthetic-fixture-no-model",
+  "profileId": "bodyweight-squat-side",
+  "profileVersion": "fixture-1",
+  "repetitions": [
+    { "index": 1, "startedAtMs": 3100, "bottomReachedAtMs": 4550, "ascentStartedAtMs": 4900, "completedAtMs": 6100 }
+  ]
+}
