@@ -1,13 +1,8 @@
+import { processingPercentiles } from './processingPercentiles.js';
+
 const MAXIMUM_REPETITIONS = 200;
 const MAXIMUM_SAMPLES = 2400;
 export const isEvaluationClipId = value => typeof value === 'string' && /^[A-Za-z0-9._-]{1,80}$/.test(value);
-
-const percentiles = values => {
-    if (!values.length) return { p50: null, p95: null };
-    const sorted = [...values].sort((a, b) => a - b);
-    // Nearest-rank percentiles, calculated once at the end of the recording.
-    return { p50: sorted[Math.ceil(sorted.length * 0.5) - 1], p95: sorted[Math.ceil(sorted.length * 0.95) - 1] };
-};
 
 /** Optional local-file diagnostics. No pixels, landmarks, or filenames are retained. */
 export function createEvaluationRecorder({ clipId, durationMs }) {
@@ -50,7 +45,7 @@ export function createEvaluationRecorder({ clipId, durationMs }) {
                 modelVersion: summary?.modelVersion, profileId: summary?.profileId, profileVersion: summary?.profileVersion,
                 trackingVersion: summary?.subjectTracking?.version ?? 'not-recorded',
                 repetitions: repetitions.map(repetition => ({ ...repetition })),
-                processing: { samples: inference.length, inferenceMs: percentiles(inference), frameLatencyMs: percentiles(latency) },
+                processing: { samples: inference.length, inferenceMs: processingPercentiles(inference), frameLatencyMs: processingPercentiles(latency) },
             };
         },
     };

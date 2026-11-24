@@ -24,6 +24,40 @@ const captureStopMessages = {
 };
 const captureStopMessage = session => captureStopMessages[session.summary?.subjectTracking?.lastReason
     ?? session.subject?.reason ?? session.snapshot?.capture?.reason] ?? null;
+const milliseconds = value => Number.isFinite(value) && value >= 0 ? `${Math.round(value)} ms` : 'Unavailable';
+
+function SessionDiagnostics({ timing, diagnostics }) {
+    const processing = diagnostics?.processing;
+    const preparation = diagnostics?.preparationMs;
+    if (!timing && !diagnostics) return null;
+    return <details className="squat-pilot-scope">
+        <summary>Session diagnostics</summary>
+        {timing && <p>Latest inference: {milliseconds(timing.inferenceMs)}. Frame admission to worker response: {milliseconds(timing.frameLatencyMs)}.</p>}
+        {processing && <>
+            <table className="squat-pilot-diagnostics">
+                <caption>Final camera processing measurements</caption>
+                <thead><tr><th scope="col">Measurement</th><th scope="col">Median</th><th scope="col">95th percentile</th></tr></thead>
+                <tbody>
+                    <tr><th scope="row">Inference</th><td>{milliseconds(processing.inferenceMs?.p50)}</td><td>{milliseconds(processing.inferenceMs?.p95)}</td></tr>
+                    <tr><th scope="row">Admission to response</th><td>{milliseconds(processing.frameLatencyMs?.p50)}</td><td>{milliseconds(processing.frameLatencyMs?.p95)}</td></tr>
+                </tbody>
+            </table>
+            <p>{processing.overwrittenSamples > 0
+                ? `Latest ${processing.retainedSamples} of ${processing.validSamples} valid timing pairs; ${processing.overwrittenSamples} earlier pairs were replaced.`
+                : `${processing.retainedSamples} valid timing pairs retained from ${processing.observedResults} received responses.`}
+                {' '}{processing.invalidSamples} responses had unavailable timing. Samples include subject setup; frames without a response are not sampled.</p>
+        </>}
+        {preparation && <>
+            <dl className="squat-pilot-details">
+                <div><dt>Worker preparation</dt><dd>{milliseconds(preparation.workerReady)}</dd></div>
+                <div><dt>Camera readiness</dt><dd>{milliseconds(preparation.mediaReady)}</dd></div>
+                <div><dt>Total preparation</dt><dd>{milliseconds(preparation.sessionReady)}</dd></div>
+            </dl>
+            <p>Preparation durations overlap; do not add them. Worker preparation includes model loading when needed and warm-up. Camera readiness includes permission response time. Subject confirmation and calibration happen afterward.</p>
+        </>}
+        <p>Processing measurements exclude camera capture and display presentation. They are not total camera-to-display latency.</p>
+    </details>;
+}
 
 function CameraPositionGuide() {
     const id = useId();
@@ -270,10 +304,7 @@ export default function SquatPilotModal({ onClose }) {
                     <p>The pilot measures visible movement cycles, phase durations, and change in the two-dimensional knee angle. A custom timing target can be compared with measured repetitions.</p>
                     <p>Stance width, inward knee movement, spinal curvature, appropriate depth, foot pressure, pain, and overall technique are not assessed. Knee travel beyond the toes is not treated as a universal fault.</p>
                 </details>
-                {session.timing && <details className="squat-pilot-scope">
-                    <summary>Session diagnostics</summary>
-                    <p>Latest inference: {Math.round(session.timing.inferenceMs)} ms. Frame admission to worker response: {Math.round(session.timing.frameLatencyMs)} ms. These are processing measurements, not total camera-to-display latency.</p>
-                </details>}
+                <SessionDiagnostics timing={session.timing} diagnostics={summary?.processingDiagnostics} />
                 <button type="button" className="squat-pilot-button" onClick={close}>Close pilot</button>
                 <p className="squat-pilot-note">Closing discards the local session. Download the summary first if you wish to retain it.</p>
             </section>

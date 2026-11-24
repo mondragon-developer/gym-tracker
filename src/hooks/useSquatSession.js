@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPoseWorkerClient } from '../motion/PoseWorkerClient.js';
 import { createEvaluationRecorder, isEvaluationClipId } from '../motion/EvaluationRecorder.js';
+import { createProcessingRecorder } from '../motion/ProcessingRecorder.js';
 import { appUpdates } from '../services/AppUpdateService.js';
 
 export const SQUAT_VIDEO_LIMITS = Object.freeze({ maximumBytes: 100 * 1024 * 1024, maximumSeconds: 120 });
@@ -138,9 +139,19 @@ export default function useSquatSession({ videoRef, onFrame } = {}) {
             try {
                 const workerSummary = await session.client?.stop();
                 if (current.current !== session) return null;
-                const summary = workerSummary && session.evaluationRecorder
+                let summary = workerSummary && session.evaluationRecorder
                     ? { ...workerSummary, evaluationTrace: session.evaluationRecorder.getTrace({ summary: workerSummary, stopReason: reason }) }
                     : workerSummary;
+                if (summary && session.processingRecorder) summary = { ...summary, processingDiagnostics: {
+                    schemaVersion: 1, sourceKind: 'camera',
+                    preparationMs: { ...session.preparationMs },
+                    preparationScope: 'Elapsed main-thread monotonic time from session preparation start. Worker and media preparation overlap; session readiness excludes subject confirmation and standing calibration.',
+                    workerPreparationIncludes: 'Worker creation, model/runtime loading when needed, initialization, and warm-up.',
+                    mediaPreparationIncludes: 'Camera permission, camera startup, and playable video readiness; permission response time is included.',
+                    processing: session.processingRecorder.finalize(),
+                    inferenceScope: 'Worker-reported inference duration.',
+                    frameLatencyScope: 'Frame admission through bitmap preparation, worker processing, and response delivery. Camera capture and display presentation are excluded.',
+                } };
                 current.current = null;
                 updateView({ status: summary ? 'completed' : 'idle', summary: summary ?? null,
                     snapshot: session.latestSnapshot, subject: session.latestSubject,
@@ -220,11 +231,18 @@ export default function useSquatSession({ videoRef, onFrame } = {}) {
             abort: new AbortController(), stream: null, objectUrl: null, listeners: [],
             frameHandle: null, frameScheduler: null, finishPromise: null, latestSnapshot: null, latestSubject: null,
             confirmingSubject: false, previewPaused: false, schedule: null, resumeFilePreview: null, evaluationRecorder: null,
+            processingRecorder: source === 'camera' ? createProcessingRecorder() : null,
+            preparationStartedAt: performance.now(), preparationMs: { workerReady: null, mediaReady: null, sessionReady: null },
             lastSourceTime: -Infinity, lastAdmittedTime: -Infinity, lastRenderAt: -Infinity,
             lastSignature: null, lastEvent: null, releaseUpdate };
         current.current = session;
         updateView({ ...initialView(), status: 'preparing', source });
         const isCurrent = () => current.current === session;
+        const markPreparation = key => {
+            if (!session.processingRecorder || !isCurrent() || session.phase !== 'preparing') return;
+            const elapsed = performance.now() - session.preparationStartedAt;
+            session.preparationMs[key] = Number.isFinite(elapsed) && elapsed >= 0 ? elapsed : null;
+        };
         session.resumeFilePreview = async () => {
             if (!isCurrent() || session.phase !== 'running' || !session.previewPaused) return false;
             await waitForMedia(video, session.abort.signal, { play: true });
@@ -256,6 +274,7 @@ export default function useSquatSession({ videoRef, onFrame } = {}) {
                     session.latestSnapshot = result.snapshot;
                     session.latestSubject = result.subject ?? null;
                     session.evaluationRecorder?.record(result);
+                    session.processingRecorder?.record(result);
                     // Overlay drawing is optional and cannot strand session cleanup.
                     try { frameListener.current?.(result); } catch { /* Drawing does not control capture. */ }
                     const signature = `${result.snapshot?.state}:${result.snapshot?.capture?.status}:${result.snapshot?.capture?.reason}:${result.subject?.status}:${result.subject?.reason}:${result.subject?.confirmationToken}`;
@@ -281,7 +300,8 @@ export default function useSquatSession({ videoRef, onFrame } = {}) {
                     }
                 },
             });
-            const workerReady = session.client.start({ sessionId: session.id, tempoTarget, sideViewConfirmed });
+            const workerReady = session.client.start({ sessionId: session.id, tempoTarget, sideViewConfirmed })
+                .then(() => markPreparation('workerReady'));
             const mediaReady = (async () => {
                 if (!isCurrent()) return;
                 if (source === 'camera') {
@@ -308,11 +328,13 @@ export default function useSquatSession({ videoRef, onFrame } = {}) {
                     throw new Error('Select a recording up to two minutes long. Trim the video before starting.');
                 }
                 if (evaluation) session.evaluationRecorder = createEvaluationRecorder({ clipId: evaluation.clipId, durationMs: video.duration * 1000 });
+                markPreparation('mediaReady');
             })();
             await Promise.all([workerReady, mediaReady]);
             if (!isCurrent() || session.phase !== 'preparing') return false;
             await waitForMedia(video, session.abort.signal, { play: true });
             if (!isCurrent() || session.phase !== 'preparing') return false;
+            markPreparation('sessionReady');
             session.phase = 'running';
             updateView({ status: 'running' });
 

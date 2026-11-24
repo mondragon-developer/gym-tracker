@@ -35,11 +35,15 @@ This is a conservative, provisional geometry policy. Similar people replacing on
 
 ## Timing onset and bounded uncertainty
 
-Profile version `0.2.0-experimental` retains an existing descent-start candidate through a brief rebound below the knee-angle start threshold only when hip motion continues to corroborate descent. The hip must move downward relative to the preceding eligible observation, satisfy the existing standing-relative hip-displacement threshold, and progress by that same displacement threshold from the candidate's hip anchor. Weak knee evidence expires at the existing **100 ms source-time evidence deadline**, including when the first recovered observation arrives exactly at that deadline. These are provisional detection rules, not biomechanical correctness limits.
+Profile version `0.3.0-experimental` retains an existing descent-start candidate through a brief rebound below the knee-angle start threshold only when hip motion continues to corroborate descent. The hip must move downward relative to the preceding eligible observation, satisfy the existing standing-relative hip-displacement threshold, and progress by that same displacement threshold from the candidate's hip anchor. Weak knee evidence expires at the existing **100 ms source-time evidence deadline**, including when the first recovered observation arrives exactly at that deadline. These are provisional detection rules, not biomechanical correctness limits.
 
 When knee evidence recovers, the hip anchor retains the furthest downward position among its previous value, the last retained weak observation, and the recovery observation. It cannot move upward and make the same hip excursion count as fresh progress again. A later rebound therefore requires additional hip descent. Stationary or rising hips, insufficient corroboration, and the existing capture interruptions clear the candidate as applicable. The change adds two scalar fields to the existing candidate and does not retain a trajectory, add inference calls, or change numerical thresholds. Cycle confirmation still requires the existing knee excursion, hip excursion, and temporal evidence.
 
-This specifically addresses brief threshold-crossing noise. The pre-existing case of continuously shallow knee flexion that remains above the start threshold is not given a new candidate timeout by this change. Such a posture can still retain an early candidate until later descent, recovery, or interruption. Broader onset semantics and accuracy require separate labeled evaluation; the corrected development examples do not establish a general error bound.
+An initial descent candidate is supported for **less than 5,000 ms of source time**, measured from its existing backdated onset. Expiry is checked before recovery or cycle confirmation, including when the confirming observation arrives exactly at the deadline. The evaluator discards the candidate and enters `awaiting_standing`; it does not invent a later onset. Capture, the confirmed subject, standing calibration, and completed measurements remain available.
+
+Re-arming requires knee drop strictly below the existing 5-degree start threshold and hip displacement below the existing 0.015-leg-length start threshold, both sustained for the existing 150 ms standing-evidence interval. A held posture in the overlapping 5–7-degree return band cannot immediately re-arm. This adds two scalar recovery fields and a `startRecoveryRequired` summary flag, with no frame history or additional inference.
+
+The five-second budget is a provisional supported-start-duration policy. Intentional pauses or very slow starts that confirm at or after the deadline are excluded until standing recovery; they are not graded as incorrectly performed. A shorter hold can still contribute to measured descent duration. Broader onset semantics and accuracy require separate labeled evaluation; these development examples do not establish a general error bound.
 
 ## Real-recording evaluation
 
@@ -86,6 +90,7 @@ The implementation applies SOLID through focused responsibilities and explicit b
 | `SubjectTracker` | Explicit candidate confirmation and bounded geometry continuity; terminal loss policy |
 | `SquatEvaluator` | Pure geometry validation, calibration, temporal state machine, timings, and bounded aggregates |
 | `EvaluationRecorder` | Opt-in local-file repetition events and bounded processing samples; no image or landmark history |
+| `ProcessingRecorder` | Fixed-window camera processing samples and finalization-only percentiles; no pixels or landmark history |
 | `scripts/motion-evaluation` | Strict independent-annotation comparison and a local CLI outside the application bundle |
 | `squatProfile` / `squatFeedback` | Versioned provisional parameters, supported criteria, and specific feedback |
 | `AppUpdateService` | Deferred reload coordination across edits, saves, capture, and local result review |
@@ -103,7 +108,26 @@ The evaluator does not depend on React, camera APIs, Supabase, or a language mod
 
 Model initialization includes a warm-up inference. Initial model download and initialization are separate from steady-state inference. A warm cache reduces network work; it does not guarantee instant GPU startup. Frame preparation, inference, rendering, thermal throttling, battery, and browser behavior all require measurement on supported phones.
 
-The UI exposes latest inference time and frame-admission-to-worker-response time. Neither is total camera-to-display latency. The summary records pipeline counters, completed/interrupted cycles, timing aggregates, model/profile/tracking versions, and valid/rejected sample counts. Valid-sample ratio describes supplied observations; it is not independently annotated attempted-repetition coverage. Optional evaluation collection retains at most 200 repetition events and 2,400 processing-sample pairs; nearest-rank percentiles are calculated once at finalization. Any overflow is disclosed as truncation and cannot be scored as a complete recording.
+The UI exposes latest inference time and frame-admission-to-worker-response time. Neither is total camera-to-display latency. The summary records pipeline counters, completed/interrupted cycles, timing aggregates, model/profile/tracking versions, and valid/rejected sample counts. Valid-sample ratio describes supplied observations; it is not independently annotated attempted-repetition coverage. Existing pipeline counters are not a complete count of decoded frames skipped by admission throttling or a busy worker.
+
+Camera summaries also contain `processingDiagnostics` with the latest **2,400 valid timing pairs**, held in two fixed `Float64Array` buffers (38,400 bytes of pair storage). Recording has constant work per received response. Nearest-rank p50/p95 values are computed once after the final admitted response is drained. Observed, valid, invalid, retained, and overwritten counts make the window's coverage explicit. After replacement begins, the percentiles describe the recent window, not the full session. Invalid, skipped, and failed results do not become zero-latency samples. Samples include subject setup; frame latency ends at the worker response and excludes camera capture and display presentation.
+
+Camera preparation uses a separate monotonic clock. `workerReady` includes worker creation, runtime/model loading when needed, initialization, and warm-up. `mediaReady` includes permission response time, camera startup, and playable-video readiness. `sessionReady` ends after both preparations and final playback readiness, before subject confirmation and standing calibration. These intervals overlap and must not be added. They do not separately measure network transfer or establish whether assets were served from a cold or warm cache. Cancellation and stale callbacks cannot modify a later session's values.
+
+The existing opt-in local-file evaluation schema is unchanged: it retains at most 200 repetition events and 2,400 processing-sample pairs. Any overflow is disclosed as truncation and cannot be scored as a complete recording. Camera diagnostics are a separate summary field, not a file-evaluation trace. Both remain on the device unless the user explicitly downloads and shares the summary.
+
+## First controlled phone test
+
+Use the enabled HTTPS preview in a direct Chrome tab on the test iPhone. Record the actual iPhone model, iOS version, and Chrome version with the result; the reported device name alone does not establish hardware or browser support. Preview deployment protection and ordinary application sign-in both remain active. A protected share link may expire. Email/password sign-in uses the existing account directly; Google OAuth and password-recovery links require the preview origin in the Supabase redirect allowlist. A Google-only account may not have a password. Keep the production Site URL and access controls intact.
+
+1. Open **Squat measurement pilot**. Use a helper behind the phone, outside its camera view, for the first live test. The helper can confirm the subject and finish the session without the subject approaching or moving the camera. Solo timed or remote confirmation is not implemented.
+2. Place the phone level on a stable support at approximately hip height, directly beside the subject. Keep the full body and feet visible with margin throughout the movement. Check the actual rear-camera field of view. The normal 1× lens is setup guidance; the current camera constraints do not select a physical lens or set zoom.
+3. Confirm the side-view checkbox, leave the custom timing target off, and select **Start camera**. Allow camera access. Keep this tab visible and the screen awake. First use downloads the pinned model/runtime assets; an initialization error must be reported rather than interpreted as a movement failure.
+4. With one person clearly visible, wait for **Measure highlighted person** to become available. Have the helper select it, then remain standing until **Ready to begin** appears. Perform a short set of approximately five comfortable bodyweight repetitions without a deliberate extended shallow hold. This is a measurement test, not a prescribed optimal tempo or technique assessment.
+5. Remain in frame while the helper selects **Finish session**. Expand **Session diagnostics**, then select **Download measurement summary** before closing or starting another session. Retain the JSON as the initial-run result; confirm that camera use ends after finalization.
+6. Repeat the same short session without clearing site data and save its summary separately. Label it a repeat run, not a proven warm-cache benchmark. Report visible freezes, delayed feedback, initialization errors, camera selection, counted versus attempted repetitions, and any interruption message alongside the two summaries.
+
+The existing authorized recording can also be selected through **Choose local video** to isolate playback and worker startup from live-camera positioning. If collecting an evaluation report, use its frozen anonymous recording identifier and the existing independent annotations. A successful file test does not establish live-camera performance. Browser/GPU startup, true camera-to-display latency, sustained thermal behavior, and capture cleanup require actual device observation; local unit tests and CPU replay do not replace those checks.
 
 ## Caching and concurrent users
 
@@ -123,7 +147,19 @@ An Anthropic API is not in the live feedback path. A later optional explanation 
 
 Automated tests cover synthetic geometry, phase state, original timestamps, confidence loss, framing drift, bounded state, worker backpressure, stale callbacks, bitmap ownership, timeouts, session finalization, permission races, playback readiness, and UI setup gates. Passing those tests establishes software behavior only.
 
+### Camera diagnostics and pending-start checkpoint
+
+- The complete repository suite passed: **82 files and 790 tests**. Full ESLint and whitespace checks passed. Independent review also ran the 66 affected diagnostics/lifecycle/UI tests and all 63 evaluator tests without a blocker.
+- New cases cover fixed-window wraparound, invalid timing pairs, final-frame draining, cancellation and stale preparation callbacks, unavailable measurements, and preservation of the local-file evaluation schema.
+- Pending-start cases cover confirmation at 4,999/5,000/5,001 ms, continuous slow starts within the budget, excluded starts beyond it, prolonged shallow holds, the overlapping return band, hip recovery, weak evidence, timestamp/gap handling, reset, and preservation of completed measurements.
+- Replaying the same four development recordings through the reviewed production worker/tracker/evaluator preserved all previous counts (0, 0, 4, 4), terminal outcomes, tracking, processed-sample totals, and repetition timings. None of those recordings exercises the new five-second abstention rule. The frozen AI visual interval comparison remains 12 of 16 boundaries inside its provisional intervals, with a maximum outside distance of approximately 0.067 seconds; this is not a general accuracy bound.
+- Feature-disabled and feature-enabled production builds passed. The disabled build emitted zero pilot/model assets. Both retained 28 ordinary precache entries, excluding all optional pilot/model files. The enabled worker is 166.14 kB; the pilot UI chunk is 39.04 kB minified / 12.81 kB gzip. The existing main-bundle size warning remains.
+- The three pinned model/runtime artifacts remain 20,780,146 bytes, with the same verified model digest. Camera diagnostics add 38,400 bytes of timing-pair storage and no server telemetry, video upload, motion database write, or cloud-model request.
+- No actual iPhone execution or browser/GPU timing is established by this checkpoint. The first controlled phone protocol above remains necessary. The profile is `0.3.0-experimental`; subject tracking remains `0.2.0-experimental`.
+
 ### Real-recording development and timing follow-up
+
+The results in this subsection predate the camera-diagnostics and pending-start checkpoint above.
 
 - The complete repository suite passed: **81 files and 765 tests**. Full ESLint and both feature-disabled and feature-enabled production builds passed.
 - The evaluator's 47 tests include brief knee rebounds, exact source-time deadlines, stationary/rising hips, repeated correlated noise, and capture interruption. Independent review exposed a larger hip/knee oscillation that could reuse the same excursion; the corrected non-regressing anchor passes that counterexample and the full suite.
@@ -167,7 +203,7 @@ Before making technique or accuracy claims:
 - Obtain an authorized side-view recording with a standing lead-in and annotate attempted repetitions and phase boundaries independently. Include partial repetitions and tracking-loss intervals.
 - Test the same recording at different resolutions, aspect ratios, lighting, occlusion, movement speeds, and supported viewing angles. Keep a separate validation set for tuning decisions.
 - Measure repetition precision/recall, phase timing error, abstention rate, and error among assessed movements. Include participants with varied proportions and clothing.
-- Test representative iOS Safari/PWA and Android Chrome devices for cold/warm startup, p50/p95 processing latency, responsiveness, sustained sessions, thermal slowdown, interruption, cleanup, and offline warm-cache behavior.
+- Test representative iOS Chrome/Safari/PWA and Android Chrome devices for cold/warm startup, p50/p95 processing latency, responsiveness, sustained sessions, thermal slowdown, interruption, cleanup, and offline warm-cache behavior.
 - Exercise 100/200/300 authenticated staging users with realistic history load/save and cold-asset traffic. Record request rates, transferred bytes, backend latency/errors, conflict rates, and resource utilization. Do not run an unapproved load test against production.
 
 Only add stance, spinal-posture, depth, or aggregate technique scores after their own supported view, reference criteria, labels, and acceptance thresholds are established. A single successful video is a feasibility check; it cannot establish population-wide reliability.

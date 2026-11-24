@@ -69,16 +69,19 @@ export function createSquatEvaluator({ sessionId = null, modelVersion = 'not-spe
     const target = normalizeTempoTarget(tempoTarget);
     let state, capture, feedback, event, lastTimestamp, firstTimestamp, lastMeasure, aspectRatio;
     let calibration, baseline, selectedSide, pendingDescent, repetition, lastRepetition;
+    let startRecoveryRequired, startRecoverySince;
     let completed, incomplete, interrupted, acceptedSamples, validSamples, rejectedSamples, totals, matchedTempo;
 
     const resetTracking = () => {
         calibration = null; baseline = null; selectedSide = null; pendingDescent = null; repetition = null; lastMeasure = null;
+        startRecoveryRequired = false; startRecoverySince = null;
     };
     const snapshot = (inputAccepted = true, inputIssue = null) => ({
         sessionId, profileId: profile.id, profileVersion: profile.version, modelVersion,
         scope: profile.scope, validationStatus: profile.validationStatus, state,
         capture: { ...capture, viewAssessment: 'user-confirmation-and-plausibility-only' },
         repetitionsCompleted: completed, incompleteCycles: incomplete, interruptedCycles: interrupted,
+        startRecoveryRequired,
         measurements: lastMeasure ? { sourceTimestampMs: lastTimestamp, side: selectedSide,
             kneeAngleDegrees: lastMeasure.kneeAngle,
             hipDescentLegLengths: baseline ? (lastMeasure.hip.y - baseline.hipY) / baseline.legLength : null } : null,
@@ -194,6 +197,27 @@ export function createSquatEvaluator({ sessionId = null, modelVersion = 'not-spe
         const drop = baseline.angle - m.kneeAngle;
         if (!repetition) {
             const hipDescent = (m.hip.y - baseline.hipY) / baseline.legLength;
+            // An expired start has unknown timing. Abstain until the person
+            // returns to the original standing region; never invent a later
+            // onset by restarting the timer while the shallow posture persists.
+            if (pendingDescent && time - pendingDescent.startedAtMs >= d.maximumPendingStartMs) {
+                pendingDescent = null; startRecoveryRequired = true; startRecoverySince = null;
+                state = 'awaiting_standing'; event = 'start_discarded';
+                feedback = message('start_not_measured', `The start was not confirmed within ${d.maximumPendingStartMs / 1000} seconds. Return to standing before beginning the next repetition.`);
+            }
+            if (startRecoveryRequired) {
+                // The return band overlaps onset eligibility. Re-arm only after
+                // leaving that eligibility and recovering the hip position.
+                if (drop < d.startDropDegrees && hipDescent < d.minimumStartHipDescentLegRatio) {
+                    startRecoverySince ??= time;
+                    if (time - startRecoverySince >= d.standingEvidenceMs) {
+                        startRecoveryRequired = false; startRecoverySince = null;
+                        state = 'ready'; event = 'ready';
+                        feedback = message('ready', 'Ready to begin.');
+                    }
+                } else startRecoverySince = null;
+                return snapshot();
+            }
             // A brief knee-angle rebound may retain an onset only while hip
             // descent corroborates it. Expire uncertainty in source time before
             // considering recovery, so a late sample cannot revive a stale onset.
@@ -262,6 +286,7 @@ export function createSquatEvaluator({ sessionId = null, modelVersion = 'not-spe
         startedAtMs: firstTimestamp, lastObservationAtMs: lastTimestamp,
         repetitionsCompleted: completed, incompleteCycles: incomplete, interruptedCycles: interrupted,
         activeCycleIncomplete: repetition != null || pendingDescent != null,
+        startRecoveryRequired,
         averages: Object.fromEntries(Object.entries(totals).map(([key, total]) => [key, completed ? total / completed : null])),
         tempoTarget: target, repetitionsWithinTempoTarget: target ? matchedTempo : null,
         capture: { acceptedSamples, validSamples, rejectedSamples,

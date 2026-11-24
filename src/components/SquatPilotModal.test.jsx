@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 
 const mocks = vi.hoisted(() => ({ session: {}, protect: vi.fn(), release: vi.fn(), onFrame: null, context: null }));
 vi.mock('../hooks/useSquatSession.js', () => ({ default: options => {
@@ -228,6 +228,41 @@ describe('Squat measurement pilot controls', () => {
         render(<SquatPilotModal onClose={vi.fn()} />);
         expect(screen.getByText(/partial evaluation report/)).toHaveTextContent('cannot establish full-recording accuracy');
         expect(screen.getByRole('button', { name: 'Download summary and evaluation report' })).toBeVisible();
+    });
+
+    it('shows finalized camera percentiles with recent-window coverage and distinct preparation intervals', () => {
+        mocks.session.status = 'completed';
+        mocks.session.summary = { repetitionsCompleted: 1, processingDiagnostics: {
+            preparationMs: { workerReady: 350, mediaReady: 2000, sessionReady: 2100 },
+            processing: { observedResults: 5005, validSamples: 5000, invalidSamples: 5, retainedSamples: 2400,
+                overwrittenSamples: 2600, inferenceMs: { p50: 10, p95: 20 }, frameLatencyMs: { p50: 25, p95: 45 } },
+        } };
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        fireEvent.click(screen.getByText('Session diagnostics'));
+        const table = screen.getByRole('table', { name: 'Final camera processing measurements' });
+        expect(within(table).getByRole('row', { name: 'Inference 10 ms 20 ms' })).toBeVisible();
+        expect(within(table).getByRole('row', { name: 'Admission to response 25 ms 45 ms' })).toBeVisible();
+        expect(screen.getByText(/Latest 2400 of 5000/)).toHaveTextContent('2600 earlier pairs were replaced');
+        expect(screen.getByText(/Latest 2400 of 5000/)).toHaveTextContent('5 responses had unavailable timing');
+        expect(screen.getByText(/Preparation durations overlap/)).toHaveTextContent('permission response time');
+        expect(screen.getByText(/Processing measurements exclude camera capture/)).toBeVisible();
+        expect(screen.getByRole('button', { name: 'Download measurement summary' })).toBeVisible();
+    });
+
+    it('keeps unavailable camera timing distinct from zero and handles an empty finalized window', () => {
+        mocks.session.status = 'completed';
+        mocks.session.timing = { inferenceMs: NaN, frameLatencyMs: -1 };
+        mocks.session.summary = { repetitionsCompleted: 0, processingDiagnostics: {
+            preparationMs: { workerReady: null, mediaReady: 0, sessionReady: null },
+            processing: { observedResults: 2, validSamples: 0, invalidSamples: 2, retainedSamples: 0,
+                overwrittenSamples: 0, inferenceMs: { p50: null, p95: null }, frameLatencyMs: { p50: null, p95: null } },
+        } };
+        render(<SquatPilotModal onClose={vi.fn()} />);
+        fireEvent.click(screen.getByText('Session diagnostics'));
+        expect(screen.getByText(/Latest inference:/)).toHaveTextContent('Latest inference: Unavailable');
+        expect(screen.getByRole('table', { name: 'Final camera processing measurements' })).toHaveTextContent('Unavailable');
+        expect(screen.getByText(/0 valid timing pairs retained from 2/)).toHaveTextContent('2 responses had unavailable timing');
+        expect(screen.getByText('0 ms')).toBeVisible();
     });
 
     it('draws the selected region in the same image coordinates as the pose and clears missing results', () => {

@@ -12,7 +12,7 @@ const freeze = (value) => {
  */
 export const SQUAT_SIDE_PROFILE = freeze({
     id: 'bodyweight-squat-side',
-    version: '0.2.0-experimental',
+    version: '0.3.0-experimental',
     scope: 'measurement-only',
     validationStatus: 'not-validated',
     cameraView: 'side',
@@ -53,6 +53,8 @@ export const SQUAT_SIDE_PROFILE = freeze({
         phaseEvidenceMs: 100,
         standingEvidenceMs: 150,
         minimumPhaseMs: 150,
+        // Supported start-duration budget, not a movement-correctness limit.
+        maximumPendingStartMs: 5000,
         maximumCycleMs: 45000,
     },
     unavailableCriteria: [

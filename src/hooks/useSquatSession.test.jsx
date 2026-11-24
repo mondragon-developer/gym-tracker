@@ -188,7 +188,8 @@ describe('useSquatSession capture lifecycle', () => {
         snapshot: { state: 'interrupted', capture: { status: 'unavailable' }, repetitionsCompleted: 2 } }));
         expect(result.current.status).toBe('completed');
         expect(result.current.stopReason).toBe('subject_ambiguous');
-        expect(result.current.summary).toEqual(summary);
+        expect(result.current.summary).toMatchObject(summary);
+        expect(result.current.summary.processingDiagnostics.processing.observedResults).toBe(1);
         expect(clients[0].stop).toHaveBeenCalledOnce();
         expect(capture.track.stop).toHaveBeenCalledOnce();
         await act(async () => { expect(await result.current.confirmSubject('candidate-1')).toBe(false); });
@@ -306,8 +307,15 @@ describe('useSquatSession capture lifecycle', () => {
         expect(capture.track.stop).not.toHaveBeenCalled();
         expect(video.srcObject).toBe(capture.stream);
         expect(guards[0]).not.toHaveBeenCalled();
-        await act(async () => { stopped.resolve(summary); await finishing; });
-        expect(result.current.summary).toEqual(summary);
+        await act(async () => {
+            clients[0].callbacks.onResult({ inferenceMs: 12, frameLatencyMs: 24, subject: { status: 'tracking' }, snapshot: {} });
+            stopped.resolve(summary);
+            await finishing;
+        });
+        expect(result.current.summary).toMatchObject(summary);
+        expect(result.current.summary.processingDiagnostics).toMatchObject({ schemaVersion: 1, sourceKind: 'camera',
+            processing: { observedResults: 1, validSamples: 1, retainedSamples: 1, invalidSamples: 0,
+                inferenceMs: { p50: 12, p95: 12 }, frameLatencyMs: { p50: 24, p95: 24 } } });
         expect(result.current.status).toBe('completed');
         expect(capture.track.stop).toHaveBeenCalledTimes(1);
         expect(video.srcObject).toBeNull();
@@ -330,6 +338,76 @@ describe('useSquatSession capture lifecycle', () => {
         expect(result.current.status).toBe('idle');
     });
 
+    it('records overlapping preparation intervals with the monotonic clock before subject confirmation', async () => {
+        let clock = 100;
+        vi.spyOn(performance, 'now').mockImplementation(() => clock);
+        const workerReady = deferred(), permission = deferred(), finalPlay = deferred();
+        const createClient = mocks.createClient.getMockImplementation();
+        mocks.createClient.mockImplementation(callbacks => {
+            const client = createClient(callbacks);
+            client.start.mockReturnValue(workerReady.promise);
+            return client;
+        });
+        getUserMedia.mockReturnValue(permission.promise);
+        const { result, video } = setup();
+        video.play.mockResolvedValueOnce().mockReturnValueOnce(finalPlay.promise);
+        let starting;
+        act(() => { starting = result.current.startCamera(confirmed); });
+        clock = 250;
+        await act(async () => workerReady.resolve());
+        clock = 600;
+        await act(async () => permission.resolve(makeStream().stream));
+        expect(video.play).toHaveBeenCalledTimes(2);
+        clock = 700;
+        await act(async () => { finalPlay.resolve(); expect(await starting).toBe(true); });
+        clock = 9000;
+        act(() => clients[0].callbacks.onResult({ sourceTimestampMs: 800000, inferenceMs: 7, frameLatencyMs: 18,
+            subject: candidate, snapshot: { state: 'setup' } }));
+        await act(async () => result.current.finish());
+        expect(result.current.summary.processingDiagnostics.preparationMs).toEqual({
+            workerReady: 150, mediaReady: 500, sessionReady: 600,
+        });
+        expect(clients[0].confirmSubject).not.toHaveBeenCalled();
+        expect(result.current.summary.processingDiagnostics.preparationScope).toMatch(/overlap.*excludes subject confirmation/);
+        expect(result.current.summary.processingDiagnostics.frameLatencyScope).toMatch(/Camera capture and display presentation are excluded/);
+    });
+
+    it('starts camera diagnostics fresh after cancellation and ignores late readiness and results from the old session', async () => {
+        let clock = 100;
+        vi.spyOn(performance, 'now').mockImplementation(() => clock);
+        const oldWorkerReady = deferred(), oldPermission = deferred();
+        const createClient = mocks.createClient.getMockImplementation();
+        let created = 0;
+        mocks.createClient.mockImplementation(callbacks => {
+            const client = createClient(callbacks);
+            if (created++ === 0) client.start.mockReturnValue(oldWorkerReady.promise);
+            return client;
+        });
+        getUserMedia.mockReturnValueOnce(oldPermission.promise);
+        const { result } = setup();
+        let oldStart;
+        act(() => { oldStart = result.current.startCamera(confirmed); });
+        act(() => result.current.cancel());
+        clock = 300;
+        await act(async () => result.current.startCamera(confirmed));
+        clock = 10000;
+        await act(async () => {
+            oldWorkerReady.resolve();
+            oldPermission.resolve(makeStream().stream);
+            expect(await oldStart).toBe(false);
+        });
+        act(() => {
+            clients[0].callbacks.onResult({ inferenceMs: 999, frameLatencyMs: 999, snapshot: {} });
+            clients[1].callbacks.onResult({ inferenceMs: 5, frameLatencyMs: 9, snapshot: {} });
+        });
+        await act(async () => result.current.finish());
+        expect(result.current.summary.processingDiagnostics).toMatchObject({
+            preparationMs: { workerReady: 0, mediaReady: 0, sessionReady: 0 },
+            processing: { observedResults: 1, validSamples: 1, inferenceMs: { p50: 5, p95: 5 } },
+        });
+        expect(result.current.summary.evaluationTrace).toBeUndefined();
+    });
+
     it('stops a permission result that arrives after unmount', async () => {
         const permission = deferred();
         getUserMedia.mockReturnValue(permission.promise);
@@ -350,6 +428,7 @@ describe('useSquatSession capture lifecycle', () => {
         await act(async () => { expect(await result.current.startCamera(confirmed)).toBe(false); });
         expect(result.current.status).toBe('error');
         expect(result.current.error).toMatch(/not permitted/);
+        expect(result.current.summary).toBeNull();
         expect(clients[0].dispose).toHaveBeenCalledTimes(1);
         expect(guards[0]).toHaveBeenCalledTimes(1);
     });
@@ -404,6 +483,7 @@ describe('useSquatSession capture lifecycle', () => {
     it('finishes when hidden and marks failed finalization as unfinished rather than completed', async () => {
         const { result } = setup();
         await act(async () => result.current.startCamera(confirmed));
+        act(() => clients[0].callbacks.onResult({ inferenceMs: 8, frameLatencyMs: 16, snapshot: {} }));
         clients[0].stop.mockRejectedValue(new Error('The final measurements are unfinished.'));
         await act(async () => {
             Object.defineProperty(document, 'visibilityState', { configurable: true, value: 'hidden' });

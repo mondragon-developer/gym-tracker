@@ -43,6 +43,9 @@
 .squat-pilot-summary { border-top: 1px solid var(--border); margin-top: 20px; padding-top: 20px; }
 .squat-pilot-details div { display: flex; justify-content: space-between; gap: 10px; padding: 6px 0; font-size: 13px; }
 .squat-pilot-details dd { margin: 0; font-weight: 600; }
+.squat-pilot-diagnostics { width: 100%; margin-top: 12px; border-collapse: collapse; font-size: 12px; }
+.squat-pilot-diagnostics caption { margin-bottom: 8px; text-align: left; font-weight: 600; }
+.squat-pilot-diagnostics th, .squat-pilot-diagnostics td { padding: 6px 4px; border-bottom: 1px solid var(--border); text-align: left; overflow-wrap: anywhere; }
 @media (max-width: 760px) {
     .squat-pilot-layout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
     .squat-pilot .modal-content { padding: 16px; }
